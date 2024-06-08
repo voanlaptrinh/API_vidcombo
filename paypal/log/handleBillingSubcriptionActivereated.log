@@ -1,0 +1,339 @@
+handleBillingSubcriptionActivereated: Array
+(
+    [quantity] => 1
+    [subscriber] => Array
+        (
+            [email_address] => voanlaptrinh@gmail.com
+            [payer_id] => XMCB6B422QAPN
+            [name] => Array
+                (
+                    [given_name] => khánh
+                    [surname] => khanh
+                )
+
+        )
+
+    [create_time] => 2024-06-07T09:57:48Z
+    [plan_overridden] => 
+    [shipping_amount] => Array
+        (
+            [currency_code] => USD
+            [value] => 0.0
+        )
+
+    [start_time] => 2024-06-07T09:58:21Z
+    [update_time] => 2024-06-07T09:57:49Z
+    [billing_info] => Array
+        (
+            [outstanding_balance] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [cycle_executions] => Array
+                (
+                    [0] => Array
+                        (
+                            [tenure_type] => REGULAR
+                            [sequence] => 1
+                            [cycles_completed] => 1
+                            [cycles_remaining] => 11
+                            [current_pricing_scheme_version] => 1
+                            [total_cycles] => 12
+                        )
+
+                )
+
+            [last_payment] => Array
+                (
+                    [amount] => Array
+                        (
+                            [currency_code] => USD
+                            [value] => 10.0
+                        )
+
+                    [time] => 2024-06-07T09:57:49Z
+                )
+
+            [next_billing_time] => 2024-07-07T10:00:00Z
+            [final_payment_time] => 2025-05-07T10:00:00Z
+            [failed_payments_count] => 0
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-Y41CYFGPVEP1/cancel
+                    [rel] => cancel
+                    [method] => POST
+                    [encType] => application/json
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-Y41CYFGPVEP1
+                    [rel] => edit
+                    [method] => PATCH
+                    [encType] => application/json
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-Y41CYFGPVEP1
+                    [rel] => self
+                    [method] => GET
+                    [encType] => application/json
+                )
+
+            [3] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-Y41CYFGPVEP1/suspend
+                    [rel] => suspend
+                    [method] => POST
+                    [encType] => application/json
+                )
+
+            [4] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-Y41CYFGPVEP1/capture
+                    [rel] => capture
+                    [method] => POST
+                    [encType] => application/json
+                )
+
+        )
+
+    [id] => I-Y41CYFGPVEP1
+    [plan_id] => P-1TA26761AC617242GMZRNTAI
+    [status] => ACTIVE
+    [status_update_time] => 2024-06-07T09:57:49Z
+)
+
+handleBillingSubcriptionActivereated: Array
+(
+    [quantity] => 1
+    [subscriber] => Array
+        (
+            [email_address] => voanlaptrinh@gmail.com
+            [payer_id] => XMCB6B422QAPN
+            [name] => Array
+                (
+                    [given_name] => khánh
+                    [surname] => khanh
+                )
+
+        )
+
+    [create_time] => 2024-06-07T09:57:48Z
+    [plan_overridden] => 
+    [shipping_amount] => Array
+        (
+            [currency_code] => USD
+            [value] => 0.0
+        )
+
+    [start_time] => 2024-06-07T09:58:21Z
+    [update_time] => 2024-06-07T09:57:49Z
+    [billing_info] => Array
+        (
+            [outstanding_balance] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [cycle_executions] => Array
+                (
+                    [0] => Array
+                        (
+                            [tenure_type] => REGULAR
+                            [sequence] => 1
+                            [cycles_completed] => 1
+                            [cycles_remaining] => 11
+                            [current_pricing_scheme_version] => 1
+                            [total_cycles] => 12
+                        )
+
+                )
+
+            [last_payment] => Array
+                (
+                    [amount] => Array
+                        (
+                            [currency_code] => USD
+                            [value] => 10.0
+                        )
+
+                    [time] => 2024-06-07T09:57:49Z
+                )
+
+            [next_billing_time] => 2024-07-07T10:00:00Z
+            [final_payment_time] => 2025-05-07T10:00:00Z
+            [failed_payments_count] => 0
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-Y41CYFGPVEP1/cancel
+                    [rel] => cancel
+                    [method] => POST
+                    [encType] => application/json
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-Y41CYFGPVEP1
+                    [rel] => edit
+                    [method] => PATCH
+                    [encType] => application/json
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-Y41CYFGPVEP1
+                    [rel] => self
+                    [method] => GET
+                    [encType] => application/json
+                )
+
+            [3] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-Y41CYFGPVEP1/suspend
+                    [rel] => suspend
+                    [method] => POST
+                    [encType] => application/json
+                )
+
+            [4] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-Y41CYFGPVEP1/capture
+                    [rel] => capture
+                    [method] => POST
+                    [encType] => application/json
+                )
+
+        )
+
+    [id] => I-Y41CYFGPVEP1
+    [plan_id] => P-1TA26761AC617242GMZRNTAI
+    [status] => ACTIVE
+    [status_update_time] => 2024-06-07T09:57:49Z
+)
+
+handleBillingSubcriptionActivereated: Array
+(
+    [quantity] => 1
+    [subscriber] => Array
+        (
+            [email_address] => voanlaptrinh@gmail.com
+            [payer_id] => XMCB6B422QAPN
+            [name] => Array
+                (
+                    [given_name] => khánh
+                    [surname] => khanh
+                )
+
+        )
+
+    [create_time] => 2024-06-07T09:55:53Z
+    [plan_overridden] => 
+    [shipping_amount] => Array
+        (
+            [currency_code] => USD
+            [value] => 0.0
+        )
+
+    [start_time] => 2024-06-07T09:56:28Z
+    [update_time] => 2024-06-07T09:55:54Z
+    [billing_info] => Array
+        (
+            [outstanding_balance] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [cycle_executions] => Array
+                (
+                    [0] => Array
+                        (
+                            [tenure_type] => REGULAR
+                            [sequence] => 1
+                            [cycles_completed] => 1
+                            [cycles_remaining] => 11
+                            [current_pricing_scheme_version] => 1
+                            [total_cycles] => 12
+                        )
+
+                )
+
+            [last_payment] => Array
+                (
+                    [amount] => Array
+                        (
+                            [currency_code] => USD
+                            [value] => 10.0
+                        )
+
+                    [time] => 2024-06-07T09:55:53Z
+                )
+
+            [next_billing_time] => 2024-07-07T10:00:00Z
+            [final_payment_time] => 2025-05-07T10:00:00Z
+            [failed_payments_count] => 0
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-51BRGA8PF6MB/cancel
+                    [rel] => cancel
+                    [method] => POST
+                    [encType] => application/json
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-51BRGA8PF6MB
+                    [rel] => edit
+                    [method] => PATCH
+                    [encType] => application/json
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-51BRGA8PF6MB
+                    [rel] => self
+                    [method] => GET
+                    [encType] => application/json
+                )
+
+            [3] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-51BRGA8PF6MB/suspend
+                    [rel] => suspend
+                    [method] => POST
+                    [encType] => application/json
+                )
+
+            [4] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-51BRGA8PF6MB/capture
+                    [rel] => capture
+                    [method] => POST
+                    [encType] => application/json
+                )
+
+        )
+
+    [id] => I-51BRGA8PF6MB
+    [plan_id] => P-1TK71339CT619205KMZRNSEA
+    [status] => ACTIVE
+    [status_update_time] => 2024-06-07T09:55:54Z
+)
+

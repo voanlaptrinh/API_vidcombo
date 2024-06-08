@@ -1,0 +1,1480 @@
+{
+    "id": "WH-0L783248JU240060S-5EU61861X9258553V",
+    "event_version": "1.0",
+    "create_time": "2024-06-07T08:17:33.800Z",
+    "resource_type": "plan",
+    "resource_version": "2.0",
+    "event_type": "BILLING.PLAN.CREATED",
+    "summary": "Plan created",
+    "resource": {
+        "quantity_supported": false,
+        "create_time": "2024-06-07T08:17:05Z",
+        "payment_preferences": {
+            "service_type": "PREPAID",
+            "auto_bill_outstanding": true,
+            "setup_fee": {
+                "currency_code": "USD",
+                "value": "0.0"
+            },
+            "setup_fee_failure_action": "CANCEL",
+            "payment_failure_threshold": 3
+        },
+        "version": 1,
+        "payee": {
+            "merchant_id": "7NS6VD2D2X37C",
+            "display_data": {
+                "business_email": "cs-sb-o0imm29578601@business.example.com"
+            }
+        },
+        "update_time": "2024-06-07T08:17:05Z",
+        "usage_type": "LICENSED",
+        "product_id": "PROD-1ES34532SK597535U",
+        "name": "Basic Plan",
+        "billing_cycles": [
+            {
+                "pricing_scheme": {
+                    "version": 1,
+                    "fixed_price": {
+                        "currency_code": "USD",
+                        "value": "10.0"
+                    },
+                    "create_time": "2024-06-07T08:17:05Z",
+                    "update_time": "2024-06-07T08:17:05Z"
+                },
+                "frequency": {
+                    "interval_unit": "MONTH",
+                    "interval_count": 1
+                },
+                "tenure_type": "REGULAR",
+                "sequence": 1,
+                "total_cycles": 12
+            }
+        ],
+        "links": [
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-113560767J037094XMZRMEAI",
+                "rel": "self",
+                "method": "GET",
+                "encType": "application\/json"
+            },
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-113560767J037094XMZRMEAI",
+                "rel": "edit",
+                "method": "PATCH",
+                "encType": "application\/json"
+            },
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-113560767J037094XMZRMEAI\/deactivate",
+                "rel": "self",
+                "method": "POST",
+                "encType": "application\/json"
+            }
+        ],
+        "id": "P-113560767J037094XMZRMEAI",
+        "status": "ACTIVE"
+    },
+    "links": [
+        {
+            "href": "https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-0L783248JU240060S-5EU61861X9258553V",
+            "rel": "self",
+            "method": "GET"
+        },
+        {
+            "href": "https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-0L783248JU240060S-5EU61861X9258553V\/resend",
+            "rel": "resend",
+            "method": "POST"
+        }
+    ]
+}{
+    "id": "WH-4VK46216CF888274Y-32D753890A546324W",
+    "event_version": "1.0",
+    "create_time": "2024-06-07T08:20:05.698Z",
+    "resource_type": "plan",
+    "resource_version": "2.0",
+    "event_type": "BILLING.PLAN.CREATED",
+    "summary": "Plan created",
+    "resource": {
+        "quantity_supported": false,
+        "create_time": "2024-06-07T08:20:01Z",
+        "payment_preferences": {
+            "service_type": "PREPAID",
+            "auto_bill_outstanding": true,
+            "setup_fee": {
+                "currency_code": "USD",
+                "value": "0.0"
+            },
+            "setup_fee_failure_action": "CANCEL",
+            "payment_failure_threshold": 3
+        },
+        "version": 1,
+        "payee": {
+            "merchant_id": "7NS6VD2D2X37C",
+            "display_data": {
+                "business_email": "cs-sb-o0imm29578601@business.example.com"
+            }
+        },
+        "update_time": "2024-06-07T08:20:01Z",
+        "usage_type": "LICENSED",
+        "product_id": "PROD-1ES34532SK597535U",
+        "name": "Basic Plan",
+        "billing_cycles": [
+            {
+                "pricing_scheme": {
+                    "version": 1,
+                    "fixed_price": {
+                        "currency_code": "USD",
+                        "value": "10.0"
+                    },
+                    "create_time": "2024-06-07T08:20:01Z",
+                    "update_time": "2024-06-07T08:20:01Z"
+                },
+                "frequency": {
+                    "interval_unit": "MONTH",
+                    "interval_count": 1
+                },
+                "tenure_type": "REGULAR",
+                "sequence": 1,
+                "total_cycles": 12
+            }
+        ],
+        "links": [
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-74D12212WP152761LMZRMFMI",
+                "rel": "self",
+                "method": "GET",
+                "encType": "application\/json"
+            },
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-74D12212WP152761LMZRMFMI",
+                "rel": "edit",
+                "method": "PATCH",
+                "encType": "application\/json"
+            },
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-74D12212WP152761LMZRMFMI\/deactivate",
+                "rel": "self",
+                "method": "POST",
+                "encType": "application\/json"
+            }
+        ],
+        "id": "P-74D12212WP152761LMZRMFMI",
+        "status": "ACTIVE"
+    },
+    "links": [
+        {
+            "href": "https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-4VK46216CF888274Y-32D753890A546324W",
+            "rel": "self",
+            "method": "GET"
+        },
+        {
+            "href": "https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-4VK46216CF888274Y-32D753890A546324W\/resend",
+            "rel": "resend",
+            "method": "POST"
+        }
+    ]
+}{
+    "id": "WH-72W61544PC841980L-65B3678734017103E",
+    "event_version": "1.0",
+    "create_time": "2024-06-07T08:21:33.169Z",
+    "resource_type": "plan",
+    "resource_version": "2.0",
+    "event_type": "BILLING.PLAN.CREATED",
+    "summary": "Plan created",
+    "resource": {
+        "quantity_supported": false,
+        "create_time": "2024-06-07T08:21:07Z",
+        "payment_preferences": {
+            "service_type": "PREPAID",
+            "auto_bill_outstanding": true,
+            "setup_fee": {
+                "currency_code": "USD",
+                "value": "0.0"
+            },
+            "setup_fee_failure_action": "CANCEL",
+            "payment_failure_threshold": 3
+        },
+        "version": 1,
+        "payee": {
+            "merchant_id": "7NS6VD2D2X37C",
+            "display_data": {
+                "business_email": "cs-sb-o0imm29578601@business.example.com"
+            }
+        },
+        "update_time": "2024-06-07T08:21:07Z",
+        "usage_type": "LICENSED",
+        "product_id": "PROD-1ES34532SK597535U",
+        "name": "Basic Plan",
+        "billing_cycles": [
+            {
+                "pricing_scheme": {
+                    "version": 1,
+                    "fixed_price": {
+                        "currency_code": "USD",
+                        "value": "10.0"
+                    },
+                    "create_time": "2024-06-07T08:21:07Z",
+                    "update_time": "2024-06-07T08:21:07Z"
+                },
+                "frequency": {
+                    "interval_unit": "MONTH",
+                    "interval_count": 1
+                },
+                "tenure_type": "REGULAR",
+                "sequence": 1,
+                "total_cycles": 12
+            }
+        ],
+        "links": [
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-1EA72906X53551528MZRMF4Y",
+                "rel": "self",
+                "method": "GET",
+                "encType": "application\/json"
+            },
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-1EA72906X53551528MZRMF4Y",
+                "rel": "edit",
+                "method": "PATCH",
+                "encType": "application\/json"
+            },
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-1EA72906X53551528MZRMF4Y\/deactivate",
+                "rel": "self",
+                "method": "POST",
+                "encType": "application\/json"
+            }
+        ],
+        "id": "P-1EA72906X53551528MZRMF4Y",
+        "status": "ACTIVE"
+    },
+    "links": [
+        {
+            "href": "https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-72W61544PC841980L-65B3678734017103E",
+            "rel": "self",
+            "method": "GET"
+        },
+        {
+            "href": "https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-72W61544PC841980L-65B3678734017103E\/resend",
+            "rel": "resend",
+            "method": "POST"
+        }
+    ]
+}{
+    "id": "WH-10C74793NN426802N-72A09374JU2845107",
+    "event_version": "1.0",
+    "create_time": "2024-06-07T08:21:43.896Z",
+    "resource_type": "plan",
+    "resource_version": "2.0",
+    "event_type": "BILLING.PLAN.CREATED",
+    "summary": "Plan created",
+    "resource": {
+        "quantity_supported": false,
+        "create_time": "2024-06-07T08:21:40Z",
+        "payment_preferences": {
+            "service_type": "PREPAID",
+            "auto_bill_outstanding": true,
+            "setup_fee": {
+                "currency_code": "USD",
+                "value": "0.0"
+            },
+            "setup_fee_failure_action": "CANCEL",
+            "payment_failure_threshold": 3
+        },
+        "version": 1,
+        "payee": {
+            "merchant_id": "7NS6VD2D2X37C",
+            "display_data": {
+                "business_email": "cs-sb-o0imm29578601@business.example.com"
+            }
+        },
+        "update_time": "2024-06-07T08:21:40Z",
+        "usage_type": "LICENSED",
+        "product_id": "PROD-1ES34532SK597535U",
+        "name": "Basic Plan",
+        "billing_cycles": [
+            {
+                "pricing_scheme": {
+                    "version": 1,
+                    "fixed_price": {
+                        "currency_code": "USD",
+                        "value": "10.0"
+                    },
+                    "create_time": "2024-06-07T08:21:40Z",
+                    "update_time": "2024-06-07T08:21:40Z"
+                },
+                "frequency": {
+                    "interval_unit": "MONTH",
+                    "interval_count": 1
+                },
+                "tenure_type": "REGULAR",
+                "sequence": 1,
+                "total_cycles": 12
+            }
+        ],
+        "links": [
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-5MJ18015MA790922KMZRMGFA",
+                "rel": "self",
+                "method": "GET",
+                "encType": "application\/json"
+            },
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-5MJ18015MA790922KMZRMGFA",
+                "rel": "edit",
+                "method": "PATCH",
+                "encType": "application\/json"
+            },
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-5MJ18015MA790922KMZRMGFA\/deactivate",
+                "rel": "self",
+                "method": "POST",
+                "encType": "application\/json"
+            }
+        ],
+        "id": "P-5MJ18015MA790922KMZRMGFA",
+        "status": "ACTIVE"
+    },
+    "links": [
+        {
+            "href": "https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-10C74793NN426802N-72A09374JU2845107",
+            "rel": "self",
+            "method": "GET"
+        },
+        {
+            "href": "https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-10C74793NN426802N-72A09374JU2845107\/resend",
+            "rel": "resend",
+            "method": "POST"
+        }
+    ]
+}{
+    "id": "WH-8NJ814835Y688073A-5AM60211VP647600D",
+    "event_version": "1.0",
+    "create_time": "2024-06-07T08:21:03.530Z",
+    "resource_type": "plan",
+    "resource_version": "2.0",
+    "event_type": "BILLING.PLAN.CREATED",
+    "summary": "Plan created",
+    "resource": {
+        "quantity_supported": false,
+        "create_time": "2024-06-07T08:20:53Z",
+        "payment_preferences": {
+            "service_type": "PREPAID",
+            "auto_bill_outstanding": true,
+            "setup_fee": {
+                "currency_code": "USD",
+                "value": "0.0"
+            },
+            "setup_fee_failure_action": "CANCEL",
+            "payment_failure_threshold": 3
+        },
+        "version": 1,
+        "payee": {
+            "merchant_id": "7NS6VD2D2X37C",
+            "display_data": {
+                "business_email": "cs-sb-o0imm29578601@business.example.com"
+            }
+        },
+        "update_time": "2024-06-07T08:20:53Z",
+        "usage_type": "LICENSED",
+        "product_id": "PROD-1ES34532SK597535U",
+        "name": "Basic Plan",
+        "billing_cycles": [
+            {
+                "pricing_scheme": {
+                    "version": 1,
+                    "fixed_price": {
+                        "currency_code": "USD",
+                        "value": "10.0"
+                    },
+                    "create_time": "2024-06-07T08:20:53Z",
+                    "update_time": "2024-06-07T08:20:53Z"
+                },
+                "frequency": {
+                    "interval_unit": "MONTH",
+                    "interval_count": 1
+                },
+                "tenure_type": "REGULAR",
+                "sequence": 1,
+                "total_cycles": 12
+            }
+        ],
+        "links": [
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-17254746371103409MZRMFZI",
+                "rel": "self",
+                "method": "GET",
+                "encType": "application\/json"
+            },
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-17254746371103409MZRMFZI",
+                "rel": "edit",
+                "method": "PATCH",
+                "encType": "application\/json"
+            },
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-17254746371103409MZRMFZI\/deactivate",
+                "rel": "self",
+                "method": "POST",
+                "encType": "application\/json"
+            }
+        ],
+        "id": "P-17254746371103409MZRMFZI",
+        "status": "ACTIVE"
+    },
+    "links": [
+        {
+            "href": "https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-8NJ814835Y688073A-5AM60211VP647600D",
+            "rel": "self",
+            "method": "GET"
+        },
+        {
+            "href": "https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-8NJ814835Y688073A-5AM60211VP647600D\/resend",
+            "rel": "resend",
+            "method": "POST"
+        }
+    ]
+}{
+    "id": "WH-72M15126XR965132L-1G7367048K975722U",
+    "event_version": "1.0",
+    "create_time": "2024-06-07T08:21:16.724Z",
+    "resource_type": "plan",
+    "resource_version": "2.0",
+    "event_type": "BILLING.PLAN.CREATED",
+    "summary": "Plan created",
+    "resource": {
+        "quantity_supported": false,
+        "create_time": "2024-06-07T08:21:13Z",
+        "payment_preferences": {
+            "service_type": "PREPAID",
+            "auto_bill_outstanding": true,
+            "setup_fee": {
+                "currency_code": "USD",
+                "value": "0.0"
+            },
+            "setup_fee_failure_action": "CANCEL",
+            "payment_failure_threshold": 3
+        },
+        "version": 1,
+        "payee": {
+            "merchant_id": "7NS6VD2D2X37C",
+            "display_data": {
+                "business_email": "cs-sb-o0imm29578601@business.example.com"
+            }
+        },
+        "update_time": "2024-06-07T08:21:13Z",
+        "usage_type": "LICENSED",
+        "product_id": "PROD-1ES34532SK597535U",
+        "name": "Basic Plan",
+        "billing_cycles": [
+            {
+                "pricing_scheme": {
+                    "version": 1,
+                    "fixed_price": {
+                        "currency_code": "USD",
+                        "value": "10.0"
+                    },
+                    "create_time": "2024-06-07T08:21:13Z",
+                    "update_time": "2024-06-07T08:21:13Z"
+                },
+                "frequency": {
+                    "interval_unit": "MONTH",
+                    "interval_count": 1
+                },
+                "tenure_type": "REGULAR",
+                "sequence": 1,
+                "total_cycles": 12
+            }
+        ],
+        "links": [
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-0PU06894AW254414HMZRMF6I",
+                "rel": "self",
+                "method": "GET",
+                "encType": "application\/json"
+            },
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-0PU06894AW254414HMZRMF6I",
+                "rel": "edit",
+                "method": "PATCH",
+                "encType": "application\/json"
+            },
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-0PU06894AW254414HMZRMF6I\/deactivate",
+                "rel": "self",
+                "method": "POST",
+                "encType": "application\/json"
+            }
+        ],
+        "id": "P-0PU06894AW254414HMZRMF6I",
+        "status": "ACTIVE"
+    },
+    "links": [
+        {
+            "href": "https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-72M15126XR965132L-1G7367048K975722U",
+            "rel": "self",
+            "method": "GET"
+        },
+        {
+            "href": "https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-72M15126XR965132L-1G7367048K975722U\/resend",
+            "rel": "resend",
+            "method": "POST"
+        }
+    ]
+}{
+    "id": "WH-3XS87901M68844216-9KS15065642695414",
+    "event_version": "1.0",
+    "create_time": "2024-06-07T08:18:25.346Z",
+    "resource_type": "plan",
+    "resource_version": "2.0",
+    "event_type": "BILLING.PLAN.CREATED",
+    "summary": "Plan created",
+    "resource": {
+        "quantity_supported": false,
+        "create_time": "2024-06-07T08:18:20Z",
+        "payment_preferences": {
+            "service_type": "PREPAID",
+            "auto_bill_outstanding": true,
+            "setup_fee": {
+                "currency_code": "USD",
+                "value": "0.0"
+            },
+            "setup_fee_failure_action": "CANCEL",
+            "payment_failure_threshold": 3
+        },
+        "version": 1,
+        "payee": {
+            "merchant_id": "7NS6VD2D2X37C",
+            "display_data": {
+                "business_email": "cs-sb-o0imm29578601@business.example.com"
+            }
+        },
+        "update_time": "2024-06-07T08:18:20Z",
+        "usage_type": "LICENSED",
+        "product_id": "PROD-1ES34532SK597535U",
+        "name": "Basic Plan",
+        "billing_cycles": [
+            {
+                "pricing_scheme": {
+                    "version": 1,
+                    "fixed_price": {
+                        "currency_code": "USD",
+                        "value": "10.0"
+                    },
+                    "create_time": "2024-06-07T08:18:20Z",
+                    "update_time": "2024-06-07T08:18:20Z"
+                },
+                "frequency": {
+                    "interval_unit": "MONTH",
+                    "interval_count": 1
+                },
+                "tenure_type": "REGULAR",
+                "sequence": 1,
+                "total_cycles": 12
+            }
+        ],
+        "links": [
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-7JB43558R72460803MZRMETA",
+                "rel": "self",
+                "method": "GET",
+                "encType": "application\/json"
+            },
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-7JB43558R72460803MZRMETA",
+                "rel": "edit",
+                "method": "PATCH",
+                "encType": "application\/json"
+            },
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-7JB43558R72460803MZRMETA\/deactivate",
+                "rel": "self",
+                "method": "POST",
+                "encType": "application\/json"
+            }
+        ],
+        "id": "P-7JB43558R72460803MZRMETA",
+        "status": "ACTIVE"
+    },
+    "links": [
+        {
+            "href": "https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-3XS87901M68844216-9KS15065642695414",
+            "rel": "self",
+            "method": "GET"
+        },
+        {
+            "href": "https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-3XS87901M68844216-9KS15065642695414\/resend",
+            "rel": "resend",
+            "method": "POST"
+        }
+    ]
+}{
+    "id": "WH-4SR17335J2206203S-74R25744F1736703W",
+    "event_version": "1.0",
+    "create_time": "2024-06-07T08:23:04.536Z",
+    "resource_type": "plan",
+    "resource_version": "2.0",
+    "event_type": "BILLING.PLAN.CREATED",
+    "summary": "Plan created",
+    "resource": {
+        "quantity_supported": false,
+        "create_time": "2024-06-07T08:23:00Z",
+        "payment_preferences": {
+            "service_type": "PREPAID",
+            "auto_bill_outstanding": true,
+            "setup_fee": {
+                "currency_code": "USD",
+                "value": "0.0"
+            },
+            "setup_fee_failure_action": "CANCEL",
+            "payment_failure_threshold": 3
+        },
+        "version": 1,
+        "payee": {
+            "merchant_id": "7NS6VD2D2X37C",
+            "display_data": {
+                "business_email": "cs-sb-o0imm29578601@business.example.com"
+            }
+        },
+        "update_time": "2024-06-07T08:23:00Z",
+        "usage_type": "LICENSED",
+        "product_id": "PROD-1ES34532SK597535U",
+        "name": "Basic Plan",
+        "billing_cycles": [
+            {
+                "pricing_scheme": {
+                    "version": 1,
+                    "fixed_price": {
+                        "currency_code": "USD",
+                        "value": "10.0"
+                    },
+                    "create_time": "2024-06-07T08:23:00Z",
+                    "update_time": "2024-06-07T08:23:00Z"
+                },
+                "frequency": {
+                    "interval_unit": "MONTH",
+                    "interval_count": 1
+                },
+                "tenure_type": "REGULAR",
+                "sequence": 1,
+                "total_cycles": 12
+            }
+        ],
+        "links": [
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-76E67378E1739442UMZRMGZA",
+                "rel": "self",
+                "method": "GET",
+                "encType": "application\/json"
+            },
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-76E67378E1739442UMZRMGZA",
+                "rel": "edit",
+                "method": "PATCH",
+                "encType": "application\/json"
+            },
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-76E67378E1739442UMZRMGZA\/deactivate",
+                "rel": "self",
+                "method": "POST",
+                "encType": "application\/json"
+            }
+        ],
+        "id": "P-76E67378E1739442UMZRMGZA",
+        "status": "ACTIVE"
+    },
+    "links": [
+        {
+            "href": "https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-4SR17335J2206203S-74R25744F1736703W",
+            "rel": "self",
+            "method": "GET"
+        },
+        {
+            "href": "https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-4SR17335J2206203S-74R25744F1736703W\/resend",
+            "rel": "resend",
+            "method": "POST"
+        }
+    ]
+}{
+    "id": "WH-5KE97792LP845854X-9D627503JK267832F",
+    "event_version": "1.0",
+    "create_time": "2024-06-07T08:18:03.169Z",
+    "resource_type": "plan",
+    "resource_version": "2.0",
+    "event_type": "BILLING.PLAN.CREATED",
+    "summary": "Plan created",
+    "resource": {
+        "quantity_supported": false,
+        "create_time": "2024-06-07T08:17:45Z",
+        "payment_preferences": {
+            "service_type": "PREPAID",
+            "auto_bill_outstanding": true,
+            "setup_fee": {
+                "currency_code": "USD",
+                "value": "0.0"
+            },
+            "setup_fee_failure_action": "CANCEL",
+            "payment_failure_threshold": 3
+        },
+        "version": 1,
+        "payee": {
+            "merchant_id": "7NS6VD2D2X37C",
+            "display_data": {
+                "business_email": "cs-sb-o0imm29578601@business.example.com"
+            }
+        },
+        "update_time": "2024-06-07T08:17:45Z",
+        "usage_type": "LICENSED",
+        "product_id": "PROD-1ES34532SK597535U",
+        "name": "Basic Plan",
+        "billing_cycles": [
+            {
+                "pricing_scheme": {
+                    "version": 1,
+                    "fixed_price": {
+                        "currency_code": "USD",
+                        "value": "10.0"
+                    },
+                    "create_time": "2024-06-07T08:17:45Z",
+                    "update_time": "2024-06-07T08:17:45Z"
+                },
+                "frequency": {
+                    "interval_unit": "MONTH",
+                    "interval_count": 1
+                },
+                "tenure_type": "REGULAR",
+                "sequence": 1,
+                "total_cycles": 12
+            }
+        ],
+        "links": [
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-42U30347GV6191027MZRMEKI",
+                "rel": "self",
+                "method": "GET",
+                "encType": "application\/json"
+            },
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-42U30347GV6191027MZRMEKI",
+                "rel": "edit",
+                "method": "PATCH",
+                "encType": "application\/json"
+            },
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-42U30347GV6191027MZRMEKI\/deactivate",
+                "rel": "self",
+                "method": "POST",
+                "encType": "application\/json"
+            }
+        ],
+        "id": "P-42U30347GV6191027MZRMEKI",
+        "status": "ACTIVE"
+    },
+    "links": [
+        {
+            "href": "https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-5KE97792LP845854X-9D627503JK267832F",
+            "rel": "self",
+            "method": "GET"
+        },
+        {
+            "href": "https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-5KE97792LP845854X-9D627503JK267832F\/resend",
+            "rel": "resend",
+            "method": "POST"
+        }
+    ]
+}{
+    "id": "WH-7JT81496SU281790Y-52507610NV600225V",
+    "event_version": "1.0",
+    "create_time": "2024-06-07T08:23:03.483Z",
+    "resource_type": "plan",
+    "resource_version": "2.0",
+    "event_type": "BILLING.PLAN.CREATED",
+    "summary": "Plan created",
+    "resource": {
+        "quantity_supported": false,
+        "create_time": "2024-06-07T08:22:43Z",
+        "payment_preferences": {
+            "service_type": "PREPAID",
+            "auto_bill_outstanding": true,
+            "setup_fee": {
+                "currency_code": "USD",
+                "value": "0.0"
+            },
+            "setup_fee_failure_action": "CANCEL",
+            "payment_failure_threshold": 3
+        },
+        "version": 1,
+        "payee": {
+            "merchant_id": "7NS6VD2D2X37C",
+            "display_data": {
+                "business_email": "cs-sb-o0imm29578601@business.example.com"
+            }
+        },
+        "update_time": "2024-06-07T08:22:43Z",
+        "usage_type": "LICENSED",
+        "product_id": "PROD-1ES34532SK597535U",
+        "name": "Basic Plan",
+        "billing_cycles": [
+            {
+                "pricing_scheme": {
+                    "version": 1,
+                    "fixed_price": {
+                        "currency_code": "USD",
+                        "value": "10.0"
+                    },
+                    "create_time": "2024-06-07T08:22:43Z",
+                    "update_time": "2024-06-07T08:22:43Z"
+                },
+                "frequency": {
+                    "interval_unit": "MONTH",
+                    "interval_count": 1
+                },
+                "tenure_type": "REGULAR",
+                "sequence": 1,
+                "total_cycles": 12
+            }
+        ],
+        "links": [
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-2WM79967P1878941MMZRMGUY",
+                "rel": "self",
+                "method": "GET",
+                "encType": "application\/json"
+            },
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-2WM79967P1878941MMZRMGUY",
+                "rel": "edit",
+                "method": "PATCH",
+                "encType": "application\/json"
+            },
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-2WM79967P1878941MMZRMGUY\/deactivate",
+                "rel": "self",
+                "method": "POST",
+                "encType": "application\/json"
+            }
+        ],
+        "id": "P-2WM79967P1878941MMZRMGUY",
+        "status": "ACTIVE"
+    },
+    "links": [
+        {
+            "href": "https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-7JT81496SU281790Y-52507610NV600225V",
+            "rel": "self",
+            "method": "GET"
+        },
+        {
+            "href": "https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-7JT81496SU281790Y-52507610NV600225V\/resend",
+            "rel": "resend",
+            "method": "POST"
+        }
+    ]
+}{
+    "id": "WH-12813898GP054771F-12A247084M764824S",
+    "event_version": "1.0",
+    "create_time": "2024-06-07T08:23:03.234Z",
+    "resource_type": "plan",
+    "resource_version": "2.0",
+    "event_type": "BILLING.PLAN.CREATED",
+    "summary": "Plan created",
+    "resource": {
+        "quantity_supported": false,
+        "create_time": "2024-06-07T08:22:46Z",
+        "payment_preferences": {
+            "service_type": "PREPAID",
+            "auto_bill_outstanding": true,
+            "setup_fee": {
+                "currency_code": "USD",
+                "value": "0.0"
+            },
+            "setup_fee_failure_action": "CANCEL",
+            "payment_failure_threshold": 3
+        },
+        "version": 1,
+        "payee": {
+            "merchant_id": "7NS6VD2D2X37C",
+            "display_data": {
+                "business_email": "cs-sb-o0imm29578601@business.example.com"
+            }
+        },
+        "update_time": "2024-06-07T08:22:46Z",
+        "usage_type": "LICENSED",
+        "product_id": "PROD-1ES34532SK597535U",
+        "name": "Basic Plan",
+        "billing_cycles": [
+            {
+                "pricing_scheme": {
+                    "version": 1,
+                    "fixed_price": {
+                        "currency_code": "USD",
+                        "value": "10.0"
+                    },
+                    "create_time": "2024-06-07T08:22:46Z",
+                    "update_time": "2024-06-07T08:22:46Z"
+                },
+                "frequency": {
+                    "interval_unit": "MONTH",
+                    "interval_count": 1
+                },
+                "tenure_type": "REGULAR",
+                "sequence": 1,
+                "total_cycles": 12
+            }
+        ],
+        "links": [
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-7VT6403824595461TMZRMGVQ",
+                "rel": "self",
+                "method": "GET",
+                "encType": "application\/json"
+            },
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-7VT6403824595461TMZRMGVQ",
+                "rel": "edit",
+                "method": "PATCH",
+                "encType": "application\/json"
+            },
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-7VT6403824595461TMZRMGVQ\/deactivate",
+                "rel": "self",
+                "method": "POST",
+                "encType": "application\/json"
+            }
+        ],
+        "id": "P-7VT6403824595461TMZRMGVQ",
+        "status": "ACTIVE"
+    },
+    "links": [
+        {
+            "href": "https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-12813898GP054771F-12A247084M764824S",
+            "rel": "self",
+            "method": "GET"
+        },
+        {
+            "href": "https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-12813898GP054771F-12A247084M764824S\/resend",
+            "rel": "resend",
+            "method": "POST"
+        }
+    ]
+}{
+    "id": "WH-93B97948W2494632C-8WV251210A853902M",
+    "event_version": "1.0",
+    "create_time": "2024-06-07T08:19:33.139Z",
+    "resource_type": "plan",
+    "resource_version": "2.0",
+    "event_type": "BILLING.PLAN.CREATED",
+    "summary": "Plan created",
+    "resource": {
+        "quantity_supported": false,
+        "create_time": "2024-06-07T08:19:13Z",
+        "payment_preferences": {
+            "service_type": "PREPAID",
+            "auto_bill_outstanding": true,
+            "setup_fee": {
+                "currency_code": "USD",
+                "value": "0.0"
+            },
+            "setup_fee_failure_action": "CANCEL",
+            "payment_failure_threshold": 3
+        },
+        "version": 1,
+        "payee": {
+            "merchant_id": "7NS6VD2D2X37C",
+            "display_data": {
+                "business_email": "cs-sb-o0imm29578601@business.example.com"
+            }
+        },
+        "update_time": "2024-06-07T08:19:13Z",
+        "usage_type": "LICENSED",
+        "product_id": "PROD-1ES34532SK597535U",
+        "name": "Basic Plan",
+        "billing_cycles": [
+            {
+                "pricing_scheme": {
+                    "version": 1,
+                    "fixed_price": {
+                        "currency_code": "USD",
+                        "value": "10.0"
+                    },
+                    "create_time": "2024-06-07T08:19:13Z",
+                    "update_time": "2024-06-07T08:19:13Z"
+                },
+                "frequency": {
+                    "interval_unit": "MONTH",
+                    "interval_count": 1
+                },
+                "tenure_type": "REGULAR",
+                "sequence": 1,
+                "total_cycles": 12
+            }
+        ],
+        "links": [
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-9EF3066986254834SMZRMFAI",
+                "rel": "self",
+                "method": "GET",
+                "encType": "application\/json"
+            },
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-9EF3066986254834SMZRMFAI",
+                "rel": "edit",
+                "method": "PATCH",
+                "encType": "application\/json"
+            },
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-9EF3066986254834SMZRMFAI\/deactivate",
+                "rel": "self",
+                "method": "POST",
+                "encType": "application\/json"
+            }
+        ],
+        "id": "P-9EF3066986254834SMZRMFAI",
+        "status": "ACTIVE"
+    },
+    "links": [
+        {
+            "href": "https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-93B97948W2494632C-8WV251210A853902M",
+            "rel": "self",
+            "method": "GET"
+        },
+        {
+            "href": "https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-93B97948W2494632C-8WV251210A853902M\/resend",
+            "rel": "resend",
+            "method": "POST"
+        }
+    ]
+}{
+    "id": "WH-12813898GP054771F-7K338659S3425002B",
+    "event_version": "1.0",
+    "create_time": "2024-06-07T08:23:03.234Z",
+    "resource_type": "plan",
+    "resource_version": "2.0",
+    "event_type": "BILLING.PLAN.CREATED",
+    "summary": "Plan created",
+    "resource": {
+        "quantity_supported": false,
+        "create_time": "2024-06-07T08:22:31Z",
+        "payment_preferences": {
+            "service_type": "PREPAID",
+            "auto_bill_outstanding": true,
+            "setup_fee": {
+                "currency_code": "USD",
+                "value": "0.0"
+            },
+            "setup_fee_failure_action": "CANCEL",
+            "payment_failure_threshold": 3
+        },
+        "version": 1,
+        "payee": {
+            "merchant_id": "7NS6VD2D2X37C",
+            "display_data": {
+                "business_email": "cs-sb-o0imm29578601@business.example.com"
+            }
+        },
+        "update_time": "2024-06-07T08:22:31Z",
+        "usage_type": "LICENSED",
+        "product_id": "PROD-1ES34532SK597535U",
+        "name": "Basic Plan",
+        "billing_cycles": [
+            {
+                "pricing_scheme": {
+                    "version": 1,
+                    "fixed_price": {
+                        "currency_code": "USD",
+                        "value": "10.0"
+                    },
+                    "create_time": "2024-06-07T08:22:31Z",
+                    "update_time": "2024-06-07T08:22:31Z"
+                },
+                "frequency": {
+                    "interval_unit": "MONTH",
+                    "interval_count": 1
+                },
+                "tenure_type": "REGULAR",
+                "sequence": 1,
+                "total_cycles": 12
+            }
+        ],
+        "links": [
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-2HK91960X0395035RMZRMGRY",
+                "rel": "self",
+                "method": "GET",
+                "encType": "application\/json"
+            },
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-2HK91960X0395035RMZRMGRY",
+                "rel": "edit",
+                "method": "PATCH",
+                "encType": "application\/json"
+            },
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-2HK91960X0395035RMZRMGRY\/deactivate",
+                "rel": "self",
+                "method": "POST",
+                "encType": "application\/json"
+            }
+        ],
+        "id": "P-2HK91960X0395035RMZRMGRY",
+        "status": "ACTIVE"
+    },
+    "links": [
+        {
+            "href": "https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-12813898GP054771F-7K338659S3425002B",
+            "rel": "self",
+            "method": "GET"
+        },
+        {
+            "href": "https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-12813898GP054771F-7K338659S3425002B\/resend",
+            "rel": "resend",
+            "method": "POST"
+        }
+    ]
+}{
+    "id": "WH-48T102418W9216249-8HH02429141196510",
+    "event_version": "1.0",
+    "create_time": "2024-06-07T08:17:33.717Z",
+    "resource_type": "plan",
+    "resource_version": "2.0",
+    "event_type": "BILLING.PLAN.CREATED",
+    "summary": "Plan created",
+    "resource": {
+        "quantity_supported": false,
+        "create_time": "2024-06-07T08:17:12Z",
+        "payment_preferences": {
+            "service_type": "PREPAID",
+            "auto_bill_outstanding": true,
+            "setup_fee": {
+                "currency_code": "USD",
+                "value": "0.0"
+            },
+            "setup_fee_failure_action": "CANCEL",
+            "payment_failure_threshold": 3
+        },
+        "version": 1,
+        "payee": {
+            "merchant_id": "7NS6VD2D2X37C",
+            "display_data": {
+                "business_email": "cs-sb-o0imm29578601@business.example.com"
+            }
+        },
+        "update_time": "2024-06-07T08:17:12Z",
+        "usage_type": "LICENSED",
+        "product_id": "PROD-1ES34532SK597535U",
+        "name": "Basic Plan",
+        "billing_cycles": [
+            {
+                "pricing_scheme": {
+                    "version": 1,
+                    "fixed_price": {
+                        "currency_code": "USD",
+                        "value": "10.0"
+                    },
+                    "create_time": "2024-06-07T08:17:12Z",
+                    "update_time": "2024-06-07T08:17:12Z"
+                },
+                "frequency": {
+                    "interval_unit": "MONTH",
+                    "interval_count": 1
+                },
+                "tenure_type": "REGULAR",
+                "sequence": 1,
+                "total_cycles": 12
+            }
+        ],
+        "links": [
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-896125969L9480903MZRMECA",
+                "rel": "self",
+                "method": "GET",
+                "encType": "application\/json"
+            },
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-896125969L9480903MZRMECA",
+                "rel": "edit",
+                "method": "PATCH",
+                "encType": "application\/json"
+            },
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-896125969L9480903MZRMECA\/deactivate",
+                "rel": "self",
+                "method": "POST",
+                "encType": "application\/json"
+            }
+        ],
+        "id": "P-896125969L9480903MZRMECA",
+        "status": "ACTIVE"
+    },
+    "links": [
+        {
+            "href": "https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-48T102418W9216249-8HH02429141196510",
+            "rel": "self",
+            "method": "GET"
+        },
+        {
+            "href": "https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-48T102418W9216249-8HH02429141196510\/resend",
+            "rel": "resend",
+            "method": "POST"
+        }
+    ]
+}{
+    "id": "WH-29J86057LP642814T-3T4815111E7613705",
+    "event_version": "1.0",
+    "create_time": "2024-06-07T08:23:03.537Z",
+    "resource_type": "plan",
+    "resource_version": "2.0",
+    "event_type": "BILLING.PLAN.CREATED",
+    "summary": "Plan created",
+    "resource": {
+        "quantity_supported": false,
+        "create_time": "2024-06-07T08:22:36Z",
+        "payment_preferences": {
+            "service_type": "PREPAID",
+            "auto_bill_outstanding": true,
+            "setup_fee": {
+                "currency_code": "USD",
+                "value": "0.0"
+            },
+            "setup_fee_failure_action": "CANCEL",
+            "payment_failure_threshold": 3
+        },
+        "version": 1,
+        "payee": {
+            "merchant_id": "7NS6VD2D2X37C",
+            "display_data": {
+                "business_email": "cs-sb-o0imm29578601@business.example.com"
+            }
+        },
+        "update_time": "2024-06-07T08:22:36Z",
+        "usage_type": "LICENSED",
+        "product_id": "PROD-1ES34532SK597535U",
+        "name": "Basic Plan",
+        "billing_cycles": [
+            {
+                "pricing_scheme": {
+                    "version": 1,
+                    "fixed_price": {
+                        "currency_code": "USD",
+                        "value": "10.0"
+                    },
+                    "create_time": "2024-06-07T08:22:36Z",
+                    "update_time": "2024-06-07T08:22:36Z"
+                },
+                "frequency": {
+                    "interval_unit": "MONTH",
+                    "interval_count": 1
+                },
+                "tenure_type": "REGULAR",
+                "sequence": 1,
+                "total_cycles": 12
+            }
+        ],
+        "links": [
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-0GN07832AE4337913MZRMGTA",
+                "rel": "self",
+                "method": "GET",
+                "encType": "application\/json"
+            },
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-0GN07832AE4337913MZRMGTA",
+                "rel": "edit",
+                "method": "PATCH",
+                "encType": "application\/json"
+            },
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-0GN07832AE4337913MZRMGTA\/deactivate",
+                "rel": "self",
+                "method": "POST",
+                "encType": "application\/json"
+            }
+        ],
+        "id": "P-0GN07832AE4337913MZRMGTA",
+        "status": "ACTIVE"
+    },
+    "links": [
+        {
+            "href": "https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-29J86057LP642814T-3T4815111E7613705",
+            "rel": "self",
+            "method": "GET"
+        },
+        {
+            "href": "https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-29J86057LP642814T-3T4815111E7613705\/resend",
+            "rel": "resend",
+            "method": "POST"
+        }
+    ]
+}{
+    "id": "WH-2V502341R3546491L-7H058009GH585715C",
+    "event_version": "1.0",
+    "create_time": "2024-06-07T08:23:03.353Z",
+    "resource_type": "plan",
+    "resource_version": "2.0",
+    "event_type": "BILLING.PLAN.CREATED",
+    "summary": "Plan created",
+    "resource": {
+        "quantity_supported": false,
+        "create_time": "2024-06-07T08:22:49Z",
+        "payment_preferences": {
+            "service_type": "PREPAID",
+            "auto_bill_outstanding": true,
+            "setup_fee": {
+                "currency_code": "USD",
+                "value": "0.0"
+            },
+            "setup_fee_failure_action": "CANCEL",
+            "payment_failure_threshold": 3
+        },
+        "version": 1,
+        "payee": {
+            "merchant_id": "7NS6VD2D2X37C",
+            "display_data": {
+                "business_email": "cs-sb-o0imm29578601@business.example.com"
+            }
+        },
+        "update_time": "2024-06-07T08:22:49Z",
+        "usage_type": "LICENSED",
+        "product_id": "PROD-1ES34532SK597535U",
+        "name": "Basic Plan",
+        "billing_cycles": [
+            {
+                "pricing_scheme": {
+                    "version": 1,
+                    "fixed_price": {
+                        "currency_code": "USD",
+                        "value": "10.0"
+                    },
+                    "create_time": "2024-06-07T08:22:49Z",
+                    "update_time": "2024-06-07T08:22:49Z"
+                },
+                "frequency": {
+                    "interval_unit": "MONTH",
+                    "interval_count": 1
+                },
+                "tenure_type": "REGULAR",
+                "sequence": 1,
+                "total_cycles": 12
+            }
+        ],
+        "links": [
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-3WW431887G4481430MZRMGWI",
+                "rel": "self",
+                "method": "GET",
+                "encType": "application\/json"
+            },
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-3WW431887G4481430MZRMGWI",
+                "rel": "edit",
+                "method": "PATCH",
+                "encType": "application\/json"
+            },
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-3WW431887G4481430MZRMGWI\/deactivate",
+                "rel": "self",
+                "method": "POST",
+                "encType": "application\/json"
+            }
+        ],
+        "id": "P-3WW431887G4481430MZRMGWI",
+        "status": "ACTIVE"
+    },
+    "links": [
+        {
+            "href": "https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-2V502341R3546491L-7H058009GH585715C",
+            "rel": "self",
+            "method": "GET"
+        },
+        {
+            "href": "https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-2V502341R3546491L-7H058009GH585715C\/resend",
+            "rel": "resend",
+            "method": "POST"
+        }
+    ]
+}{
+    "id": "WH-4331015880194051S-4K2937822X4916151",
+    "event_version": "1.0",
+    "create_time": "2024-06-07T08:23:03.236Z",
+    "resource_type": "plan",
+    "resource_version": "2.0",
+    "event_type": "BILLING.PLAN.CREATED",
+    "summary": "Plan created",
+    "resource": {
+        "quantity_supported": false,
+        "create_time": "2024-06-07T08:22:57Z",
+        "payment_preferences": {
+            "service_type": "PREPAID",
+            "auto_bill_outstanding": true,
+            "setup_fee": {
+                "currency_code": "USD",
+                "value": "0.0"
+            },
+            "setup_fee_failure_action": "CANCEL",
+            "payment_failure_threshold": 3
+        },
+        "version": 1,
+        "payee": {
+            "merchant_id": "7NS6VD2D2X37C",
+            "display_data": {
+                "business_email": "cs-sb-o0imm29578601@business.example.com"
+            }
+        },
+        "update_time": "2024-06-07T08:22:57Z",
+        "usage_type": "LICENSED",
+        "product_id": "PROD-1ES34532SK597535U",
+        "name": "Basic Plan",
+        "billing_cycles": [
+            {
+                "pricing_scheme": {
+                    "version": 1,
+                    "fixed_price": {
+                        "currency_code": "USD",
+                        "value": "10.0"
+                    },
+                    "create_time": "2024-06-07T08:22:57Z",
+                    "update_time": "2024-06-07T08:22:57Z"
+                },
+                "frequency": {
+                    "interval_unit": "MONTH",
+                    "interval_count": 1
+                },
+                "tenure_type": "REGULAR",
+                "sequence": 1,
+                "total_cycles": 12
+            }
+        ],
+        "links": [
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-5CU67377SF383664TMZRMGYI",
+                "rel": "self",
+                "method": "GET",
+                "encType": "application\/json"
+            },
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-5CU67377SF383664TMZRMGYI",
+                "rel": "edit",
+                "method": "PATCH",
+                "encType": "application\/json"
+            },
+            {
+                "href": "https:\/\/api.sandbox.paypal.com\/v1\/billing\/plans\/P-5CU67377SF383664TMZRMGYI\/deactivate",
+                "rel": "self",
+                "method": "POST",
+                "encType": "application\/json"
+            }
+        ],
+        "id": "P-5CU67377SF383664TMZRMGYI",
+        "status": "ACTIVE"
+    },
+    "links": [
+        {
+            "href": "https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-4331015880194051S-4K2937822X4916151",
+            "rel": "self",
+            "method": "GET"
+        },
+        {
+            "href": "https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-4331015880194051S-4K2937822X4916151\/resend",
+            "rel": "resend",
+            "method": "POST"
+        }
+    ]
+}
