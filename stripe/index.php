@@ -1,17 +1,7 @@
 <?php
 
-
-
-
 require 'vendor/autoload.php';
-
-
-include 'db.php';
-
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'api_vidcombo');
-define('DB_USER', 'root');
-define('DB_PASS', '');
+include '../db.php';
 define('STRIPE_SECRET_KEY', 'sk_test_51OeDsPIXbeKO1uxjfGZLmBaoVYMdmbThMwRHSrNa6Zigu0FnQYuAatgfPEodv9suuRFROdNRHux5vUhDp7jC6nca00GbHqdk1Y');
 
 
@@ -20,7 +10,7 @@ use Stripe\Stripe;
 
 Stripe::setApiKey(STRIPE_SECRET_KEY);
 
-$connection = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
+$connection = getDatabaseConnection();
 $YOUR_DOMAIN = 'http://localhost:8080';
 $plans = [
     'basic' => 'price_1PLjThIXbeKO1uxj9AU2H88a',
@@ -235,7 +225,7 @@ function handleRefund($refund)
     $payment_method = $refund->payment_method;
     $receipt_url = $refund->receipt_url;
 
-    $logFile = __DIR__ . '/refund_webhook.log';
+    $logFile = __DIR__ . '/log/refund_webhook.log';
     error_log('refund_webhook.log: ' . $refund . PHP_EOL, 3, $logFile);
     $query = 'INSERT INTO refund (amount_captured, amount_refunded, customer_id, invoice_id, payment_intent, payment_method, receipt_url) VALUES (?, ?, ?, ?, ?, ?, ?)';
     $stmt = $connection->prepare($query);
@@ -260,7 +250,7 @@ function handleCustomerUpdated($customer)
     $description = $customer->description ?? '';
     $created_at = $customer->created;
     $created_date = date('Y-m-d H:i:s', $created_at);
-    $logFile = __DIR__ . '/stripe_webhook.log';
+    $logFile = __DIR__ . '/log/stripe_webhook.log';
     error_log('customer: ' . $customer . PHP_EOL, 3, $logFile);
     // Chuẩn bị truy vấn SQL để chèn hoặc cập nhật khách hàng vào cơ sở dữ liệu
     $query = 'INSERT INTO customers (customer_id, email, name, created_at) VALUES (?, ?, ?, ?)  
@@ -549,7 +539,7 @@ function handleInvoiceFinalized($invoice)
     $subscription_id = $invoice->subscription;
     $customer_id = $invoice->customer;
     $invoice_date = date('Y-m-d H:i:s', $invoice->created);
-    $logFile = __DIR__ . '/stripe_webhook.log';
+    $logFile = __DIR__ . '/log/stripe_webhook.log';
     error_log('handleInvoiceFinalized: ' . $invoice . PHP_EOL, 3, $logFile);
     // Sử dụng Prepared Statement để tránh tấn công SQL injection
     $stmt = $connection->prepare("INSERT INTO invoice (invoice_id,amount_paid, currency, status, invoice_date, customer_email,payment_intent,amount_due, created, period_end,period_start, subscription_id, customer_id) VALUES (:invoice_id,:amount_paid, :currency, :status, :invoice_date, :customer_email,:payment_intent,:amount_due, :created, :period_end,:period_start, :subscription_id, :customer_id)");
@@ -632,7 +622,7 @@ function handleSubscriptionDeleted($subscription)
     $customer = $subscription->customer;
     $subscription_id = $subscription->id;
     $status = $subscription->status;
-    $logFile = __DIR__ . '/can_subWebhook.log';
+    $logFile = __DIR__ . '/log/can_subWebhook.log';
     error_log('can_subWebhook.log: ' . $subscription . PHP_EOL, 3, $logFile);
     // Cập nhật trạng thái đăng ký trong cơ sở dữ liệu của bạn
     try {
