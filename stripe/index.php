@@ -27,7 +27,7 @@ if ($requestUri === '/api/v1/create-checkout-session' && $method === 'POST') {
     echo '404 Not Found';
 }
 
-class StripeApiFunction 
+class StripeApiFunction
 {
     private $connection;
     // Hàm khởi tạo
@@ -35,7 +35,7 @@ class StripeApiFunction
     {
         $this->init();
     }
-     function init()
+    function init()
     {
         $this->connection = Common::getDatabaseConnection();
         if (!$this->connection) {
@@ -52,7 +52,7 @@ class StripeApiFunction
         $body = file_get_contents('php://input');
         parse_str($body, $data);
 
-        
+
         $plan = $data['plan'] ?? null;
         try {
             // Tạo phiên Stripe Checkout
@@ -63,8 +63,8 @@ class StripeApiFunction
                     'quantity' => 1,
                 ]],
                 'mode' => 'subscription',
-                'success_url' => $this->web_domain."/success.php?session_id={CHECKOUT_SESSION_ID}",
-                'cancel_url' => $this->web_domain."/cancel.html",
+                'success_url' => $this->web_domain . "/success.php?session_id={CHECKOUT_SESSION_ID}",
+                'cancel_url' => $this->web_domain . "/cancel.html",
             ]);
 
 
@@ -76,7 +76,6 @@ class StripeApiFunction
             error_log('Stripe API error: ' . $e->getMessage());
             header("HTTP/1.1 500 Internal Server Error");
             echo 'Error creating session';
-
         } catch (\Exception $e) {
             // Log any other errors
             error_log('General error: ' . $e->getMessage());
@@ -165,11 +164,9 @@ class StripeApiFunction
         $endpointSecret = 'whsec_5f17c8c4ada7dddedac39a07084388d087b1743d38e16af8bd996bb97a21c910';
         try {
             $event = \Stripe\Webhook::constructEvent($payload, $sig, $endpointSecret);
-
             // Ghi log đối tượng event
             $logFile = __DIR__ . '/log/event.log';
-        error_log('event: ' . $event . PHP_EOL, 3, $logFile);
-
+            error_log('event: ' . $event . PHP_EOL, 3, $logFile);
         } catch (\Exception $e) {
             error_log('⚠️Webhook signature verification failed. ' . $e->getMessage());
             header("HTTP/1.1 400 Bad Request");
@@ -179,7 +176,7 @@ class StripeApiFunction
         try {
             switch ($event->type) {
                 case 'invoice.payment_succeeded': //Xảy ra bất cứ khi nào nỗ lực thanh toán hóa đơn thành công.
-                   $this->handleInvoicePaymentSucceeded($event->data->object);
+                    $this->handleInvoicePaymentSucceeded($event->data->object);
                     break;
                 case 'invoice.finalized':
                     $this->handleInvoiceFinalized($event->data->object);
@@ -192,22 +189,22 @@ class StripeApiFunction
                     $this->handleSubscriptionExpired($event->data->object);
                     break;
                 case 'customer.subscription.created': // Khi một đăng ký mới được tạo
-                   $this->handleSubscriptionCreated($event->data->object);
+                    $this->handleSubscriptionCreated($event->data->object);
                     break;
                 case 'customer.subscription.updated': // Khi một đăng ký được cập nhật
-                   $this->handleSubscriptionUpdated($event->data->object);
+                    $this->handleSubscriptionUpdated($event->data->object);
                     break;
                 case 'customer.subscription.deleted': // Khi một đăng ký được bị hủy haowjc kết thúc
-                   $this->handleSubscriptionDeleted($event->data->object);
+                    $this->handleSubscriptionDeleted($event->data->object);
                     break;
                 case 'customer.created': // Khi một khách hàng mới được tạo
-                   $this->handleCustomerUpdated($event->data->object);
+                    $this->handleCustomerUpdated($event->data->object);
                     break;
                 case 'customer.updated':
-                   $this->handleCustomerUpdated($event->data->object);
+                    $this->handleCustomerUpdated($event->data->object);
                     break;
                 case 'charge.refunded':
-                   $this->handleRefund($event->data->object);
+                    $this->handleRefund($event->data->object);
                     break;
 
                 default:
@@ -244,7 +241,7 @@ class StripeApiFunction
 
     function handleCustomerUpdated($customer)
     {
-       
+
 
         // Lấy thông tin từ đối tượng khách hàng
         $customer_id = $customer->id;
@@ -267,7 +264,7 @@ class StripeApiFunction
     }
 
     function handleInvoiceUpdated($invoice)
-    {  
+    {
 
         // Thực hiện logic cập nhật thông tin hóa đơn ở đây
         // Ví dụ: chèn hóa đơn vào cơ sở dữ liệu
@@ -296,7 +293,7 @@ class StripeApiFunction
     }
     function handleSubscriptionExpired($invoice)
     {
-     
+
         $customer = $invoice->customer;
         $subscription_id = $invoice->subscription;
         $status = $invoice->status;
@@ -401,14 +398,14 @@ class StripeApiFunction
     function handleInvoicePaymentSucceeded($invoice)
     {
         // Kiểm tra kết nối cơ sở dữ liệu
-       
+
         // Kiểm tra đầu vào
         if (empty($invoice) || empty($invoice->subscription)) {
             error_log('Invalid invoice data');
             return;
         }
 
-      
+
         // Lấy thông tin cần thiết từ invoice
         $customer = $invoice->customer;
         $subscription_id = $invoice->subscription;
@@ -422,7 +419,7 @@ class StripeApiFunction
         $current_period_end_date = date('Y-m-d H:i:s', $current_period_end);
 
 
-     
+
 
         // Cập nhật trạng thái đăng ký trong cơ sở dữ liệu của bạn
         try {
@@ -501,7 +498,7 @@ class StripeApiFunction
 
     function saveSubscriptionToDatabase($subscriptionId, $customerId, $status, $currentPeriodEnd)
     {
-     
+
         // $stmt = $pdo->prepare('INSERT INTO subscriptions (id, customer_id, status, current_period_end) VALUES (?, ?, ?, ?)');
 
 
@@ -554,7 +551,7 @@ class StripeApiFunction
 
     function handleSubscriptionUpdated($subscription)
     {
-       
+
         // Lấy thông tin cần thiết từ subscription
         $customer = $subscription->customer;
         $subscription_id = $subscription->id;
@@ -599,14 +596,14 @@ class StripeApiFunction
 
     function updateSubscriptionStatus($subscriptionId, $status, $currentPeriodEnd)
     {
-     
+
         $stmt = $this->connection->prepare('UPDATE subscriptions SET status = ?, current_period_end = ? WHERE subscription_id = ?');
         $stmt->execute([$status, date('Y-m-d H:i:s', $currentPeriodEnd), $subscriptionId]);
     }
     // Hàm để xử lý khi một subscription bị xóa
     function handleSubscriptionDeleted($subscription)
     {
-   
+
 
         // Lấy thông tin cần thiết từ subscription
         $customer = $subscription->customer;
@@ -638,10 +635,10 @@ class StripeApiFunction
     }
     function saveInvoiceToDatabase($invoiceId, $customerId, $amountDue, $currency, $status, $customer_email, $subscription_id)
     {
-      
+
         try {
             // Start a transaction
-            
+
             $stmt = $this->connection->prepare('SELECT * FROM customers WHERE customer_id = ?');
             $stmt->execute([$customerId]);
             $existingCustomer = $stmt->fetch(PDO::FETCH_ASSOC);
