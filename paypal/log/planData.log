@@ -1,7 +1,7 @@
 Response: Array
 (
     [quantity_supported] => 
-    [create_time] => 2024-06-07T09:46:46Z
+    [create_time] => 2024-06-10T01:43:19Z
     [payment_preferences] => Array
         (
             [service_type] => PREPAID
@@ -27,7 +27,7 @@ Response: Array
 
         )
 
-    [update_time] => 2024-06-07T09:46:46Z
+    [update_time] => 2024-06-10T01:43:19Z
     [usage_type] => LICENSED
     [product_id] => PROD-1ES34532SK597535U
     [name] => Basic Plan
@@ -44,8 +44,8 @@ Response: Array
                                     [value] => 10.0
                                 )
 
-                            [create_time] => 2024-06-07T09:46:46Z
-                            [update_time] => 2024-06-07T09:46:46Z
+                            [create_time] => 2024-06-10T01:43:19Z
+                            [update_time] => 2024-06-10T01:43:19Z
                         )
 
                     [frequency] => Array
@@ -65,7 +65,7 @@ Response: Array
         (
             [0] => Array
                 (
-                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-08Y021405C430070DMZRNOBQ
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-9G037004US541645PMZTFUNY
                     [rel] => self
                     [method] => GET
                     [encType] => application/json
@@ -73,7 +73,7 @@ Response: Array
 
             [1] => Array
                 (
-                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-08Y021405C430070DMZRNOBQ
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-9G037004US541645PMZTFUNY
                     [rel] => edit
                     [method] => PATCH
                     [encType] => application/json
@@ -81,7 +81,7 @@ Response: Array
 
             [2] => Array
                 (
-                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-08Y021405C430070DMZRNOBQ/deactivate
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-9G037004US541645PMZTFUNY/deactivate
                     [rel] => self
                     [method] => POST
                     [encType] => application/json
@@ -89,14 +89,14 @@ Response: Array
 
         )
 
-    [id] => P-08Y021405C430070DMZRNOBQ
+    [id] => P-9G037004US541645PMZTFUNY
     [status] => ACTIVE
 )
 
 Response: Array
 (
     [quantity_supported] => 
-    [create_time] => 2024-06-07T09:47:12Z
+    [create_time] => 2024-06-10T02:14:03Z
     [payment_preferences] => Array
         (
             [service_type] => PREPAID
@@ -122,7 +122,7 @@ Response: Array
 
         )
 
-    [update_time] => 2024-06-07T09:47:12Z
+    [update_time] => 2024-06-10T02:14:03Z
     [usage_type] => LICENSED
     [product_id] => PROD-1ES34532SK597535U
     [name] => Basic Plan
@@ -139,8 +139,8 @@ Response: Array
                                     [value] => 10.0
                                 )
 
-                            [create_time] => 2024-06-07T09:47:12Z
-                            [update_time] => 2024-06-07T09:47:12Z
+                            [create_time] => 2024-06-10T02:14:03Z
+                            [update_time] => 2024-06-10T02:14:03Z
                         )
 
                     [frequency] => Array
@@ -160,7 +160,7 @@ Response: Array
         (
             [0] => Array
                 (
-                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-4RH73636TW694510XMZRNOIA
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-2N4106900P986170AMZTGC2Y
                     [rel] => self
                     [method] => GET
                     [encType] => application/json
@@ -168,7 +168,7 @@ Response: Array
 
             [1] => Array
                 (
-                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-4RH73636TW694510XMZRNOIA
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-2N4106900P986170AMZTGC2Y
                     [rel] => edit
                     [method] => PATCH
                     [encType] => application/json
@@ -176,7 +176,7 @@ Response: Array
 
             [2] => Array
                 (
-                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-4RH73636TW694510XMZRNOIA/deactivate
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-2N4106900P986170AMZTGC2Y/deactivate
                     [rel] => self
                     [method] => POST
                     [encType] => application/json
@@ -184,14 +184,14 @@ Response: Array
 
         )
 
-    [id] => P-4RH73636TW694510XMZRNOIA
+    [id] => P-2N4106900P986170AMZTGC2Y
     [status] => ACTIVE
 )
 
 Response: Array
 (
     [quantity_supported] => 
-    [create_time] => 2024-06-07T09:50:36Z
+    [create_time] => 2024-06-10T02:15:21Z
     [payment_preferences] => Array
         (
             [service_type] => PREPAID
@@ -217,7 +217,7 @@ Response: Array
 
         )
 
-    [update_time] => 2024-06-07T09:50:36Z
+    [update_time] => 2024-06-10T02:15:21Z
     [usage_type] => LICENSED
     [product_id] => PROD-1ES34532SK597535U
     [name] => Basic Plan
@@ -234,8 +234,8 @@ Response: Array
                                     [value] => 10.0
                                 )
 
-                            [create_time] => 2024-06-07T09:50:36Z
-                            [update_time] => 2024-06-07T09:50:36Z
+                            [create_time] => 2024-06-10T02:15:21Z
+                            [update_time] => 2024-06-10T02:15:21Z
                         )
 
                     [frequency] => Array
@@ -255,7 +255,7 @@ Response: Array
         (
             [0] => Array
                 (
-                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-6WR30280CN164531KMZRNP3A
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-04U68496C55818332MZTGDOI
                     [rel] => self
                     [method] => GET
                     [encType] => application/json
@@ -263,7 +263,7 @@ Response: Array
 
             [1] => Array
                 (
-                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-6WR30280CN164531KMZRNP3A
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-04U68496C55818332MZTGDOI
                     [rel] => edit
                     [method] => PATCH
                     [encType] => application/json
@@ -271,7 +271,7 @@ Response: Array
 
             [2] => Array
                 (
-                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-6WR30280CN164531KMZRNP3A/deactivate
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-04U68496C55818332MZTGDOI/deactivate
                     [rel] => self
                     [method] => POST
                     [encType] => application/json
@@ -279,14 +279,14 @@ Response: Array
 
         )
 
-    [id] => P-6WR30280CN164531KMZRNP3A
+    [id] => P-04U68496C55818332MZTGDOI
     [status] => ACTIVE
 )
 
 Response: Array
 (
     [quantity_supported] => 
-    [create_time] => 2024-06-07T09:50:53Z
+    [create_time] => 2024-06-10T02:17:03Z
     [payment_preferences] => Array
         (
             [service_type] => PREPAID
@@ -312,7 +312,7 @@ Response: Array
 
         )
 
-    [update_time] => 2024-06-07T09:50:53Z
+    [update_time] => 2024-06-10T02:17:03Z
     [usage_type] => LICENSED
     [product_id] => PROD-1ES34532SK597535U
     [name] => Basic Plan
@@ -329,8 +329,8 @@ Response: Array
                                     [value] => 10.0
                                 )
 
-                            [create_time] => 2024-06-07T09:50:53Z
-                            [update_time] => 2024-06-07T09:50:53Z
+                            [create_time] => 2024-06-10T02:17:03Z
+                            [update_time] => 2024-06-10T02:17:03Z
                         )
 
                     [frequency] => Array
@@ -350,7 +350,7 @@ Response: Array
         (
             [0] => Array
                 (
-                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-6A876328F13044232MZRNP7I
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-47991366UM472625HMZTGEHY
                     [rel] => self
                     [method] => GET
                     [encType] => application/json
@@ -358,7 +358,7 @@ Response: Array
 
             [1] => Array
                 (
-                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-6A876328F13044232MZRNP7I
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-47991366UM472625HMZTGEHY
                     [rel] => edit
                     [method] => PATCH
                     [encType] => application/json
@@ -366,7 +366,7 @@ Response: Array
 
             [2] => Array
                 (
-                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-6A876328F13044232MZRNP7I/deactivate
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-47991366UM472625HMZTGEHY/deactivate
                     [rel] => self
                     [method] => POST
                     [encType] => application/json
@@ -374,14 +374,14 @@ Response: Array
 
         )
 
-    [id] => P-6A876328F13044232MZRNP7I
+    [id] => P-47991366UM472625HMZTGEHY
     [status] => ACTIVE
 )
 
 Response: Array
 (
     [quantity_supported] => 
-    [create_time] => 2024-06-07T09:52:25Z
+    [create_time] => 2024-06-10T02:17:48Z
     [payment_preferences] => Array
         (
             [service_type] => PREPAID
@@ -407,7 +407,7 @@ Response: Array
 
         )
 
-    [update_time] => 2024-06-07T09:52:25Z
+    [update_time] => 2024-06-10T02:17:48Z
     [usage_type] => LICENSED
     [product_id] => PROD-1ES34532SK597535U
     [name] => Basic Plan
@@ -424,8 +424,8 @@ Response: Array
                                     [value] => 10.0
                                 )
 
-                            [create_time] => 2024-06-07T09:52:25Z
-                            [update_time] => 2024-06-07T09:52:25Z
+                            [create_time] => 2024-06-10T02:17:48Z
+                            [update_time] => 2024-06-10T02:17:48Z
                         )
 
                     [frequency] => Array
@@ -445,7 +445,7 @@ Response: Array
         (
             [0] => Array
                 (
-                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-25K27794MV297910WMZRNQWI
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-79M82210AD9627526MZTGETA
                     [rel] => self
                     [method] => GET
                     [encType] => application/json
@@ -453,7 +453,7 @@ Response: Array
 
             [1] => Array
                 (
-                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-25K27794MV297910WMZRNQWI
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-79M82210AD9627526MZTGETA
                     [rel] => edit
                     [method] => PATCH
                     [encType] => application/json
@@ -461,7 +461,7 @@ Response: Array
 
             [2] => Array
                 (
-                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-25K27794MV297910WMZRNQWI/deactivate
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-79M82210AD9627526MZTGETA/deactivate
                     [rel] => self
                     [method] => POST
                     [encType] => application/json
@@ -469,14 +469,14 @@ Response: Array
 
         )
 
-    [id] => P-25K27794MV297910WMZRNQWI
+    [id] => P-79M82210AD9627526MZTGETA
     [status] => ACTIVE
 )
 
 Response: Array
 (
     [quantity_supported] => 
-    [create_time] => 2024-06-07T09:52:21Z
+    [create_time] => 2024-06-10T02:25:02Z
     [payment_preferences] => Array
         (
             [service_type] => PREPAID
@@ -502,7 +502,7 @@ Response: Array
 
         )
 
-    [update_time] => 2024-06-07T09:52:21Z
+    [update_time] => 2024-06-10T02:25:02Z
     [usage_type] => LICENSED
     [product_id] => PROD-1ES34532SK597535U
     [name] => Basic Plan
@@ -519,8 +519,8 @@ Response: Array
                                     [value] => 10.0
                                 )
 
-                            [create_time] => 2024-06-07T09:52:21Z
-                            [update_time] => 2024-06-07T09:52:21Z
+                            [create_time] => 2024-06-10T02:25:02Z
+                            [update_time] => 2024-06-10T02:25:02Z
                         )
 
                     [frequency] => Array
@@ -540,7 +540,7 @@ Response: Array
         (
             [0] => Array
                 (
-                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-6RV06298FX095120LMZRNQVI
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-9TS645701J261222EMZTGH7Q
                     [rel] => self
                     [method] => GET
                     [encType] => application/json
@@ -548,7 +548,7 @@ Response: Array
 
             [1] => Array
                 (
-                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-6RV06298FX095120LMZRNQVI
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-9TS645701J261222EMZTGH7Q
                     [rel] => edit
                     [method] => PATCH
                     [encType] => application/json
@@ -556,7 +556,7 @@ Response: Array
 
             [2] => Array
                 (
-                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-6RV06298FX095120LMZRNQVI/deactivate
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-9TS645701J261222EMZTGH7Q/deactivate
                     [rel] => self
                     [method] => POST
                     [encType] => application/json
@@ -564,14 +564,14 @@ Response: Array
 
         )
 
-    [id] => P-6RV06298FX095120LMZRNQVI
+    [id] => P-9TS645701J261222EMZTGH7Q
     [status] => ACTIVE
 )
 
 Response: Array
 (
     [quantity_supported] => 
-    [create_time] => 2024-06-07T09:55:28Z
+    [create_time] => 2024-06-10T02:24:42Z
     [payment_preferences] => Array
         (
             [service_type] => PREPAID
@@ -597,7 +597,7 @@ Response: Array
 
         )
 
-    [update_time] => 2024-06-07T09:55:28Z
+    [update_time] => 2024-06-10T02:24:42Z
     [usage_type] => LICENSED
     [product_id] => PROD-1ES34532SK597535U
     [name] => Basic Plan
@@ -614,8 +614,8 @@ Response: Array
                                     [value] => 10.0
                                 )
 
-                            [create_time] => 2024-06-07T09:55:28Z
-                            [update_time] => 2024-06-07T09:55:28Z
+                            [create_time] => 2024-06-10T02:24:42Z
+                            [update_time] => 2024-06-10T02:24:42Z
                         )
 
                     [frequency] => Array
@@ -635,7 +635,7 @@ Response: Array
         (
             [0] => Array
                 (
-                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-1TK71339CT619205KMZRNSEA
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-5C3674942Y675390HMZTGH2Q
                     [rel] => self
                     [method] => GET
                     [encType] => application/json
@@ -643,7 +643,7 @@ Response: Array
 
             [1] => Array
                 (
-                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-1TK71339CT619205KMZRNSEA
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-5C3674942Y675390HMZTGH2Q
                     [rel] => edit
                     [method] => PATCH
                     [encType] => application/json
@@ -651,7 +651,7 @@ Response: Array
 
             [2] => Array
                 (
-                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-1TK71339CT619205KMZRNSEA/deactivate
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-5C3674942Y675390HMZTGH2Q/deactivate
                     [rel] => self
                     [method] => POST
                     [encType] => application/json
@@ -659,14 +659,14 @@ Response: Array
 
         )
 
-    [id] => P-1TK71339CT619205KMZRNSEA
+    [id] => P-5C3674942Y675390HMZTGH2Q
     [status] => ACTIVE
 )
 
 Response: Array
 (
     [quantity_supported] => 
-    [create_time] => 2024-06-07T09:55:28Z
+    [create_time] => 2024-06-10T02:32:10Z
     [payment_preferences] => Array
         (
             [service_type] => PREPAID
@@ -692,7 +692,7 @@ Response: Array
 
         )
 
-    [update_time] => 2024-06-07T09:55:28Z
+    [update_time] => 2024-06-10T02:32:10Z
     [usage_type] => LICENSED
     [product_id] => PROD-1ES34532SK597535U
     [name] => Basic Plan
@@ -709,8 +709,8 @@ Response: Array
                                     [value] => 10.0
                                 )
 
-                            [create_time] => 2024-06-07T09:55:28Z
-                            [update_time] => 2024-06-07T09:55:28Z
+                            [create_time] => 2024-06-10T02:32:10Z
+                            [update_time] => 2024-06-10T02:32:10Z
                         )
 
                     [frequency] => Array
@@ -730,7 +730,7 @@ Response: Array
         (
             [0] => Array
                 (
-                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-1TK71339CT619205KMZRNSEA
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-7BU19314GL0347623MZTGLKQ
                     [rel] => self
                     [method] => GET
                     [encType] => application/json
@@ -738,7 +738,7 @@ Response: Array
 
             [1] => Array
                 (
-                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-1TK71339CT619205KMZRNSEA
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-7BU19314GL0347623MZTGLKQ
                     [rel] => edit
                     [method] => PATCH
                     [encType] => application/json
@@ -746,7 +746,7 @@ Response: Array
 
             [2] => Array
                 (
-                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-1TK71339CT619205KMZRNSEA/deactivate
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-7BU19314GL0347623MZTGLKQ/deactivate
                     [rel] => self
                     [method] => POST
                     [encType] => application/json
@@ -754,14 +754,14 @@ Response: Array
 
         )
 
-    [id] => P-1TK71339CT619205KMZRNSEA
+    [id] => P-7BU19314GL0347623MZTGLKQ
     [status] => ACTIVE
 )
 
 Response: Array
 (
     [quantity_supported] => 
-    [create_time] => 2024-06-07T09:57:21Z
+    [create_time] => 2024-06-10T02:34:27Z
     [payment_preferences] => Array
         (
             [service_type] => PREPAID
@@ -787,7 +787,7 @@ Response: Array
 
         )
 
-    [update_time] => 2024-06-07T09:57:21Z
+    [update_time] => 2024-06-10T02:34:27Z
     [usage_type] => LICENSED
     [product_id] => PROD-1ES34532SK597535U
     [name] => Basic Plan
@@ -804,8 +804,8 @@ Response: Array
                                     [value] => 10.0
                                 )
 
-                            [create_time] => 2024-06-07T09:57:21Z
-                            [update_time] => 2024-06-07T09:57:21Z
+                            [create_time] => 2024-06-10T02:34:27Z
+                            [update_time] => 2024-06-10T02:34:27Z
                         )
 
                     [frequency] => Array
@@ -825,7 +825,7 @@ Response: Array
         (
             [0] => Array
                 (
-                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-1TA26761AC617242GMZRNTAI
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-4VD57970X2428931RMZTGMMY
                     [rel] => self
                     [method] => GET
                     [encType] => application/json
@@ -833,7 +833,7 @@ Response: Array
 
             [1] => Array
                 (
-                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-1TA26761AC617242GMZRNTAI
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-4VD57970X2428931RMZTGMMY
                     [rel] => edit
                     [method] => PATCH
                     [encType] => application/json
@@ -841,7 +841,7 @@ Response: Array
 
             [2] => Array
                 (
-                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-1TA26761AC617242GMZRNTAI/deactivate
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-4VD57970X2428931RMZTGMMY/deactivate
                     [rel] => self
                     [method] => POST
                     [encType] => application/json
@@ -849,7 +849,1909 @@ Response: Array
 
         )
 
-    [id] => P-1TA26761AC617242GMZRNTAI
+    [id] => P-4VD57970X2428931RMZTGMMY
+    [status] => ACTIVE
+)
+
+Response: Array
+(
+    [quantity_supported] => 
+    [create_time] => 2024-06-10T02:37:42Z
+    [payment_preferences] => Array
+        (
+            [service_type] => PREPAID
+            [auto_bill_outstanding] => 1
+            [setup_fee] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [setup_fee_failure_action] => CANCEL
+            [payment_failure_threshold] => 3
+        )
+
+    [version] => 1
+    [payee] => Array
+        (
+            [merchant_id] => 7NS6VD2D2X37C
+            [display_data] => Array
+                (
+                    [business_email] => cs-sb-o0imm29578601@business.example.com
+                )
+
+        )
+
+    [update_time] => 2024-06-10T02:37:42Z
+    [usage_type] => LICENSED
+    [product_id] => PROD-1ES34532SK597535U
+    [name] => Basic Plan
+    [billing_cycles] => Array
+        (
+            [0] => Array
+                (
+                    [pricing_scheme] => Array
+                        (
+                            [version] => 1
+                            [fixed_price] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 10.0
+                                )
+
+                            [create_time] => 2024-06-10T02:37:42Z
+                            [update_time] => 2024-06-10T02:37:42Z
+                        )
+
+                    [frequency] => Array
+                        (
+                            [interval_unit] => MONTH
+                            [interval_count] => 1
+                        )
+
+                    [tenure_type] => REGULAR
+                    [sequence] => 1
+                    [total_cycles] => 12
+                )
+
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-5UN96529CP0086423MZTGN5Q
+                    [rel] => self
+                    [method] => GET
+                    [encType] => application/json
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-5UN96529CP0086423MZTGN5Q
+                    [rel] => edit
+                    [method] => PATCH
+                    [encType] => application/json
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-5UN96529CP0086423MZTGN5Q/deactivate
+                    [rel] => self
+                    [method] => POST
+                    [encType] => application/json
+                )
+
+        )
+
+    [id] => P-5UN96529CP0086423MZTGN5Q
+    [status] => ACTIVE
+)
+
+Response: Array
+(
+    [quantity_supported] => 
+    [create_time] => 2024-06-10T02:41:04Z
+    [payment_preferences] => Array
+        (
+            [service_type] => PREPAID
+            [auto_bill_outstanding] => 1
+            [setup_fee] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [setup_fee_failure_action] => CANCEL
+            [payment_failure_threshold] => 3
+        )
+
+    [version] => 1
+    [payee] => Array
+        (
+            [merchant_id] => 7NS6VD2D2X37C
+            [display_data] => Array
+                (
+                    [business_email] => cs-sb-o0imm29578601@business.example.com
+                )
+
+        )
+
+    [update_time] => 2024-06-10T02:41:04Z
+    [usage_type] => LICENSED
+    [product_id] => PROD-1ES34532SK597535U
+    [name] => Basic Plan
+    [billing_cycles] => Array
+        (
+            [0] => Array
+                (
+                    [pricing_scheme] => Array
+                        (
+                            [version] => 1
+                            [fixed_price] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 10.0
+                                )
+
+                            [create_time] => 2024-06-10T02:41:04Z
+                            [update_time] => 2024-06-10T02:41:04Z
+                        )
+
+                    [frequency] => Array
+                        (
+                            [interval_unit] => MONTH
+                            [interval_count] => 1
+                        )
+
+                    [tenure_type] => REGULAR
+                    [sequence] => 1
+                    [total_cycles] => 12
+                )
+
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-8TS089997C253674WMZTGPQA
+                    [rel] => self
+                    [method] => GET
+                    [encType] => application/json
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-8TS089997C253674WMZTGPQA
+                    [rel] => edit
+                    [method] => PATCH
+                    [encType] => application/json
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-8TS089997C253674WMZTGPQA/deactivate
+                    [rel] => self
+                    [method] => POST
+                    [encType] => application/json
+                )
+
+        )
+
+    [id] => P-8TS089997C253674WMZTGPQA
+    [status] => ACTIVE
+)
+
+Response: Array
+(
+    [quantity_supported] => 
+    [create_time] => 2024-06-10T04:25:27Z
+    [payment_preferences] => Array
+        (
+            [service_type] => PREPAID
+            [auto_bill_outstanding] => 1
+            [setup_fee] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [setup_fee_failure_action] => CANCEL
+            [payment_failure_threshold] => 3
+        )
+
+    [version] => 1
+    [payee] => Array
+        (
+            [merchant_id] => 7NS6VD2D2X37C
+            [display_data] => Array
+                (
+                    [business_email] => cs-sb-o0imm29578601@business.example.com
+                )
+
+        )
+
+    [update_time] => 2024-06-10T04:25:27Z
+    [usage_type] => LICENSED
+    [product_id] => PROD-1ES34532SK597535U
+    [name] => Basic Plan
+    [billing_cycles] => Array
+        (
+            [0] => Array
+                (
+                    [pricing_scheme] => Array
+                        (
+                            [version] => 1
+                            [fixed_price] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 10.0
+                                )
+
+                            [create_time] => 2024-06-10T04:25:27Z
+                            [update_time] => 2024-06-10T04:25:27Z
+                        )
+
+                    [frequency] => Array
+                        (
+                            [interval_unit] => MONTH
+                            [interval_count] => 1
+                        )
+
+                    [tenure_type] => REGULAR
+                    [sequence] => 1
+                    [total_cycles] => 12
+                )
+
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-00R56137NJ1846401MZTIANY
+                    [rel] => self
+                    [method] => GET
+                    [encType] => application/json
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-00R56137NJ1846401MZTIANY
+                    [rel] => edit
+                    [method] => PATCH
+                    [encType] => application/json
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-00R56137NJ1846401MZTIANY/deactivate
+                    [rel] => self
+                    [method] => POST
+                    [encType] => application/json
+                )
+
+        )
+
+    [id] => P-00R56137NJ1846401MZTIANY
+    [status] => ACTIVE
+)
+
+Response: Array
+(
+    [quantity_supported] => 
+    [create_time] => 2024-06-10T04:25:55Z
+    [payment_preferences] => Array
+        (
+            [service_type] => PREPAID
+            [auto_bill_outstanding] => 1
+            [setup_fee] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [setup_fee_failure_action] => CANCEL
+            [payment_failure_threshold] => 3
+        )
+
+    [version] => 1
+    [payee] => Array
+        (
+            [merchant_id] => 7NS6VD2D2X37C
+            [display_data] => Array
+                (
+                    [business_email] => cs-sb-o0imm29578601@business.example.com
+                )
+
+        )
+
+    [update_time] => 2024-06-10T04:25:55Z
+    [usage_type] => LICENSED
+    [product_id] => PROD-1ES34532SK597535U
+    [name] => Basic Plan
+    [billing_cycles] => Array
+        (
+            [0] => Array
+                (
+                    [pricing_scheme] => Array
+                        (
+                            [version] => 1
+                            [fixed_price] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 10.0
+                                )
+
+                            [create_time] => 2024-06-10T04:25:55Z
+                            [update_time] => 2024-06-10T04:25:55Z
+                        )
+
+                    [frequency] => Array
+                        (
+                            [interval_unit] => MONTH
+                            [interval_count] => 2
+                        )
+
+                    [tenure_type] => REGULAR
+                    [sequence] => 1
+                    [total_cycles] => 12
+                )
+
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-64393247AY511982DMZTIAUY
+                    [rel] => self
+                    [method] => GET
+                    [encType] => application/json
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-64393247AY511982DMZTIAUY
+                    [rel] => edit
+                    [method] => PATCH
+                    [encType] => application/json
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-64393247AY511982DMZTIAUY/deactivate
+                    [rel] => self
+                    [method] => POST
+                    [encType] => application/json
+                )
+
+        )
+
+    [id] => P-64393247AY511982DMZTIAUY
+    [status] => ACTIVE
+)
+
+Response: Array
+(
+    [quantity_supported] => 
+    [create_time] => 2024-06-10T04:27:30Z
+    [payment_preferences] => Array
+        (
+            [service_type] => PREPAID
+            [auto_bill_outstanding] => 1
+            [setup_fee] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [setup_fee_failure_action] => CANCEL
+            [payment_failure_threshold] => 3
+        )
+
+    [version] => 1
+    [payee] => Array
+        (
+            [merchant_id] => 7NS6VD2D2X37C
+            [display_data] => Array
+                (
+                    [business_email] => cs-sb-o0imm29578601@business.example.com
+                )
+
+        )
+
+    [update_time] => 2024-06-10T04:27:30Z
+    [usage_type] => LICENSED
+    [product_id] => PROD-1ES34532SK597535U
+    [name] => Basic Plan
+    [billing_cycles] => Array
+        (
+            [0] => Array
+                (
+                    [pricing_scheme] => Array
+                        (
+                            [version] => 1
+                            [fixed_price] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 10.0
+                                )
+
+                            [create_time] => 2024-06-10T04:27:30Z
+                            [update_time] => 2024-06-10T04:27:30Z
+                        )
+
+                    [frequency] => Array
+                        (
+                            [interval_unit] => MONTH
+                            [interval_count] => 1
+                        )
+
+                    [tenure_type] => REGULAR
+                    [sequence] => 1
+                    [total_cycles] => 12
+                )
+
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-2C650761W4332920HMZTIBMQ
+                    [rel] => self
+                    [method] => GET
+                    [encType] => application/json
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-2C650761W4332920HMZTIBMQ
+                    [rel] => edit
+                    [method] => PATCH
+                    [encType] => application/json
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-2C650761W4332920HMZTIBMQ/deactivate
+                    [rel] => self
+                    [method] => POST
+                    [encType] => application/json
+                )
+
+        )
+
+    [id] => P-2C650761W4332920HMZTIBMQ
+    [status] => ACTIVE
+)
+
+Response: Array
+(
+    [quantity_supported] => 
+    [create_time] => 2024-06-10T04:28:26Z
+    [payment_preferences] => Array
+        (
+            [service_type] => PREPAID
+            [auto_bill_outstanding] => 1
+            [setup_fee] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [setup_fee_failure_action] => CANCEL
+            [payment_failure_threshold] => 3
+        )
+
+    [version] => 1
+    [payee] => Array
+        (
+            [merchant_id] => 7NS6VD2D2X37C
+            [display_data] => Array
+                (
+                    [business_email] => cs-sb-o0imm29578601@business.example.com
+                )
+
+        )
+
+    [update_time] => 2024-06-10T04:28:26Z
+    [usage_type] => LICENSED
+    [product_id] => PROD-1ES34532SK597535U
+    [name] => Basic Plan
+    [billing_cycles] => Array
+        (
+            [0] => Array
+                (
+                    [pricing_scheme] => Array
+                        (
+                            [version] => 1
+                            [fixed_price] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 10.0
+                                )
+
+                            [create_time] => 2024-06-10T04:28:26Z
+                            [update_time] => 2024-06-10T04:28:26Z
+                        )
+
+                    [frequency] => Array
+                        (
+                            [interval_unit] => MONTH
+                            [interval_count] => 1
+                        )
+
+                    [tenure_type] => REGULAR
+                    [sequence] => 1
+                    [total_cycles] => 12
+                )
+
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-7KT14943HM708652EMZTIB2Q
+                    [rel] => self
+                    [method] => GET
+                    [encType] => application/json
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-7KT14943HM708652EMZTIB2Q
+                    [rel] => edit
+                    [method] => PATCH
+                    [encType] => application/json
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-7KT14943HM708652EMZTIB2Q/deactivate
+                    [rel] => self
+                    [method] => POST
+                    [encType] => application/json
+                )
+
+        )
+
+    [id] => P-7KT14943HM708652EMZTIB2Q
+    [status] => ACTIVE
+)
+
+Response: Array
+(
+    [quantity_supported] => 
+    [create_time] => 2024-06-10T04:55:23Z
+    [payment_preferences] => Array
+        (
+            [service_type] => PREPAID
+            [auto_bill_outstanding] => 1
+            [setup_fee] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [setup_fee_failure_action] => CANCEL
+            [payment_failure_threshold] => 3
+        )
+
+    [version] => 1
+    [payee] => Array
+        (
+            [merchant_id] => 7NS6VD2D2X37C
+            [display_data] => Array
+                (
+                    [business_email] => cs-sb-o0imm29578601@business.example.com
+                )
+
+        )
+
+    [update_time] => 2024-06-10T04:55:23Z
+    [usage_type] => LICENSED
+    [product_id] => PROD-1ES34532SK597535U
+    [name] => Basic Plan
+    [billing_cycles] => Array
+        (
+            [0] => Array
+                (
+                    [pricing_scheme] => Array
+                        (
+                            [version] => 1
+                            [fixed_price] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 10.0
+                                )
+
+                            [create_time] => 2024-06-10T04:55:23Z
+                            [update_time] => 2024-06-10T04:55:23Z
+                        )
+
+                    [frequency] => Array
+                        (
+                            [interval_unit] => MONTH
+                            [interval_count] => 1
+                        )
+
+                    [tenure_type] => REGULAR
+                    [sequence] => 1
+                    [total_cycles] => 12
+                )
+
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-2GL48719MS899890CMZTIOOY
+                    [rel] => self
+                    [method] => GET
+                    [encType] => application/json
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-2GL48719MS899890CMZTIOOY
+                    [rel] => edit
+                    [method] => PATCH
+                    [encType] => application/json
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-2GL48719MS899890CMZTIOOY/deactivate
+                    [rel] => self
+                    [method] => POST
+                    [encType] => application/json
+                )
+
+        )
+
+    [id] => P-2GL48719MS899890CMZTIOOY
+    [status] => ACTIVE
+)
+
+Response: 1717995473
+Response: Array
+(
+    [quantity_supported] => 
+    [create_time] => 2024-06-10T06:46:37Z
+    [payment_preferences] => Array
+        (
+            [service_type] => PREPAID
+            [auto_bill_outstanding] => 1
+            [setup_fee] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [setup_fee_failure_action] => CANCEL
+            [payment_failure_threshold] => 3
+        )
+
+    [version] => 1
+    [payee] => Array
+        (
+            [merchant_id] => 7NS6VD2D2X37C
+            [display_data] => Array
+                (
+                    [business_email] => cs-sb-o0imm29578601@business.example.com
+                )
+
+        )
+
+    [update_time] => 2024-06-10T06:46:37Z
+    [usage_type] => LICENSED
+    [product_id] => PROD-1ES34532SK597535U
+    [name] => Basic Plan
+    [billing_cycles] => Array
+        (
+            [0] => Array
+                (
+                    [pricing_scheme] => Array
+                        (
+                            [version] => 1
+                            [fixed_price] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 10.0
+                                )
+
+                            [create_time] => 2024-06-10T06:46:37Z
+                            [update_time] => 2024-06-10T06:46:37Z
+                        )
+
+                    [frequency] => Array
+                        (
+                            [interval_unit] => MONTH
+                            [interval_count] => 1
+                        )
+
+                    [tenure_type] => REGULAR
+                    [sequence] => 1
+                    [total_cycles] => 12
+                )
+
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-70757618F4503074JMZTKCTI
+                    [rel] => self
+                    [method] => GET
+                    [encType] => application/json
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-70757618F4503074JMZTKCTI
+                    [rel] => edit
+                    [method] => PATCH
+                    [encType] => application/json
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-70757618F4503074JMZTKCTI/deactivate
+                    [rel] => self
+                    [method] => POST
+                    [encType] => application/json
+                )
+
+        )
+
+    [id] => P-70757618F4503074JMZTKCTI
+    [status] => ACTIVE
+)
+
+Response: 1720594039
+Response: Array
+(
+    [quantity_supported] => 
+    [create_time] => 2024-06-10T06:49:57Z
+    [payment_preferences] => Array
+        (
+            [service_type] => PREPAID
+            [auto_bill_outstanding] => 1
+            [setup_fee] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [setup_fee_failure_action] => CANCEL
+            [payment_failure_threshold] => 3
+        )
+
+    [version] => 1
+    [payee] => Array
+        (
+            [merchant_id] => 7NS6VD2D2X37C
+            [display_data] => Array
+                (
+                    [business_email] => cs-sb-o0imm29578601@business.example.com
+                )
+
+        )
+
+    [update_time] => 2024-06-10T06:49:57Z
+    [usage_type] => LICENSED
+    [product_id] => PROD-1ES34532SK597535U
+    [name] => Basic Plan
+    [billing_cycles] => Array
+        (
+            [0] => Array
+                (
+                    [pricing_scheme] => Array
+                        (
+                            [version] => 1
+                            [fixed_price] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 10.0
+                                )
+
+                            [create_time] => 2024-06-10T06:49:57Z
+                            [update_time] => 2024-06-10T06:49:57Z
+                        )
+
+                    [frequency] => Array
+                        (
+                            [interval_unit] => MONTH
+                            [interval_count] => 1
+                        )
+
+                    [tenure_type] => REGULAR
+                    [sequence] => 1
+                    [total_cycles] => 12
+                )
+
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-7PR585546V412723EMZTKEFI
+                    [rel] => self
+                    [method] => GET
+                    [encType] => application/json
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-7PR585546V412723EMZTKEFI
+                    [rel] => edit
+                    [method] => PATCH
+                    [encType] => application/json
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-7PR585546V412723EMZTKEFI/deactivate
+                    [rel] => self
+                    [method] => POST
+                    [encType] => application/json
+                )
+
+        )
+
+    [id] => P-7PR585546V412723EMZTKEFI
+    [status] => ACTIVE
+)
+
+Response: Array
+(
+    [quantity_supported] => 
+    [create_time] => 2024-06-10T06:53:47Z
+    [payment_preferences] => Array
+        (
+            [service_type] => PREPAID
+            [auto_bill_outstanding] => 1
+            [setup_fee] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [setup_fee_failure_action] => CANCEL
+            [payment_failure_threshold] => 3
+        )
+
+    [version] => 1
+    [payee] => Array
+        (
+            [merchant_id] => 7NS6VD2D2X37C
+            [display_data] => Array
+                (
+                    [business_email] => cs-sb-o0imm29578601@business.example.com
+                )
+
+        )
+
+    [update_time] => 2024-06-10T06:53:47Z
+    [usage_type] => LICENSED
+    [product_id] => PROD-1ES34532SK597535U
+    [name] => Basic Plan
+    [billing_cycles] => Array
+        (
+            [0] => Array
+                (
+                    [pricing_scheme] => Array
+                        (
+                            [version] => 1
+                            [fixed_price] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 10.0
+                                )
+
+                            [create_time] => 2024-06-10T06:53:47Z
+                            [update_time] => 2024-06-10T06:53:47Z
+                        )
+
+                    [frequency] => Array
+                        (
+                            [interval_unit] => DAY
+                            [interval_count] => 1
+                        )
+
+                    [tenure_type] => REGULAR
+                    [sequence] => 1
+                    [total_cycles] => 12
+                )
+
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-4064371254028620JMZTKF6Y
+                    [rel] => self
+                    [method] => GET
+                    [encType] => application/json
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-4064371254028620JMZTKF6Y
+                    [rel] => edit
+                    [method] => PATCH
+                    [encType] => application/json
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-4064371254028620JMZTKF6Y/deactivate
+                    [rel] => self
+                    [method] => POST
+                    [encType] => application/json
+                )
+
+        )
+
+    [id] => P-4064371254028620JMZTKF6Y
+    [status] => ACTIVE
+)
+
+Response: Array
+(
+    [quantity_supported] => 
+    [create_time] => 2024-06-10T07:00:20Z
+    [payment_preferences] => Array
+        (
+            [service_type] => PREPAID
+            [auto_bill_outstanding] => 1
+            [setup_fee] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [setup_fee_failure_action] => CANCEL
+            [payment_failure_threshold] => 3
+        )
+
+    [version] => 1
+    [payee] => Array
+        (
+            [merchant_id] => 7NS6VD2D2X37C
+            [display_data] => Array
+                (
+                    [business_email] => cs-sb-o0imm29578601@business.example.com
+                )
+
+        )
+
+    [update_time] => 2024-06-10T07:00:20Z
+    [usage_type] => LICENSED
+    [product_id] => PROD-1ES34532SK597535U
+    [name] => Basic Plan
+    [billing_cycles] => Array
+        (
+            [0] => Array
+                (
+                    [pricing_scheme] => Array
+                        (
+                            [version] => 1
+                            [fixed_price] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 10.0
+                                )
+
+                            [create_time] => 2024-06-10T07:00:20Z
+                            [update_time] => 2024-06-10T07:00:20Z
+                        )
+
+                    [frequency] => Array
+                        (
+                            [interval_unit] => DAY
+                            [interval_count] => 1
+                        )
+
+                    [tenure_type] => REGULAR
+                    [sequence] => 1
+                    [total_cycles] => 12
+                )
+
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-34P50595XB780300FMZTKJBA
+                    [rel] => self
+                    [method] => GET
+                    [encType] => application/json
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-34P50595XB780300FMZTKJBA
+                    [rel] => edit
+                    [method] => PATCH
+                    [encType] => application/json
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-34P50595XB780300FMZTKJBA/deactivate
+                    [rel] => self
+                    [method] => POST
+                    [encType] => application/json
+                )
+
+        )
+
+    [id] => P-34P50595XB780300FMZTKJBA
+    [status] => ACTIVE
+)
+
+Response: Array
+(
+    [quantity_supported] => 
+    [create_time] => 2024-06-10T07:12:21Z
+    [payment_preferences] => Array
+        (
+            [service_type] => PREPAID
+            [auto_bill_outstanding] => 1
+            [setup_fee] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [setup_fee_failure_action] => CANCEL
+            [payment_failure_threshold] => 3
+        )
+
+    [version] => 1
+    [payee] => Array
+        (
+            [merchant_id] => 7NS6VD2D2X37C
+            [display_data] => Array
+                (
+                    [business_email] => cs-sb-o0imm29578601@business.example.com
+                )
+
+        )
+
+    [update_time] => 2024-06-10T07:12:21Z
+    [usage_type] => LICENSED
+    [product_id] => PROD-1ES34532SK597535U
+    [name] => Basic Plan
+    [billing_cycles] => Array
+        (
+            [0] => Array
+                (
+                    [pricing_scheme] => Array
+                        (
+                            [version] => 1
+                            [fixed_price] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 10.0
+                                )
+
+                            [create_time] => 2024-06-10T07:12:21Z
+                            [update_time] => 2024-06-10T07:12:21Z
+                        )
+
+                    [frequency] => Array
+                        (
+                            [interval_unit] => DAY
+                            [interval_count] => 1
+                        )
+
+                    [tenure_type] => REGULAR
+                    [sequence] => 1
+                    [total_cycles] => 12
+                )
+
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-98S09597Y06366718MZTKOVI
+                    [rel] => self
+                    [method] => GET
+                    [encType] => application/json
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-98S09597Y06366718MZTKOVI
+                    [rel] => edit
+                    [method] => PATCH
+                    [encType] => application/json
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-98S09597Y06366718MZTKOVI/deactivate
+                    [rel] => self
+                    [method] => POST
+                    [encType] => application/json
+                )
+
+        )
+
+    [id] => P-98S09597Y06366718MZTKOVI
+    [status] => ACTIVE
+)
+
+Response: Array
+(
+    [quantity_supported] => 
+    [create_time] => 2024-06-10T07:00:20Z
+    [payment_preferences] => Array
+        (
+            [service_type] => PREPAID
+            [auto_bill_outstanding] => 1
+            [setup_fee] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [setup_fee_failure_action] => CANCEL
+            [payment_failure_threshold] => 3
+        )
+
+    [version] => 1
+    [payee] => Array
+        (
+            [merchant_id] => 7NS6VD2D2X37C
+            [display_data] => Array
+                (
+                    [business_email] => cs-sb-o0imm29578601@business.example.com
+                )
+
+        )
+
+    [update_time] => 2024-06-10T07:00:20Z
+    [usage_type] => LICENSED
+    [product_id] => PROD-1ES34532SK597535U
+    [name] => Basic Plan
+    [billing_cycles] => Array
+        (
+            [0] => Array
+                (
+                    [pricing_scheme] => Array
+                        (
+                            [version] => 1
+                            [fixed_price] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 10.0
+                                )
+
+                            [create_time] => 2024-06-10T07:00:20Z
+                            [update_time] => 2024-06-10T07:00:20Z
+                        )
+
+                    [frequency] => Array
+                        (
+                            [interval_unit] => DAY
+                            [interval_count] => 1
+                        )
+
+                    [tenure_type] => REGULAR
+                    [sequence] => 1
+                    [total_cycles] => 12
+                )
+
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-34P50595XB780300FMZTKJBA
+                    [rel] => self
+                    [method] => GET
+                    [encType] => application/json
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-34P50595XB780300FMZTKJBA
+                    [rel] => edit
+                    [method] => PATCH
+                    [encType] => application/json
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-34P50595XB780300FMZTKJBA/deactivate
+                    [rel] => self
+                    [method] => POST
+                    [encType] => application/json
+                )
+
+        )
+
+    [id] => P-34P50595XB780300FMZTKJBA
+    [status] => ACTIVE
+)
+
+Response: Array
+(
+    [quantity_supported] => 
+    [create_time] => 2024-06-11T01:17:17Z
+    [payment_preferences] => Array
+        (
+            [service_type] => PREPAID
+            [auto_bill_outstanding] => 1
+            [setup_fee] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [setup_fee_failure_action] => CANCEL
+            [payment_failure_threshold] => 3
+        )
+
+    [version] => 1
+    [payee] => Array
+        (
+            [merchant_id] => 7NS6VD2D2X37C
+            [display_data] => Array
+                (
+                    [business_email] => cs-sb-o0imm29578601@business.example.com
+                )
+
+        )
+
+    [update_time] => 2024-06-11T01:17:17Z
+    [usage_type] => LICENSED
+    [product_id] => PROD-1ES34532SK597535U
+    [name] => Basic Plan
+    [billing_cycles] => Array
+        (
+            [0] => Array
+                (
+                    [pricing_scheme] => Array
+                        (
+                            [version] => 1
+                            [fixed_price] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 10.0
+                                )
+
+                            [create_time] => 2024-06-11T01:17:17Z
+                            [update_time] => 2024-06-11T01:17:17Z
+                        )
+
+                    [frequency] => Array
+                        (
+                            [interval_unit] => DAY
+                            [interval_count] => 1
+                        )
+
+                    [tenure_type] => REGULAR
+                    [sequence] => 1
+                    [total_cycles] => 12
+                )
+
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-4S9971757F834070HMZT2LHI
+                    [rel] => self
+                    [method] => GET
+                    [encType] => application/json
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-4S9971757F834070HMZT2LHI
+                    [rel] => edit
+                    [method] => PATCH
+                    [encType] => application/json
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-4S9971757F834070HMZT2LHI/deactivate
+                    [rel] => self
+                    [method] => POST
+                    [encType] => application/json
+                )
+
+        )
+
+    [id] => P-4S9971757F834070HMZT2LHI
+    [status] => ACTIVE
+)
+
+Response: Array
+(
+    [quantity_supported] => 
+    [create_time] => 2024-06-11T01:18:33Z
+    [payment_preferences] => Array
+        (
+            [service_type] => PREPAID
+            [auto_bill_outstanding] => 1
+            [setup_fee] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [setup_fee_failure_action] => CANCEL
+            [payment_failure_threshold] => 3
+        )
+
+    [version] => 1
+    [payee] => Array
+        (
+            [merchant_id] => 7NS6VD2D2X37C
+            [display_data] => Array
+                (
+                    [business_email] => cs-sb-o0imm29578601@business.example.com
+                )
+
+        )
+
+    [update_time] => 2024-06-11T01:18:33Z
+    [usage_type] => LICENSED
+    [product_id] => PROD-1ES34532SK597535U
+    [name] => Basic Plan
+    [billing_cycles] => Array
+        (
+            [0] => Array
+                (
+                    [pricing_scheme] => Array
+                        (
+                            [version] => 1
+                            [fixed_price] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 10.0
+                                )
+
+                            [create_time] => 2024-06-11T01:18:33Z
+                            [update_time] => 2024-06-11T01:18:33Z
+                        )
+
+                    [frequency] => Array
+                        (
+                            [interval_unit] => DAY
+                            [interval_count] => 1
+                        )
+
+                    [tenure_type] => REGULAR
+                    [sequence] => 1
+                    [total_cycles] => 12
+                )
+
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-73R54427069361119MZT2L2I
+                    [rel] => self
+                    [method] => GET
+                    [encType] => application/json
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-73R54427069361119MZT2L2I
+                    [rel] => edit
+                    [method] => PATCH
+                    [encType] => application/json
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-73R54427069361119MZT2L2I/deactivate
+                    [rel] => self
+                    [method] => POST
+                    [encType] => application/json
+                )
+
+        )
+
+    [id] => P-73R54427069361119MZT2L2I
+    [status] => ACTIVE
+)
+
+Response: Array
+(
+    [quantity_supported] => 
+    [create_time] => 2024-06-11T01:53:28Z
+    [payment_preferences] => Array
+        (
+            [service_type] => PREPAID
+            [auto_bill_outstanding] => 1
+            [setup_fee] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [setup_fee_failure_action] => CANCEL
+            [payment_failure_threshold] => 3
+        )
+
+    [version] => 1
+    [payee] => Array
+        (
+            [merchant_id] => 7NS6VD2D2X37C
+            [display_data] => Array
+                (
+                    [business_email] => cs-sb-o0imm29578601@business.example.com
+                )
+
+        )
+
+    [update_time] => 2024-06-11T01:53:28Z
+    [usage_type] => LICENSED
+    [product_id] => PROD-1ES34532SK597535U
+    [name] => Basic Plan
+    [billing_cycles] => Array
+        (
+            [0] => Array
+                (
+                    [pricing_scheme] => Array
+                        (
+                            [version] => 1
+                            [fixed_price] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 10.0
+                                )
+
+                            [create_time] => 2024-06-11T01:53:28Z
+                            [update_time] => 2024-06-11T01:53:28Z
+                        )
+
+                    [frequency] => Array
+                        (
+                            [interval_unit] => DAY
+                            [interval_count] => 1
+                        )
+
+                    [tenure_type] => REGULAR
+                    [sequence] => 1
+                    [total_cycles] => 12
+                )
+
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-5WJ08925GX510173CMZT24GA
+                    [rel] => self
+                    [method] => GET
+                    [encType] => application/json
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-5WJ08925GX510173CMZT24GA
+                    [rel] => edit
+                    [method] => PATCH
+                    [encType] => application/json
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-5WJ08925GX510173CMZT24GA/deactivate
+                    [rel] => self
+                    [method] => POST
+                    [encType] => application/json
+                )
+
+        )
+
+    [id] => P-5WJ08925GX510173CMZT24GA
+    [status] => ACTIVE
+)
+
+Response: Array
+(
+    [quantity_supported] => 
+    [create_time] => 2024-06-11T01:54:19Z
+    [payment_preferences] => Array
+        (
+            [service_type] => PREPAID
+            [auto_bill_outstanding] => 1
+            [setup_fee] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [setup_fee_failure_action] => CANCEL
+            [payment_failure_threshold] => 3
+        )
+
+    [version] => 1
+    [payee] => Array
+        (
+            [merchant_id] => 7NS6VD2D2X37C
+            [display_data] => Array
+                (
+                    [business_email] => cs-sb-o0imm29578601@business.example.com
+                )
+
+        )
+
+    [update_time] => 2024-06-11T01:54:19Z
+    [usage_type] => LICENSED
+    [product_id] => PROD-1ES34532SK597535U
+    [name] => Basic Plan
+    [billing_cycles] => Array
+        (
+            [0] => Array
+                (
+                    [pricing_scheme] => Array
+                        (
+                            [version] => 1
+                            [fixed_price] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 10.0
+                                )
+
+                            [create_time] => 2024-06-11T01:54:19Z
+                            [update_time] => 2024-06-11T01:54:19Z
+                        )
+
+                    [frequency] => Array
+                        (
+                            [interval_unit] => DAY
+                            [interval_count] => 1
+                        )
+
+                    [tenure_type] => REGULAR
+                    [sequence] => 1
+                    [total_cycles] => 12
+                )
+
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-43310341C57901932MZT24SY
+                    [rel] => self
+                    [method] => GET
+                    [encType] => application/json
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-43310341C57901932MZT24SY
+                    [rel] => edit
+                    [method] => PATCH
+                    [encType] => application/json
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-43310341C57901932MZT24SY/deactivate
+                    [rel] => self
+                    [method] => POST
+                    [encType] => application/json
+                )
+
+        )
+
+    [id] => P-43310341C57901932MZT24SY
+    [status] => ACTIVE
+)
+
+Response: Array
+(
+    [quantity_supported] => 
+    [create_time] => 2024-06-12T01:43:45Z
+    [payment_preferences] => Array
+        (
+            [service_type] => PREPAID
+            [auto_bill_outstanding] => 1
+            [setup_fee] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [setup_fee_failure_action] => CANCEL
+            [payment_failure_threshold] => 3
+        )
+
+    [version] => 1
+    [payee] => Array
+        (
+            [merchant_id] => 7NS6VD2D2X37C
+            [display_data] => Array
+                (
+                    [business_email] => cs-sb-o0imm29578601@business.example.com
+                )
+
+        )
+
+    [update_time] => 2024-06-12T01:43:45Z
+    [usage_type] => LICENSED
+    [product_id] => PROD-1ES34532SK597535U
+    [name] => Basic Plan
+    [billing_cycles] => Array
+        (
+            [0] => Array
+                (
+                    [pricing_scheme] => Array
+                        (
+                            [version] => 1
+                            [fixed_price] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 10.0
+                                )
+
+                            [create_time] => 2024-06-12T01:43:45Z
+                            [update_time] => 2024-06-12T01:43:45Z
+                        )
+
+                    [frequency] => Array
+                        (
+                            [interval_unit] => DAY
+                            [interval_count] => 1
+                        )
+
+                    [tenure_type] => REGULAR
+                    [sequence] => 1
+                    [total_cycles] => 12
+                )
+
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-0BX62858LX8361339MZUP2UI
+                    [rel] => self
+                    [method] => GET
+                    [encType] => application/json
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-0BX62858LX8361339MZUP2UI
+                    [rel] => edit
+                    [method] => PATCH
+                    [encType] => application/json
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-0BX62858LX8361339MZUP2UI/deactivate
+                    [rel] => self
+                    [method] => POST
+                    [encType] => application/json
+                )
+
+        )
+
+    [id] => P-0BX62858LX8361339MZUP2UI
+    [status] => ACTIVE
+)
+
+Response: Array
+(
+    [quantity_supported] => 
+    [create_time] => 2024-06-12T01:46:43Z
+    [payment_preferences] => Array
+        (
+            [service_type] => PREPAID
+            [auto_bill_outstanding] => 1
+            [setup_fee] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [setup_fee_failure_action] => CANCEL
+            [payment_failure_threshold] => 3
+        )
+
+    [version] => 1
+    [payee] => Array
+        (
+            [merchant_id] => 7NS6VD2D2X37C
+            [display_data] => Array
+                (
+                    [business_email] => cs-sb-o0imm29578601@business.example.com
+                )
+
+        )
+
+    [update_time] => 2024-06-12T01:46:43Z
+    [usage_type] => LICENSED
+    [product_id] => PROD-1ES34532SK597535U
+    [name] => Basic Plan
+    [billing_cycles] => Array
+        (
+            [0] => Array
+                (
+                    [pricing_scheme] => Array
+                        (
+                            [version] => 1
+                            [fixed_price] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 10.0
+                                )
+
+                            [create_time] => 2024-06-12T01:46:43Z
+                            [update_time] => 2024-06-12T01:46:43Z
+                        )
+
+                    [frequency] => Array
+                        (
+                            [interval_unit] => DAY
+                            [interval_count] => 1
+                        )
+
+                    [tenure_type] => REGULAR
+                    [sequence] => 1
+                    [total_cycles] => 12
+                )
+
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-3UE94236240236747MZUP4AY
+                    [rel] => self
+                    [method] => GET
+                    [encType] => application/json
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-3UE94236240236747MZUP4AY
+                    [rel] => edit
+                    [method] => PATCH
+                    [encType] => application/json
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-3UE94236240236747MZUP4AY/deactivate
+                    [rel] => self
+                    [method] => POST
+                    [encType] => application/json
+                )
+
+        )
+
+    [id] => P-3UE94236240236747MZUP4AY
+    [status] => ACTIVE
+)
+
+Response: Array
+(
+    [quantity_supported] => 
+    [create_time] => 2024-06-12T01:53:02Z
+    [payment_preferences] => Array
+        (
+            [service_type] => PREPAID
+            [auto_bill_outstanding] => 1
+            [setup_fee] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [setup_fee_failure_action] => CANCEL
+            [payment_failure_threshold] => 3
+        )
+
+    [version] => 1
+    [payee] => Array
+        (
+            [merchant_id] => 7NS6VD2D2X37C
+            [display_data] => Array
+                (
+                    [business_email] => cs-sb-o0imm29578601@business.example.com
+                )
+
+        )
+
+    [update_time] => 2024-06-12T01:53:02Z
+    [usage_type] => LICENSED
+    [product_id] => PROD-1ES34532SK597535U
+    [name] => Basic Plan
+    [billing_cycles] => Array
+        (
+            [0] => Array
+                (
+                    [pricing_scheme] => Array
+                        (
+                            [version] => 1
+                            [fixed_price] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 10.0
+                                )
+
+                            [create_time] => 2024-06-12T01:53:02Z
+                            [update_time] => 2024-06-12T01:53:02Z
+                        )
+
+                    [frequency] => Array
+                        (
+                            [interval_unit] => DAY
+                            [interval_count] => 1
+                        )
+
+                    [tenure_type] => REGULAR
+                    [sequence] => 1
+                    [total_cycles] => 12
+                )
+
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-2EK98361AH274625CMZUP67Q
+                    [rel] => self
+                    [method] => GET
+                    [encType] => application/json
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-2EK98361AH274625CMZUP67Q
+                    [rel] => edit
+                    [method] => PATCH
+                    [encType] => application/json
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-2EK98361AH274625CMZUP67Q/deactivate
+                    [rel] => self
+                    [method] => POST
+                    [encType] => application/json
+                )
+
+        )
+
+    [id] => P-2EK98361AH274625CMZUP67Q
     [status] => ACTIVE
 )
 

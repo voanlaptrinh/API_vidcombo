@@ -1,0 +1,1883 @@
+Response: Array
+(
+    [start_time] => 2024-06-10T01:39:04Z
+    [quantity] => 1
+    [subscriber] => Array
+        (
+            [email_address] => khanh@gmai.com
+            [name] => Array
+                (
+                    [given_name] => John
+                    [surname] => Doe
+                )
+
+        )
+
+    [create_time] => 2024-06-10T01:38:10Z
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-034734773S7679207
+                    [rel] => approve
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-YPNSVR5VEW5E
+                    [rel] => edit
+                    [method] => PATCH
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-YPNSVR5VEW5E
+                    [rel] => self
+                    [method] => GET
+                )
+
+        )
+
+    [id] => I-YPNSVR5VEW5E
+    [plan_overridden] => 
+    [plan_id] => P-3E611218XW047773YMZTFSAI
+    [status] => APPROVAL_PENDING
+)
+
+Response: Array
+(
+    [start_time] => 2024-06-10T01:40:26Z
+    [quantity] => 1
+    [subscriber] => Array
+        (
+            [email_address] => khanh@gmai.com
+            [name] => Array
+                (
+                    [given_name] => John
+                    [surname] => Doe
+                )
+
+        )
+
+    [create_time] => 2024-06-10T01:39:32Z
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-7L857806XD604501U
+                    [rel] => approve
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-M4F72ANK3HL9
+                    [rel] => edit
+                    [method] => PATCH
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-M4F72ANK3HL9
+                    [rel] => self
+                    [method] => GET
+                )
+
+        )
+
+    [id] => I-M4F72ANK3HL9
+    [plan_overridden] => 
+    [plan_id] => P-3PC56372SU924025MMZTFSUY
+    [status] => APPROVAL_PENDING
+)
+
+Response: Array
+(
+    [start_time] => 2024-06-10T01:42:20Z
+    [quantity] => 1
+    [subscriber] => Array
+        (
+            [email_address] => khanh@gmai.com
+            [name] => Array
+                (
+                    [given_name] => John
+                    [surname] => Doe
+                )
+
+        )
+
+    [create_time] => 2024-06-10T01:41:27Z
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-7UU41852V12397527
+                    [rel] => approve
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-58P81U4SG8XX
+                    [rel] => edit
+                    [method] => PATCH
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-58P81U4SG8XX
+                    [rel] => self
+                    [method] => GET
+                )
+
+        )
+
+    [id] => I-58P81U4SG8XX
+    [plan_overridden] => 
+    [plan_id] => P-60660427L8981143TMZTFTRQ
+    [status] => APPROVAL_PENDING
+)
+
+Response: Array
+(
+    [start_time] => 2024-06-10T01:44:14Z
+    [quantity] => 1
+    [subscriber] => Array
+        (
+            [email_address] => khanh@gmai.com
+            [name] => Array
+                (
+                    [given_name] => John
+                    [surname] => Doe
+                )
+
+        )
+
+    [create_time] => 2024-06-10T01:43:20Z
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-8N466306U09719010
+                    [rel] => approve
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-1FU8J8NGVGFS
+                    [rel] => edit
+                    [method] => PATCH
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-1FU8J8NGVGFS
+                    [rel] => self
+                    [method] => GET
+                )
+
+        )
+
+    [id] => I-1FU8J8NGVGFS
+    [plan_overridden] => 
+    [plan_id] => P-9G037004US541645PMZTFUNY
+    [status] => APPROVAL_PENDING
+)
+
+Response: Array
+(
+    [start_time] => 2024-06-10T02:14:58Z
+    [quantity] => 1
+    [subscriber] => Array
+        (
+            [email_address] => khanh@gmai.com
+            [name] => Array
+                (
+                    [given_name] => John
+                    [surname] => Doe
+                )
+
+        )
+
+    [create_time] => 2024-06-10T02:14:04Z
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-1XV71034HL807670V
+                    [rel] => approve
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-MKXEURHRDACW
+                    [rel] => edit
+                    [method] => PATCH
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-MKXEURHRDACW
+                    [rel] => self
+                    [method] => GET
+                )
+
+        )
+
+    [id] => I-MKXEURHRDACW
+    [plan_overridden] => 
+    [plan_id] => P-2N4106900P986170AMZTGC2Y
+    [status] => APPROVAL_PENDING
+)
+
+Response: Array
+(
+    [start_time] => 2024-06-10T02:16:16Z
+    [quantity] => 1
+    [subscriber] => Array
+        (
+            [email_address] => khanh@gmai.com
+            [name] => Array
+                (
+                    [given_name] => John
+                    [surname] => Doe
+                )
+
+        )
+
+    [create_time] => 2024-06-10T02:15:22Z
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-01188268HU569693F
+                    [rel] => approve
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-L0N9GPHJLC5D
+                    [rel] => edit
+                    [method] => PATCH
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-L0N9GPHJLC5D
+                    [rel] => self
+                    [method] => GET
+                )
+
+        )
+
+    [id] => I-L0N9GPHJLC5D
+    [plan_overridden] => 
+    [plan_id] => P-04U68496C55818332MZTGDOI
+    [status] => APPROVAL_PENDING
+)
+
+Response: Array
+(
+    [start_time] => 2024-06-10T02:17:58Z
+    [quantity] => 1
+    [subscriber] => Array
+        (
+            [email_address] => khanh@gmai.com
+            [name] => Array
+                (
+                    [given_name] => John
+                    [surname] => Doe
+                )
+
+        )
+
+    [create_time] => 2024-06-10T02:17:04Z
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-3D528482SF9161314
+                    [rel] => approve
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-YFM38C28C518
+                    [rel] => edit
+                    [method] => PATCH
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-YFM38C28C518
+                    [rel] => self
+                    [method] => GET
+                )
+
+        )
+
+    [id] => I-YFM38C28C518
+    [plan_overridden] => 
+    [plan_id] => P-47991366UM472625HMZTGEHY
+    [status] => APPROVAL_PENDING
+)
+
+Response: Array
+(
+    [start_time] => 2024-06-10T02:18:42Z
+    [quantity] => 1
+    [subscriber] => Array
+        (
+            [email_address] => khanh@gmai.com
+            [name] => Array
+                (
+                    [given_name] => John
+                    [surname] => Doe
+                )
+
+        )
+
+    [create_time] => 2024-06-10T02:17:49Z
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-0J307758VS220992L
+                    [rel] => approve
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-UECEPWGF0YYW
+                    [rel] => edit
+                    [method] => PATCH
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-UECEPWGF0YYW
+                    [rel] => self
+                    [method] => GET
+                )
+
+        )
+
+    [id] => I-UECEPWGF0YYW
+    [plan_overridden] => 
+    [plan_id] => P-79M82210AD9627526MZTGETA
+    [status] => APPROVAL_PENDING
+)
+
+Response: Array
+(
+    [start_time] => 2024-06-10T02:25:37Z
+    [quantity] => 1
+    [subscriber] => Array
+        (
+            [email_address] => khanh@gmai.com
+            [name] => Array
+                (
+                    [given_name] => John
+                    [surname] => Doe
+                )
+
+        )
+
+    [create_time] => 2024-06-10T02:24:43Z
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-6HS84141NF366820F
+                    [rel] => approve
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-F6748SGLPARE
+                    [rel] => edit
+                    [method] => PATCH
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-F6748SGLPARE
+                    [rel] => self
+                    [method] => GET
+                )
+
+        )
+
+    [id] => I-F6748SGLPARE
+    [plan_overridden] => 
+    [plan_id] => P-5C3674942Y675390HMZTGH2Q
+    [status] => APPROVAL_PENDING
+)
+
+Response: Array
+(
+    [start_time] => 2024-06-10T02:25:57Z
+    [quantity] => 1
+    [subscriber] => Array
+        (
+            [email_address] => khanh@gmai.com
+            [name] => Array
+                (
+                    [given_name] => John
+                    [surname] => Doe
+                )
+
+        )
+
+    [create_time] => 2024-06-10T02:25:03Z
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-5RY1693144203510L
+                    [rel] => approve
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-KVFV1L5HHJH9
+                    [rel] => edit
+                    [method] => PATCH
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-KVFV1L5HHJH9
+                    [rel] => self
+                    [method] => GET
+                )
+
+        )
+
+    [id] => I-KVFV1L5HHJH9
+    [plan_overridden] => 
+    [plan_id] => P-9TS645701J261222EMZTGH7Q
+    [status] => APPROVAL_PENDING
+)
+
+Response: Array
+(
+    [start_time] => 2024-06-10T02:33:04Z
+    [quantity] => 1
+    [subscriber] => Array
+        (
+            [email_address] => khanh@gmai.com
+            [name] => Array
+                (
+                    [given_name] => John
+                    [surname] => Doe
+                )
+
+        )
+
+    [create_time] => 2024-06-10T02:32:11Z
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-8CU65543HP085542W
+                    [rel] => approve
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-2KPA7C57XJ5S
+                    [rel] => edit
+                    [method] => PATCH
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-2KPA7C57XJ5S
+                    [rel] => self
+                    [method] => GET
+                )
+
+        )
+
+    [id] => I-2KPA7C57XJ5S
+    [plan_overridden] => 
+    [plan_id] => P-7BU19314GL0347623MZTGLKQ
+    [status] => APPROVAL_PENDING
+)
+
+Response: Array
+(
+    [start_time] => 2024-06-10T02:35:22Z
+    [quantity] => 1
+    [subscriber] => Array
+        (
+            [email_address] => khanh@gmai.com
+            [name] => Array
+                (
+                    [given_name] => John
+                    [surname] => Doe
+                )
+
+        )
+
+    [create_time] => 2024-06-10T02:34:28Z
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-5R5239014D411612V
+                    [rel] => approve
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-6EDFWM4HADV9
+                    [rel] => edit
+                    [method] => PATCH
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-6EDFWM4HADV9
+                    [rel] => self
+                    [method] => GET
+                )
+
+        )
+
+    [id] => I-6EDFWM4HADV9
+    [plan_overridden] => 
+    [plan_id] => P-4VD57970X2428931RMZTGMMY
+    [status] => APPROVAL_PENDING
+)
+
+Response: Array
+(
+    [start_time] => 2024-06-10T02:38:37Z
+    [quantity] => 1
+    [subscriber] => Array
+        (
+            [email_address] => khanh@gmai.com
+            [name] => Array
+                (
+                    [given_name] => John
+                    [surname] => Doe
+                )
+
+        )
+
+    [create_time] => 2024-06-10T02:37:43Z
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-2MD20919YY046764V
+                    [rel] => approve
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-R5376XS4J85L
+                    [rel] => edit
+                    [method] => PATCH
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-R5376XS4J85L
+                    [rel] => self
+                    [method] => GET
+                )
+
+        )
+
+    [id] => I-R5376XS4J85L
+    [plan_overridden] => 
+    [plan_id] => P-5UN96529CP0086423MZTGN5Q
+    [status] => APPROVAL_PENDING
+)
+
+Response: Array
+(
+    [start_time] => 2024-06-10T02:41:58Z
+    [quantity] => 1
+    [subscriber] => Array
+        (
+            [email_address] => khanh@gmai.com
+            [name] => Array
+                (
+                    [given_name] => John
+                    [surname] => Doe
+                )
+
+        )
+
+    [create_time] => 2024-06-10T02:41:05Z
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-02923813WU0728115
+                    [rel] => approve
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-LUV8DFRC3JX4
+                    [rel] => edit
+                    [method] => PATCH
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-LUV8DFRC3JX4
+                    [rel] => self
+                    [method] => GET
+                )
+
+        )
+
+    [id] => I-LUV8DFRC3JX4
+    [plan_overridden] => 
+    [plan_id] => P-8TS089997C253674WMZTGPQA
+    [status] => APPROVAL_PENDING
+)
+
+Response: Array
+(
+    [start_time] => 2024-06-10T04:26:22Z
+    [quantity] => 1
+    [subscriber] => Array
+        (
+            [email_address] => khanh@gmail.com
+            [name] => Array
+                (
+                    [given_name] => John
+                    [surname] => Doe
+                )
+
+        )
+
+    [create_time] => 2024-06-10T04:25:28Z
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-0GJ621421E8546056
+                    [rel] => approve
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-HH83EVNUU11S
+                    [rel] => edit
+                    [method] => PATCH
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-HH83EVNUU11S
+                    [rel] => self
+                    [method] => GET
+                )
+
+        )
+
+    [id] => I-HH83EVNUU11S
+    [plan_overridden] => 
+    [plan_id] => P-00R56137NJ1846401MZTIANY
+    [status] => APPROVAL_PENDING
+)
+
+Response: Array
+(
+    [start_time] => 2024-06-10T04:26:50Z
+    [quantity] => 1
+    [subscriber] => Array
+        (
+            [email_address] => khanh@gmail.com
+            [name] => Array
+                (
+                    [given_name] => John
+                    [surname] => Doe
+                )
+
+        )
+
+    [create_time] => 2024-06-10T04:25:56Z
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-2E482071JR791630U
+                    [rel] => approve
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-ED55J7B3ANEL
+                    [rel] => edit
+                    [method] => PATCH
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-ED55J7B3ANEL
+                    [rel] => self
+                    [method] => GET
+                )
+
+        )
+
+    [id] => I-ED55J7B3ANEL
+    [plan_overridden] => 
+    [plan_id] => P-64393247AY511982DMZTIAUY
+    [status] => APPROVAL_PENDING
+)
+
+Response: Array
+(
+    [start_time] => 2024-06-10T04:28:25Z
+    [quantity] => 1
+    [subscriber] => Array
+        (
+            [email_address] => khanh@gmail.com
+            [name] => Array
+                (
+                    [given_name] => John
+                    [surname] => Doe
+                )
+
+        )
+
+    [create_time] => 2024-06-10T04:27:31Z
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-0RK64315SF801874N
+                    [rel] => approve
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-FRL5V84KYN3F
+                    [rel] => edit
+                    [method] => PATCH
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-FRL5V84KYN3F
+                    [rel] => self
+                    [method] => GET
+                )
+
+        )
+
+    [id] => I-FRL5V84KYN3F
+    [plan_overridden] => 
+    [plan_id] => P-2C650761W4332920HMZTIBMQ
+    [status] => APPROVAL_PENDING
+)
+
+Response: Array
+(
+    [start_time] => 2024-06-10T04:29:21Z
+    [quantity] => 1
+    [subscriber] => Array
+        (
+            [email_address] => khanh@gmail.com
+            [name] => Array
+                (
+                    [given_name] => John
+                    [surname] => Doe
+                )
+
+        )
+
+    [create_time] => 2024-06-10T04:28:27Z
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-38Y80279NU6917935
+                    [rel] => approve
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-4K9FTNAHTS34
+                    [rel] => edit
+                    [method] => PATCH
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-4K9FTNAHTS34
+                    [rel] => self
+                    [method] => GET
+                )
+
+        )
+
+    [id] => I-4K9FTNAHTS34
+    [plan_overridden] => 
+    [plan_id] => P-7KT14943HM708652EMZTIB2Q
+    [status] => APPROVAL_PENDING
+)
+
+Response: Array
+(
+    [start_time] => 2024-06-10T04:56:17Z
+    [quantity] => 1
+    [subscriber] => Array
+        (
+            [email_address] => khanh@gmail.com
+            [name] => Array
+                (
+                    [given_name] => John
+                    [surname] => Doe
+                )
+
+        )
+
+    [create_time] => 2024-06-10T04:55:23Z
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-5P482451DY747202X
+                    [rel] => approve
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-79YC6G32MNV8
+                    [rel] => edit
+                    [method] => PATCH
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-79YC6G32MNV8
+                    [rel] => self
+                    [method] => GET
+                )
+
+        )
+
+    [id] => I-79YC6G32MNV8
+    [plan_overridden] => 
+    [plan_id] => P-2GL48719MS899890CMZTIOOY
+    [status] => APPROVAL_PENDING
+)
+
+Response: Array
+(
+    [start_time] => 2024-06-10T04:58:48Z
+    [quantity] => 1
+    [subscriber] => Array
+        (
+            [email_address] => khanh@gmail.com
+            [name] => Array
+                (
+                    [given_name] => John
+                    [surname] => Doe
+                )
+
+        )
+
+    [create_time] => 2024-06-10T04:57:54Z
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-5WD23870239133925
+                    [rel] => approve
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-U0W8EWG3SPAX
+                    [rel] => edit
+                    [method] => PATCH
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-U0W8EWG3SPAX
+                    [rel] => self
+                    [method] => GET
+                )
+
+        )
+
+    [id] => I-U0W8EWG3SPAX
+    [plan_overridden] => 
+    [plan_id] => P-687527175L723974BMZTIPUI
+    [status] => APPROVAL_PENDING
+)
+
+Response: Array
+(
+    [start_time] => 2024-06-10T06:47:32Z
+    [quantity] => 1
+    [subscriber] => Array
+        (
+            [email_address] => khanh@gmail.com
+            [name] => Array
+                (
+                    [given_name] => John
+                    [surname] => Doe
+                )
+
+        )
+
+    [create_time] => 2024-06-10T06:46:38Z
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-0VV43512DN652980R
+                    [rel] => approve
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-MBAHUVCCMHXB
+                    [rel] => edit
+                    [method] => PATCH
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-MBAHUVCCMHXB
+                    [rel] => self
+                    [method] => GET
+                )
+
+        )
+
+    [id] => I-MBAHUVCCMHXB
+    [plan_overridden] => 
+    [plan_id] => P-70757618F4503074JMZTKCTI
+    [status] => APPROVAL_PENDING
+)
+
+Response: Array
+(
+    [start_time] => 2024-06-10T06:50:52Z
+    [quantity] => 1
+    [subscriber] => Array
+        (
+            [email_address] => khanh@gmail.com
+            [name] => Array
+                (
+                    [given_name] => John
+                    [surname] => Doe
+                )
+
+        )
+
+    [create_time] => 2024-06-10T06:49:58Z
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-03U64744L3065932R
+                    [rel] => approve
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-VX3RYDM7YEJ2
+                    [rel] => edit
+                    [method] => PATCH
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-VX3RYDM7YEJ2
+                    [rel] => self
+                    [method] => GET
+                )
+
+        )
+
+    [id] => I-VX3RYDM7YEJ2
+    [plan_overridden] => 
+    [plan_id] => P-7PR585546V412723EMZTKEFI
+    [status] => APPROVAL_PENDING
+)
+
+Response: Array
+(
+    [start_time] => 2024-06-10T06:54:42Z
+    [quantity] => 1
+    [subscriber] => Array
+        (
+            [email_address] => khanh@gmail.com
+            [name] => Array
+                (
+                    [given_name] => John
+                    [surname] => Doe
+                )
+
+        )
+
+    [create_time] => 2024-06-10T06:53:48Z
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-2DD94288KC238705W
+                    [rel] => approve
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-22HV9GVY5A29
+                    [rel] => edit
+                    [method] => PATCH
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-22HV9GVY5A29
+                    [rel] => self
+                    [method] => GET
+                )
+
+        )
+
+    [id] => I-22HV9GVY5A29
+    [plan_overridden] => 
+    [plan_id] => P-4064371254028620JMZTKF6Y
+    [status] => APPROVAL_PENDING
+)
+
+Response: Array
+(
+    [start_time] => 2024-06-10T07:01:15Z
+    [quantity] => 1
+    [subscriber] => Array
+        (
+            [email_address] => khanh@gmail.com
+            [name] => Array
+                (
+                    [given_name] => John
+                    [surname] => Doe
+                )
+
+        )
+
+    [create_time] => 2024-06-10T07:00:21Z
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-9GW82766N3683574S
+                    [rel] => approve
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-VCE4SRRPA9CU
+                    [rel] => edit
+                    [method] => PATCH
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-VCE4SRRPA9CU
+                    [rel] => self
+                    [method] => GET
+                )
+
+        )
+
+    [id] => I-VCE4SRRPA9CU
+    [plan_overridden] => 
+    [plan_id] => P-34P50595XB780300FMZTKJBA
+    [status] => APPROVAL_PENDING
+)
+
+Response: Array
+(
+    [start_time] => 2024-06-10T07:13:16Z
+    [quantity] => 1
+    [subscriber] => Array
+        (
+            [email_address] => khanh@gmail.com
+            [name] => Array
+                (
+                    [given_name] => John
+                    [surname] => Doe
+                )
+
+        )
+
+    [create_time] => 2024-06-10T07:12:22Z
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-3DS924723N061191E
+                    [rel] => approve
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-6UM64M2XTVRT
+                    [rel] => edit
+                    [method] => PATCH
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-6UM64M2XTVRT
+                    [rel] => self
+                    [method] => GET
+                )
+
+        )
+
+    [id] => I-6UM64M2XTVRT
+    [plan_overridden] => 
+    [plan_id] => P-98S09597Y06366718MZTKOVI
+    [status] => APPROVAL_PENDING
+)
+
+Response: Array
+(
+    [id] => I-PE7JWXKGVN0R
+    [shipping_address] => Array
+        (
+            [recipient_name] => Cool Buyer
+            [line1] => 3rd st
+            [line2] => cool
+            [city] => San Jose
+            [state] => CA
+            [postal_code] => 95112
+            [country_code] => US
+        )
+
+    [plan] => Array
+        (
+            [curr_code] => USD
+            [links] => Array
+                (
+                )
+
+            [payment_definitions] => Array
+                (
+                    [0] => Array
+                        (
+                            [type] => TRIAL
+                            [frequency] => Month
+                            [frequency_interval] => 1
+                            [amount] => Array
+                                (
+                                    [value] => 5.00
+                                )
+
+                            [cycles] => 5
+                            [charge_models] => Array
+                                (
+                                    [0] => Array
+                                        (
+                                            [type] => TAX
+                                            [amount] => Array
+                                                (
+                                                    [value] => 1.00
+                                                )
+
+                                        )
+
+                                    [1] => Array
+                                        (
+                                            [type] => SHIPPING
+                                            [amount] => Array
+                                                (
+                                                    [value] => 1.00
+                                                )
+
+                                        )
+
+                                )
+
+                        )
+
+                    [1] => Array
+                        (
+                            [type] => REGULAR
+                            [frequency] => Month
+                            [frequency_interval] => 1
+                            [amount] => Array
+                                (
+                                    [value] => 10.00
+                                )
+
+                            [cycles] => 15
+                            [charge_models] => Array
+                                (
+                                    [0] => Array
+                                        (
+                                            [type] => TAX
+                                            [amount] => Array
+                                                (
+                                                    [value] => 2.00
+                                                )
+
+                                        )
+
+                                    [1] => Array
+                                        (
+                                            [type] => SHIPPING
+                                            [amount] => Array
+                                                (
+                                                    [value] => 1.00
+                                                )
+
+                                        )
+
+                                )
+
+                        )
+
+                )
+
+            [merchant_preferences] => Array
+                (
+                    [setup_fee] => Array
+                        (
+                            [value] => 0.00
+                        )
+
+                    [auto_bill_amount] => YES
+                    [max_fail_attempts] => 21
+                )
+
+        )
+
+    [payer] => Array
+        (
+            [payment_method] => paypal
+            [status] => verified
+            [payer_info] => Array
+                (
+                    [email] => coolbuyer@example.com
+                    [first_name] => Cool
+                    [last_name] => Buyer
+                    [payer_id] => XLHKRXRA4H7QY
+                    [shipping_address] => Array
+                        (
+                            [recipient_name] => Cool Buyer
+                            [line1] => 3rd st
+                            [line2] => cool
+                            [city] => San Jose
+                            [state] => CA
+                            [postal_code] => 95112
+                            [country_code] => US
+                        )
+
+                )
+
+        )
+
+    [agreement_details] => Array
+        (
+            [outstanding_balance] => Array
+                (
+                    [value] => 0.00
+                )
+
+            [num_cycles_remaining] => 5
+            [num_cycles_completed] => 0
+            [final_payment_due_date] => 2017-11-30T10:00:00Z
+            [failed_payment_count] => 0
+        )
+
+    [description] => desc
+    [state] => Pending
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.paypal.com/v1/payments/billing-agreements/I-PE7JWXKGVN0R
+                    [rel] => self
+                    [method] => GET
+                )
+
+        )
+
+    [start_date] => 2016-04-30T07:00:00Z
+)
+
+Response: Array
+(
+    [id] => I-PE7JWXKGVN0R
+    [shipping_address] => Array
+        (
+            [recipient_name] => Cool Buyer
+            [line1] => 3rd st
+            [line2] => cool
+            [city] => San Jose
+            [state] => CA
+            [postal_code] => 95112
+            [country_code] => US
+        )
+
+    [plan] => Array
+        (
+            [curr_code] => USD
+            [links] => Array
+                (
+                )
+
+            [payment_definitions] => Array
+                (
+                    [0] => Array
+                        (
+                            [type] => TRIAL
+                            [frequency] => Month
+                            [frequency_interval] => 1
+                            [amount] => Array
+                                (
+                                    [value] => 5.00
+                                )
+
+                            [cycles] => 5
+                            [charge_models] => Array
+                                (
+                                    [0] => Array
+                                        (
+                                            [type] => TAX
+                                            [amount] => Array
+                                                (
+                                                    [value] => 1.00
+                                                )
+
+                                        )
+
+                                    [1] => Array
+                                        (
+                                            [type] => SHIPPING
+                                            [amount] => Array
+                                                (
+                                                    [value] => 1.00
+                                                )
+
+                                        )
+
+                                )
+
+                        )
+
+                    [1] => Array
+                        (
+                            [type] => REGULAR
+                            [frequency] => Month
+                            [frequency_interval] => 1
+                            [amount] => Array
+                                (
+                                    [value] => 10.00
+                                )
+
+                            [cycles] => 15
+                            [charge_models] => Array
+                                (
+                                    [0] => Array
+                                        (
+                                            [type] => TAX
+                                            [amount] => Array
+                                                (
+                                                    [value] => 2.00
+                                                )
+
+                                        )
+
+                                    [1] => Array
+                                        (
+                                            [type] => SHIPPING
+                                            [amount] => Array
+                                                (
+                                                    [value] => 1.00
+                                                )
+
+                                        )
+
+                                )
+
+                        )
+
+                )
+
+            [merchant_preferences] => Array
+                (
+                    [setup_fee] => Array
+                        (
+                            [value] => 0.00
+                        )
+
+                    [auto_bill_amount] => YES
+                    [max_fail_attempts] => 21
+                )
+
+        )
+
+    [payer] => Array
+        (
+            [payment_method] => paypal
+            [status] => verified
+            [payer_info] => Array
+                (
+                    [email] => coolbuyer@example.com
+                    [first_name] => Cool
+                    [last_name] => Buyer
+                    [payer_id] => XLHKRXRA4H7QY
+                    [shipping_address] => Array
+                        (
+                            [recipient_name] => Cool Buyer
+                            [line1] => 3rd st
+                            [line2] => cool
+                            [city] => San Jose
+                            [state] => CA
+                            [postal_code] => 95112
+                            [country_code] => US
+                        )
+
+                )
+
+        )
+
+    [agreement_details] => Array
+        (
+            [outstanding_balance] => Array
+                (
+                    [value] => 0.00
+                )
+
+            [num_cycles_remaining] => 5
+            [num_cycles_completed] => 0
+            [final_payment_due_date] => 2017-11-30T10:00:00Z
+            [failed_payment_count] => 0
+        )
+
+    [description] => desc
+    [state] => Pending
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.paypal.com/v1/payments/billing-agreements/I-PE7JWXKGVN0R
+                    [rel] => self
+                    [method] => GET
+                )
+
+        )
+
+    [start_date] => 2016-04-30T07:00:00Z
+)
+
+Response: Array
+(
+    [start_time] => 2024-06-11T01:15:31Z
+    [quantity] => 1
+    [subscriber] => Array
+        (
+            [email_address] => khanh@gmail.com
+            [name] => Array
+                (
+                    [given_name] => John
+                    [surname] => Doe
+                )
+
+        )
+
+    [create_time] => 2024-06-11T01:14:32Z
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-4LJ26071ES651292G
+                    [rel] => approve
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-CN4H5UT542R6
+                    [rel] => edit
+                    [method] => PATCH
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-CN4H5UT542R6
+                    [rel] => self
+                    [method] => GET
+                )
+
+        )
+
+    [id] => I-CN4H5UT542R6
+    [plan_overridden] => 
+    [plan_id] => P-8AB17574M62457428MZT2J5Y
+    [status] => APPROVAL_PENDING
+)
+
+Response: Array
+(
+    [start_time] => 2024-06-11T01:18:17Z
+    [quantity] => 1
+    [subscriber] => Array
+        (
+            [email_address] => khanh@gmail.com
+            [name] => Array
+                (
+                    [given_name] => John
+                    [surname] => Doe
+                )
+
+        )
+
+    [create_time] => 2024-06-11T01:17:18Z
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-1NE22709ED7292153
+                    [rel] => approve
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-MNN0J6TX77FN
+                    [rel] => edit
+                    [method] => PATCH
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-MNN0J6TX77FN
+                    [rel] => self
+                    [method] => GET
+                )
+
+        )
+
+    [id] => I-MNN0J6TX77FN
+    [plan_overridden] => 
+    [plan_id] => P-4S9971757F834070HMZT2LHI
+    [status] => APPROVAL_PENDING
+)
+
+Response: Array
+(
+    [start_time] => 2024-06-11T01:19:33Z
+    [quantity] => 1
+    [subscriber] => Array
+        (
+            [email_address] => khanh@gmail.com
+            [name] => Array
+                (
+                    [given_name] => John
+                    [surname] => Doe
+                )
+
+        )
+
+    [create_time] => 2024-06-11T01:18:34Z
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-2BU751514M087002A
+                    [rel] => approve
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-GN6MJT8YN6NC
+                    [rel] => edit
+                    [method] => PATCH
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-GN6MJT8YN6NC
+                    [rel] => self
+                    [method] => GET
+                )
+
+        )
+
+    [id] => I-GN6MJT8YN6NC
+    [plan_overridden] => 
+    [plan_id] => P-73R54427069361119MZT2L2I
+    [status] => APPROVAL_PENDING
+)
+
+Response: Array
+(
+    [start_time] => 2024-06-11T01:54:28Z
+    [quantity] => 1
+    [subscriber] => Array
+        (
+            [email_address] => khanh@gmail.com
+            [name] => Array
+                (
+                    [given_name] => John
+                    [surname] => Doe
+                )
+
+        )
+
+    [create_time] => 2024-06-11T01:53:29Z
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-2A736186AM9537435
+                    [rel] => approve
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-LR976R660YT5
+                    [rel] => edit
+                    [method] => PATCH
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-LR976R660YT5
+                    [rel] => self
+                    [method] => GET
+                )
+
+        )
+
+    [id] => I-LR976R660YT5
+    [plan_overridden] => 
+    [plan_id] => P-5WJ08925GX510173CMZT24GA
+    [status] => APPROVAL_PENDING
+)
+
+Response: Array
+(
+    [start_time] => 2024-06-11T01:55:19Z
+    [quantity] => 1
+    [subscriber] => Array
+        (
+            [email_address] => khanh@gmail.com
+            [name] => Array
+                (
+                    [given_name] => John
+                    [surname] => Doe
+                )
+
+        )
+
+    [create_time] => 2024-06-11T01:54:20Z
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-14A36247P7215642V
+                    [rel] => approve
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-52WX9CT4N400
+                    [rel] => edit
+                    [method] => PATCH
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-52WX9CT4N400
+                    [rel] => self
+                    [method] => GET
+                )
+
+        )
+
+    [id] => I-52WX9CT4N400
+    [plan_overridden] => 
+    [plan_id] => P-43310341C57901932MZT24SY
+    [status] => APPROVAL_PENDING
+)
+
+Response: Array
+(
+    [start_time] => 2024-06-12T01:44:45Z
+    [quantity] => 1
+    [subscriber] => Array
+        (
+            [email_address] => khanh@gmail.com
+            [name] => Array
+                (
+                    [given_name] => John
+                    [surname] => Doe
+                )
+
+        )
+
+    [create_time] => 2024-06-12T01:43:45Z
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-9B071176XF9531739
+                    [rel] => approve
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-LL9FSYWYTTER
+                    [rel] => edit
+                    [method] => PATCH
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-LL9FSYWYTTER
+                    [rel] => self
+                    [method] => GET
+                )
+
+        )
+
+    [id] => I-LL9FSYWYTTER
+    [plan_overridden] => 
+    [plan_id] => P-0BX62858LX8361339MZUP2UI
+    [status] => APPROVAL_PENDING
+)
+
+Response: Array
+(
+    [start_time] => 2024-06-12T01:47:43Z
+    [quantity] => 1
+    [subscriber] => Array
+        (
+            [email_address] => khanh@gmail.com
+            [name] => Array
+                (
+                    [given_name] => John
+                    [surname] => Doe
+                )
+
+        )
+
+    [create_time] => 2024-06-12T01:46:44Z
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-66A91470WX2985744
+                    [rel] => approve
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-CL75TDVJN9TR
+                    [rel] => edit
+                    [method] => PATCH
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-CL75TDVJN9TR
+                    [rel] => self
+                    [method] => GET
+                )
+
+        )
+
+    [id] => I-CL75TDVJN9TR
+    [plan_overridden] => 
+    [plan_id] => P-3UE94236240236747MZUP4AY
+    [status] => APPROVAL_PENDING
+)
+
+Response: Array
+(
+    [start_time] => 2024-06-12T01:54:03Z
+    [quantity] => 1
+    [subscriber] => Array
+        (
+            [email_address] => khanh@gmail.com
+            [name] => Array
+                (
+                    [given_name] => John
+                    [surname] => Doe
+                )
+
+        )
+
+    [create_time] => 2024-06-12T01:53:03Z
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-31F17241HC0913156
+                    [rel] => approve
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-TDGX9PD8XBN5
+                    [rel] => edit
+                    [method] => PATCH
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-TDGX9PD8XBN5
+                    [rel] => self
+                    [method] => GET
+                )
+
+        )
+
+    [id] => I-TDGX9PD8XBN5
+    [plan_overridden] => 
+    [plan_id] => P-2EK98361AH274625CMZUP67Q
+    [status] => APPROVAL_PENDING
+)
+

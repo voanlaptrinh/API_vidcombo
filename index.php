@@ -487,7 +487,7 @@ function handleSubscriptionCreated($subscription)
     $status_key = 'active';
     // Lưu thông tin đăng ký mới vào cơ sở dữ liệu của bạn
     try {
-        $stmt = $connection->prepare("INSERT INTO subscriptions (customer_id, subscription_id, status, current_period_start, current_period_end,customer,subscription_json, plan) VALUES (:customer_id, :subscription_id, :status, :current_period_start, :current_period_end, :customer, :subscription_json, :plan)");
+        $stmt = $connection->prepare("INSERT INTO subscriptions (customer_id, subscription_id, status, current_period_start, current_period_end,customer,subscription_json, plan, bank_name) VALUES (:customer_id, :subscription_id, :status, :current_period_start, :current_period_end, :customer, :subscription_json, :plan, :bank_name)");
         $stmt->execute([
             ':customer_id' => $customer,
             ':subscription_id' => $subscription_id,
@@ -497,6 +497,7 @@ function handleSubscriptionCreated($subscription)
             ':customer' => $customer,
             ':subscription_json' => $subscription,
             ':plan' => $plan,
+            ':bank_name' => 'Stripe'
         ]);
 
 

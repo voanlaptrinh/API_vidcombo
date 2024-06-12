@@ -1,0 +1,6 @@
+handleSubscriptionUpdated: Array
+(
+)
+
+handleSubscriptionUpdated: {}
+handleSubscriptionUpdated: {"transactions":[{"status":"COMPLETED","id":"21S370315W593420M","amount_with_breakdown":{"gross_amount":{"currency_code":"USD","value":"10.00"},"fee_amount":{"currency_code":"USD","value":"0.99"},"net_amount":{"currency_code":"USD","value":"9.01"}},"payer_name":{"given_name":"khánh","surname":"khanh"},"payer_email":"voanlaptrinh@gmail.com","time":"2024-06-10T07:00:59.000Z"}],"links":[{"href":"https://api.sandbox.paypal.com/v1/billing/subscriptions/I-VCE4SRRPA9CU/transactions?start_time=2024-06-04T08%3A32%3A02Z&end_time=2024-06-11T08%3A32%3A02Z","rel":"SELF","method":"GET"}]}

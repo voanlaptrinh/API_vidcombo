@@ -57,37 +57,48 @@ function handlePaypalWebhook()
     // Lấy dữ liệu webhook gửi từ PayPal
     $webhookData = file_get_contents("php://input");
     $jsonData = json_decode($webhookData, true);
+    $logFile = __DIR__ . '/log/'.date('Y-m-d H-i-s').'.log';
+    file_put_contents($logFile, $webhookData);
+
     if (!$jsonData) {
         http_response_code(400); // Bad Request
         echo 'Invalid webhook data';
         return;
     }
 
-    // Lấy ID của sự kiện để kiểm tra xem nó đã được xử lý chưa
-    $eventId = $jsonData['id'];
-
-    // Kiểm tra xem sự kiện đã được xử lý trước đó hay chưa
-    if (isEventProcessed($eventId)) {
-        http_response_code(200);
-        echo 'Webhook event already processed';
-        return;
-    }
 
     // Xử lý sự kiện webhook từ PayPal
     $event_type = $jsonData['event_type'];
     $logFile = __DIR__ . '/log/event_type.log';
     error_log('event_type: ' . print_r($event_type, true) . PHP_EOL, 3, $logFile);
+
+
     switch ($event_type) {
-        case 'BILLING.PLAN.CREATED':
+
+        case 'BILLING.SUBSCRIPTION.CREATED': //Khi gói sub thành công
+            handleBillingSubcriptionreated($jsonData['resource']);
+            break;
+        case 'BILLING.SUBSCRIPTION.ACTIVATED': //Gói sub được active
+            handleBillingSubcriptionActivereated($jsonData['resource']);
+            break;
+        case 'BILLING.SUBSCRIPTION.CANCELLED': //Xảy ra khi hủy gói
+            handleBillingSubcriptionCancel($jsonData['resource']);
+            break;
+        case 'BILLING.PLAN.CREATED': //Hóa đơn được thêm vào
             handleBillingPlanCreated($jsonData['resource']);
             break;
-        case 'BILLING.SUBSCRIPTION.CREATED':
-            handleBillingSubcriptionreated($jsonData['resource']);
-         break;
-        case 'BILLING.SUBSCRIPTION.ACTIVATED':
-            handleBillingSubcriptionActivereated($jsonData['resource']);
-         break;
+        case 'BILLING.SUBSCRIPTION.EXPIRED': //Xảy ra khi ra hạn  thất bại
+            handleBillingSubcriptionExpired($jsonData['resource']);
+            break;
+        case 'BILLING.SUBSCRIPTION.UPDATED':
+            handleSubscriptionUpdated($jsonData['resource']);
+            break;
+        case 'BILLING.SUBSCRIPTION.RENEWED':
+            handleSubscriptionUpdated($jsonData['resource']);
+            break;
+       
         default:
+        
             echo 'Unhandled event type: ' . $event_type;
             break;
     }
@@ -101,8 +112,15 @@ function handlePaypalWebhook()
 $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $method = $_SERVER['REQUEST_METHOD'];
 
-if ($requestUri === '/v1/billing/subscriptions' && $method === 'POST') {
+if ($requestUri === '/v1/billing/subscriptions' && $method === 'POST') { //Tạo mới một gói subscription
     handleCheckout();
+} elseif ($requestUri === '/v1/billing/cancelSubscriptions' && $method === 'POST') {// HỦy gói subscription
+    cancelSubscription();
+} elseif ($requestUri === '/v1/billing/subscriptionsDetail' && $method === 'GET') { //Hiện ra chi tiết của gói sub 
+    getPaypalSubscription();
+
+}elseif($requestUri === '/v1/billing/subscriptionsTransactions' && $method === 'GET'){
+    getPaypalSubscriptionTransactions();
 } elseif ($requestUri === '/webhook/paypal' && $method === 'POST') {
     handlePaypalWebhook();
 } else {
@@ -111,42 +129,253 @@ if ($requestUri === '/v1/billing/subscriptions' && $method === 'POST') {
 }
 
 
-function handleBillingSubcriptionreated($subscription){
-    $logFile = __DIR__ . '/log/subscription_dât.log';
-    error_log('Response: ' . print_r($subscription, true) . PHP_EOL, 3, $logFile);
+function getPaypalSubscriptionTransactions(){
+    global $client_id, $clientSecret;
+    // Lấy subscription_id từ phương thức GET
+    $subscription_id = $_GET['subscription_id'];
+    // Xác định URL API của PayPal
+    $url = "https://api.sandbox.paypal.com/v1/billing/subscriptions/{$subscription_id}/transactions";
+    $start_time = gmdate("Y-m-d\TH:i:s\Z", strtotime("-7 day"));
+    $end_time = gmdate("Y-m-d\TH:i:s\Z", time());
+    $url .= '?start_time='. urlencode($start_time).'&end_time='.urlencode($end_time);
+
+    var_dump($url);
+ 
+    // Lấy mã thông báo truy cập từ hàm get_paypal_access_token
+    $token = get_paypal_access_token($client_id, $clientSecret);
+
+    if (!$token) {
+        echo "Could not retrieve access token.";
+        return false;
+    }
+
+    // Khởi tạo một cURL handle
+    $ch = curl_init();
+
+    // Thiết lập các tùy chọn cho cURL
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        "Authorization: Bearer {$token}",
+        "Content-Type: application/json",
+        "Accept: application/json",
+    ));
+
+    // Thực hiện yêu cầu GET
+    $result = curl_exec($ch);
+
+    // Kiểm tra nếu yêu cầu thành công
+    if ($result === false) {
+        curl_close($ch);
+        return false;
+    } else {
+        // Giải mã kết quả JSON thành mảng PHP và trả về
+        $json_result = json_decode($result, true);
+        curl_close($ch);
+
+        // Ghi log kết quả vào file log
+        $logFile = __DIR__ . '/log/detailSubscription2.log';
+        error_log('handleSubscriptionUpdated: ' . print_r($result, true) . PHP_EOL, 3, $logFile);
+
+        return $json_result;
+    }
 }
-function handleBillingSubcriptionActivereated($subscription){
+
+
+function handleSubscriptionUpdated($subscription)
+{
+    $logFile = __DIR__ . '/log/handleSubscriptionUpdated.log';
+    error_log('handleSubscriptionUpdated: ' . print_r($subscription, true) . PHP_EOL, 3, $logFile);
+}
+
+
+function getPaypalSubscription()
+{
+    global $client_id, $clientSecret;
+    // Lấy subscription_id từ phương thức GET
+    $subscription_id = $_GET['subscription_id'];
+    // Xác định URL API của PayPal
+    $url = "https://api.sandbox.paypal.com/v1/billing/subscriptions/{$subscription_id}";
+    
+ 
+    // Lấy mã thông báo truy cập từ hàm get_paypal_access_token
+    $token = get_paypal_access_token($client_id, $clientSecret);
+
+    if (!$token) {
+        echo "Could not retrieve access token.";
+        return false;
+    }
+
+    // Khởi tạo một cURL handle
+    $ch = curl_init();
+
+    // Thiết lập các tùy chọn cho cURL
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        "Authorization: Bearer {$token}"
+    ));
+
+    // Thực hiện yêu cầu GET
+    $result = curl_exec($ch);
+
+    // Kiểm tra nếu yêu cầu thành công
+    if ($result === false) {
+        curl_close($ch);
+        return false;
+    } else {
+        // Giải mã kết quả JSON thành mảng PHP và trả về
+        $json_result = json_decode($result, true);
+        curl_close($ch);
+
+        // Ghi log kết quả vào file log
+        $logFile = __DIR__ . '/log/detailSubscription.log';
+        error_log('handleSubscriptionUpdated: ' . print_r($json_result, true) . PHP_EOL, 3, $logFile);
+
+        return $json_result;
+    }
+}
+
+
+
+
+function handleBillingSubcriptionExpired($subscription)
+{
+    $logFile = __DIR__ . '/log/BILLING_SUBSCRIPTION_EXPIRED.log';
+    error_log('BILLING_SUBSCRIPTION_EXPIRED: ' . print_r($subscription, true) . PHP_EOL, 3, $logFile);
+    $connection = getDatabaseConnection();
+
+    $sql = $connection->prepare("UPDATE subscriptions SET status = :status, subscription_json = :subscription_json WHERE subscription_id = :subscription_id");
+    $sql->execute([
+        ':status' => $subscription['status'],
+        ':subscription_id' => $subscription['id'],
+        ':subscription_json' => $subscription,
+
+    ]);
+    $sql = $connection->prepare("UPDATE licensekey SET status = :status WHERE subscription_id = :subscription_id");
+    $sql->execute([
+        ':status' => 'inactive',
+        ':subscription_id' => $subscription['id'],
+    ]);
+}
+
+function handleBillingSubcriptionreated($subscription)
+{
+    $logFile = __DIR__ . '/log/BILLING_SUBSCRIPTION_CREATED.log';
+    error_log('Response: ' . print_r($subscription, true) . PHP_EOL, 3, $logFile);
+    $connection = getDatabaseConnection();
+
+    // Câu truy vấn SQL với các giá trị cần chèn
+    $query = 'INSERT INTO subscriptions (subscription_id, plan, status, create_time, bank_name) VALUES (:subscription_id, :plan, :status, :create_time, :bank_name)';
+
+    $stmt = $connection->prepare($query);
+
+    // Liên kết các tham số với câu truy vấn
+    $stmt->execute([
+        ':subscription_id' => $subscription['id'],
+        ':plan' => $subscription['plan_id'],
+        ':status' => $subscription['status'],
+        ':create_time' => $subscription['create_time'],
+        ':bank_name' => 'Paypal'
+    ]);
+
+    // Đóng kết nối
+    $stmt = null;
+    $connection = null;
+}
+function generateLicenseKey()
+{
+    return bin2hex(random_bytes(16));
+}
+function handleBillingSubcriptionActivereated($subscription)
+{
     $logFile = __DIR__ . '/log/handleBillingSubcriptionActivereated.log';
     error_log('handleBillingSubcriptionActivereated: ' . print_r($subscription, true) . PHP_EOL, 3, $logFile);
+    $licenseKey = generateLicenseKey();
+    $connection = getDatabaseConnection();
+
+
+    $sql = $connection->prepare("UPDATE subscriptions SET status = :status, subscription_json = :subscription_json WHERE subscription_id = :subscription_id");
+    $sql->execute([
+        ':status' => $subscription['status'],
+        ':subscription_id' => $subscription['id'],
+        ':subscription_json' => $subscription,
+
+    ]);
+    $stmt = $connection->prepare("INSERT INTO licensekey ( status, subscription_id, license_key) VALUES ( :status, :subscription_id, :license_key)");
+    $stmt->execute([
+        // ':customer_id' => $customer,
+        ':subscription_id' => $subscription['id'],
+        ':license_key' => $licenseKey,
+        ':status' => 'active',
+    ]);
+    // Đóng kết nối
+    $stmt = null;
+    $connection = null;
 }
-// Hàm kiểm tra xem một sự kiện đã được xử lý trước đó hay chưa
-function isEventProcessed($eventId)
+
+function handleBillingSubcriptionCancel($subscription)
 {
-    // Thực hiện các kiểm tra để xác định xem sự kiện đã được xử lý hay chưa
-    // Ví dụ: kiểm tra trong cơ sở dữ liệu, bộ nhớ cache, hoặc tệp log
-    // Trong ví dụ này, tôi giả sử rằng không có bất kỳ sự kiện nào được xử lý trước đó
-    return false;
+    $logFile = __DIR__ . '/log/TypeSubcriptionCancel.log';
+    $connection = getDatabaseConnection();
+    error_log('TypeSubcriptionCancel: ' . print_r($subscription, true) . PHP_EOL, 3, $logFile);
+    $sql = $connection->prepare("UPDATE subscriptions SET status = :status, subscription_json = :subscription_json WHERE subscription_id = :subscription_id");
+    $sql->execute([
+        ':status' => $subscription['status'],
+        ':subscription_id' => $subscription['id'],
+        ':subscription_json' => $subscription,
+
+    ]);
+    $sql = $connection->prepare("UPDATE licensekey SET status = :status WHERE subscription_id = :subscription_id");
+    $sql->execute([
+        ':status' => 'inactive',
+        ':subscription_id' => $subscription['id'],
+    ]);
 }
-
-// Hàm đánh dấu một sự kiện đã được xử lý
-function markEventAsProcessed($eventId)
-{
-    // Thực hiện các hành động để đánh dấu sự kiện đã được xử lý
-    // Ví dụ: lưu trạng thái của sự kiện trong cơ sở dữ liệu hoặc tệp log
-}
-
-
-
 
 function handleBillingPlanCreated($planData)
 {
 
-    $planId = $planData['id'];
-    $planStatus = $planData['status'];
 
 
     $logFile = __DIR__ . '/log/planData.log';
     error_log('Response: ' . print_r($planData, true) . PHP_EOL, 3, $logFile);
+
+
+    $connection = getDatabaseConnection();
+
+    $currency = $planData['billing_cycles'][0]['pricing_scheme']['fixed_price']['currency_code'];
+    $amount_due = $planData['billing_cycles'][0]['pricing_scheme']['fixed_price']['value'];
+    $date_string  = $planData['billing_cycles'][0]['pricing_scheme']['create_time'];
+    $period_start = strtotime($date_string); // Chuyển đổi thành timestamp
+
+
+    $interval_count = $planData['billing_cycles'][0]['frequency']['interval_count'];
+    $interval_unit = $planData['billing_cycles'][0]['frequency']['interval_unit'];
+    $period_end_timestamp = strtotime("+ $interval_count $interval_unit", $period_start);
+
+
+
+    $logFile = __DIR__ . '/log/period_end_timestamp.log';
+    error_log('period_end_timestamp: ' . print_r($period_end_timestamp, true) . PHP_EOL, 3, $logFile);
+    // Câu truy vấn SQL với các giá trị cần chèn
+    $query = 'INSERT INTO invoice (subscription_id, status, created, currency, amount_due, period_start, period_end) VALUES (:subscription_id, :status, :created, :currency, :amount_due, :period_start, :period_end)';
+
+    $stmt = $connection->prepare($query);
+
+    // Liên kết các tham số với câu truy vấn
+    $stmt->execute([
+        ':subscription_id' => $planData['id'],
+        ':status' => $planData['status'],
+        ':created' => $planData['create_time'],
+        ':currency' => $currency,
+        ':amount_due' => $amount_due,
+        ':period_start' => $period_start,
+        ':period_end' => $period_end_timestamp,
+    ]);
+    // Đóng kết nối
+    $stmt = null;
+    $connection = null;
 }
 
 function handlePaymentCaptureCompleted($webhookData)
@@ -188,7 +417,7 @@ function createPlan($product_id, $token)
         "name" => "Basic Plan",
         "billing_cycles" => [[
             "frequency" => [
-                "interval_unit" => "MONTH",
+                "interval_unit" => "DAY",
                 "interval_count" => 1
             ],
             "tenure_type" => "REGULAR",
@@ -223,58 +452,6 @@ function createPlan($product_id, $token)
     return json_decode($response);
 }
 
-// function createSubscription($plan_id, $token) {
-//     $url = "https://api.sandbox.paypal.com/v1/billing/subscriptions";
-//     $headers = [
-//         "Content-Type: application/json",
-//         "Authorization: Bearer $token"
-//     ];
-//     $data = [
-//         "plan_id" => $plan_id,
-//         "start_time" => date('c', strtotime('+1 day')),
-//         "subscriber" => [
-//             "name" => [
-//                 "given_name" => "John",
-//                 "surname" => "Doe"
-//             ],
-//             "email_address" => "customer@example.com"
-//         ],
-//         "application_context" => [
-//             "brand_name" => "Your Brand",
-//             "locale" => "en-US",
-//             "shipping_preference" => "SET_PROVIDED_ADDRESS",
-//             "user_action" => "SUBSCRIBE_NOW",
-//             "payment_method" => [
-//                 "payer_selected" => "PAYPAL",
-//                 "payee_preferred" => "IMMEDIATE_PAYMENT_REQUIRED"
-//             ],
-//             "return_url" => "https://five-mails-join.loca.lt/return.php",
-//             "cancel_url" => "https://five-mails-join.loca.lt/cancel.php"
-//         ]
-//     ];
-
-//     $ch = curl_init($url);
-//     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-//     curl_setopt($ch, CURLOPT_POST, 1);
-//     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-//     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-//     $response = curl_exec($ch);
-//     curl_close($ch);
-//     $logFile = __DIR__ . '/log/subcription.log';
-//     error_log('Response: ' . print_r($response, true) . PHP_EOL, 3, $logFile);
-//     return json_decode($response);
-// }
-
-
-
-
-
-
-
-
-
-
-
 function createSubscription($plan_id, $token)
 {
     $url = "https://api.sandbox.paypal.com/v1/billing/subscriptions";
@@ -286,7 +463,7 @@ function createSubscription($plan_id, $token)
                 'given_name' => 'John',
                 'surname' => 'Doe'
             ],
-            'email_address' => 'khanh@gmai.com'
+            'email_address' => 'khanh@gmail.com'
         ],
         'application_context' => [
             'brand_name' => 'Your Brand',
@@ -324,97 +501,85 @@ function createSubscription($plan_id, $token)
     curl_close($ch);
     $logFile = __DIR__ . '/log/subcription.log';
     error_log('subcription Data: ' . print_r($response, true) . PHP_EOL, 3, $logFile);
-
-    if (isset($response->id)) {
-        // Lưu thông tin subscription vào CSDL
-        $subscriptionData = [
-            'subscription_id' => $response->id,
-            'plan_id' => $plan_id,
-            'status' => $response->status,
-            'create_time' => $response->create_time,
-        ];
-        saveSubscription($subscriptionData);
-    }
-
-    echo json_encode(['session' => $response]);
+    return json_encode(['session' => $response]);
 }
 
+function cancelSubscription()
+{
+    // Kiểm tra yêu cầu và phương thức
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        http_response_code(405);
+        echo '405 Method Not Allowed';
+        return;
+    }
 
-// // Hàm xử lý trang thanh toán
-// function handleCheckout() {
-//     $client_id = 'AaIx1Xou_zZlZ45b3lp1aPLZFZBhbHzwc9RcyceiSsvW3U8-Y01JkJ_j9NKh26ujdMc_8F597kxSRC9o'; // Thay thế bằng Client ID của bạn
-//     $clientSecret = 'EHCBjJAnYrbaYUocnnJlVYmMsadaPge6no89WTrtTfd1NrpliaY109f6GE52HVsyDzbz6khXdf2C73DF';
-//     $token = get_paypal_access_token($client_id, $clientSecret);
-//     $product_id = 'PROD-1ES34532SK597535U';
-//     $plan = createPlan($product_id, $token);
-//     $plan_id = $plan->id;
-//     createSubscription($plan_id, $token);
+    // Lấy dữ liệu từ yêu cầu POST
+    $post_data = file_get_contents("php://input");
+    parse_str($post_data, $post_params);
 
-//     // Redirect hoặc hiển thị thông báo thanh toán thành công
-//     header("Location: /success.php");
-// }
+    // Lấy giá trị subscription_id từ mảng $post_params
+    $subscription_id = $post_params['subscription_id'];
+    global $client_id, $clientSecret;
 
-// // Hàm xử lý webhook từ PayPal
-// function handlePaypalWebhook()
-// {
-//     // Lấy nội dung của webhook từ request
-//     $requestBody = file_get_contents('php://input');
+    $token = get_paypal_access_token($client_id, $clientSecret);
+    // Kiểm tra xem subscription_id và token có tồn tại không
+    if (empty($subscription_id) || empty($token)) {
+        http_response_code(400);
+        echo '400 Bad Request - Missing subscription_id or token';
+        return;
+    }
 
-//     // Kiểm tra chữ ký của webhook
-//     $signature = $_SERVER['HTTP_PAYPAL_SIGNATURE'];
+    // Gửi yêu cầu hủy subscription tới PayPal
+    $response = callPayPalCancelSubscriptionAPI($subscription_id, $token);
 
-//     if (verifyPaypalWebhookSignature($requestBody, $signature)) {
-//         // Chữ ký hợp lệ, giải mã nội dung webhook
-//         $webhookData = json_decode($requestBody, true);
-//         $logFile = __DIR__ . '/log/webhookData.log';
-//         error_log('webhookData: ' . print_r($webhookData, true) . PHP_EOL, 3, $logFile);
-//         // Xử lý các sự kiện từ webhook
-//         switch ($webhookData['event_type']) {
-//             case 'PAYMENT.CAPTURE.COMPLETED':
-//                 handlePaymentCaptureCompleted($webhookData);
-//                 break;
-//                 // Thêm các case xử lý cho các sự kiện khác nếu cần
-//             default:
-//                 // Xử lý các sự kiện khác
-//                 break;
-//         }
+    // Xử lý kết quả trả về từ PayPal
+    if ($response === true) {
+        // Thực hiện các bước cần thiết trong hệ thống của bạn sau khi hủy subscription thành công
+        // Ví dụ: cập nhật trạng thái subscription trong cơ sở dữ liệu của bạn
+        http_response_code(200);
+        echo 'Subscription cancelled successfully';
+    } else {
+        http_response_code(500);
+        echo '500 Internal Server Error - Failed to cancel subscription';
+    }
+}
 
-//         // Trả về mã trạng thái 200 OK để PayPal biết rằng webhook đã được xử lý thành công
-//         http_response_code(200);
-//     } else {
-//         // Trả về mã lỗi 401 Unauthorized nếu chữ ký không hợp lệ
-//         http_response_code(401);
-//     }
-// }
+function callPayPalCancelSubscriptionAPI($subscription_id, $token)
+{
+    $url = "https://api.sandbox.paypal.com/v1/billing/subscriptions/{$subscription_id}/cancel";
+    $data = [
+        'reason' => 'USER_INITIATED_CANCEL'
+    ];
 
+    $json_data = json_encode($data);
 
-// // Hàm xử lý sự kiện thanh toán hoàn tất
-// function verifyPaypalWebhookSignature($requestBody, $signature)
-// {
-//     // Lấy Client ID và Client Secret từ biến môi trường hoặc từ một nguồn đáng tin cậy khác
-//     $clientId = 'ATAwcPBvJAz5zlqv2tILRRyzOF1VkBC6yio-PmjeFvmX0HVZFjAi3fECgC7MkFknb-nAGSgUk_we0d8p';
-//     $clientSecret = 'EFpmH487Fi-ZHq6jOmhpSHGJ2o_KEn8EyRGzOUU4mz1u8GPgtC0eSN9KQUROJNZDhxY2HS7vMcmVcX0u';
-//     // Tạo chuỗi để kiểm tra chữ ký
-//     $verificationString = $requestBody . $clientId;
-//     $logFile = __DIR__ . '/log/verificationString.log';
-//     error_log('verificationString: ' . print_r($verificationString, true) . PHP_EOL, 3, $logFile);
-//     // Tạo chữ ký từ chuỗi và Client Secret
-//     $calculatedSignature = base64_encode(hash_hmac('sha256', $verificationString, $clientSecret, true));
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Content-Type: application/json',
+        'Authorization: Bearer ' . $token,
+    ]);
 
-//     // So sánh chữ ký được tính toán với chữ ký gửi từ PayPal
-//     return hash_equals($calculatedSignature, $signature);
-// }
+    $result = curl_exec($ch);
+    if (curl_errno($ch)) {
+        error_log('Error: ' . curl_error($ch));
+        curl_close($ch);
+        return false;
+    }
 
-// function handlePaymentCaptureCompleted($webhookData)
-// {
-//     $logFile = __DIR__ . '/log/webhookData.log';
-//     error_log('webhookData: ' . print_r($webhookData, true) . PHP_EOL, 3, $logFile);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
 
-// }
-
-
-
-
+    if ($http_code === 204) {
+        return true;
+    } else {
+        error_log('Error: Unexpected HTTP response code ' . $http_code);
+        return false;
+    }
+}
 
 function saveSubscription($subscriptionData)
 {
@@ -437,11 +602,6 @@ function saveSubscription($subscriptionData)
     $stmt = null;
     $connection = null;
 }
-
-
-
-
-
 
 function listPlan($product_id, $token)
 {
@@ -533,94 +693,6 @@ function listPlan($product_id, $token)
 }
 
 
-// function createPlan($product_id, $token)
-// {
-//     // PayPal API endpoint for creating billing plans
-//     $token_url = "https://api.sandbox.paypal.com/v1/billing/plans";
-
-//     $data = [
-//         'product_id' => $product_id,
-//         'name' => 'Sample Plan',
-//         'description' => 'This is a sample billing plan for testing purposes.',
-//         'status' => 'ACTIVE',
-//         'billing_cycles' => [
-//             [
-//                 'frequency' => [
-//                     'interval_unit' => 'MONTH',
-//                     'interval_count' => 1
-//                 ],
-//                 'tenure_type' => 'REGULAR',
-//                 'sequence' => 1,
-//                 'total_cycles' => 12,
-//                 'pricing_scheme' => [
-//                     'fixed_price' => [
-//                         'value' => '10.00',
-//                         'currency_code' => 'USD'
-//                     ]
-//                 ]
-//             ]
-//         ],
-//         'payment_preferences' => [
-//             'auto_bill_outstanding' => true,
-//             'setup_fee' => [
-//                 'value' => '0.00',
-//                 'currency_code' => 'USD'
-//             ],
-//             'setup_fee_failure_action' => 'CONTINUE',
-//             'payment_failure_threshold' => 3
-//         ],
-//         'taxes' => [
-//             'percentage' => '0',
-//             'inclusive' => false
-//         ]
-//     ];
-
-//     $logFile = __DIR__ . '/log/create_plan.log';
-//     error_log('Request Data: ' . print_r($data, true) . PHP_EOL, 3, $logFile);
-
-//     // Convert data to JSON format
-//     $json_data = json_encode($data);
-
-//     // Initialize cURL session
-//     $ch = curl_init();
-
-//     curl_setopt($ch, CURLOPT_URL, $token_url);
-//     curl_setopt($ch, CURLOPT_POST, true);
-//     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//     curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
-//     curl_setopt($ch, CURLOPT_HTTPHEADER, [
-//         'Content-Type: application/json',
-//         'Authorization: Bearer ' . $token,
-//     ]);
-
-//     // Execute the cURL request
-//     $result = curl_exec($ch);
-
-//     // Check for cURL errors
-//     if (curl_errno($ch)) {
-//         echo 'Error:' . curl_error($ch);
-//         exit();
-//     }
-
-//     // Decode the JSON response
-//     $response = json_decode($result);
-
-//     // Check for errors in the PayPal API response
-//     if (isset($response->error)) {
-//         echo 'Error: ' . $response->error_description;
-//         exit();
-//     }
-
-//     // Close cURL session
-//     curl_close($ch);
-
-//     // Log the response
-//     error_log('Response: ' . print_r($response, true) . PHP_EOL, 3, $logFile);
-
-//     // Return the response (you may handle this differently based on your requirements)
-//     return $response;
-// }
-
 function detailPlan($plan_id, $token)
 {
     $token_url = "https://api-m.paypal.com/v1/billing/plans/";
@@ -678,33 +750,6 @@ function createProduct($client_id, $clientSecret)
     return $response;
 }
 
-// Function to obtain OAuth 2.0 token
-// function get_paypal_access_token($client_id, $clientSecret)
-// {
-//     $token_url = "https://api.sandbox.paypal.com/v1/oauth2/token";
-
-//     $ch = curl_init();
-//     curl($ch, $token_url);
-//     $result = curl_exec($ch);
-
-//     if (curl_errno($ch)) {
-//         echo 'Error:' . curl_error($ch);
-//         exit();
-//     }
-
-//     $response = json_decode($result);
-//     if (isset($response->error)) {
-//         echo 'Error:' . $response->error_description;
-//         exit();
-//     }
-
-//     curl_close($ch);
-//     $access_token = $response->access_token;
-//     $logFile = __DIR__ . '/log/refund_webhook.log';
-//     error_log('$response->access_token: ' . $access_token . PHP_EOL, 3, $logFile);
-
-//     return $access_token;
-// }
 
 
 function curl($ch, $token_url, $json_data = 'grant_type=client_credentials')
