@@ -1,5 +1,5 @@
 <?php
-require 'vendor/autoload.php';
+require_once '../vendor/autoload.php';
 
 // Khóa bí mật của Stripe
 \Stripe\Stripe::setApiKey('sk_test_51OeDsPIXbeKO1uxjfGZLmBaoVYMdmbThMwRHSrNa6Zigu0FnQYuAatgfPEodv9suuRFROdNRHux5vUhDp7jC6nca00GbHqdk1Y');

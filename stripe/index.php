@@ -1,53 +1,59 @@
 <?php
-require 'vendor/autoload.php';
+// require './';
 require_once '../common.php';
+require_once '../vendor/autoload.php';
 
 use Stripe\Stripe;
 
 Stripe::setApiKey('sk_test_51OeDsPIXbeKO1uxjfGZLmBaoVYMdmbThMwRHSrNa6Zigu0FnQYuAatgfPEodv9suuRFROdNRHux5vUhDp7jC6nca00GbHqdk1Y');
-$stripe_api = new StripeApi();
+
+$stripe_funtion = new StripeApiFunction();
 
 // Kiểm tra URL và gọi hàm tương ứng
 $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $method = $_SERVER['REQUEST_METHOD'];
 if ($requestUri === '/api/v1/create-checkout-session' && $method === 'POST') {
-    $stripe_api->createCheckoutSession();
+    $stripe_funtion->createCheckoutSession();
 } elseif ($requestUri === '/api/v1/check-subscription' && $method === 'GET') {
-    $stripe_api->checkSubscription();
+    $stripe_funtion->checkSubscription();
 } elseif ($requestUri === '/api/v1/send-license-key' && $method === 'POST') {
-    $stripe_api->sendLicenseKey();
+    $stripe_funtion->sendLicenseKey();
 } elseif ($requestUri === '/api/v1/verify-license-key' && $method === 'POST') {
-    $stripe_api->verifyLicenseKey();
+    $stripe_funtion->verifyLicenseKey();
 } elseif ($requestUri === '/webhook' && $method === 'POST') {
-    $stripe_api->handleWebhook();
+    $stripe_funtion->handleWebhook();
 } else {
     header("HTTP/1.1 404 Not Found");
     echo '404 Not Found';
 }
 
-class StripeApi
+class StripeApiFunction 
 {
-    public $connection;
-
-    public $YOUR_DOMAIN = 'http://localhost:8080';
-    private static $endpointSecret = 'whsec_5f17c8c4ada7dddedac39a07084388d087b1743d38e16af8bd996bb97a21c910';
-    public $plans = array('basic' => 'price_1PLjThIXbeKO1uxj9AU2H88a',);
-
-    function init(){
-        $this->connection = Common::getDatabaseConnection();
+    private $connection;
+    // Hàm khởi tạo
+    function __construct()
+    {
+        $this->init();
     }
+     function init()
+    {
+        $this->connection = Common::getDatabaseConnection();
+        if (!$this->connection) {
+            throw new Exception('Database connection could not be established.');
+        }
+    }
+    public $web_domain = 'http://localhost:8080';
+    public $plans = array('basic' => 'price_1PLjThIXbeKO1uxj9AU2H88a');
 
-// Hàm tạo phiên Stripe Checkout
+    // Hàm tạo phiên Stripe Checkout
     function createCheckoutSession()
     {
-        global $plans, $YOUR_DOMAIN;
-
         // Lấy dữ liệu từ yêu cầu
         $body = file_get_contents('php://input');
         parse_str($body, $data);
 
+        
         $plan = $data['plan'] ?? null;
-
         try {
             // Tạo phiên Stripe Checkout
             $session = \Stripe\Checkout\Session::create([
@@ -57,25 +63,29 @@ class StripeApi
                     'quantity' => 1,
                 ]],
                 'mode' => 'subscription',
-                'success_url' => "$YOUR_DOMAIN/success.php?session_id={CHECKOUT_SESSION_ID}",
-                'cancel_url' => "$YOUR_DOMAIN/cancel.html",
+                'success_url' => $this->web_domain."/success.php?session_id={CHECKOUT_SESSION_ID}",
+                'cancel_url' => $this->web_domain."/cancel.html",
             ]);
 
 
             // Gửi phản hồi JSON về phiên được tạo
             header('Content-Type: application/json');
             echo json_encode(['session' => $session]);
+        } catch (\Stripe\Exception\ApiErrorException $e) {
+            // Log the Stripe API error
+            error_log('Stripe API error: ' . $e->getMessage());
+            header("HTTP/1.1 500 Internal Server Error");
+            echo 'Error creating session';
 
         } catch (\Exception $e) {
-            // Ghi log lỗi nếu có
-            error_log($e->getMessage());
+            // Log any other errors
+            error_log('General error: ' . $e->getMessage());
             header("HTTP/1.1 500 Internal Server Error");
             echo 'Error creating session';
         }
     }
 
-
-// Hàm kiểm tra subscription
+    // Hàm kiểm tra subscription
     function checkSubscription()
     {
         $email = $_GET['email'];
@@ -95,7 +105,7 @@ class StripeApi
         }
     }
 
-// Hàm gửi license key
+    // Hàm gửi license key
     function sendLicenseKey()
     {
         $body = json_decode(file_get_contents('php://input'), true);
@@ -116,7 +126,7 @@ class StripeApi
         }
     }
 
-// Hàm xác thực license key và cập nhật license key
+    // Hàm xác thực license key và cập nhật license key
     function verifyLicenseKey()
     {
         $body = json_decode(file_get_contents('php://input'), true);
@@ -130,7 +140,7 @@ class StripeApi
             $subscriptions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             if (count($subscriptions) > 0) {
-                $newLicenseKey = generateLicenseKey();
+                $newLicenseKey = $this->generateLicenseKey();
                 $updateQuery = 'UPDATE subscriptions SET license_key = ? WHERE customer_email = ?';
                 $stmt = $this->connection->prepare($updateQuery);
                 $stmt->execute([$newLicenseKey, $email]);
@@ -147,19 +157,21 @@ class StripeApi
         }
     }
 
-// Hàm xử lý webhook
+    // Hàm xử lý webhook
     function handleWebhook()
     {
         $sig = $_SERVER['HTTP_STRIPE_SIGNATURE'];
         $payload = @file_get_contents('php://input');
-
+        $endpointSecret = 'whsec_5f17c8c4ada7dddedac39a07084388d087b1743d38e16af8bd996bb97a21c910';
         try {
-            $event = \Stripe\Webhook::constructEvent($payload, $sig, self::$endpointSecret);
+            $event = \Stripe\Webhook::constructEvent($payload, $sig, $endpointSecret);
 
             // Ghi log đối tượng event
+            $logFile = __DIR__ . '/log/event.log';
+        error_log('event: ' . $event . PHP_EOL, 3, $logFile);
 
         } catch (\Exception $e) {
-            error_log('⚠️  Webhook signature verification failed. ' . $e->getMessage());
+            error_log('⚠️Webhook signature verification failed. ' . $e->getMessage());
             header("HTTP/1.1 400 Bad Request");
             exit();
         }
@@ -167,37 +179,35 @@ class StripeApi
         try {
             switch ($event->type) {
                 case 'invoice.payment_succeeded': //Xảy ra bất cứ khi nào nỗ lực thanh toán hóa đơn thành công.
-                    handleInvoicePaymentSucceeded($event->data->object);
+                   $this->handleInvoicePaymentSucceeded($event->data->object);
                     break;
                 case 'invoice.finalized':
-                    handleInvoiceFinalized($event->data->object);
+                    $this->handleInvoiceFinalized($event->data->object);
                     break;
                 case 'invoice.updated':
                     $invoice = $event->data->object; // Lấy đối tượng hóa đơn từ sự kiện
-                    handleInvoiceUpdated($invoice);
+                    $this->handleInvoiceUpdated($invoice);
                     break;
                 case 'invoice.payment_failed': // Khi thanh toán hóa đơn không thành công
-                    handleSubscriptionExpired($event->data->object);
+                    $this->handleSubscriptionExpired($event->data->object);
                     break;
-
                 case 'customer.subscription.created': // Khi một đăng ký mới được tạo
-                    handleSubscriptionCreated($event->data->object);
+                   $this->handleSubscriptionCreated($event->data->object);
                     break;
-
                 case 'customer.subscription.updated': // Khi một đăng ký được cập nhật
-                    handleSubscriptionUpdated($event->data->object);
+                   $this->handleSubscriptionUpdated($event->data->object);
                     break;
                 case 'customer.subscription.deleted': // Khi một đăng ký được bị hủy haowjc kết thúc
-                    handleSubscriptionDeleted($event->data->object);
+                   $this->handleSubscriptionDeleted($event->data->object);
                     break;
                 case 'customer.created': // Khi một khách hàng mới được tạo
-                    handleCustomerUpdated($event->data->object);
+                   $this->handleCustomerUpdated($event->data->object);
                     break;
                 case 'customer.updated':
-                    handleCustomerUpdated($event->data->object);
+                   $this->handleCustomerUpdated($event->data->object);
                     break;
                 case 'charge.refunded':
-                    handleRefund($event->data->object);
+                   $this->handleRefund($event->data->object);
                     break;
 
                 default:
@@ -234,14 +244,12 @@ class StripeApi
 
     function handleCustomerUpdated($customer)
     {
-        global $connection; // Sử dụng biến kết nối cơ sở dữ liệu ở phạm vi toàn cục
+       
 
         // Lấy thông tin từ đối tượng khách hàng
         $customer_id = $customer->id;
         $email = $customer->email ?? '';
         $name = $customer->name ?? '';
-        $phone = $customer->phone ?? '';
-        $description = $customer->description ?? '';
         $created_at = $customer->created;
         $created_date = date('Y-m-d H:i:s', $created_at);
         $logFile = __DIR__ . '/log/stripe_webhook.log';
@@ -252,15 +260,14 @@ class StripeApi
     email = VALUES(email), 
     name = VALUES(name), 
     created_at = VALUES(created_at)';
-        $stmt = $connection->prepare($query);
+        $stmt = $this->connection->prepare($query);
         $stmt->execute([$customer_id, $email, $name, $created_date]);
 
         error_log('Subscription inserted');
     }
 
     function handleInvoiceUpdated($invoice)
-    {
-        global $connection; // Sử dụng biến kết nối cơ sở dữ liệu ở phạm vi toàn cục
+    {  
 
         // Thực hiện logic cập nhật thông tin hóa đơn ở đây
         // Ví dụ: chèn hóa đơn vào cơ sở dữ liệu
@@ -268,18 +275,10 @@ class StripeApi
         $invoice_id = $invoice->id;
         $customer_id = $invoice->customer;
         $amount_paid = $invoice->amount_paid;
-        $currency = $invoice->currency;
         $status = $invoice->status;
-        $customer_email = $invoice->customer_email;
-        $payment_intent = $invoice->payment_intent;
-        $amount_due = $invoice->amount_due;
-        $created = $invoice->created;
         $subscription_id = $invoice->subscription;
-        $period_end = $invoice->period_end;
-        $period_start = $invoice->period_start;
-        $invoice_date = date('Y-m-d H:i:s', $invoice->created);
 
-        $sql = $connection->prepare("UPDATE invoice SET status = :status, subscription_id = :subscription_id, customer_id = :customer_id, amount_paid= :amount_paid  WHERE invoice_id = :invoice_id");
+        $sql = $this->connection->prepare("UPDATE invoice SET status = :status, subscription_id = :subscription_id, customer_id = :customer_id, amount_paid= :amount_paid  WHERE invoice_id = :invoice_id");
         $sql->execute([
             ':status' => $status,
             ':subscription_id' => $subscription_id,
@@ -297,14 +296,14 @@ class StripeApi
     }
     function handleSubscriptionExpired($invoice)
     {
-        global $connection;
+     
         $customer = $invoice->customer;
         $subscription_id = $invoice->subscription;
         $status = $invoice->status;
 
         // Cập nhật trạng thái đăng ký trong cơ sở dữ liệu của bạn
         try {
-            $stmt = $connection->prepare("UPDATE subscriptions SET status = ':status' WHERE subscription_id = :subscription_id AND customer_id = :customer_id");
+            $stmt = $this->connection->prepare("UPDATE subscriptions SET status = ':status' WHERE subscription_id = :subscription_id AND customer_id = :customer_id");
             $stmt->execute([
                 ':subscription_id' => $subscription_id,
                 ':customer_id' => $customer,
@@ -330,7 +329,7 @@ class StripeApi
 
 
 
-        saveInvoiceToDatabase($invoiceId, $customerId, $amountDue, $currency, $status, $customer_email, $subscription_id);
+        $this->saveInvoiceToDatabase($invoiceId, $customerId, $amountDue, $currency, $status, $customer_email, $subscription_id);
 
         // $customerEmail = getCustomerEmailById($customerId);
         // sendEmailNotification($customerEmail, "Invoice Created", "Your invoice with ID $invoiceId has been created.");
@@ -345,7 +344,7 @@ class StripeApi
         $currency = $invoice->currency;
         $status = $invoice->status;
 
-        updateInvoiceStatusInDatabase($invoiceId, 'paid');
+        $this->updateInvoiceStatusInDatabase($invoiceId, 'paid');
 
 
 
@@ -364,7 +363,7 @@ class StripeApi
         $currency = $invoice->currency;
         $status = $invoice->status;
 
-        updateInvoiceStatusInDatabase($invoiceId, 'payment_failed');
+        $this->updateInvoiceStatusInDatabase($invoiceId, 'payment_failed');
 
         // $customerEmail = getCustomerEmailById($customerId);
         // sendEmailNotification($customerEmail, "Invoice Payment Failed", "Payment for your invoice with ID $invoiceId has failed.");
@@ -372,22 +371,22 @@ class StripeApi
         error_log("Invoice payment failed: ID = $invoiceId, Customer ID = $customerId, Amount Due = $amountDue $currency, Status = $status");
     }
 
-// Hàm để xử lý khi phiên checkout hoàn tất
+    // Hàm để xử lý khi phiên checkout hoàn tất
     function handleCheckoutSessionCompleted($session)
     {
-        global $connection;
         $customerId = $session->customer;
         $plan = '';
         $email = $session->customer_details->email;
         $subscription = $session->subscription;
-        $licenseKey = generateLicenseKey();
+        $licenseKey = $this->generateLicenseKey();
         $status =  $session->status;
         $paymentIntentId = $session->payment_intent;
-
+        $logFile = __DIR__ . '/log/subscription.log';
+        error_log('subscription: ' . $subscription . PHP_EOL, 3, $logFile);
         try {
             // Thêm dữ liệu vào bảng subscriptions
             $query = 'INSERT INTO subscriptions (customer_id, plan, status, customer_email, amount, currency, payment_method, license_key, subscription,payment_intent) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-            $stmt = $connection->prepare($query);
+            $stmt = $this->connection->prepare($query);
             $stmt->execute([$customerId, $plan, $status, $email, $session->amount_total / 100, $session->currency, $session->payment_method_collection, $licenseKey, $subscription, $paymentIntentId]);
 
 
@@ -398,26 +397,18 @@ class StripeApi
         }
     }
 
-// Hàm để xử lý khi thanh toán invoice thành công
+    // Hàm để xử lý khi thanh toán invoice thành công
     function handleInvoicePaymentSucceeded($invoice)
-
     {
-        global $connection;
-
-
         // Kiểm tra kết nối cơ sở dữ liệu
-        if (!$connection) {
-            error_log('Database connection not found');
-            return;
-        }
-
+       
         // Kiểm tra đầu vào
         if (empty($invoice) || empty($invoice->subscription)) {
             error_log('Invalid invoice data');
             return;
         }
 
-        global $connection;
+      
         // Lấy thông tin cần thiết từ invoice
         $customer = $invoice->customer;
         $subscription_id = $invoice->subscription;
@@ -430,9 +421,15 @@ class StripeApi
         // Chuyển đổi thời gian Unix timestamp sang định dạng ngày giờ
         $current_period_end_date = date('Y-m-d H:i:s', $current_period_end);
 
+
+     
+
         // Cập nhật trạng thái đăng ký trong cơ sở dữ liệu của bạn
         try {
-            $stmt = $connection->prepare("UPDATE subscriptions SET status = :status, current_period_end = :current_period_end WHERE subscription_id = :subscription_id AND customer_id = :customer_id");
+            $stmt = $this->connection->prepare("UPDATE subscriptions SET status = :status, current_period_end = :current_period_end WHERE subscription_id = :subscription_id AND customer_id = :customer_id");
+            if (!$stmt) {
+                throw new Exception('Query preparation failed');
+            }
             $stmt->execute([
                 ':status' => $status,
                 ':current_period_end' => $current_period_end_date,
@@ -447,10 +444,9 @@ class StripeApi
         }
     }
 
-// Hàm để xử lý khi một subscription mới được tạo
+    // Hàm để xử lý khi một subscription mới được tạo
     function handleSubscriptionCreated($subscription)
     {
-        global $connection;
 
 
         // Lấy thông tin cần thiết từ subscription
@@ -461,15 +457,19 @@ class StripeApi
         $current_period_end = $subscription->current_period_end;
         $customer = $subscription->customer;
         $plan = $subscription->plan->id;
-        $licenseKey = generateLicenseKey();
+        $licenseKey = $this->generateLicenseKey();
         // Chuyển đổi thời gian Unix timestamp sang định dạng ngày giờ
         $current_period_start_date = date('H:i:s Y-m-d', $current_period_start);
         $current_period_end_date = date('H:i:s Y-m-d', $current_period_end);
 
         $status_key = 'active';
+
+
+        $logFile = __DIR__ . '/log/subscription.log';
+        error_log('subscription: ' . $subscription . PHP_EOL, 3, $logFile);
         // Lưu thông tin đăng ký mới vào cơ sở dữ liệu của bạn
         try {
-            $stmt = $connection->prepare("INSERT INTO subscriptions (customer_id, subscription_id, status, current_period_start, current_period_end,customer,subscription_json, plan, bank_name) VALUES (:customer_id, :subscription_id, :status, :current_period_start, :current_period_end, :customer, :subscription_json, :plan, :bank_name)");
+            $stmt = $this->connection->prepare("INSERT INTO subscriptions (customer_id, subscription_id, status, current_period_start, current_period_end,customer,subscription_json, plan, bank_name) VALUES (:customer_id, :subscription_id, :status, :current_period_start, :current_period_end, :customer, :subscription_json, :plan, :bank_name)");
             $stmt->execute([
                 ':customer_id' => $customer,
                 ':subscription_id' => $subscription_id,
@@ -483,7 +483,7 @@ class StripeApi
             ]);
 
 
-            $stmt = $connection->prepare("INSERT INTO licensekey (customer_id, status, subscription_id, license_key) VALUES (:customer_id, :status, :subscription_id, :license_key)");
+            $stmt = $this->connection->prepare("INSERT INTO licensekey (customer_id, status, subscription_id, license_key) VALUES (:customer_id, :status, :subscription_id, :license_key)");
             $stmt->execute([
                 ':customer_id' => $customer,
                 ':subscription_id' => $subscription_id,
@@ -501,20 +501,19 @@ class StripeApi
 
     function saveSubscriptionToDatabase($subscriptionId, $customerId, $status, $currentPeriodEnd)
     {
-        $pdo = getDatabaseConnection();
+     
         // $stmt = $pdo->prepare('INSERT INTO subscriptions (id, customer_id, status, current_period_end) VALUES (?, ?, ?, ?)');
 
 
         // $stmt->execute([$subscriptionId, $customerId, $status, date('Y-m-d H:i:s', $currentPeriodEnd)]);
 
 
-        $stmt = $pdo->prepare('UPDATE subscriptions SET status = ?, current_period_end = ? WHERE customer_id = ?');
+        $stmt = $this->connection->prepare('UPDATE subscriptions SET status = ?, current_period_end = ? WHERE customer_id = ?');
         $stmt->execute([$status, date('Y-m-d H:i:s', $currentPeriodEnd), $$customerId]);
     }
 
     function handleInvoiceFinalized($invoice)
     {
-        global $connection; // Sử dụng biến kết nối cơ sở dữ liệu ở phạm vi toàn cục
 
         // Lấy thông tin từ đối tượng hóa đơn
         $invoice_id = $invoice->id;
@@ -534,7 +533,7 @@ class StripeApi
         $logFile = __DIR__ . '/log/stripe_webhook.log';
         error_log('handleInvoiceFinalized: ' . $invoice . PHP_EOL, 3, $logFile);
         // Sử dụng Prepared Statement để tránh tấn công SQL injection
-        $stmt = $connection->prepare("INSERT INTO invoice (invoice_id,amount_paid, currency, status, invoice_date, customer_email,payment_intent,amount_due, created, period_end,period_start, subscription_id, customer_id) VALUES (:invoice_id,:amount_paid, :currency, :status, :invoice_date, :customer_email,:payment_intent,:amount_due, :created, :period_end,:period_start, :subscription_id, :customer_id)");
+        $stmt = $this->connection->prepare("INSERT INTO invoice (invoice_id,amount_paid, currency, status, invoice_date, customer_email,payment_intent,amount_due, created, period_end,period_start, subscription_id, customer_id) VALUES (:invoice_id,:amount_paid, :currency, :status, :invoice_date, :customer_email,:payment_intent,:amount_due, :created, :period_end,:period_start, :subscription_id, :customer_id)");
         $stmt->execute([
             ':invoice_id' => $invoice_id,
             ':status' => $status,
@@ -555,7 +554,7 @@ class StripeApi
 
     function handleSubscriptionUpdated($subscription)
     {
-        global $connection;
+       
         // Lấy thông tin cần thiết từ subscription
         $customer = $subscription->customer;
         $subscription_id = $subscription->id;
@@ -568,7 +567,7 @@ class StripeApi
         $invoiceId = $subscription->latest_invoice;
         // Cập nhật thông tin đăng ký trong cơ sở dữ liệu của bạn
         try {
-            $stmt = $connection->prepare("UPDATE subscriptions SET status = :status, current_period_end = :current_period_end WHERE subscription_id = :subscription_id AND customer_id = :customer_id");
+            $stmt = $this->connection->prepare("UPDATE subscriptions SET status = :status, current_period_end = :current_period_end WHERE subscription_id = :subscription_id AND customer_id = :customer_id");
             $stmt->execute([
                 ':status' => $status,
                 ':current_period_end' => $current_period_end_date,
@@ -586,7 +585,7 @@ class StripeApi
             }
 
             // Thực hiện câu lệnh SQL UPDATE cho bảng licensekey
-            $licensekey_stmt = $connection->prepare("UPDATE licensekey SET status = :status WHERE subscription_id = :subscription_id");
+            $licensekey_stmt = $this->connection->prepare("UPDATE licensekey SET status = :status WHERE subscription_id = :subscription_id");
             $licensekey_stmt->execute([
                 ':status' => $status,
                 ':subscription_id' => $subscription_id
@@ -600,14 +599,14 @@ class StripeApi
 
     function updateSubscriptionStatus($subscriptionId, $status, $currentPeriodEnd)
     {
-        $pdo = getDatabaseConnection();
-        $stmt = $pdo->prepare('UPDATE subscriptions SET status = ?, current_period_end = ? WHERE subscription_id = ?');
+     
+        $stmt = $this->connection->prepare('UPDATE subscriptions SET status = ?, current_period_end = ? WHERE subscription_id = ?');
         $stmt->execute([$status, date('Y-m-d H:i:s', $currentPeriodEnd), $subscriptionId]);
     }
-// Hàm để xử lý khi một subscription bị xóa
+    // Hàm để xử lý khi một subscription bị xóa
     function handleSubscriptionDeleted($subscription)
     {
-        global $connection;
+   
 
         // Lấy thông tin cần thiết từ subscription
         $customer = $subscription->customer;
@@ -617,7 +616,7 @@ class StripeApi
         error_log('can_subWebhook.log: ' . $subscription . PHP_EOL, 3, $logFile);
         // Cập nhật trạng thái đăng ký trong cơ sở dữ liệu của bạn
         try {
-            $stmt = $connection->prepare("UPDATE subscriptions SET status = :status WHERE subscription_id = :subscription_id AND customer_id = :customer_id");
+            $stmt = $this->connection->prepare("UPDATE subscriptions SET status = :status WHERE subscription_id = :subscription_id AND customer_id = :customer_id");
             $stmt->execute([
                 ':status' => $status,
                 ':subscription_id' => $subscription_id,
@@ -632,62 +631,60 @@ class StripeApi
         }
     }
 
-// Hàm để tạo license key ngẫu nhiên
+    // Hàm để tạo license key ngẫu nhiên
     function generateLicenseKey()
     {
         return bin2hex(random_bytes(16));
     }
     function saveInvoiceToDatabase($invoiceId, $customerId, $amountDue, $currency, $status, $customer_email, $subscription_id)
     {
-        $pdo = getDatabaseConnection();
+      
         try {
             // Start a transaction
-            $pdo->beginTransaction();
-            $stmt = $pdo->prepare('SELECT * FROM customers WHERE customer_id = ?');
+            
+            $stmt = $this->connection->prepare('SELECT * FROM customers WHERE customer_id = ?');
             $stmt->execute([$customerId]);
             $existingCustomer = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if ($existingCustomer) {
                 // If the customer already exists, update their email
-                $stmt = $pdo->prepare('UPDATE customers SET email = ? WHERE customer_id = ?');
+                $stmt = $this->connection->prepare('UPDATE customers SET email = ? WHERE customer_id = ?');
                 $stmt->execute([$customer_email, $customerId]);
             } else {
                 // If the customer does not exist, insert a new record
-                $stmt = $pdo->prepare('INSERT INTO customers (customer_id, email) VALUES (?, ?)');
+                $stmt = $this->connection->prepare('INSERT INTO customers (customer_id, email) VALUES (?, ?)');
                 $stmt->execute([$customerId, $customer_email]);
             }
             // Insert into invoice table
-            $stmt = $pdo->prepare('INSERT INTO invoice (invoice_id, customer_id, amount_due, currency, status, customer_email, subscription_id) VALUES (?, ?, ?, ?, ?, ?, ?)');
+            $stmt = $this->connection->prepare('INSERT INTO invoice (invoice_id, customer_id, amount_due, currency, status, customer_email, subscription_id) VALUES (?, ?, ?, ?, ?, ?, ?)');
             $stmt->execute([$invoiceId, $customerId, $amountDue, $currency, $status, $customer_email, $subscription_id]);
 
 
 
             // Commit the transaction
-            $pdo->commit();
+            $this->connection->commit();
         } catch (Exception $e) {
             // Roll back the transaction if something failed
-            $pdo->rollBack();
+            $this->connection->rollBack();
             throw $e;
         }
     }
 
     function updateInvoiceStatusInDatabase($invoiceId, $status)
     {
-        $pdo = getDatabaseConnection();
 
         $subscriptionId = $invoiceId->subscription;
         $query = 'UPDATE subscriptions SET status = ? WHERE subscription_id = ?';
-        $stmt = $pdo->prepare($query);
+        $stmt = $this->connection->prepare($query);
         $stmt->execute(['unpaid', $subscriptionId]);
 
-        $stmt = $pdo->prepare('UPDATE invoice SET status = ? WHERE invoice_id = ?');
+        $stmt = $this->connection->prepare('UPDATE invoice SET status = ? WHERE invoice_id = ?');
         $stmt->execute([$status, $invoiceId]);
     }
 
     function getCustomerEmailById($customerId)
     {
-        $pdo = getDatabaseConnection();
-        $stmt = $pdo->prepare('SELECT email FROM customers WHERE customer_id = ?');
+        $stmt = $this->connection->prepare('SELECT email FROM customers WHERE customer_id = ?');
         $stmt->execute([$customerId]);
         $customer = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -704,5 +701,4 @@ class StripeApi
         // Add logic for handling expired checkout session, such as sending email notification to customer
         // sendCheckoutSessionExpiredEmail($customerId);
     }
-
 }
