@@ -3,7 +3,7 @@
 use PHPMailer\PHPMailer\PHPMailer;
 
 try {
-    $conn = new PDO("mysql:host=localhost; dbname=api_vidcombo; charset=utf8;", "root", "");
+    $conn = new PDO("mysql:host=localhost; dbname=admin_vidcombo; charset=utf8;", "root", "");
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     echo "Lỗi kết nối đến cơ sở dữ liệu: " . $e->getMessage();
@@ -13,7 +13,7 @@ try {
 function getDatabaseConnection() {
     try {
        
-        $pdo = new PDO("mysql:host=localhost; dbname=api_vidcombo; charset=utf8;", "root", "");
+        $pdo = new PDO("mysql:host=localhost; dbname=admin_vidcombo; charset=utf8;", "root", "");
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $pdo;
     } catch (PDOException $e) {
