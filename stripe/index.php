@@ -12,20 +12,44 @@ $stripe_funtion = new StripeApiFunction();
 // Kiểm tra URL và gọi hàm tương ứng
 $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $method = $_SERVER['REQUEST_METHOD'];
-if ($requestUri === '/api/v1/create-checkout-session' && $method === 'POST') {
-    $stripe_funtion->createCheckoutSession();
-} elseif ($requestUri === '/api/v1/check-subscription' && $method === 'GET') {
-    $stripe_funtion->checkSubscription();
-} elseif ($requestUri === '/api/v1/send-license-key' && $method === 'POST') {
-    $stripe_funtion->sendLicenseKey();
-} elseif ($requestUri === '/api/v1/verify-license-key' && $method === 'POST') {
-    $stripe_funtion->verifyLicenseKey();
-} elseif ($requestUri === '/webhook' && $method === 'POST') {
-    $stripe_funtion->handleWebhook();
-} else {
-    header("HTTP/1.1 404 Not Found");
-    echo '404 Not Found';
+$func = isset($_GET['func'])?$_GET['func']:'';
+
+
+switch($func){
+    case 'checkout-session':
+        $stripe_funtion->createCheckoutSession();
+        break;
+    case 'check-subscription':
+        $stripe_funtion->checkSubscription();
+        break;
+    case 'send-license-key':
+        $stripe_funtion->sendLicenseKey();
+        break;
+    case 'verify-license-key':
+        $stripe_funtion->verifyLicenseKey();
+        break;
+    case 'webhook':
+        $stripe_funtion->handleWebhook();
+        break;
+    default:
+        header("HTTP/1.1 404 Not Found");
+        echo '404 Not Found';
+    exit;
 }
+// if ($requestUri === '/api/v1/create-checkout-session' && $method === 'POST') {
+//     $stripe_funtion->createCheckoutSession();
+// } elseif ($requestUri === '/api/v1/check-subscription' && $method === 'GET') {
+//     $stripe_funtion->checkSubscription();
+// } elseif ($requestUri === '/api/v1/send-license-key' && $method === 'POST') {
+//     $stripe_funtion->sendLicenseKey();
+// } elseif ($requestUri === '/api/v1/verify-license-key' && $method === 'POST') {
+//     $stripe_funtion->verifyLicenseKey();
+// } elseif ($requestUri === '/webhook' && $method === 'POST') {
+//     $stripe_funtion->handleWebhook();
+// } else {
+//     header("HTTP/1.1 404 Not Found");
+//     echo '404 Not Found';
+// }
 
 class StripeApiFunction
 {
