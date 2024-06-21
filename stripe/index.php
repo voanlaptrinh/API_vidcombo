@@ -66,7 +66,7 @@ class StripeApiFunction
             throw new Exception('Database connection could not be established.');
         }
     }
-    public $web_domain = 'http://localhost:8080';
+    public $web_domain = 'https://api.vidcombo.com';
     public $plans = array('basic' => 'price_1PLjThIXbeKO1uxj9AU2H88a');
 
     // Hàm tạo phiên Stripe Checkout
