@@ -200,11 +200,8 @@ class StripeApiFunction
     {
         $sig = $_SERVER['HTTP_STRIPE_SIGNATURE'];
         $payload = @file_get_contents('php://input');
-        if (in_array($_SERVER['SERVER_NAME'], ['localhost', '127.0.0.1', '::1'])) {
-            $endpointSecret = 'whsec_5f17c8c4ada7dddedac39a07084388d087b1743d38e16af8bd996bb97a21c910';
-        } else {
-            $endpointSecret = 'whsec_LbKCxrDhpvIqZf1iITZdbxA4z0tIxkhk';
-        }
+
+        $endpointSecret = 'whsec_LbKCxrDhpvIqZf1iITZdbxA4z0tIxkhk';
 
         try {
             $event = \Stripe\Webhook::constructEvent($payload, $sig, $endpointSecret);
@@ -280,8 +277,7 @@ class StripeApiFunction
         $payment_method = $refund->payment_method;
         $receipt_url = $refund->receipt_url;
 
-        $logFile = __DIR__ . '/log/refund_webhook.log';
-        error_log('refund_webhook.log: ' . $refund . PHP_EOL, 3, $logFile);
+
         $query = 'INSERT INTO refund (amount_captured, amount_refunded, customer_id, invoice_id, payment_intent, payment_method, receipt_url) VALUES (?, ?, ?, ?, ?, ?, ?)';
         $stmt = $this->connection->prepare($query);
         $stmt->execute([$amount_captured, $amount_refunded, $customer_id, $invoice_id, $payment_intent, $payment_method, $receipt_url]);
@@ -301,8 +297,7 @@ class StripeApiFunction
         $name = $customer->name ?? '';
         $created_at = $customer->created;
         $created_date = date('Y-m-d H:i:s', $created_at);
-        $logFile = __DIR__ . '/log/stripe_webhook.log';
-        error_log('customer: ' . $customer . PHP_EOL, 3, $logFile);
+
         // Chuẩn bị truy vấn SQL để chèn hoặc cập nhật khách hàng vào cơ sở dữ liệu
         $query = 'INSERT INTO customers (customer_id, email, name, created_at) VALUES (?, ?, ?, ?)  
     ON DUPLICATE KEY UPDATE 
@@ -326,8 +321,7 @@ class StripeApiFunction
         $amount_paid = $invoice->amount_paid;
         $status = $invoice->status;
         $subscription_id = $invoice->subscription;
-        $logFile = __DIR__ . '/log/handleInvoiceUpdated.log';
-        error_log('handleInvoiceUpdated: ' . $invoice . PHP_EOL, 3, $logFile);
+
         $sql = $this->connection->prepare("UPDATE invoice SET status = :status, subscription_id = :subscription_id, customer_id = :customer_id, amount_paid= :amount_paid  WHERE invoice_id = :invoice_id");
         $sql->execute([
             ':status' => $status,
@@ -431,8 +425,7 @@ class StripeApiFunction
         $licenseKey = $this->generateLicenseKey();
         $status =  $session->status;
         $paymentIntentId = $session->payment_intent;
-        $logFile = __DIR__ . '/log/subscription.log';
-        error_log('subscription: ' . $subscription . PHP_EOL, 3, $logFile);
+
         try {
             // Thêm dữ liệu vào bảng subscriptions
             $query = 'INSERT INTO subscriptions (customer_id, plan, status, customer_email, amount, currency, payment_method, license_key, subscription,payment_intent) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
@@ -514,10 +507,6 @@ class StripeApiFunction
 
         $status_key = 'active';
 
-
-        $logFile = __DIR__ . '/log/subscription.log';
-        error_log('subscription: ' . $subscription . PHP_EOL, 3, $logFile);
-        // Lưu thông tin đăng ký mới vào cơ sở dữ liệu của bạn
         try {
             $stmt = $this->connection->prepare("INSERT INTO subscriptions (customer_id, subscription_id, status, current_period_start, current_period_end,customer,subscription_json, plan, bank_name) VALUES (:customer_id, :subscription_id, :status, :current_period_start, :current_period_end, :customer, :subscription_json, :plan, :bank_name)");
             $stmt->execute([
@@ -541,19 +530,19 @@ class StripeApiFunction
                 ':status' => $status_key,
 
             ]);
-            $to      = "abc@example.com";
-            $subject = "Tiêu đề email";
-            $message = "Nội dung email";
-            $header  =  "From:myemail@exmaple.com \r\n";
-            $header .=  "Cc:other@exmaple.com \r\n";
+            // $to      = "abc@example.com";
+            // $subject = "Tiêu đề email";
+            // $message = "Nội dung email";
+            // $header  =  "From:myemail@exmaple.com \r\n";
+            // $header .=  "Cc:other@exmaple.com \r\n";
 
-            $success = mail($to, $subject, $message, $header);
+            // $success = mail($to, $subject, $message, $header);
 
-            if ($success == true) {
-                echo "Đã gửi mail thành công...";
-            } else {
-                echo "Không gửi đi được...";
-            }
+            // if ($success == true) {
+            //     echo "Đã gửi mail thành công...";
+            // } else {
+            //     echo "Không gửi đi được...";
+            // }
             error_log("Subscription created for customer: $customer, subscription ID: $subscription_id, status: $status, current period start: $current_period_start_date, current period end: $current_period_end_date");
         } catch (PDOException $e) {
             error_log('Database insert failed: ' . $e->getMessage());
@@ -594,8 +583,21 @@ class StripeApiFunction
         $customer_id = $invoice->customer;
 
         $invoice_date = date('Y-m-d H:i:s', $invoice->created);
-        $logFile = __DIR__ . '/log/stripe_webhook.log';
-        error_log('handleInvoiceFinalized: ' . $invoice . PHP_EOL, 3, $logFile);
+
+
+
+
+        $logDir = 'log';
+        if (!is_dir($logDir)) {
+            mkdir($logDir, 0755, true);
+        }
+        $fname = $logDir . '/handleInvoiceFinalized_' . date('Y_m_d_H_i_s') . '.log';
+
+        $data = "handleInvoiceFinalized :\n" . json_encode($invoice) . "\n\n";
+
+        // Write the data to the log file
+        file_put_contents($fname, $data);
+
         // Sử dụng Prepared Statement để tránh tấn công SQL injection
         $stmt = $this->connection->prepare("INSERT INTO invoice (invoice_id,amount_paid, currency, status, invoice_date, customer_email, payment_intent, amount_due, created, period_end, period_start, subscription_id, customer_id) VALUES (:invoice_id,:amount_paid, :currency, :status, :invoice_date, :customer_email,:payment_intent,:amount_due, :created, :period_end,:period_start, :subscription_id, :customer_id)");
         $stmt->execute([
@@ -676,8 +678,7 @@ class StripeApiFunction
         $customer = $subscription->customer;
         $subscription_id = $subscription->id;
         $status = $subscription->status;
-        $logFile = __DIR__ . '/log/can_subWebhook.log';
-        error_log('can_subWebhook.log: ' . $subscription . PHP_EOL, 3, $logFile);
+
         // Cập nhật trạng thái đăng ký trong cơ sở dữ liệu của bạn
         try {
             $stmt = $this->connection->prepare("UPDATE subscriptions SET status = :status WHERE subscription_id = :subscription_id AND customer_id = :customer_id");
