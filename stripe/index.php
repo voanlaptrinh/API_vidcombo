@@ -200,10 +200,15 @@ class StripeApiFunction
     {
         $sig = $_SERVER['HTTP_STRIPE_SIGNATURE'];
         $payload = @file_get_contents('php://input');
-        $endpointSecret = 'whsec_LbKCxrDhpvIqZf1iITZdbxA4z0tIxkhk';
+        if (in_array($_SERVER['SERVER_NAME'], ['localhost', '127.0.0.1', '::1'])) {
+            $endpointSecret = 'whsec_5f17c8c4ada7dddedac39a07084388d087b1743d38e16af8bd996bb97a21c910';
+        } else {
+            $endpointSecret = 'whsec_LbKCxrDhpvIqZf1iITZdbxA4z0tIxkhk';
+        }
+
         try {
             $event = \Stripe\Webhook::constructEvent($payload, $sig, $endpointSecret);
-        
+
             $fname = date('Y_m_d_H_i_s') . '.log';
 
             $request_data = json_encode($_REQUEST);
@@ -212,12 +217,11 @@ class StripeApiFunction
 
             $data = $request_data . "\n" . $raw_input_data . "\n" . $server_data;
 
-            $log_directory = 'logs/';
+            $log_directory = 'log/';
 
             file_put_contents($log_directory . $fname, $data);
         } catch (\Exception $e) {
-            error_log('⚠️Webhook signature verification failed. ' . $e->getMessage());
-            header("HTTP/1.1 400 Bad Request");
+            echo ($e->getMessage());
             exit();
         }
 
