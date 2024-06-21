@@ -12,11 +12,11 @@ $stripe_funtion = new StripeApiFunction();
 // Kiểm tra URL và gọi hàm tương ứng
 $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $method = $_SERVER['REQUEST_METHOD'];
-$func = isset($_GET['func'])?$_GET['func']:'';
+$func = isset($_GET['func']) ? $_GET['func'] : '';
 
 
-switch($func){
-    case 'checkout-session':
+switch ($func) {
+    case 'create-checkout-session':
         $stripe_funtion->createCheckoutSession();
         break;
     case 'check-subscription':
@@ -34,7 +34,7 @@ switch($func){
     default:
         header("HTTP/1.1 404 Not Found");
         echo '404 Not Found';
-    exit;
+        exit;
 }
 // if ($requestUri === '/api/v1/create-checkout-session' && $method === 'POST') {
 //     $stripe_funtion->createCheckoutSession();
@@ -87,8 +87,8 @@ class StripeApiFunction
                     'quantity' => 1,
                 ]],
                 'mode' => 'subscription',
-                'success_url' => $this->web_domain . "/success.php?session_id={CHECKOUT_SESSION_ID}",
-                'cancel_url' => $this->web_domain . "/cancel.html",
+                'success_url' => $this->web_domain . "/stripe/success.php?session_id={CHECKOUT_SESSION_ID}",
+                'cancel_url' => $this->web_domain . "/stripe/cancel.html",
             ]);
 
 
@@ -111,22 +111,39 @@ class StripeApiFunction
     // Hàm kiểm tra subscription
     function checkSubscription()
     {
-        $email = $_GET['email'];
+        $subscriptionId = isset($_GET['subscriptionId']) ? $_GET['subscriptionId'] : null;
+
+        if ($subscriptionId === null) {
+            header("HTTP/1.1 400 Bad Request");
+            echo json_encode(['error' => 'subscriptionId parameter is missing']);
+            return;
+        }
 
         try {
-            $query = 'SELECT * FROM subscriptions WHERE customer_email = ?';
-            $stmt = $this->connection->prepare($query);
-            $stmt->execute([$email]);
-            $subscriptions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            // Retrieve the subscription from Stripe
+            $subscription = \Stripe\Subscription::retrieve($subscriptionId);
+
+            // Extract necessary information from the subscription object
+            $status = $subscription->status;
+            $current_period_end = $subscription->current_period_end;
+            $items = $subscription->items->data;
+
+            // Prepare the response data
+            $response = [
+                'status' => $status,
+                'current_period_end' => date('Y-m-d H:i:s', $current_period_end),
+                'items' => $items,
+            ];
 
             header('Content-Type: application/json');
-            echo json_encode(['subscriptions' => $subscriptions]);
-        } catch (\Exception $e) {
-            error_log($e->getMessage());
+            echo json_encode($response);
+        } catch (\Stripe\Exception\ApiErrorException $e) {
+            // Handle the exception if the API request fails
             header("HTTP/1.1 500 Internal Server Error");
-            echo 'Error checking subscription';
+            echo json_encode(['error' => $e->getMessage()]);
         }
     }
+
 
     // Hàm gửi license key
     function sendLicenseKey()
@@ -134,9 +151,7 @@ class StripeApiFunction
         $body = json_decode(file_get_contents('php://input'), true);
         $email = $body['email'] ?? null;
         $key = $body['key'] ?? null;
-        $fname = date('Y-m-d-H:i:s') . '.txt';
-        $data = json_encode($_REQUEST) . "\n" . json_encode(file_get_contents('php://input')) . "\n" . json_encode($_SERVER);
-        file_put_contents('log/' . $fname, $data);
+
         try {
             // Gửi email chứa license key
             error_log("License key $key sent to $email");
@@ -188,9 +203,18 @@ class StripeApiFunction
         $endpointSecret = 'whsec_5f17c8c4ada7dddedac39a07084388d087b1743d38e16af8bd996bb97a21c910';
         try {
             $event = \Stripe\Webhook::constructEvent($payload, $sig, $endpointSecret);
-            // Ghi log đối tượng event
-            $logFile = __DIR__ . '/log/event.log';
-            error_log('event: ' . $event . PHP_EOL, 3, $logFile);
+        
+            $fname = date('Y_m_d_H_i_s') . '.log';
+
+            $request_data = json_encode($_REQUEST);
+            $raw_input_data = json_encode(file_get_contents('php://input'));
+            $server_data = json_encode($_SERVER);
+
+            $data = $request_data . "\n" . $raw_input_data . "\n" . $server_data;
+
+            $log_directory = 'logs/';
+
+            file_put_contents($log_directory . $fname, $data);
         } catch (\Exception $e) {
             error_log('⚠️Webhook signature verification failed. ' . $e->getMessage());
             header("HTTP/1.1 400 Bad Request");
@@ -298,7 +322,8 @@ class StripeApiFunction
         $amount_paid = $invoice->amount_paid;
         $status = $invoice->status;
         $subscription_id = $invoice->subscription;
-
+        $logFile = __DIR__ . '/log/handleInvoiceUpdated.log';
+        error_log('handleInvoiceUpdated: ' . $invoice . PHP_EOL, 3, $logFile);
         $sql = $this->connection->prepare("UPDATE invoice SET status = :status, subscription_id = :subscription_id, customer_id = :customer_id, amount_paid= :amount_paid  WHERE invoice_id = :invoice_id");
         $sql->execute([
             ':status' => $status,
@@ -512,6 +537,19 @@ class StripeApiFunction
                 ':status' => $status_key,
 
             ]);
+            $to      = "abc@example.com";
+            $subject = "Tiêu đề email";
+            $message = "Nội dung email";
+            $header  =  "From:myemail@exmaple.com \r\n";
+            $header .=  "Cc:other@exmaple.com \r\n";
+
+            $success = mail($to, $subject, $message, $header);
+
+            if ($success == true) {
+                echo "Đã gửi mail thành công...";
+            } else {
+                echo "Không gửi đi được...";
+            }
             error_log("Subscription created for customer: $customer, subscription ID: $subscription_id, status: $status, current period start: $current_period_start_date, current period end: $current_period_end_date");
         } catch (PDOException $e) {
             error_log('Database insert failed: ' . $e->getMessage());
@@ -550,11 +588,12 @@ class StripeApiFunction
         $period_start = $invoice->period_start;
         $subscription_id = $invoice->subscription;
         $customer_id = $invoice->customer;
+
         $invoice_date = date('Y-m-d H:i:s', $invoice->created);
         $logFile = __DIR__ . '/log/stripe_webhook.log';
         error_log('handleInvoiceFinalized: ' . $invoice . PHP_EOL, 3, $logFile);
         // Sử dụng Prepared Statement để tránh tấn công SQL injection
-        $stmt = $this->connection->prepare("INSERT INTO invoice (invoice_id,amount_paid, currency, status, invoice_date, customer_email,payment_intent,amount_due, created, period_end,period_start, subscription_id, customer_id) VALUES (:invoice_id,:amount_paid, :currency, :status, :invoice_date, :customer_email,:payment_intent,:amount_due, :created, :period_end,:period_start, :subscription_id, :customer_id)");
+        $stmt = $this->connection->prepare("INSERT INTO invoice (invoice_id,amount_paid, currency, status, invoice_date, customer_email, payment_intent, amount_due, created, period_end, period_start, subscription_id, customer_id) VALUES (:invoice_id,:amount_paid, :currency, :status, :invoice_date, :customer_email,:payment_intent,:amount_due, :created, :period_end,:period_start, :subscription_id, :customer_id)");
         $stmt->execute([
             ':invoice_id' => $invoice_id,
             ':status' => $status,
@@ -570,7 +609,7 @@ class StripeApiFunction
             ':subscription_id' => $subscription_id,
             ':customer_id' => $customer_id
 
-        ]);;
+        ]);
     }
 
     function handleSubscriptionUpdated($subscription)
