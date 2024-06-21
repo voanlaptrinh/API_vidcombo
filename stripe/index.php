@@ -529,6 +529,10 @@ class StripeApiFunction
         $subscription_id = $invoice->subscription;
         $customer_id = $invoice->customer;
 
+        $invoice_date = date('Y-m-d H:i:s', $invoice->created);
+
+
+
 
         $logDir = 'log';
         if (!is_dir($logDir)) {
@@ -542,7 +546,7 @@ class StripeApiFunction
         file_put_contents($fname, $data);
 
         // Sử dụng Prepared Statement để tránh tấn công SQL injection
-        $stmt = $this->connection->prepare("INSERT INTO invoice (invoice_id, amount_paid, currency, status, customer_email, payment_intent, amount_due, created, period_end, period_start, subscription_id, customer_id) VALUES (:invoice_id, :amount_paid, :currency, :status, :customer_email, :payment_intent, :amount_due, :created, :period_end,:period_start, :subscription_id, :customer_id)");
+        $stmt = $this->connection->prepare("INSERT INTO invoice (invoice_id, amount_paid, currency, status, invoice_datetime, customer_email, payment_intent, amount_due, created, period_end, period_start, subscription_id, customer_id) VALUES (:invoice_id, :amount_paid, :currency, :status, :invoice_datetime, :customer_email, :payment_intent, :amount_due, :created, :period_end,:period_start, :subscription_id, :customer_id)");
         $stmt->execute([
             ':invoice_id' => $invoice_id,
             ':status' => $status,
@@ -554,6 +558,7 @@ class StripeApiFunction
             ':created' => $created,
             ':period_end' => $period_end,
             ':period_start' => $period_start,
+            ':invoice_datetime' => $invoice_date,
             ':subscription_id' => $subscription_id,
             ':customer_id' => $customer_id
 
