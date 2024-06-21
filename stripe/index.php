@@ -465,8 +465,8 @@ class StripeApiFunction
         $plan = $subscription->plan->id;
         $licenseKey = $this->generateLicenseKey();
         // Chuyển đổi thời gian Unix timestamp sang định dạng ngày giờ
-        $current_period_start_date = date('H:i:s Y-m-d', $current_period_start);
-        $current_period_end_date = date('H:i:s Y-m-d', $current_period_end);
+        $current_period_start_date = date('Y-m-d H:i:s', $current_period_start);
+        $current_period_end_date = date('Y-m-d H:i:s', $current_period_end);
 
         $status_key = 'active';
 
@@ -546,7 +546,7 @@ class StripeApiFunction
         file_put_contents($fname, $data);
 
         // Sử dụng Prepared Statement để tránh tấn công SQL injection
-        $stmt = $this->connection->prepare("INSERT INTO invoice (invoice_id, amount_paid, currency, status, invoice_datetime, customer_email, payment_intent, amount_due, created, period_end, period_start, subscription_id, customer_id) VALUES (:invoice_id, :amount_paid, :currency, :status, :invoice_datetime, :customer_email, :payment_intent, :amount_due, :created, :period_end,:period_start, :subscription_id, :customer_id)");
+        $stmt = $this->connection->prepare("INSERT INTO invoice (invoice_id, amount_paid, currency, status, invoice_date, customer_email, payment_intent, amount_due, created, period_end, period_start, subscription_id, customer_id) VALUES (:invoice_id, :amount_paid, :currency, :status, :invoice_date, :customer_email, :payment_intent, :amount_due, :created, :period_end,:period_start, :subscription_id, :customer_id)");
         $stmt->execute([
             ':invoice_id' => $invoice_id,
             ':status' => $status,
@@ -558,7 +558,7 @@ class StripeApiFunction
             ':created' => $created,
             ':period_end' => $period_end,
             ':period_start' => $period_start,
-            ':invoice_datetime' => $invoice_date,
+            ':invoice_date' => $invoice_date,
             ':subscription_id' => $subscription_id,
             ':customer_id' => $customer_id
 
