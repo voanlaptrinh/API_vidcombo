@@ -1,6 +1,8 @@
 <?php
-require_once __DIR__ . '../vendor/autoload.php';
+// require './';
 require_once '../common.php';
+require_once '../vendor/autoload.php';
+
 
 $paypal_funtion = new PaypalApiFunction();
 
@@ -57,10 +59,10 @@ class PaypalApiFunction
         $product_id = 'PROD-1ES34532SK597535U';
         $plan = $this->createPlan($product_id, $token);
         $plan_id = $plan->id;
-        $this->$this->createSubscription($plan_id, $token);
+        echo $this->createSubscription($plan_id, $token);
 
         // Redirect hoặc hiển thị thông báo thanh toán thành công
-        header("Location: /success.php");
+        
     }
 
     // Hàm xử lý webhook từ PayPal
@@ -103,8 +105,6 @@ class PaypalApiFunction
                 $this->handleBillingSubcriptionExpired($jsonData['resource']);
                 break;
             case 'BILLING.SUBSCRIPTION.UPDATED':
-                $this->handleSubscriptionUpdated($jsonData['resource']);
-                break;
             case 'BILLING.SUBSCRIPTION.RENEWED':
                 $this->handleSubscriptionUpdated($jsonData['resource']);
                 break;
@@ -491,7 +491,7 @@ class PaypalApiFunction
         curl_close($ch);
         $logFile = __DIR__ . '/log/subcription.log';
         error_log('subcription Data: ' . print_r($response, true) . PHP_EOL, 3, $logFile);
-        return json_encode(['session' => $response]);
+        echo json_encode(['session' => $response]);
     }
 
     function cancelSubscription()

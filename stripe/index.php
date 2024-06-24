@@ -30,6 +30,9 @@ switch ($func) {
     case 'verify-license-key':
         $stripe_funtion->verifyLicenseKey();
         break;
+    case 'email-subcription':
+        $stripe_funtion->emailSubcription();
+        break;
     case 'webhook':
         $stripe_funtion->handleWebhook();
         break;
@@ -74,6 +77,55 @@ class StripeApiFunction
         '12month' => 'price_1PV2USIXbeKO1uxjnL1w3qPC',
         '6month' => 'price_1PV2VjIXbeKO1uxjHlOtM0oL'
     );
+
+
+    function emailSubcription(){
+        header('Content-Type: application/json');
+
+        $email = isset($_GET['email']) ? $_GET['email'] : null;
+
+        if (!$email) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Email is required']);
+            return;
+        }
+
+        $conn =  $this->connection;
+
+        if (!$conn) {
+            http_response_code(500);
+            echo json_encode(['error' => 'Database connection error']);
+            return;
+        }
+
+        // Query to get subscription IDs from invoice table
+        $query = "SELECT subscription_id FROM invoice WHERE customer_email = :email";
+        $stmt = $conn->prepare($query);
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+
+        $subscription_ids = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+        if (empty($subscription_ids)) {
+            http_response_code(404);
+            echo json_encode(['error' => 'No subscriptions found for this email']);
+            return;
+        }
+
+        // Query to get subscription details from subscription table
+        $query = "SELECT subscription_id, status, bank_name FROM subscriptions WHERE subscription_id IN (" . implode(',', array_map('intval', $subscription_ids)) . ")";
+        $stmt = $conn->prepare($query);
+        $stmt->execute();
+
+        $subscriptions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        echo json_encode(['subscriptions' => $subscriptions]);
+
+      
+    }
+    
+
+
 
     // Hàm tạo phiên Stripe Checkout
     function createCheckoutSession()
@@ -275,8 +327,8 @@ class StripeApiFunction
         $sig = $_SERVER['HTTP_STRIPE_SIGNATURE'];
         $payload = @file_get_contents('php://input');
 
-        $endpointSecret = 'whsec_LbKCxrDhpvIqZf1iITZdbxA4z0tIxkhk';
-        // $endpointSecret = 'whsec_5f17c8c4ada7dddedac39a07084388d087b1743d38e16af8bd996bb97a21c910';
+        // $endpointSecret = 'whsec_LbKCxrDhpvIqZf1iITZdbxA4z0tIxkhk';
+        $endpointSecret = 'whsec_5f17c8c4ada7dddedac39a07084388d087b1743d38e16af8bd996bb97a21c910';
 
         $event = \Stripe\Webhook::constructEvent($payload, $sig, $endpointSecret);
 
@@ -357,8 +409,6 @@ class StripeApiFunction
 
     function handleCustomerUpdated($customer)
     {
-
-
         // Lấy thông tin từ đối tượng khách hàng
         $customer_id = $customer->id;
         $email = $customer->email ?? '';
