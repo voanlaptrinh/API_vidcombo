@@ -327,8 +327,8 @@ class StripeApiFunction
         $sig = $_SERVER['HTTP_STRIPE_SIGNATURE'];
         $payload = @file_get_contents('php://input');
 
-        $endpointSecret = 'whsec_LbKCxrDhpvIqZf1iITZdbxA4z0tIxkhk';
-        // $endpointSecret = 'whsec_5f17c8c4ada7dddedac39a07084388d087b1743d38e16af8bd996bb97a21c910';
+        // $endpointSecret = 'whsec_LbKCxrDhpvIqZf1iITZdbxA4z0tIxkhk';
+        $endpointSecret = 'whsec_5f17c8c4ada7dddedac39a07084388d087b1743d38e16af8bd996bb97a21c910';
 
         $event = \Stripe\Webhook::constructEvent($payload, $sig, $endpointSecret);
 
@@ -488,8 +488,7 @@ class StripeApiFunction
 
         $this->saveInvoiceToDatabase($invoiceId, $customerId, $amountDue, $currency, $status, $customer_email, $subscription_id);
 
-        // $customerEmail = getCustomerEmailById($customerId);
-        // sendEmailNotification($customerEmail, "Invoice Created", "Your invoice with ID $invoiceId has been created.");
+      
 
         error_log("Invoice created: ID = $invoiceId, Customer ID = $customerId, Amount Due = $amountDue $currency, Status = $status");
     }
@@ -504,11 +503,6 @@ class StripeApiFunction
         $this->updateInvoiceStatusInDatabase($invoiceId, 'paid');
 
 
-
-
-        // $customerEmail = getCustomerEmailById($customerId);
-        // sendEmailNotification($customerEmail, "Invoice Paid", "Your invoice with ID $invoiceId has been paid.");
-
         error_log("Invoice paid: ID = $invoiceId, Customer ID = $customerId, Amount Paid = $amountPaid $currency, Status = $status");
     }
 
@@ -522,8 +516,7 @@ class StripeApiFunction
 
         $this->updateInvoiceStatusInDatabase($invoiceId, 'payment_failed');
 
-        // $customerEmail = getCustomerEmailById($customerId);
-        // sendEmailNotification($customerEmail, "Invoice Payment Failed", "Payment for your invoice with ID $invoiceId has failed.");
+        
 
         error_log("Invoice payment failed: ID = $invoiceId, Customer ID = $customerId, Amount Due = $amountDue $currency, Status = $status");
     }
@@ -723,24 +716,6 @@ class StripeApiFunction
 
         $invoice_date = date('Y-m-d H:i:s', $invoice->created);
 
-        // Sử dụng Prepared Statement để tránh tấn công SQL injection
-        $stmt = $this->connection->prepare("INSERT INTO invoice (invoice_id, amount_paid, currency, status, invoice_datetime, customer_email, payment_intent, amount_due, created, period_end, period_start, subscription_id, customer_id) VALUES (:invoice_id, :amount_paid, :currency, :status, :invoice_datetime, :customer_email, :payment_intent, :amount_due, :created, :period_end,:period_start, :subscription_id, :customer_id)");
-        $stmt->execute([
-            ':invoice_id' => $invoice_id,
-            ':status' => $status,
-            ':amount_paid' => $amount_paid,
-            ':currency' => $currency,
-            ':customer_email' => $customer_email,
-            ':payment_intent' => $payment_intent,
-            ':amount_due' => $amount_due,
-            ':created' => $created,
-            ':period_end' => $period_end,
-            ':period_start' => $period_start,
-            ':invoice_datetime' => $invoice_date,
-            ':subscription_id' => $subscription_id,
-            ':customer_id' => $customer_id
-
-        ]);
 
         $stmt = $this->connection->prepare("SELECT license_key FROM licensekey WHERE subscription_id = :subscription_id");
         $stmt->execute([':subscription_id' => $subscription_id]);
@@ -761,6 +736,29 @@ class StripeApiFunction
         } else {
             error_log("No license key found for subscription ID: $subscription_id");
         }
+
+
+
+        // Sử dụng Prepared Statement để tránh tấn công SQL injection
+        $stmt = $this->connection->prepare("INSERT INTO invoice (invoice_id, amount_paid, currency, status, invoice_datetime, customer_email, payment_intent, amount_due, created, period_end, period_start, subscription_id, customer_id) VALUES (:invoice_id, :amount_paid, :currency, :status, :invoice_datetime, :customer_email, :payment_intent, :amount_due, :created, :period_end,:period_start, :subscription_id, :customer_id)");
+        $stmt->execute([
+            ':invoice_id' => $invoice_id,
+            ':status' => $status,
+            ':amount_paid' => $amount_paid,
+            ':currency' => $currency,
+            ':customer_email' => $customer_email,
+            ':payment_intent' => $payment_intent,
+            ':amount_due' => $amount_due,
+            ':created' => $created,
+            ':period_end' => $period_end,
+            ':period_start' => $period_start,
+            ':invoice_datetime' => $invoice_date,
+            ':subscription_id' => $subscription_id,
+            ':customer_id' => $customer_id
+
+        ]);
+
+      
     }
 
     function handleSubscriptionUpdated($subscription)
