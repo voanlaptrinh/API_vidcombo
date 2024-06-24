@@ -275,8 +275,8 @@ class StripeApiFunction
         $sig = $_SERVER['HTTP_STRIPE_SIGNATURE'];
         $payload = @file_get_contents('php://input');
 
-        // $endpointSecret = 'whsec_LbKCxrDhpvIqZf1iITZdbxA4z0tIxkhk';
-        $endpointSecret = 'whsec_5f17c8c4ada7dddedac39a07084388d087b1743d38e16af8bd996bb97a21c910';
+        $endpointSecret = 'whsec_LbKCxrDhpvIqZf1iITZdbxA4z0tIxkhk';
+        // $endpointSecret = 'whsec_5f17c8c4ada7dddedac39a07084388d087b1743d38e16af8bd996bb97a21c910';
 
         $event = \Stripe\Webhook::constructEvent($payload, $sig, $endpointSecret);
 
