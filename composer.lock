@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "612510e279560c9473a0f78c257fe2c8",
+    "content-hash": "388fcad13254bcafc62f5692db0a8bb8",
     "packages": [
         {
             "name": "fig/http-message-util",
@@ -112,7 +112,6 @@
             },
             "time": "2018-02-13T20:26:39+00:00"
         },
-       
         {
             "name": "phpmailer/phpmailer",
             "version": "v6.9.1",

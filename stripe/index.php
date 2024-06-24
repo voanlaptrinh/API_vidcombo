@@ -3,6 +3,8 @@
 require_once '../common.php';
 require_once '../vendor/autoload.php';
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 use Stripe\Stripe;
 
 Stripe::setApiKey('sk_test_51OeDsPIXbeKO1uxjfGZLmBaoVYMdmbThMwRHSrNa6Zigu0FnQYuAatgfPEodv9suuRFROdNRHux5vUhDp7jC6nca00GbHqdk1Y');
@@ -23,7 +25,7 @@ switch ($func) {
         $stripe_funtion->checkSubscription();
         break;
     case 'send-license-key':
-        $stripe_funtion->sendLicenseKey();
+        $stripe_funtion->sendLicenseKey(); // lấy ra trạng thái của key và key và địa chỉ mac
         break;
     case 'verify-license-key':
         $stripe_funtion->verifyLicenseKey();
@@ -67,7 +69,11 @@ class StripeApiFunction
         }
     }
     public $web_domain = 'https://api.vidcombo.com';
-    public $plans = array('basic' => 'price_1PLjThIXbeKO1uxj9AU2H88a');
+    public $plans = array(
+        '1month' => 'price_1PV2QfIXbeKO1uxjVvaZPb8p',
+        '12month' => 'price_1PV2USIXbeKO1uxjnL1w3qPC',
+        '6month' => 'price_1PV2VjIXbeKO1uxjHlOtM0oL'
+    );
 
     // Hàm tạo phiên Stripe Checkout
     function createCheckoutSession()
@@ -132,15 +138,109 @@ class StripeApiFunction
     // Hàm gửi license key
     function sendLicenseKey()
     {
-        $body = json_decode(file_get_contents('php://input'), true);
-        $email = $body['email'] ?? null;
-        $key = $body['key'] ?? null;
+        // $body = json_decode(file_get_contents('php://input'), true);
+        // $email = $body['email'] ?? null;
+        // $key = $body['key'] ?? null;
 
 
-        // Gửi email chứa license key
-        error_log("License key $key sent to $email");
-        header('Content-Type: application/json');
-        echo json_encode(['success' => true]);
+        // // Gửi email chứa license key
+        // error_log("License key $key sent to $email");
+        // header('Content-Type: application/json');
+        // echo json_encode(['success' => true]);
+
+
+        header("Content-Type: application/json");
+
+        // Lấy địa chỉ IP của client
+        $clientIP = $_SERVER['REMOTE_ADDR'];
+
+        $geoInfo = @file_get_contents("http://ip-api.com/json/{$clientIP}?fields=status,country,countryCode");
+        if ($geoInfo === FALSE) {
+            $geoInfo = ["error" => "Không thể lấy thông tin địa lý"];
+        } else {
+            $geoInfo = json_decode($geoInfo, true);
+        }
+
+        if ($geoInfo['status'] === 'fail') {
+            $countryCode = 'Không có thông tin quốc gia';
+        } else {
+            $countryCode = $geoInfo['countryCode'];
+        }
+
+        // Thông tin hệ điều hành của server
+        $osInfo = php_uname();
+
+        // Lấy tên máy chủ
+        $hostname = gethostname();
+
+        if (stristr(PHP_OS, 'win')) {
+            $serverIP = gethostbyname($hostname);
+        } else {
+            $serverIP = shell_exec("hostname -I");
+            $serverIP = trim($serverIP);
+        }
+
+        // Trích xuất tham số cpu và mac từ yêu cầu HTTP GET
+        $cpu = isset($_GET['cpu']) ? $_GET['cpu'] : 'Không có thông tin'; //CPU
+        $mac = isset($_GET['mac']) ? $_GET['mac'] : 'Không có thông tin'; //Địa chỉ mác
+        $operating = isset($_GET['operating']) ? $_GET['operating'] : 'Không có thông tin'; //Hệ điều hành
+
+        if (!isset($_GET['cpu']) || !isset($_GET['mac']) || !isset($_GET['operating']) || !isset($_GET['license_key'])) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Missing parameters']);
+            exit;
+        }
+
+
+
+        $license_key = $_GET['license_key'];
+
+
+        // Query the database
+        $stmt = $this->connection->prepare("SELECT `license_key`, `status` FROM licensekey WHERE `license_key` = :license_key");
+        $stmt->execute([':license_key' => $license_key]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($result) {
+            // Return the response
+            $response = [
+
+                'license_key' => $result['license_key'],
+                'status' => $result['status'],
+                'client_ip' => $clientIP,
+                'geo' => $countryCode,
+                'os' => $osInfo,
+                'hostname' => $hostname,
+                'server_ip' => $serverIP,
+                'cpu' => $cpu,
+                'mac' => $mac,
+                'operating' => $operating
+            ];
+
+
+
+            $sql = "INSERT INTO driver (client_ip, geo, os, hostname, server_ip, cpu, mac, operating, license_key) 
+            VALUES (:client_ip, :geo, :os, :hostname, :server_ip, :cpu, :mac, :operating, :license_key)";
+
+            // Thực thi truy vấn
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bindParam(':client_ip', $clientIP);
+            $stmt->bindParam(':geo', $countryCode);
+            $stmt->bindParam(':os', $osInfo);
+            $stmt->bindParam(':hostname', $hostname);
+            $stmt->bindParam(':server_ip', $serverIP);
+            $stmt->bindParam(':cpu', $cpu);
+            $stmt->bindParam(':mac', $mac);
+            $stmt->bindParam(':operating', $operating);
+            $stmt->bindParam(':license_key', $license_key);
+
+            // Thực thi truy vấn
+            $stmt->execute();
+
+            echo json_encode($response);
+        } else {
+            echo json_encode(['error' => 'License key not found']);
+        }
     }
 
     // Hàm xác thực license key và cập nhật license key
@@ -509,16 +609,31 @@ class StripeApiFunction
 
     function sendEmailNotification($customer_email, $licenseKey)
     {
-        $to = $customer_email;
-        $subject = "Your License Key";
-        $message = "Dear Customer,\n\nYour license key is: $licenseKey\n\nThank you for your subscription!";
-        $headers = "From: no-reply@example.com";
-        error_log("Failed to send email to $licenseKey");
-        if (mail($to, $subject, $message, $headers)) {
-            error_log("Email sent to $customer_email with license key $licenseKey");
-        } else {
-            error_log("Failed to send email to $customer_email");
-        }
+        $mail = new PHPMailer(true);
+
+
+        //Server settings
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.gmail.com';  // Use the correct SMTP server
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'thanbatbai3092002@gmail.com';  // Your Gmail address
+        $mail->Password   = 'etejnwheciweprdo';  // Your Gmail password or app-specific password
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = 587;  // TCP port to connect to
+
+        //Recipients
+        $mail->setFrom('no-reply@example.com', 'Mailer');
+        $mail->addAddress($customer_email);
+
+        // Content
+        $mail->isHTML(true);
+        $mail->Subject = 'Your License Key';
+        $mail->Body    = "Dear $customer_email,<br><br>Your license key is: $licenseKey<br><br>Thank you for your subscription!";
+        $mail->AltBody = "Dear $customer_email,\n\nYour license key is: $licenseKey\n\nThank you for your subscription!";
+
+        // Send the email
+        $mail->send();
+        error_log("Email sent to $customer_email with license key $licenseKey");
     }
 
 
@@ -558,20 +673,6 @@ class StripeApiFunction
 
         $invoice_date = date('Y-m-d H:i:s', $invoice->created);
 
-
-
-
-        $logDir = 'log';
-        if (!is_dir($logDir)) {
-            mkdir($logDir, 0755, true);
-        }
-        $fname = $logDir . '/handleInvoiceFinalized_' . date('Y_m_d_H_i_s') . '.log';
-
-        $data = "handleInvoiceFinalized :\n" . json_encode($invoice) . "\n\n";
-
-        // Write the data to the log file
-        file_put_contents($fname, $data);
-
         // Sử dụng Prepared Statement để tránh tấn công SQL injection
         $stmt = $this->connection->prepare("INSERT INTO invoice (invoice_id, amount_paid, currency, status, invoice_datetime, customer_email, payment_intent, amount_due, created, period_end, period_start, subscription_id, customer_id) VALUES (:invoice_id, :amount_paid, :currency, :status, :invoice_datetime, :customer_email, :payment_intent, :amount_due, :created, :period_end,:period_start, :subscription_id, :customer_id)");
         $stmt->execute([
@@ -594,12 +695,13 @@ class StripeApiFunction
         $stmt = $this->connection->prepare("SELECT license_key FROM licensekey WHERE subscription_id = :subscription_id");
         $stmt->execute([':subscription_id' => $subscription_id]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
         if ($result) {
             $licenseKey = $result['license_key'];
-            // Fetch the customer email again in case it was not found in the invoice
+            // Fetch the customer email again to ensure it's correct
             $customer_email = $this->getCustomerEmailBySubscriptionId($subscription_id);
+
             error_log("EMAIL: $customer_email");
+            error_log("licensekey: $licenseKey");
 
             if ($customer_email) {
                 $this->sendEmailNotification($customer_email, $licenseKey);
@@ -607,7 +709,7 @@ class StripeApiFunction
                 error_log("Failed to retrieve customer email for subscription ID: $subscription_id");
             }
         } else {
-            error_log("Failed to retrieve license key for subscription ID: $subscription_id");
+            error_log("No license key found for subscription ID: $subscription_id");
         }
     }
 
