@@ -219,7 +219,7 @@ class StripeApiFunction
 
 
 
-            $sql = "INSERT INTO driver (client_ip, geo, os, hostname, server_ip, cpu, mac, operating, license_key) 
+            $sql = "INSERT INTO device (client_ip, geo, os, hostname, server_ip, cpu, mac, operating, license_key) 
             VALUES (:client_ip, :geo, :os, :hostname, :server_ip, :cpu, :mac, :operating, :license_key)";
 
             // Thực thi truy vấn
