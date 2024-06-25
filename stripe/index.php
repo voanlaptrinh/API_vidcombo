@@ -327,8 +327,8 @@ class StripeApiFunction
         $sig = $_SERVER['HTTP_STRIPE_SIGNATURE'];
         $payload = @file_get_contents('php://input');
 
-        $endpointSecret = 'whsec_LbKCxrDhpvIqZf1iITZdbxA4z0tIxkhk';
-        // $endpointSecret = 'whsec_5f17c8c4ada7dddedac39a07084388d087b1743d38e16af8bd996bb97a21c910';
+        // $endpointSecret = 'whsec_LbKCxrDhpvIqZf1iITZdbxA4z0tIxkhk';
+        $endpointSecret = 'whsec_5f17c8c4ada7dddedac39a07084388d087b1743d38e16af8bd996bb97a21c910';
 
         $event = \Stripe\Webhook::constructEvent($payload, $sig, $endpointSecret);
 
@@ -720,22 +720,7 @@ class StripeApiFunction
         $stmt = $this->connection->prepare("SELECT license_key FROM licensekey WHERE subscription_id = :subscription_id");
         $stmt->execute([':subscription_id' => $subscription_id]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($result) {
-            $licenseKey = $result['license_key'];
-            // Fetch the customer email again to ensure it's correct
-            $customer_email = $this->getCustomerEmailBySubscriptionId($subscription_id);
-
-            error_log("EMAIL: $customer_email");
-            error_log("licensekey: $licenseKey");
-
-            if ($customer_email) {
-                $this->sendEmailNotification($customer_email, $licenseKey);
-            } else {
-                error_log("Failed to retrieve customer email for subscription ID: $subscription_id");
-            }
-        } else {
-            error_log("No license key found for subscription ID: $subscription_id");
-        }
+       
 
 
 
@@ -758,7 +743,22 @@ class StripeApiFunction
 
         ]);
 
-      
+        if ($result) {
+            $licenseKey = $result['license_key'];
+            // Fetch the customer email again to ensure it's correct
+            $customer_email = $this->getCustomerEmailBySubscriptionId($subscription_id);
+
+            error_log("EMAIL: $customer_email");
+            error_log("licensekey: $licenseKey");
+
+            if ($customer_email) {
+                $this->sendEmailNotification($customer_email, $licenseKey);
+            } else {
+                error_log("Failed to retrieve customer email for subscription ID: $subscription_id");
+            }
+        } else {
+            error_log("No license key found for subscription ID: $subscription_id");
+        }
     }
 
     function handleSubscriptionUpdated($subscription)
