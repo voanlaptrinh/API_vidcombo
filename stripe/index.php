@@ -3,14 +3,14 @@
 require_once '../common.php';
 require_once '../vendor/autoload.php';
 
+use Stripe\Stripe;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-use Stripe\Stripe;
 
 Stripe::setApiKey('sk_test_51OeDsPIXbeKO1uxjfGZLmBaoVYMdmbThMwRHSrNa6Zigu0FnQYuAatgfPEodv9suuRFROdNRHux5vUhDp7jC6nca00GbHqdk1Y');
 define('ENDPOINT_SECRET', 'whsec_LbKCxrDhpvIqZf1iITZdbxA4z0tIxkhk');
 // define('ENDPOINT_SECRET', 'whsec_5f17c8c4ada7dddedac39a07084388d087b1743d38e16af8bd996bb97a21c910');
- 
+
 
 $stripe_funtion = new StripeApiFunction();
 
@@ -82,7 +82,8 @@ class StripeApiFunction
     );
 
 
-    function emailSubcription(){
+    function emailSubcription()
+    {
         header('Content-Type: application/json');
 
         $email = isset($_GET['email']) ? $_GET['email'] : null;
@@ -123,10 +124,8 @@ class StripeApiFunction
         $subscriptions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         echo json_encode(['subscriptions' => $subscriptions]);
-
-      
     }
-    
+
 
 
 
@@ -439,6 +438,10 @@ class StripeApiFunction
         $amount_paid = $invoice->amount_paid;
         $status = $invoice->status;
         $subscription_id = $invoice->subscription;
+        $amount_due = $invoice->amount_due;
+        $created = $invoice->created;
+        $customer_email = $invoice->customer_email;
+        $invoice_date = date('Y-m-d H:i:s', $invoice->created);
 
         $sql = $this->connection->prepare("UPDATE invoice SET status = :status, subscription_id = :subscription_id, customer_id = :customer_id, amount_paid= :amount_paid  WHERE invoice_id = :invoice_id");
         $sql->execute([
@@ -449,6 +452,35 @@ class StripeApiFunction
             ':invoice_id' => $invoice_id
 
         ]);
+        if ($status == 'paid') {
+            $mail = new PHPMailer(true);
+
+            //Server settings
+            $mail->isSMTP();
+            $mail->Host       = 'smtp.gmail.com';  // Use the correct SMTP server
+            $mail->SMTPAuth   = true;
+            $mail->Username   = 'thanbatbai3092002@gmail.com';  // Your Gmail address
+            $mail->Password   = 'etejnwheciweprdo';  // Your Gmail password or app-specific password
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port       = 587;  // TCP port to connect to
+
+            //Recipients
+            $mail->setFrom('no-reply@example.com', 'Mailer');
+            $mail->addAddress($customer_email);
+
+            // Content
+            $mail->isHTML(true);
+            $mail->Subject = 'Your invoice details';
+            $mail->Body    = 
+            "Dear $customer_email,<br>
+            <br>Code Bill: $invoice_id<br>
+            <br>Total amount paid: $amount_due $<br>
+            <br>Date created: $invoice_date<br>
+            <br>Thank you for your subscription! subid: " . $subscription_id;
+
+            // Send the email
+            $mail->send();
+        }
         // Chuẩn bị truy vấn SQL để chèn hóa đơn vào cơ sở dữ liệu
         // $sql = "INSERT INTO invoice (invoice_id, customer_id, amount_paid, currency, status, invoice_date, customer_email, payment_intent, amount_due, created, session_text, period_end, period_start, subscription_id)
         //         VALUES ('$invoice_id', '$customer_id', '$amount_paid', '$currency', '$status', '$invoice_date', '$customer_email', '$payment_intent', '$amount_due', '$created', '$invoice', '$period_end', '$period_start', '$subscription')";
@@ -488,7 +520,7 @@ class StripeApiFunction
 
         $this->saveInvoiceToDatabase($invoiceId, $customerId, $amountDue, $currency, $status, $customer_email, $subscription_id);
 
-      
+
 
         error_log("Invoice created: ID = $invoiceId, Customer ID = $customerId, Amount Due = $amountDue $currency, Status = $status");
     }
@@ -516,7 +548,7 @@ class StripeApiFunction
 
         $this->updateInvoiceStatusInDatabase($invoiceId, 'payment_failed');
 
-        
+
 
         error_log("Invoice payment failed: ID = $invoiceId, Customer ID = $customerId, Amount Due = $amountDue $currency, Status = $status");
     }
@@ -621,12 +653,13 @@ class StripeApiFunction
         ]);
 
 
-        $stmt = $this->connection->prepare("INSERT INTO licensekey (customer_id, status, subscription_id, license_key) VALUES (:customer_id, :status, :subscription_id, :license_key)");
+        $stmt = $this->connection->prepare("INSERT INTO licensekey (customer_id, status, subscription_id, license_key, send) VALUES (:customer_id, :status, :subscription_id, :license_key, :send)");
         $stmt->execute([
             ':customer_id' => $customer,
             ':subscription_id' => $subscription_id,
             ':license_key' => $licenseKey,
             ':status' => $status_key,
+            ':send' => 'not'
 
         ]);
 
@@ -650,34 +683,7 @@ class StripeApiFunction
         }
     }
 
-    function sendEmailNotification($customer_email, $licenseKey)
-    {
-        $mail = new PHPMailer(true);
 
-
-        //Server settings
-        $mail->isSMTP();
-        $mail->Host       = 'smtp.gmail.com';  // Use the correct SMTP server
-        $mail->SMTPAuth   = true;
-        $mail->Username   = 'thanbatbai3092002@gmail.com';  // Your Gmail address
-        $mail->Password   = 'etejnwheciweprdo';  // Your Gmail password or app-specific password
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port       = 587;  // TCP port to connect to
-
-        //Recipients
-        $mail->setFrom('no-reply@example.com', 'Mailer');
-        $mail->addAddress($customer_email);
-
-        // Content
-        $mail->isHTML(true);
-        $mail->Subject = 'Your License Key';
-        $mail->Body    = "Dear $customer_email,<br><br>Your license key is: $licenseKey<br><br>Thank you for your subscription!";
-        $mail->AltBody = "Dear $customer_email,\n\nYour license key is: $licenseKey\n\nThank you for your subscription!";
-
-        // Send the email
-        $mail->send();
-        error_log("Email sent to $customer_email with license key $licenseKey");
-    }
 
 
 
@@ -698,10 +704,8 @@ class StripeApiFunction
 
     function handleInvoiceFinalized($invoice)
     {
-
         // Lấy thông tin từ đối tượng hóa đơn
         $invoice_id = $invoice->id;
-
         $amount_paid = $invoice->amount_paid;
         $currency = $invoice->currency;
         $status = $invoice->status;
@@ -716,16 +720,11 @@ class StripeApiFunction
 
         $invoice_date = date('Y-m-d H:i:s', $invoice->created);
 
-
-        $stmt = $this->connection->prepare("SELECT license_key FROM licensekey WHERE subscription_id = :subscription_id");
-        $stmt->execute([':subscription_id' => $subscription_id]);
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-       
-
+        // Kiểm tra xem licenseKey tồn tại trong bảng licensekey
 
 
         // Sử dụng Prepared Statement để tránh tấn công SQL injection
-        $stmt = $this->connection->prepare("INSERT INTO invoice (invoice_id, amount_paid, currency, status, invoice_datetime, customer_email, payment_intent, amount_due, created, period_end, period_start, subscription_id, customer_id) VALUES (:invoice_id, :amount_paid, :currency, :status, :invoice_datetime, :customer_email, :payment_intent, :amount_due, :created, :period_end,:period_start, :subscription_id, :customer_id)");
+        $stmt = $this->connection->prepare("INSERT INTO invoice (invoice_id, amount_paid, currency, status, invoice_datetime, customer_email, payment_intent, amount_due, created, period_end, period_start, subscription_id, customer_id) VALUES (:invoice_id, :amount_paid, :currency, :status, :invoice_datetime, :customer_email, :payment_intent, :amount_due, :created, :period_end, :period_start, :subscription_id, :customer_id)");
         $stmt->execute([
             ':invoice_id' => $invoice_id,
             ':status' => $status,
@@ -740,26 +739,68 @@ class StripeApiFunction
             ':invoice_datetime' => $invoice_date,
             ':subscription_id' => $subscription_id,
             ':customer_id' => $customer_id
-
         ]);
 
-        if ($result) {
+
+
+
+
+        // Cập nhật customer_email vào bảng subscriptions
+        $stmt = $this->connection->prepare("UPDATE subscriptions SET customer_email = :customer_email WHERE subscription_id = :subscription_id");
+        $stmt->execute([
+            ':customer_email' => $customer_email,
+            ':subscription_id' => $subscription_id
+        ]);
+        $stmt = $this->connection->prepare("SELECT license_key FROM licensekey WHERE subscription_id = :subscription_id");
+        $stmt->execute([':subscription_id' => $subscription_id]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        // Kiểm tra và gửi email chỉ khi licenseKey tồn tại
+
+        if ($result && isset($result['license_key'])) {
+
             $licenseKey = $result['license_key'];
-            // Fetch the customer email again to ensure it's correct
+
+            // Kiểm tra lại email của khách hàng
             $customer_email = $this->getCustomerEmailBySubscriptionId($subscription_id);
 
             error_log("EMAIL: $customer_email");
             error_log("licensekey: $licenseKey");
 
-            if ($customer_email) {
-                $this->sendEmailNotification($customer_email, $licenseKey);
-            } else {
-                error_log("Failed to retrieve customer email for subscription ID: $subscription_id");
-            }
+
+
+
+            $mail = new PHPMailer(true);
+
+            //Server settings
+            $mail->isSMTP();
+            $mail->Host       = 'smtp.gmail.com';  // Use the correct SMTP server
+            $mail->SMTPAuth   = true;
+            $mail->Username   = 'thanbatbai3092002@gmail.com';  // Your Gmail address
+            $mail->Password   = 'etejnwheciweprdo';  // Your Gmail password or app-specific password
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port       = 587;  // TCP port to connect to
+
+            //Recipients
+            $mail->setFrom('no-reply@example.com', 'Mailer');
+            $mail->addAddress($customer_email);
+
+            // Content
+            $mail->isHTML(true);
+            $mail->Subject = 'Your License Key';
+            $mail->Body    = "Dear $customer_email,<br><br>Your license key is: $licenseKey<br><br>Thank you for your subscription! subid: " . $subscription_id;
+
+            // Send the email
+            $mail->send();
+            $licensekey_stmt = $this->connection->prepare("UPDATE licensekey SET send = :send WHERE subscription_id = :subscription_id");
+            $licensekey_stmt->execute([
+                ':send' => 'ok',
+                ':subscription_id' => $subscription_id
+            ]);
         } else {
             error_log("No license key found for subscription ID: $subscription_id");
         }
     }
+
 
     function handleSubscriptionUpdated($subscription)
     {
