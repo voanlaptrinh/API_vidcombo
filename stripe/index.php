@@ -267,7 +267,7 @@ class StripeApiFunction
 
 
             $sql = "INSERT INTO device (client_ip, geo, os, hostname, server_ip, mac, operating, license_key) 
-            VALUES (:client_ip, :geo, :os, :hostname, :server_ip, :cpu, :mac, :operating, :license_key)";
+            VALUES (:client_ip, :geo, :os, :hostname, :server_ip, :mac, :operating, :license_key)";
 
             // Thực thi truy vấn
             $stmt = $this->connection->prepare($sql);
