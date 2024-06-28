@@ -235,11 +235,11 @@ class StripeApiFunction
         }
 
         // Trích xuất tham số cpu và mac từ yêu cầu HTTP GET
-        $cpu = isset($_GET['cpu']) ? $_GET['cpu'] : 'Không có thông tin'; //CPU
+        // $cpu = isset($_GET['cpu']) ? $_GET['cpu'] : 'Không có thông tin'; //CPU
         $mac = isset($_GET['mac']) ? $_GET['mac'] : 'Không có thông tin'; //Địa chỉ mác
         $operating = isset($_GET['operating']) ? $_GET['operating'] : 'Không có thông tin'; //Hệ điều hành
 
-        if (!isset($_GET['cpu']) || !isset($_GET['mac']) || !isset($_GET['operating']) || !isset($_GET['license_key'])) {
+        if (!isset($_GET['mac']) || !isset($_GET['operating']) || !isset($_GET['license_key'])) {
             http_response_code(400);
             echo json_encode(['error' => 'Missing parameters']);
             exit;
@@ -261,19 +261,12 @@ class StripeApiFunction
 
                 'license_key' => $result['license_key'],
                 'status' => $result['status'],
-                'client_ip' => $clientIP,
-                'geo' => $countryCode,
-                'os' => $osInfo,
-                'hostname' => $hostname,
-                'server_ip' => $serverIP,
-                'cpu' => $cpu,
-                'mac' => $mac,
-                'operating' => $operating
+                'error' => ''
             ];
 
 
 
-            $sql = "INSERT INTO device (client_ip, geo, os, hostname, server_ip, cpu, mac, operating, license_key) 
+            $sql = "INSERT INTO device (client_ip, geo, os, hostname, server_ip, mac, operating, license_key) 
             VALUES (:client_ip, :geo, :os, :hostname, :server_ip, :cpu, :mac, :operating, :license_key)";
 
             // Thực thi truy vấn
@@ -283,7 +276,6 @@ class StripeApiFunction
             $stmt->bindParam(':os', $osInfo);
             $stmt->bindParam(':hostname', $hostname);
             $stmt->bindParam(':server_ip', $serverIP);
-            $stmt->bindParam(':cpu', $cpu);
             $stmt->bindParam(':mac', $mac);
             $stmt->bindParam(':operating', $operating);
             $stmt->bindParam(':license_key', $license_key);
