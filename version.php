@@ -3,17 +3,25 @@
 header('Content-Type: application/json');
 
 $latestVersion = "1.2.0";
-$downloadUrl = "https://example.com/download/app-v1.2.0.apk";
+
 $releaseNotes = "Đã sửa lỗi và có bản cập nhật";
 
 $ytdlpVersion = "1.2.0";
 $ffmpegVersion = "1.2.0";
 
-if (isset($_GET['current_version']) && isset($_GET['ytdlp_version']) && isset($_GET['ffmpeg_version'])) {
+if (isset($_GET['current_version']) && isset($_GET['ytdlp_version']) && isset($_GET['ffmpeg_version']) && isset($_GET['os'])) {
     $currentVersion = $_GET['current_version'];
     $ytdlp_version = $_GET['ytdlp_version'];
     $ffmpeg_version = $_GET['ffmpeg_version'];
-
+    
+    if($_GET['os'] == 'Windows'){
+        $downloadUrl = "https://example.com/download/Windows/app-v1.2.0.apk";
+    }
+    
+    if($_GET['os'] == 'MacOs') {
+        $downloadUrl = "https://example.com/download/MacOS/app-v1.2.0.apk";
+    
+    }
     $appUpdateAvailable = version_compare($currentVersion, $latestVersion, '!=');
     $ytdlpUpdateAvailable = version_compare($ytdlp_version, $ytdlpVersion, '!=');
     $ffmpegUpdateAvailable = version_compare($ffmpeg_version, $ffmpegVersion, '!=');
