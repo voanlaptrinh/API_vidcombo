@@ -8,8 +8,8 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 Stripe::setApiKey('sk_test_51OeDsPIXbeKO1uxjfGZLmBaoVYMdmbThMwRHSrNa6Zigu0FnQYuAatgfPEodv9suuRFROdNRHux5vUhDp7jC6nca00GbHqdk1Y');
-define('ENDPOINT_SECRET', 'whsec_LbKCxrDhpvIqZf1iITZdbxA4z0tIxkhk');
-// define('ENDPOINT_SECRET', 'whsec_5f17c8c4ada7dddedac39a07084388d087b1743d38e16af8bd996bb97a21c910');
+// define('ENDPOINT_SECRET', 'whsec_LbKCxrDhpvIqZf1iITZdbxA4z0tIxkhk');
+define('ENDPOINT_SECRET', 'whsec_5f17c8c4ada7dddedac39a07084388d087b1743d38e16af8bd996bb97a21c910');
 
 
 $stripe_funtion = new StripeApiFunction();
@@ -192,34 +192,12 @@ class StripeApiFunction
     // Hàm gửi license key
     function sendLicenseKey()
     {
-        // $body = json_decode(file_get_contents('php://input'), true);
-        // $email = $body['email'] ?? null;
-        // $key = $body['key'] ?? null;
-
-
-        // // Gửi email chứa license key
-        // error_log("License key $key sent to $email");
-        // header('Content-Type: application/json');
-        // echo json_encode(['success' => true]);
-
-
         header("Content-Type: application/json");
 
         // Lấy địa chỉ IP của client
         $clientIP = $_SERVER['REMOTE_ADDR'];
-
-        $geoInfo = @file_get_contents("http://ip-api.com/json/{$clientIP}?fields=status,country,countryCode");
-        if ($geoInfo === FALSE) {
-            $geoInfo = ["error" => "Không thể lấy thông tin địa lý"];
-        } else {
-            $geoInfo = json_decode($geoInfo, true);
-        }
-
-        if ($geoInfo['status'] === 'fail') {
-            $countryCode = 'Không có thông tin quốc gia';
-        } else {
-            $countryCode = $geoInfo['countryCode'];
-        }
+        
+        $countryCode = @$_SERVER["HTTP_CF_IPCOUNTRY"];
 
         // Thông tin hệ điều hành của server
         $osInfo = php_uname();
@@ -235,41 +213,71 @@ class StripeApiFunction
         }
 
         // Trích xuất tham số cpu và mac từ yêu cầu HTTP GET
-        // $cpu = isset($_GET['cpu']) ? $_GET['cpu'] : 'Không có thông tin'; //CPU
-        $mac = isset($_GET['mac']) ? $_GET['mac'] : 'Không có thông tin'; //Địa chỉ mác
-        $operating = isset($_GET['operating']) ? $_GET['operating'] : 'Không có thông tin'; //Hệ điều hành
+        $mac = isset($_GET['mac']) ? $_GET['mac'] : 'Không có thông tin'; // Địa chỉ MAC
+        $operating = isset($_GET['operating']) ? $_GET['operating'] : 'Không có thông tin'; // Hệ điều hành
 
-        if (!isset($_GET['mac']) || !isset($_GET['operating']) || !isset($_GET['license_key'])) {
+        if (!isset($_GET['mac']) || !isset($_GET['operating'])) {
             http_response_code(400);
             echo json_encode(['error' => 'Missing parameters']);
             exit;
         }
 
+        $license_key = isset($_GET['license_key']) ? $_GET['license_key'] : null;
 
+        if ($license_key) {
+            // Query the database for license key information
+            $stmt = $this->connection->prepare("SELECT `license_key`, `status`, `current_period_end` FROM licensekey WHERE `license_key` = :license_key");
+            $stmt->execute([':license_key' => $license_key]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $license_key = $_GET['license_key'];
+            if ($result) {
+                $current_period_end = (new DateTime($result['current_period_end']))->format('d-m-Y');
+            } else {
+                $response = [
+                    'license_key' => null,
+                    'status' => 'not_found',
+                    'end_date' => null,
+                    'error' => 'License key not found',
+                    'download_count' => null
+                ];
+                echo json_encode($response);
+                exit;
+            }
+        }
 
+        // Kiểm tra `hostname` và cập nhật `download_count` mỗi ngày
+        $today = date('Y-m-d');
+        $stmt = $this->connection->prepare("SELECT `download_count`, `last_updated` FROM device WHERE `mac` = :mac");
+        $stmt->execute([':mac' => $mac]);
+        $device = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // Query the database
-        $stmt = $this->connection->prepare("SELECT `license_key`, `status` FROM licensekey WHERE `license_key` = :license_key");
-        $stmt->execute([':license_key' => $license_key]);
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($result) {
-            // Return the response
-            $response = [
-
-                'license_key' => $result['license_key'],
-                'status' => $result['status'],
-                'error' => ''
-            ];
-
-
-
-            $sql = "INSERT INTO device (client_ip, geo, os, hostname, server_ip, mac, operating, license_key) 
-            VALUES (:client_ip, :geo, :os, :hostname, :server_ip, :mac, :operating, :license_key)";
-
-            // Thực thi truy vấn
+        if ($device) {
+            if ($device['last_updated'] != $today) {
+                // Reset download_count và cập nhật last_updated
+                $stmt = $this->connection->prepare("UPDATE device SET `download_count` = 5, `last_updated` = :today WHERE `mac` = :mac");
+                $stmt->execute([':today' => $today, ':mac' => $mac]);
+                $download_count = 5;
+            } elseif ($device['download_count'] > 0) {
+                // Giảm download_count
+                $stmt = $this->connection->prepare("UPDATE device SET `download_count` = `download_count` - 1 WHERE `mac` = :mac");
+                $stmt->execute([':mac' => $mac]);
+                $download_count = $device['download_count'] - 1;
+            } else {
+                // Hết lượt tải
+                $response = [
+                    'license_key' => $license_key,
+                    'status' => $result['status'] ?? 'unknown',
+                    'end_date' => $current_period_end ?? null,
+                    'error' => 'Download limit reached',
+                    'download_count' => 0
+                ];
+                echo json_encode($response);
+                exit;
+            }
+        } else {
+            // Insert vào device table với download_count là 5
+            $sql = "INSERT INTO device (client_ip, geo, os, hostname, server_ip, mac, operating, license_key, download_count, last_updated) 
+                    VALUES (:client_ip, :geo, :os, :hostname, :server_ip, :mac, :operating, :license_key, 5, :today)";
             $stmt = $this->connection->prepare($sql);
             $stmt->bindParam(':client_ip', $clientIP);
             $stmt->bindParam(':geo', $countryCode);
@@ -279,15 +287,22 @@ class StripeApiFunction
             $stmt->bindParam(':mac', $mac);
             $stmt->bindParam(':operating', $operating);
             $stmt->bindParam(':license_key', $license_key);
-
-            // Thực thi truy vấn
+            $stmt->bindParam(':today', $today);
             $stmt->execute();
-
-            echo json_encode($response);
-        } else {
-            echo json_encode(['error' => 'License key not found']);
+            $download_count = 5;
         }
+
+        $response = [
+            'license_key' => $license_key,
+            'status' => $result['status'] ?? 'unknown',
+            'end_date' => $current_period_end ?? null,
+            'error' => '',
+            'download_count' => $download_count
+        ];
+
+        echo json_encode($response);
     }
+
 
     // Hàm xác thực license key và cập nhật license key
     function verifyLicenseKey()
@@ -463,8 +478,8 @@ class StripeApiFunction
             // Content
             $mail->isHTML(true);
             $mail->Subject = 'Your invoice details';
-            $mail->Body    = 
-            "Dear $customer_email,<br>
+            $mail->Body    =
+                "Dear $customer_email,<br>
             <br>Code Bill: $invoice_id<br>
             <br>Total amount paid: $amount_due $<br>
             <br>Date created: $invoice_date<br>
@@ -606,6 +621,18 @@ class StripeApiFunction
             ':subscription_id' => $subscription_id,
             ':customer_id' => $customer
         ]);
+
+
+
+
+        $stmt = $this->connection->prepare("UPDATE licensekey SET  current_period_end = :current_period_end WHERE subscription_id = :subscription_id");
+        if (!$stmt) {
+            throw new Exception('Query preparation failed');
+        }
+        $stmt->execute([
+            ':current_period_end' => $current_period_end_date,
+            ':subscription_id' => $subscription_id,
+        ]);
         // error_log("Invoice payment succeeded for customer: $customer, subscription ID: $subscription_id, status: $status, current period end: $current_period_end_date ");
 
     }
@@ -651,7 +678,8 @@ class StripeApiFunction
             ':subscription_id' => $subscription_id,
             ':license_key' => $licenseKey,
             ':status' => $status_key,
-            ':send' => 'not'
+            ':send' => 'not',
+
 
         ]);
 
@@ -859,12 +887,12 @@ class StripeApiFunction
             ':customer_id' => $customer,
 
         ]);
-         // Thực hiện câu lệnh SQL UPDATE cho bảng licensekey
-         $licensekey_stmt = $this->connection->prepare("UPDATE licensekey SET status = :status WHERE subscription_id = :subscription_id");
-         $licensekey_stmt->execute([
-             ':status' => 'inactive',
-             ':subscription_id' => $subscription_id
-         ]);
+        // Thực hiện câu lệnh SQL UPDATE cho bảng licensekey
+        $licensekey_stmt = $this->connection->prepare("UPDATE licensekey SET status = :status WHERE subscription_id = :subscription_id");
+        $licensekey_stmt->execute([
+            ':status' => 'inactive',
+            ':subscription_id' => $subscription_id
+        ]);
         error_log("Subscription deleted for customer: $customer, subscription ID: $subscription_id");
     }
 

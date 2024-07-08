@@ -1,4 +1,6 @@
 <?php
+
+// set time_zone_default
 class Common
 {
     static function getDatabaseConnection() {
