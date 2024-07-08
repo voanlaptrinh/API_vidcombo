@@ -1,30 +1,30 @@
 <?php
-
 header('Content-Type: application/json');
 
 $latestVersion = "1.2.0";
+$ytdlpVersion = "2024.07.01";
+$ffmpegVersion = "7.0.1";
 
 $releaseNotes = "Đã sửa lỗi và có bản cập nhật";
 
-$ytdlpVersion = "1.2.0";
-$ffmpegVersion = "1.2.0";
+$os = isset($_GET['os'])?strtolower($_GET['os']):'';
+$currentVersion = isset($_GET['current_version'])?$_GET['current_version']:'';
+$ytdlp_version = isset($_GET['ytdlp_version'])?$_GET['ytdlp_version']:'';
+$ffmpeg_version = isset($_GET['ffmpeg_version'])?$_GET['ffmpeg_version']:'';
 
-if (isset($_GET['current_version']) && isset($_GET['ytdlp_version']) && isset($_GET['ffmpeg_version']) && isset($_GET['os'])) {
-    $currentVersion = $_GET['current_version'];
-    $ytdlp_version = $_GET['ytdlp_version'];
-    $ffmpeg_version = $_GET['ffmpeg_version'];
-    if ($_GET['os'] == 'Windows64') {
-        $downloadUrl = "https://example.com/download/Windows64/app-v1.2.0.apk";
-        $downloadYtdlp = "https://example.com/downloadYtdlp/Windows64/app-v1.2.0.apk";
-        $downloadFfmpeg = "https://example.com/downloadFfmpeg/Windows64/app-v1.2.0.apk";
-    } elseif ($_GET['os'] == 'Windows86' || $_GET['os'] == 'Windows32') {
-        $downloadUrl = "https://example.com/download/Windows86-32/app-v1.2.0.apk";
-        $downloadYtdlp = "https://example.com/downloadYtdlp/Windows86-32/app-v1.2.0.apk";
-        $downloadFfmpeg = "https://example.com/downloadFfmpeg/Windows86-32/app-v1.2.0.apk";
-    } elseif ($_GET['os'] == 'MacOs') {
-        $downloadUrl = "https://example.com/download/MacOS/app-v1.2.0.apk";
-        $downloadYtdlp = "https://example.com/downloadYtdlp/MacOS/app-v1.2.0.apk";
-        $downloadFfmpeg = "https://example.com/downloadFfmpeg/MacOS/app-v1.2.0.apk";
+if ($currentVersion && $ytdlp_version && $ffmpeg_version && $os) {
+    if ($os == 'windows64') {
+        $downloadUrl = "https://www.vidcombo.com/";
+        $downloadYtdlp = "https://api.vidcombo.com/download/ytdlp/2024-07-01/yt-dlp_x64.zip";
+        $downloadFfmpeg = "https://api.vidcombo.com/download/ffmpeg-7.0.1_x64.zip";
+    } elseif ($os == 'windows86' || $os == 'windows32') {
+        $downloadUrl = "https://www.vidcombo.com/";
+        $downloadYtdlp = "https://api.vidcombo.com/download/ytdlp/2024-07-01/yt-dlp_x86.zip";
+        $downloadFfmpeg = "https://api.vidcombo.com/download/ffmpeg-7.0.1_x32.zip";
+    } elseif ($os == 'macos') {
+        $downloadUrl = "https://www.vidcombo.com/";
+        $downloadYtdlp = "https://api.vidcombo.com/download/ytdlp/2024-07-01/yt-dlp_macos.zip";
+        $downloadFfmpeg = "https://api.vidcombo.com/download/ffmpeg-7.0.1_macos.zip";
     } else {
         $response = [
             'error' => true,
@@ -66,7 +66,6 @@ if (isset($_GET['current_version']) && isset($_GET['ytdlp_version']) && isset($_
         'message' => 'Không cung cấp đủ thông tin phiên bản.'
     ];
 }
-
 
 echo json_encode($response);
 

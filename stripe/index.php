@@ -126,9 +126,6 @@ class StripeApiFunction
         echo json_encode(['subscriptions' => $subscriptions]);
     }
 
-
-
-
     // Hàm tạo phiên Stripe Checkout
     function createCheckoutSession()
     {
@@ -194,35 +191,24 @@ class StripeApiFunction
     {
         header("Content-Type: application/json");
 
-        // Lấy địa chỉ IP của client
-        $clientIP = $_SERVER['REMOTE_ADDR'];
-        
-        $countryCode = @$_SERVER["HTTP_CF_IPCOUNTRY"];
+        // Lấy tham số params
+        $clientIP = Common::getRealIpAddr();
+        $countryCode = $_GET['HTTP_CF_IPCOUNTRY'] ?? '';
+        $userAgent = lấy client user agent
+        $license_key = $_GET['license_key'] ?? '';
+        $mac = $_GET['mac'] ?? ''; // Địa chỉ MAC
+        $operating = $_GET['operating'] ?? ''; // Hệ điều hành
 
-        // Thông tin hệ điều hành của server
-        $osInfo = php_uname();
-
-        // Lấy tên máy chủ
-        $hostname = gethostname();
-
-        if (stristr(PHP_OS, 'win')) {
-            $serverIP = gethostbyname($hostname);
-        } else {
-            $serverIP = shell_exec("hostname -I");
-            $serverIP = trim($serverIP);
-        }
+        // Lấy tên máy Client
+        $hostname = Nhật truyền lên
 
         // Trích xuất tham số cpu và mac từ yêu cầu HTTP GET
-        $mac = isset($_GET['mac']) ? $_GET['mac'] : 'Không có thông tin'; // Địa chỉ MAC
-        $operating = isset($_GET['operating']) ? $_GET['operating'] : 'Không có thông tin'; // Hệ điều hành
 
-        if (!isset($_GET['mac']) || !isset($_GET['operating'])) {
+        if (!$mac || !$operating) {
             http_response_code(400);
             echo json_encode(['error' => 'Missing parameters']);
             exit;
         }
-
-        $license_key = isset($_GET['license_key']) ? $_GET['license_key'] : null;
 
         if ($license_key) {
             // Query the database for license key information
@@ -231,19 +217,16 @@ class StripeApiFunction
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if ($result) {
+                && $result['status']=='active'
                 $current_period_end = (new DateTime($result['current_period_end']))->format('d-m-Y');
-            } else {
-                $response = [
-                    'license_key' => null,
-                    'status' => 'not_found',
-                    'end_date' => null,
-                    'error' => 'License key not found',
-                    'download_count' => null
-                ];
-                echo json_encode($response);
-                exit;
+
+
+                1. Set cache (Redis cache)
+                2. Trả về thông tin ngày hết hạn | plan: premium
             }
         }
+
+        Trả về thông tin Remaining conversion | plan: trial
 
         // Kiểm tra `hostname` và cập nhật `download_count` mỗi ngày
         $today = date('Y-m-d');
@@ -275,9 +258,10 @@ class StripeApiFunction
                 exit;
             }
         } else {
+            $download_count = 5;
             // Insert vào device table với download_count là 5
             $sql = "INSERT INTO device (client_ip, geo, os, hostname, server_ip, mac, operating, license_key, download_count, last_updated) 
-                    VALUES (:client_ip, :geo, :os, :hostname, :server_ip, :mac, :operating, :license_key, 5, :today)";
+                    VALUES (:client_ip, :geo, :os, :hostname, :server_ip, :mac, :operating, :license_key, {$download_count}, :today)";
             $stmt = $this->connection->prepare($sql);
             $stmt->bindParam(':client_ip', $clientIP);
             $stmt->bindParam(':geo', $countryCode);
@@ -289,7 +273,6 @@ class StripeApiFunction
             $stmt->bindParam(':license_key', $license_key);
             $stmt->bindParam(':today', $today);
             $stmt->execute();
-            $download_count = 5;
         }
 
         $response = [
