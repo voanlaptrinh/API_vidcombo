@@ -8,8 +8,8 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 Stripe::setApiKey('sk_test_51OeDsPIXbeKO1uxjfGZLmBaoVYMdmbThMwRHSrNa6Zigu0FnQYuAatgfPEodv9suuRFROdNRHux5vUhDp7jC6nca00GbHqdk1Y');
-// define('ENDPOINT_SECRET', 'whsec_LbKCxrDhpvIqZf1iITZdbxA4z0tIxkhk');
-define('ENDPOINT_SECRET', 'whsec_5f17c8c4ada7dddedac39a07084388d087b1743d38e16af8bd996bb97a21c910');
+define('ENDPOINT_SECRET', 'whsec_LbKCxrDhpvIqZf1iITZdbxA4z0tIxkhk');
+// define('ENDPOINT_SECRET', 'whsec_5f17c8c4ada7dddedac39a07084388d087b1743d38e16af8bd996bb97a21c910');
 
 
 $stripe_funtion = new StripeApiFunction();
@@ -189,101 +189,101 @@ class StripeApiFunction
     // Hàm gửi license key
     function sendLicenseKey()
     {
-        header("Content-Type: application/json");
+        // header("Content-Type: application/json");
 
-        // Lấy tham số params
-        $clientIP = Common::getRealIpAddr();
-        $countryCode = $_GET['HTTP_CF_IPCOUNTRY'] ?? '';
-        $userAgent = lấy client user agent
-        $license_key = $_GET['license_key'] ?? '';
-        $mac = $_GET['mac'] ?? ''; // Địa chỉ MAC
-        $operating = $_GET['operating'] ?? ''; // Hệ điều hành
+        // // Lấy tham số params
+        // $clientIP = Common::getRealIpAddr();
+        // $countryCode = $_GET['HTTP_CF_IPCOUNTRY'] ?? '';
+        // $userAgent = lấy client user agent
+        // $license_key = $_GET['license_key'] ?? '';
+        // $mac = $_GET['mac'] ?? ''; // Địa chỉ MAC
+        // $operating = $_GET['operating'] ?? ''; // Hệ điều hành
 
-        // Lấy tên máy Client
-        $hostname = Nhật truyền lên
+        // // Lấy tên máy Client
+        // $hostname = Nhật truyền lên
 
-        // Trích xuất tham số cpu và mac từ yêu cầu HTTP GET
+        // // Trích xuất tham số cpu và mac từ yêu cầu HTTP GET
 
-        if (!$mac || !$operating) {
-            http_response_code(400);
-            echo json_encode(['error' => 'Missing parameters']);
-            exit;
-        }
+        // if (!$mac || !$operating) {
+        //     http_response_code(400);
+        //     echo json_encode(['error' => 'Missing parameters']);
+        //     exit;
+        // }
 
-        if ($license_key) {
-            // Query the database for license key information
-            $stmt = $this->connection->prepare("SELECT `license_key`, `status`, `current_period_end` FROM licensekey WHERE `license_key` = :license_key");
-            $stmt->execute([':license_key' => $license_key]);
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        // if ($license_key) {
+        //     // Query the database for license key information
+        //     $stmt = $this->connection->prepare("SELECT `license_key`, `status`, `current_period_end` FROM licensekey WHERE `license_key` = :license_key");
+        //     $stmt->execute([':license_key' => $license_key]);
+        //     $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if ($result) {
-                && $result['status']=='active'
-                $current_period_end = (new DateTime($result['current_period_end']))->format('d-m-Y');
+        //     if ($result) {
+        //         && $result['status']=='active'
+        //         $current_period_end = (new DateTime($result['current_period_end']))->format('d-m-Y');
 
 
-                1. Set cache (Redis cache)
-                2. Trả về thông tin ngày hết hạn | plan: premium
-            }
-        }
+        //         1. Set cache (Redis cache)
+        //         2. Trả về thông tin ngày hết hạn | plan: premium
+        //     }
+        // }
 
-        Trả về thông tin Remaining conversion | plan: trial
+        // Trả về thông tin Remaining conversion | plan: trial
 
-        // Kiểm tra `hostname` và cập nhật `download_count` mỗi ngày
-        $today = date('Y-m-d');
-        $stmt = $this->connection->prepare("SELECT `download_count`, `last_updated` FROM device WHERE `mac` = :mac");
-        $stmt->execute([':mac' => $mac]);
-        $device = $stmt->fetch(PDO::FETCH_ASSOC);
+        // // Kiểm tra `hostname` và cập nhật `download_count` mỗi ngày
+        // $today = date('Y-m-d');
+        // $stmt = $this->connection->prepare("SELECT `download_count`, `last_updated` FROM device WHERE `mac` = :mac");
+        // $stmt->execute([':mac' => $mac]);
+        // $device = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($device) {
-            if ($device['last_updated'] != $today) {
-                // Reset download_count và cập nhật last_updated
-                $stmt = $this->connection->prepare("UPDATE device SET `download_count` = 5, `last_updated` = :today WHERE `mac` = :mac");
-                $stmt->execute([':today' => $today, ':mac' => $mac]);
-                $download_count = 5;
-            } elseif ($device['download_count'] > 0) {
-                // Giảm download_count
-                $stmt = $this->connection->prepare("UPDATE device SET `download_count` = `download_count` - 1 WHERE `mac` = :mac");
-                $stmt->execute([':mac' => $mac]);
-                $download_count = $device['download_count'] - 1;
-            } else {
-                // Hết lượt tải
-                $response = [
-                    'license_key' => $license_key,
-                    'status' => $result['status'] ?? 'unknown',
-                    'end_date' => $current_period_end ?? null,
-                    'error' => 'Download limit reached',
-                    'download_count' => 0
-                ];
-                echo json_encode($response);
-                exit;
-            }
-        } else {
-            $download_count = 5;
-            // Insert vào device table với download_count là 5
-            $sql = "INSERT INTO device (client_ip, geo, os, hostname, server_ip, mac, operating, license_key, download_count, last_updated) 
-                    VALUES (:client_ip, :geo, :os, :hostname, :server_ip, :mac, :operating, :license_key, {$download_count}, :today)";
-            $stmt = $this->connection->prepare($sql);
-            $stmt->bindParam(':client_ip', $clientIP);
-            $stmt->bindParam(':geo', $countryCode);
-            $stmt->bindParam(':os', $osInfo);
-            $stmt->bindParam(':hostname', $hostname);
-            $stmt->bindParam(':server_ip', $serverIP);
-            $stmt->bindParam(':mac', $mac);
-            $stmt->bindParam(':operating', $operating);
-            $stmt->bindParam(':license_key', $license_key);
-            $stmt->bindParam(':today', $today);
-            $stmt->execute();
-        }
+        // if ($device) {
+        //     if ($device['last_updated'] != $today) {
+        //         // Reset download_count và cập nhật last_updated
+        //         $stmt = $this->connection->prepare("UPDATE device SET `download_count` = 5, `last_updated` = :today WHERE `mac` = :mac");
+        //         $stmt->execute([':today' => $today, ':mac' => $mac]);
+        //         $download_count = 5;
+        //     } elseif ($device['download_count'] > 0) {
+        //         // Giảm download_count
+        //         $stmt = $this->connection->prepare("UPDATE device SET `download_count` = `download_count` - 1 WHERE `mac` = :mac");
+        //         $stmt->execute([':mac' => $mac]);
+        //         $download_count = $device['download_count'] - 1;
+        //     } else {
+        //         // Hết lượt tải
+        //         $response = [
+        //             'license_key' => $license_key,
+        //             'status' => $result['status'] ?? 'unknown',
+        //             'end_date' => $current_period_end ?? null,
+        //             'error' => 'Download limit reached',
+        //             'download_count' => 0
+        //         ];
+        //         echo json_encode($response);
+        //         exit;
+        //     }
+        // } else {
+        //     $download_count = 5;
+        //     // Insert vào device table với download_count là 5
+        //     $sql = "INSERT INTO device (client_ip, geo, os, hostname, mac, operating, license_key, download_count, last_updated) 
+        //             VALUES (:client_ip, :geo, :os, :hostname, :mac, :operating, :license_key, {$download_count}, :today)";
+        //     $stmt = $this->connection->prepare($sql);
+        //     $stmt->bindParam(':client_ip', $clientIP);
+        //     $stmt->bindParam(':geo', $countryCode);
+        //     $stmt->bindParam(':os', $osInfo);
+        //     $stmt->bindParam(':hostname', $hostname);
+        //     // $stmt->bindParam(':server_ip', $serverIP);
+        //     $stmt->bindParam(':mac', $mac);
+        //     $stmt->bindParam(':operating', $operating);
+        //     $stmt->bindParam(':license_key', $license_key);
+        //     $stmt->bindParam(':today', $today);
+        //     $stmt->execute();
+        // }
 
-        $response = [
-            'license_key' => $license_key,
-            'status' => $result['status'] ?? 'unknown',
-            'end_date' => $current_period_end ?? null,
-            'error' => '',
-            'download_count' => $download_count
-        ];
+        // $response = [
+        //     'license_key' => $license_key,
+        //     'status' => $result['status'] ?? 'unknown',
+        //     'end_date' => $current_period_end ?? null,
+        //     'error' => '',
+        //     'download_count' => $download_count
+        // ];
 
-        echo json_encode($response);
+        // echo json_encode($response);
     }
 
 
