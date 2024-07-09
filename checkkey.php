@@ -2,11 +2,15 @@
 require_once './redis.php';
 require_once './common.php';
 
-$license_key = $_GET['license_key']; // Key nhận từ request
-
-if (!$license_key) {
+$license_key = $_GET['license_key'] ?? ''; // Key nhận từ request
+$lang_code = $_GET['lang_code'] ?? '';
+if (!$license_key || !$lang_code) {
     http_response_code(400);
-    echo json_encode(['error' => 'Licenkey parameter']);
+    if ($lang_code === 'vi') {
+        echo json_encode(['error' => 'Thông số License key hoặc ngôn ngữ bị thiếu']);
+    } else {
+        echo json_encode(['error' => 'Missing license key or parameter language']);
+    }
     exit;
 }
 
@@ -47,10 +51,17 @@ try {
         ]);
     } else {
         // Key không tồn tại
-        echo json_encode(['error' => 'Key not found']);
+        if ($lang_code === 'vi') {
+            echo json_encode(['error' => 'Key không tồn tại']);
+        } else {
+            echo json_encode(['error' => 'Key not found']);
+        }
     }
-} catch(PDOException $e) {
-    echo "Error: " . $e->getMessage();
+} catch (PDOException $e) {
+    if ($lang_code === 'vi') {
+        echo json_encode(['error' => 'Lỗi: ' . $e->getMessage()]);
+    } else {
+        echo json_encode(['error' => 'Error: ' . $e->getMessage()]);
+    }
 }
 $connection = null;
-

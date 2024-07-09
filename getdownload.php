@@ -11,27 +11,20 @@ header("Content-Type: application/json");
 // Lấy tham số từ request
 
 $clientIP = Common::getRealIpAddr();
-$countryCode = @$_SERVER["HTTP_CF_IPCOUNTRY"];
-
-if (!$countryCode) {
-    $countryCode = 'không có thông tin quốc gia';
-} else {
-    $countryCode = @$_SERVER["HTTP_CF_IPCOUNTRY"];
-}
+$countryCode = @$_SERVER["HTTP_CF_IPCOUNTRY"] ?? 'không có thông tin quốc gia';
 $userAgent = $_GET['userAgent'] ?? '';
 $license_key = $_GET['license_key'] ?? '';
 $mac = $_GET['mac'] ?? ''; // Địa chỉ MAC
 $operating = $_GET['operating'] ?? ''; // Hệ điều hành
 $hostname = $_GET['hostname'] ?? ''; // Tên máy Client
-
-
-
-
-if (!$mac) {
+$lang_code = $_GET['lang_code'] ?? '';
+if (!$lang_code || !$userAgent || !$mac || !$operating || !$hostname) {
     http_response_code(400);
-    echo json_encode(['error' => 'Missing mac parameter']);
+    $error_message = $lang_code === 'vi' ? 'Thông số truyền vào bị thiếu' : 'Missing required parameters';
+    echo json_encode(['error' => $error_message]);
     exit;
 }
+
 
 // Kiểm tra xem địa chỉ MAC đã tồn tại trong bảng driver hay chưa
 $stmt = $connection->prepare("SELECT * FROM device WHERE mac = :mac");
@@ -55,7 +48,7 @@ if ($device) {
     echo json_encode([
         'mac' => $mac,
         'download_count' => $download_count,
-        'message' => 'Driver information retrieved or updated'
+       'message' => $lang_code === 'vi' ? 'Thông tin driver được truy xuất hoặc cập nhật' : 'Driver information retrieved or updated'
     ]);
 } else {
     // Nếu chưa tồn tại, thêm mới vào bảng device với số lượt tải mặc định là 5
@@ -78,7 +71,7 @@ if ($device) {
     echo json_encode([
         'mac' => $mac,
         'download_count' => $default_download_count,
-        'message' => 'Driver added successfully'
+       'message' => $lang_code === 'vi' ? 'Driver được thêm thành công' : 'Driver added successfully'
     ]);
 }
 

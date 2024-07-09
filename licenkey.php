@@ -22,10 +22,12 @@ $license_key = $_GET['license_key'] ?? '';
 $mac = $_GET['mac'] ?? ''; // Địa chỉ MAC
 $operating = $_GET['operating'] ?? ''; // Hệ điều hành
 $hostname = $_GET['hostname'] ?? ''; // Tên máy Client
+$lang_code = $_GET['lang_code'] ?? '';
 $today = date('Y-m-d');
-if (!$mac || !$operating  || !$userAgent || !$hostname) {
+if (!$mac || !$operating  || !$userAgent || !$hostname || !$lang_code) {
     http_response_code(400);
-    echo json_encode(['error' => 'Missing parameters']);
+    $error_message = $lang_code === 'vi' ? 'Thông số truyền vào bị thiếu' : 'Missing required parameters';
+    echo json_encode(['error' => $error_message]);
     exit;
 }
 $redis = new RedisCache($license_key);
@@ -91,7 +93,7 @@ if ($device) {
             'license_key' => $license_key,
             'status' => $result['status'] ?? 'unknown',
             'end_date' => $current_period_end ?? null,
-            'error' => 'Download limit reached',
+            'error' =>  $lang_code === 'vi' ? 'Đã đạt đến giới hạn tải xuống' : 'Download limit reached',
             'download_count' => 0,
             'plan' => 'trial',
         ]);
@@ -140,8 +142,6 @@ function InsertDevice($connection, $clientIP, $countryCode, $userAgent, $hostnam
         ]);
     }
 }
-
-
 
 echo json_encode($response);
 
