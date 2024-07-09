@@ -1,18 +1,19 @@
 <?php
+require_once './redis.php';
 require_once './common.php';
 
+$license_key = $_GET['license_key']; // Key nhận từ request
 $connection = Common::getDatabaseConnection();
 if (!$connection) {
     throw new Exception('Database connection could not be established.');
 }
-$redis = new Redis();
-$redis->connect('127.0.0.1', 6379); 
+
+$redis = new RedisCache('license_key:' . $license_key);
+
 try {
-    // Key cần kiểm tra
-    $license_key = $_GET['license_key']; // Key nhận từ request
 
     // Kiểm tra bộ đệm Redis để biết trạng thái khóa cấp phép
-    $license_key_cache = $redis->get('license_key:' . $license_key);
+    $license_key_cache = $redis->getCache();
 
     if ($license_key_cache) {
         $result = json_decode($license_key_cache, true);
