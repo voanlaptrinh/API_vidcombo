@@ -87,7 +87,7 @@ if ($device_cache) {
 
 if ($device) {
     if ($device['last_updated'] != $today) {
-        // Reset download count and update last_updated
+        // Đặt lại số lần tải và cập nhật last_updated.
         $stmt = $connection->prepare("UPDATE device SET `download_count` = 5, `last_updated` = :today WHERE `mac` = :mac");
         $stmt->execute([':today' => $today, ':mac' => $mac]);
         $download_count = 5;
@@ -95,14 +95,14 @@ if ($device) {
         $device['last_updated'] = $today;
         $redis->set('device:' . $mac, json_encode($device), 3600); // Update cache
     } elseif ($device['download_count'] > 0) {
-        // Decrease download count
+        // Giảm số lượt tải xuống
         $stmt = $connection->prepare("UPDATE device SET `download_count` = `download_count` - 1 WHERE `mac` = :mac");
         $stmt->execute([':mac' => $mac]);
         $download_count = $device['download_count'] - 1;
         $device['download_count'] = $download_count;
         $redis->set('device:' . $mac, json_encode($device), 3600); // Update cache
     } else {
-        // No downloads left
+        // Không còn lượt tải về
         echo json_encode([
             'license_key' => $license_key,
             'status' => $result['status'] ?? 'unknown',
