@@ -1,0 +1,49 @@
+<?php
+require_once './common.php';
+
+$connection = Common::getDatabaseConnection();
+if (!$connection) {
+    throw new Exception('Database connection could not be established.');
+}
+$redis = new Redis();
+$redis->connect('127.0.0.1', 6379); 
+try {
+    // Key cần kiểm tra
+    $license_key = $_GET['license_key']; // Key nhận từ request
+
+    // Kiểm tra bộ đệm Redis để biết trạng thái khóa cấp phép
+    $license_key_cache = $redis->get('license_key:' . $license_key);
+
+    if ($license_key_cache) {
+        $result = json_decode($license_key_cache, true);
+    } else {
+        $stmt = $connection->prepare("SELECT `license_key`, `status`, `current_period_end` FROM licensekey WHERE `license_key` = :license_key");
+        $stmt->execute([':license_key' => $license_key]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($result) {
+            var_dump($result);
+            $redis->set('license_key:' . $license_key, json_encode($result), 3600); // tồn tại trong 1 giờ
+        }
+    }
+
+
+    if ($result) {
+        // Key tồn tại trong CSDL, xử lý logic kiểm tra trạng thái
+        $status = $result['status'];
+        $current_period_end = (new DateTime($result['current_period_end']))->format('d-m-Y');
+        // Giả sử 'status' là trường lưu trạng thái
+        echo json_encode([
+            'license_key' => $license_key,
+            'status' => $status,
+            'end_date' => $current_period_end,
+        ]);
+    } else {
+        // Key không tồn tại
+        echo json_encode(['error' => 'Key not found']);
+    }
+} catch(PDOException $e) {
+    echo "Error: " . $e->getMessage();
+}
+$connection = null;
+
