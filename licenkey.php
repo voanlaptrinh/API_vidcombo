@@ -51,7 +51,7 @@ if ($license_key) {
     }
 
     if ($result && $result['status'] == 'active') {
-        $current_period_end = (new DateTime($result['current_period_end']))->format('d-m-Y');
+        $current_period_end = $result['current_period_end'] ? (new DateTime($result['current_period_end']))->format('d-m-Y') : 'N/A';
 
         // Response with premium plan info
         InsertDevice($connection, $clientIP, $countryCode, $userAgent, $hostname, $mac, $operating, $license_key, $today);
