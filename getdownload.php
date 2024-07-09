@@ -12,13 +12,11 @@ header("Content-Type: application/json");
 
 $clientIP = Common::getRealIpAddr();
 $countryCode = @$_SERVER["HTTP_CF_IPCOUNTRY"] ?? 'không có thông tin quốc gia';
-$userAgent = $_GET['userAgent'] ?? '';
 $license_key = $_GET['license_key'] ?? '';
 $mac = $_GET['mac'] ?? ''; // Địa chỉ MAC
 $operating = $_GET['operating'] ?? ''; // Hệ điều hành
-$hostname = $_GET['hostname'] ?? ''; // Tên máy Client
 $lang_code = $_GET['lang_code'] ?? '';
-if (!$lang_code || !$userAgent || !$mac || !$operating || !$hostname) {
+if (!$lang_code || !$mac || !$operating ) {
     http_response_code(400);
     $error_message = $lang_code === 'vi' ? 'Thông số truyền vào bị thiếu' : 'Missing required parameters';
     echo json_encode(['error' => $error_message]);
@@ -55,7 +53,7 @@ if ($device) {
     $default_download_count = 5;
     $current_date = date('Y-m-d');
 
-    $sql = "INSERT INTO device (client_ip, mac, download_count, last_updated, geo, os, hostname, operating) VALUES (:client_ip, :mac, :download_count, :current_date, :geo, :os, :hostname, :operating)";
+    $sql = "INSERT INTO device (client_ip, mac, download_count, last_updated, geo, operating) VALUES (:client_ip, :mac, :download_count, :current_date, :geo, :operating)";
     $stmt = $connection->prepare($sql);
     $stmt->execute([
         ':client_ip' => $clientIP,
@@ -63,8 +61,6 @@ if ($device) {
         ':download_count' => $default_download_count,
         ':current_date' => $current_date,
         ':geo' => $countryCode,
-        'os' => $userAgent,
-        'hostname' => $hostname,
         'operating' => $operating,
     ]);
 
