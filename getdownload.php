@@ -46,9 +46,10 @@ if ($device) {
     if ($last_updated != $current_date) {
         // Reset số lượt tải về 5 và cập nhật ngày hiện tại
         $download_count = 5;
+        // Prepare and execute SQL statement
         $stmt = $connection->prepare("UPDATE device SET download_count = :download_count, last_updated = :current_date WHERE mac = :mac");
-        $stmt->execute([':current_date' => $current_date, ':mac' => $mac]);
-    } 
+        $stmt->execute([':download_count' => $download_count, ':current_date' => $current_date, ':mac' => $mac]);
+    }
 
     echo json_encode([
         'mac' => $mac,
@@ -60,9 +61,10 @@ if ($device) {
     $default_download_count = 5;
     $current_date = date('Y-m-d');
 
-    $sql = "INSERT INTO device (mac, download_count, last_updated, geo, os, hostname, operating) VALUES (:mac, :download_count, :current_date, :geo, :os, :hostname, :operating)";
+    $sql = "INSERT INTO device (client_ip, mac, download_count, last_updated, geo, os, hostname, operating) VALUES (:client_ip, :mac, :download_count, :current_date, :geo, :os, :hostname, :operating)";
     $stmt = $connection->prepare($sql);
     $stmt->execute([
+        'client_ip' => $clientIP,
         ':mac' => $mac,
         ':download_count' => $default_download_count,
         ':current_date' => $current_date,
