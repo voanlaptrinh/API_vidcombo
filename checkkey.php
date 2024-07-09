@@ -23,8 +23,7 @@ try {
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($result) {
-            var_dump($result);
-            $redis->set('license_key:' . $license_key, json_encode($result), 3600); // tồn tại trong 1 giờ
+            $redis->setCache(json_encode($result), 3600); // tồn tại trong 1 giờ
         }
     }
 
