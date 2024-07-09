@@ -12,6 +12,7 @@ header("Content-Type: application/json");
 
 $clientIP = Common::getRealIpAddr();
 $countryCode = @$_SERVER["HTTP_CF_IPCOUNTRY"];
+
 if (!$countryCode) {
     $countryCode = 'không có thông tin quốc gia';
 } else {
@@ -64,7 +65,7 @@ if ($device) {
     $sql = "INSERT INTO device (client_ip, mac, download_count, last_updated, geo, os, hostname, operating) VALUES (:client_ip, :mac, :download_count, :current_date, :geo, :os, :hostname, :operating)";
     $stmt = $connection->prepare($sql);
     $stmt->execute([
-        'client_ip' => $clientIP,
+        ':client_ip' => $clientIP,
         ':mac' => $mac,
         ':download_count' => $default_download_count,
         ':current_date' => $current_date,
@@ -80,4 +81,4 @@ if ($device) {
         'message' => 'Driver added successfully'
     ]);
 }
-?>
+

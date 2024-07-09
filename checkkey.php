@@ -3,12 +3,19 @@ require_once './redis.php';
 require_once './common.php';
 
 $license_key = $_GET['license_key']; // Key nhận từ request
+
+if (!$license_key) {
+    http_response_code(400);
+    echo json_encode(['error' => 'Licenkey parameter']);
+    exit;
+}
+
 $connection = Common::getDatabaseConnection();
 if (!$connection) {
     throw new Exception('Database connection could not be established.');
 }
 
-$redis = new RedisCache('license_key:' . $license_key);
+$redis = new RedisCache($license_key);
 
 try {
 
@@ -31,7 +38,7 @@ try {
     if ($result) {
         // Key tồn tại trong CSDL, xử lý logic kiểm tra trạng thái
         $status = $result['status'];
-        $current_period_end = (new DateTime($result['current_period_end']))->format('d-m-Y');
+        $current_period_end = $result['current_period_end'] ? (new DateTime($result['current_period_end']))->format('d-m-Y') : 'N/A';
         // Giả sử 'status' là trường lưu trạng thái
         echo json_encode([
             'license_key' => $license_key,

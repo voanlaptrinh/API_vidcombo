@@ -1,6 +1,6 @@
 <?php
 require_once './common.php';
-
+require_once './redis.php';
 $connection = Common::getDatabaseConnection();
 if (!$connection) {
     throw new Exception('Database connection could not be established.');
@@ -8,9 +8,6 @@ if (!$connection) {
 
 header("Content-Type: application/json");
 
-// Initialize Redis
-$redis = new Redis();
-$redis->connect('127.0.0.1', 6379); // Adjust as per your Redis server configuration
 
 // Lấy tham số params
 $clientIP = Common::getRealIpAddr();
@@ -31,13 +28,13 @@ if (!$mac || !$operating  || !$userAgent || !$hostname) {
     echo json_encode(['error' => 'Missing parameters']);
     exit;
 }
-
+$redis = new RedisCache($license_key);
 $download_count = 4; // Default download count
 
 // Check if license key is provided
 if ($license_key) {
     // Kiểm tra bộ đệm Redis để biết trạng thái khóa cấp phép
-    $license_key_cache = $redis->get('license_key:' . $license_key);
+    $license_key_cache = $redis->getCache();
 
     if ($license_key_cache) {
         $result = json_decode($license_key_cache, true);
@@ -47,7 +44,7 @@ if ($license_key) {
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($result) {
-            $redis->set('license_key:' . $license_key, json_encode($result), 3600); // tồn tại trong 1 giờ
+            $redis->setCache(json_encode($result), 3600); // tồn tại trong 1 giờ
         }
     }
 
@@ -70,20 +67,9 @@ if ($license_key) {
 }
 
 
-// Check Redis cache for device download count
-$device_cache = $redis->get('device:' . $mac);
-
-if ($device_cache) {
-    $device = json_decode($device_cache, true);
-} else {
-    $stmt = $connection->prepare("SELECT `download_count`, `last_updated` FROM device WHERE `mac` = :mac");
-    $stmt->execute([':mac' => $mac]);
-    $device = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if ($device) {
-        $redis->set('device:' . $mac, json_encode($device), 3600); // Cache for 1 hour
-    }
-}
+$stmt = $connection->prepare("SELECT `download_count`, `last_updated` FROM device WHERE `mac` = :mac");
+$stmt->execute([':mac' => $mac]);
+$device = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if ($device) {
     if ($device['last_updated'] != $today) {
@@ -93,14 +79,12 @@ if ($device) {
         $download_count = 5;
         $device['download_count'] = 5;
         $device['last_updated'] = $today;
-        $redis->set('device:' . $mac, json_encode($device), 3600); // Update cache
     } elseif ($device['download_count'] > 0) {
         // Giảm số lượt tải xuống
         $stmt = $connection->prepare("UPDATE device SET `download_count` = `download_count` - 1 WHERE `mac` = :mac");
         $stmt->execute([':mac' => $mac]);
         $download_count = $device['download_count'] - 1;
         $device['download_count'] = $download_count;
-        $redis->set('device:' . $mac, json_encode($device), 3600); // Update cache
     } else {
         // Không còn lượt tải về
         echo json_encode([
@@ -114,7 +98,7 @@ if ($device) {
         exit;
     }
 } else {
-    // Insert new device record with default download count
+    // Thêm bản ghi mới cho thiết bị với số lần tải mặc định
     InsertDevice($connection, $clientIP, $countryCode, $userAgent, $hostname, $mac, $operating, $license_key, $today);
 }
 
@@ -126,6 +110,7 @@ $response = [
     'download_count' => $download_count,
     'plan' => 'trial',
 ];
+
 
 
 function InsertDevice($connection, $clientIP, $countryCode, $userAgent, $hostname, $mac, $operating, $license_key, $today)
