@@ -2,10 +2,6 @@
 require_once './redis.php';
 require_once './common.php';
 
-$license_key = $_GET['license_key'] ?? ''; // Key nhận từ request
-$lang_code = $_GET['lang_code'] ?? '';
-
-
 //Hầm lấy ra ngôn ngữ
 function getErrorMessage($lang_code, $error_key)
 {
@@ -22,11 +18,16 @@ function getErrorMessage($lang_code, $error_key)
     return 'Unknown error';
 }
 
+
+$license_key = $_GET['license_key'] ?? ''; // Key nhận từ request
+$lang_code = $_GET['lang_code'] ?? '';
+
+
+
 if (!$license_key || !$lang_code) {
     http_response_code(400);
     $error_key = 'key_lang_missing'; // Key của thông báo lỗi
     $error_message = getErrorMessage($lang_code, $error_key);
-
     echo json_encode(['error' => $error_message]);
     exit;
 }
