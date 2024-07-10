@@ -22,8 +22,11 @@ $license_key = $_GET['license_key'] ?? '';
 $mac = $_GET['mac'] ?? ''; // Địa chỉ MAC
 $operating = $_GET['operating'] ?? ''; // Hệ điều hành
 $lang_code = $_GET['lang_code'] ?? '';
+$cpu = $_GET['cpu'] ?? ''; //THông tin cpu
+$ram = $_GET['ram'] ?? ''; //THông tin ram
+
 $today = date('Y-m-d');
-if (!$mac || !$operating || !$lang_code) {
+if (!$mac || !$operating || !$lang_code || !$cpu || !$ram) {
     http_response_code(400);
     $error_message = $lang_code === 'vi' ? 'Thông số truyền vào bị thiếu' : 'Missing required parameters';
     echo json_encode(['error' => $error_message]);
@@ -53,7 +56,7 @@ if ($license_key) {
        $current_period_end = $result['current_period_end'] ? (new DateTime($result['current_period_end']))->format('d-m-Y') : 'N/A';
 
         // Response with premium plan info
-        InsertDevice($connection, $clientIP, $countryCode, $mac, $operating, $license_key, $today);
+        InsertDevice($connection, $clientIP, $countryCode, $mac, $operating, $license_key, $today, $ram, $cpu);
 
         echo json_encode([
             'license_key' => $license_key,
@@ -100,7 +103,7 @@ if ($device) {
     }
 } else {
     // Thêm bản ghi mới cho thiết bị với số lần tải mặc định
-    InsertDevice($connection, $clientIP, $countryCode, $mac, $operating, $license_key, $today);
+    InsertDevice($connection, $clientIP, $countryCode, $mac, $operating, $license_key, $today, $ram, $cpu);
 }
 
 $response = [
@@ -114,7 +117,7 @@ $response = [
 
 
 
-function InsertDevice($connection, $clientIP, $countryCode, $mac, $operating, $license_key, $today)
+function InsertDevice($connection, $clientIP, $countryCode, $mac, $operating, $license_key, $today, $ram, $cpu)
 {
     // Kiểm tra xem đã có bản ghi với mac và license_key này chưa
     $stmt = $connection->prepare("SELECT COUNT(*) AS count FROM device WHERE mac = :mac AND license_key = :license_key");
@@ -126,8 +129,8 @@ function InsertDevice($connection, $clientIP, $countryCode, $mac, $operating, $l
 
     if ($count == 0) {
         // Nếu chưa tồn tại, thực hiện insert mới
-        $sql = "INSERT INTO device (client_ip, geo, mac, operating, license_key, download_count, last_updated) 
-                VALUES (:client_ip, :geo, :mac, :operating, :license_key, 4, :today)";
+        $sql = "INSERT INTO device (client_ip, geo, mac, operating, license_key, download_count, last_updated, ram, cpu) 
+                VALUES (:client_ip, :geo, :mac, :operating, :license_key, 4, :today, :ram, :cpu)";
         $stmt = $connection->prepare($sql);
         $stmt->execute([
             ':client_ip' => $clientIP,
@@ -135,7 +138,9 @@ function InsertDevice($connection, $clientIP, $countryCode, $mac, $operating, $l
             ':mac' => $mac,
             ':operating' => $operating,
             ':license_key' => $license_key,
-            ':today' => $today
+            ':today' => $today,
+            ':ram' => $ram,
+            ':cpu' => $cpu,
         ]);
     }
 }

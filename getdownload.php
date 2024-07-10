@@ -16,7 +16,10 @@ $license_key = $_GET['license_key'] ?? '';
 $mac = $_GET['mac'] ?? ''; // Địa chỉ MAC
 $operating = $_GET['operating'] ?? ''; // Hệ điều hành
 $lang_code = $_GET['lang_code'] ?? '';
-if (!$lang_code || !$mac || !$operating ) {
+$cpu = $_GET['cpu'] ?? ''; //THông tin cpu
+$ram = $_GET['ram'] ?? ''; //THông tin ram
+
+if (!$lang_code || !$mac || !$operating || !$cpu || !$ram) {
     http_response_code(400);
     $error_message = $lang_code === 'vi' ? 'Thông số truyền vào bị thiếu' : 'Missing required parameters';
     echo json_encode(['error' => $error_message]);
@@ -53,7 +56,7 @@ if ($device) {
     $default_download_count = 5;
     $current_date = date('Y-m-d');
 
-    $sql = "INSERT INTO device (client_ip, mac, download_count, last_updated, geo, operating) VALUES (:client_ip, :mac, :download_count, :current_date, :geo, :operating)";
+    $sql = "INSERT INTO device (client_ip, mac, download_count, last_updated, geo, operating, cpu, ram) VALUES (:client_ip, :mac, :download_count, :current_date, :geo, :operating, :cpu, :ram)";
     $stmt = $connection->prepare($sql);
     $stmt->execute([
         ':client_ip' => $clientIP,
@@ -61,7 +64,9 @@ if ($device) {
         ':download_count' => $default_download_count,
         ':current_date' => $current_date,
         ':geo' => $countryCode,
-        'operating' => $operating,
+        ':operating' => $operating,
+        ':cpu' => $cpu,
+        ':ram' => $ram,
     ]);
 
     echo json_encode([
