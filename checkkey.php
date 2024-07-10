@@ -4,13 +4,30 @@ require_once './common.php';
 
 $license_key = $_GET['license_key'] ?? ''; // Key nhận từ request
 $lang_code = $_GET['lang_code'] ?? '';
+
+
+//Hầm lấy ra ngôn ngữ
+function getErrorMessage($lang_code, $error_key)
+{
+    $lang_file = 'lang/' . $lang_code . '.json';
+
+    if (file_exists($lang_file)) {
+        $lang_data = json_decode(file_get_contents($lang_file), true);
+        if (isset($lang_data[$error_key])) {
+            return $lang_data[$error_key];
+        }
+    }
+
+    // Trường hợp mặc định nếu không tìm thấy thông báo
+    return 'Unknown error';
+}
+
 if (!$license_key || !$lang_code) {
     http_response_code(400);
-    if ($lang_code === 'vi') {
-        echo json_encode(['error' => 'Thông số License key hoặc ngôn ngữ bị thiếu']);
-    } else {
-        echo json_encode(['error' => 'Missing license key or parameter language']);
-    }
+    $error_key = 'key_lang_missing'; // Key của thông báo lỗi
+    $error_message = getErrorMessage($lang_code, $error_key);
+
+    echo json_encode(['error' => $error_message]);
     exit;
 }
 
@@ -51,11 +68,10 @@ try {
         ]);
     } else {
         // Key không tồn tại
-        if ($lang_code === 'vi') {
-            echo json_encode(['error' => 'Key không tồn tại']);
-        } else {
-            echo json_encode(['error' => 'Key not found']);
-        }
+        $error_key = 'key_not_found'; // Key của thông báo lỗi
+        $error_message = getErrorMessage($lang_code, $error_key);
+
+        echo json_encode(['error' => $error_message]);
     }
 } catch (PDOException $e) {
     if ($lang_code === 'vi') {

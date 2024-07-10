@@ -4,5 +4,7 @@
     "internal_server_error": "Lỗi máy chủ nội bộ",
     "device_information" : "Thông tin driver được truy xuất hoặc cập nhật",
     "device_successfully" : "Driver được thêm thành công",
-    "download_limit_reached" : "Đã đạt đến giới hạn tải xuống"
+    "download_limit_reached" : "Đã đạt đến giới hạn tải xuống",
+    "key_lang_missing" : "License_key hoặc ngôn ngữ bị thiếu",
+    "key_not_found" : "License Key không tồn tại"
 }

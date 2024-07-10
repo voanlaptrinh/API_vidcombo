@@ -4,5 +4,7 @@
     "internal_server_error": "Internal server error",
     "device_information" : "Driver information is exported or updated",
     "device_successfully": "Driver added successfully",
-    "download_limit_reached": "Download limit reached"
+    "download_limit_reached": "Download limit reached",
+    "key_lang_missing": "License_key or language is missing",
+    "key_not_found": "Key not found"
 }
