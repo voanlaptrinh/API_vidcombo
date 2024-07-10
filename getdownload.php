@@ -8,28 +8,51 @@ if (!$connection) {
 
 header("Content-Type: application/json");
 
+//Hầm lấy ra ngôn ngữ
+function getErrorMessage($lang_code, $error_key)
+{
+    $lang_file = 'lang/' . $lang_code . '.json';
+
+    if (file_exists($lang_file)) {
+        $lang_data = json_decode(file_get_contents($lang_file), true);
+        if (isset($lang_data[$error_key])) {
+            return $lang_data[$error_key];
+        }
+    }
+
+    // Trường hợp mặc định nếu không tìm thấy thông báo
+    return 'Unknown error';
+}
 // Lấy tham số từ request
 
-$clientIP = Common::getRealIpAddr();
-$countryCode = @$_SERVER["HTTP_CF_IPCOUNTRY"] ?? 'không có thông tin quốc gia';
-$license_key = $_GET['license_key'] ?? '';
-$mac = $_GET['mac'] ?? ''; // Địa chỉ MAC
-$operating = $_GET['operating'] ?? ''; // Hệ điều hành
-$lang_code = $_GET['lang_code'] ?? '';
-$cpu = $_GET['cpu'] ?? ''; //THông tin cpu
-$ram = $_GET['ram'] ?? ''; //THông tin ram
 
-if (!$lang_code || !$mac || !$operating || !$cpu || !$ram) {
+$device_id = $_GET['device_id'] ?? '';
+$license_key = $_GET['license_key'] ?? '';
+$clientIP = Common::getRealIpAddr();
+$geo = @$_SERVER["HTTP_CF_IPCOUNTRY"] ?? 'không có thông tin quốc gia';
+$os_name = $_GET['os_name'] ?? ''; // Hệ điều hành
+$os_version = $_GET['os_version'] ?? ''; //Phiên bản hệ điều hành
+$lang_code = $_GET['lang_code'] ?? '';
+$cpu_name = $_GET['cpu_name'] ?? ''; //THông tin cpu
+$cpu_arch = $_GET['cpu_arch'] ?? ''; //THông tin ram
+$json_info = $_GET['json_info'] ?? ''; //THông tin ram
+
+
+
+
+if (!$lang_code || !$os_version || !$os_name || !$cpu_name ||  !$cpu_arch || !$device_id) {
     http_response_code(400);
-    $error_message = $lang_code === 'vi' ? 'Thông số truyền vào bị thiếu' : 'Missing required parameters';
+    // Kiểm tra và xử lý thông báo lỗi
+    $error_key = 'missing_parameters'; // Key của thông báo lỗi
+    $error_message = getErrorMessage($lang_code, $error_key);
     echo json_encode(['error' => $error_message]);
     exit;
 }
 
 
 // Kiểm tra xem địa chỉ MAC đã tồn tại trong bảng driver hay chưa
-$stmt = $connection->prepare("SELECT * FROM device WHERE mac = :mac");
-$stmt->execute([':mac' => $mac]);
+$stmt = $connection->prepare("SELECT * FROM device WHERE device_id = :device_id");
+$stmt->execute([':device_id' => $device_id]);
 $device = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if ($device) {
@@ -42,37 +65,40 @@ if ($device) {
         // Reset số lượt tải về 5 và cập nhật ngày hiện tại
         $download_count = 5;
         // Prepare and execute SQL statement
-        $stmt = $connection->prepare("UPDATE device SET download_count = :download_count, last_updated = :current_date WHERE mac = :mac");
-        $stmt->execute([':download_count' => $download_count, ':current_date' => $current_date, ':mac' => $mac]);
+        $stmt = $connection->prepare("UPDATE device SET download_count = :download_count, last_updated = :current_date WHERE device_id = :device_id");
+        $stmt->execute([':download_count' => $download_count, ':current_date' => $current_date, ':device_id' => $device_id]);
     }
-
+    $error_key = 'device_information'; // Key của thông báo lỗi
+    $error_message = getErrorMessage($lang_code, $error_key);
     echo json_encode([
-        'mac' => $mac,
+        'device_id' => $device_id,
         'download_count' => $download_count,
-       'message' => $lang_code === 'vi' ? 'Thông tin driver được truy xuất hoặc cập nhật' : 'Driver information retrieved or updated'
+        'message' => $error_message
     ]);
 } else {
     // Nếu chưa tồn tại, thêm mới vào bảng device với số lượt tải mặc định là 5
     $default_download_count = 5;
     $current_date = date('Y-m-d');
 
-    $sql = "INSERT INTO device (client_ip, mac, download_count, last_updated, geo, operating, cpu, ram) VALUES (:client_ip, :mac, :download_count, :current_date, :geo, :operating, :cpu, :ram)";
+    $sql = "INSERT INTO device (device_id, client_ip, os_name, os_version, download_count, last_updated, geo, cpu_name, cpu_arch, json_info) VALUES (:device_id, :client_ip, :os_name, :os_version, :download_count, :current_date, :geo, :cpu_name, :cpu_arch, :json_info)";
     $stmt = $connection->prepare($sql);
     $stmt->execute([
         ':client_ip' => $clientIP,
-        ':mac' => $mac,
+        ':device_id' => $device_id,
         ':download_count' => $default_download_count,
         ':current_date' => $current_date,
-        ':geo' => $countryCode,
-        ':operating' => $operating,
-        ':cpu' => $cpu,
-        ':ram' => $ram,
+        ':os_name' => $os_name,
+        ':os_version' => $os_version,
+        ':geo' => $geo,
+        ':cpu_name' => $cpu_name,
+        ':cpu_arch' => $cpu_arch,
+        ':json_info' => $json_info,
     ]);
-
+    $error_key = 'device_successfully'; // Key của thông báo lỗi
+    $error_message = getErrorMessage($lang_code, $error_key);
     echo json_encode([
-        'mac' => $mac,
+        'device_id' => $device_id,
         'download_count' => $default_download_count,
-       'message' => $lang_code === 'vi' ? 'Driver được thêm thành công' : 'Driver added successfully'
+        'message' => $error_message
     ]);
 }
-

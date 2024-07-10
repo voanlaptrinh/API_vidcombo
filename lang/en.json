@@ -1,0 +1,8 @@
+{
+    "missing_parameters": "Missing required parameters",
+    "invalid_request": "Invalid request",
+    "internal_server_error": "Internal server error",
+    "device_information" : "Driver information is exported or updated",
+    "device_successfully": "Driver added successfully",
+    "download_limit_reached": "Download limit reached"
+}

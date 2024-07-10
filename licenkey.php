@@ -8,30 +8,46 @@ if (!$connection) {
 
 header("Content-Type: application/json");
 
+//Ham lấy ra ngôn ngữ
+function getErrorMessage($lang_code, $error_key) {
+    $lang_file = 'lang/' . $lang_code . '.json';
 
-// Lấy tham số params
-$clientIP = Common::getRealIpAddr();
-$countryCode = @$_SERVER["HTTP_CF_IPCOUNTRY"];
-if (!$countryCode) {
-    $countryCode = 'không có thông tin quốc gia';
-} else {
-    $countryCode = @$_SERVER["HTTP_CF_IPCOUNTRY"];
+    if (file_exists($lang_file)) {
+        $lang_data = json_decode(file_get_contents($lang_file), true);
+        if (isset($lang_data[$error_key])) {
+            return $lang_data[$error_key];
+        }
+    }
+
+    // Trường hợp mặc định nếu không tìm thấy thông báo
+    return 'Unknown error';
 }
 
+
+// Lấy tham số params
+$device_id = $_GET['device_id'] ?? '';
 $license_key = $_GET['license_key'] ?? '';
-$mac = $_GET['mac'] ?? ''; // Địa chỉ MAC
-$operating = $_GET['operating'] ?? ''; // Hệ điều hành
+$clientIP = Common::getRealIpAddr();
+$geo = @$_SERVER["HTTP_CF_IPCOUNTRY"] ?? 'không có thông tin quốc gia';
+$os_name = $_GET['os_name'] ?? ''; // Hệ điều hành
+$os_version = $_GET['os_version'] ?? ''; //Phiên bản hệ điều hành
 $lang_code = $_GET['lang_code'] ?? '';
-$cpu = $_GET['cpu'] ?? ''; //THông tin cpu
-$ram = $_GET['ram'] ?? ''; //THông tin ram
+$cpu_name = $_GET['cpu_name'] ?? ''; //THông tin cpu
+$cpu_arch = $_GET['cpu_arch'] ?? ''; //THông tin ram
+$json_info = $_GET['json_info'] ?? ''; //THông tin ram
+
 
 $today = date('Y-m-d');
-if (!$mac || !$operating || !$lang_code || !$cpu || !$ram) {
+
+if ( !$lang_code || !$device_id || !$os_name || !$os_version || !$cpu_name || !$cpu_arch || !$json_info) {
     http_response_code(400);
-    $error_message = $lang_code === 'vi' ? 'Thông số truyền vào bị thiếu' : 'Missing required parameters';
+    $error_key = 'missing_parameters'; // Key của thông báo lỗi
+    $error_message = getErrorMessage($lang_code, $error_key);
     echo json_encode(['error' => $error_message]);
     exit;
 }
+
+
 $redis = new RedisCache($license_key);
 $download_count = 4; // Default download count
 
@@ -53,10 +69,10 @@ if ($license_key) {
     }
 
     if ($result && $result['status'] == 'active') {
-       $current_period_end = $result['current_period_end'] ? (new DateTime($result['current_period_end']))->format('d-m-Y') : 'N/A';
+        $current_period_end = $result['current_period_end'] ? (new DateTime($result['current_period_end']))->format('d-m-Y') : 'N/A';
 
         // Response with premium plan info
-        InsertDevice($connection, $clientIP, $countryCode, $mac, $operating, $license_key, $today, $ram, $cpu);
+        InsertDevice($connection, $clientIP, $geo, $device_id, $os_name, $os_version, $license_key, $today, $cpu_name, $cpu_arch,$json_info);
 
         echo json_encode([
             'license_key' => $license_key,
@@ -71,31 +87,33 @@ if ($license_key) {
 }
 
 
-$stmt = $connection->prepare("SELECT `download_count`, `last_updated` FROM device WHERE `mac` = :mac");
-$stmt->execute([':mac' => $mac]);
+$stmt = $connection->prepare("SELECT `download_count`, `last_updated` FROM device WHERE `device_id` = :device_id");
+$stmt->execute([':device_id' => $device_id]);
 $device = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if ($device) {
     if ($device['last_updated'] != $today) {
         // Đặt lại số lần tải và cập nhật last_updated.
-        $stmt = $connection->prepare("UPDATE device SET `download_count` = 5, `last_updated` = :today WHERE `mac` = :mac");
-        $stmt->execute([':today' => $today, ':mac' => $mac]);
+        $stmt = $connection->prepare("UPDATE device SET `download_count` = 5, `last_updated` = :today WHERE `device_id` = :device_id");
+        $stmt->execute([':today' => $today, ':device_id' => $device_id]);
         $download_count = 5;
         $device['download_count'] = 5;
         $device['last_updated'] = $today;
     } elseif ($device['download_count'] > 0) {
         // Giảm số lượt tải xuống
-        $stmt = $connection->prepare("UPDATE device SET `download_count` = `download_count` - 1 WHERE `mac` = :mac");
-        $stmt->execute([':mac' => $mac]);
+        $stmt = $connection->prepare("UPDATE device SET `download_count` = `download_count` - 1 WHERE `device_id` = :device_id");
+        $stmt->execute([':device_id' => $device_id]);
         $download_count = $device['download_count'] - 1;
         $device['download_count'] = $download_count;
     } else {
-        // Không còn lượt tải về
+        $error_key = 'download_limit_reached'; // Key của thông báo lỗi
+        $error_message = getErrorMessage($lang_code, $error_key);
+
         echo json_encode([
             'license_key' => $license_key,
             'status' => $result['status'] ?? 'unknown',
             'end_date' => $current_period_end ?? null,
-            'error' =>  $lang_code === 'vi' ? 'Đã đạt đến giới hạn tải xuống' : 'Download limit reached',
+            'error' =>  $error_message,
             'download_count' => 0,
             'plan' => 'trial',
         ]);
@@ -103,7 +121,7 @@ if ($device) {
     }
 } else {
     // Thêm bản ghi mới cho thiết bị với số lần tải mặc định
-    InsertDevice($connection, $clientIP, $countryCode, $mac, $operating, $license_key, $today, $ram, $cpu);
+    InsertDevice($connection, $clientIP, $geo, $device_id, $os_name, $os_version, $license_key, $today, $cpu_name, $cpu_arch,$json_info);
 }
 
 $response = [
@@ -117,33 +135,34 @@ $response = [
 
 
 
-function InsertDevice($connection, $clientIP, $countryCode, $mac, $operating, $license_key, $today, $ram, $cpu)
+function InsertDevice($connection, $clientIP, $geo, $device_id, $os_name, $os_version, $license_key, $today, $cpu_name, $cpu_arch,$json_info)
 {
-    // Kiểm tra xem đã có bản ghi với mac và license_key này chưa
-    $stmt = $connection->prepare("SELECT COUNT(*) AS count FROM device WHERE mac = :mac AND license_key = :license_key");
+    // Kiểm tra xem đã có bản ghi với device_id và license_key này chưa
+    $stmt = $connection->prepare("SELECT COUNT(*) AS count FROM device WHERE device_id = :device_id AND license_key = :license_key");
     $stmt->execute([
-        ':mac' => $mac,
+        ':device_id' => $device_id,
         ':license_key' => $license_key
     ]);
     $count = $stmt->fetchColumn();
 
     if ($count == 0) {
         // Nếu chưa tồn tại, thực hiện insert mới
-        $sql = "INSERT INTO device (client_ip, geo, mac, operating, license_key, download_count, last_updated, ram, cpu) 
-                VALUES (:client_ip, :geo, :mac, :operating, :license_key, 4, :today, :ram, :cpu)";
+        $sql = "INSERT INTO device (client_ip, geo, device_id, os_name, os_version, license_key, download_count, last_updated, cpu_name, cpu_arch, json_info) 
+                VALUES (:client_ip, :geo, :device_id, :os_name, :os_version, :license_key, 4, :today, :cpu_name, :cpu_arch, :json_info)";
         $stmt = $connection->prepare($sql);
         $stmt->execute([
             ':client_ip' => $clientIP,
-            ':geo' => $countryCode,
-            ':mac' => $mac,
-            ':operating' => $operating,
+            ':device_id' => $device_id,
+            ':geo' => $geo,
+            ':os_name' => $os_name,
+            ':os_version' => $os_version,
             ':license_key' => $license_key,
             ':today' => $today,
-            ':ram' => $ram,
-            ':cpu' => $cpu,
+            ':cpu_name' => $cpu_name,
+            ':cpu_arch' => $cpu_arch,
+            ':json_info' => $json_info,
         ]);
     }
 }
 
 echo json_encode($response);
-

@@ -1,0 +1,8 @@
+{
+    "missing_parameters": "Thông số truyền vào bị thiếu",
+    "invalid_request": "Yêu cầu không hợp lệ",
+    "internal_server_error": "Lỗi máy chủ nội bộ",
+    "device_information" : "Thông tin driver được truy xuất hoặc cập nhật",
+    "device_successfully" : "Driver được thêm thành công",
+    "download_limit_reached" : "Đã đạt đến giới hạn tải xuống"
+}
