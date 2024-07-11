@@ -8,8 +8,8 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 Stripe::setApiKey('sk_test_51OeDsPIXbeKO1uxjfGZLmBaoVYMdmbThMwRHSrNa6Zigu0FnQYuAatgfPEodv9suuRFROdNRHux5vUhDp7jC6nca00GbHqdk1Y');
-// define('ENDPOINT_SECRET', 'whsec_LbKCxrDhpvIqZf1iITZdbxA4z0tIxkhk');
-define('ENDPOINT_SECRET', 'whsec_5f17c8c4ada7dddedac39a07084388d087b1743d38e16af8bd996bb97a21c910');
+define('ENDPOINT_SECRET', 'whsec_LbKCxrDhpvIqZf1iITZdbxA4z0tIxkhk');
+// define('ENDPOINT_SECRET', 'whsec_5f17c8c4ada7dddedac39a07084388d087b1743d38e16af8bd996bb97a21c910');
 
 
 $stripe_funtion = new StripeApiFunction();
