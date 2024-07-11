@@ -8,7 +8,7 @@ if (!$connection) {
 
 header("Content-Type: application/json");
 
-//Hầm lấy ra ngôn ngữ
+// Function to retrieve error messages from language file
 function getErrorMessage($lang_code, $error_key)
 {
     $lang_file = 'lang/' . $lang_code . '.json';
@@ -20,85 +20,70 @@ function getErrorMessage($lang_code, $error_key)
         }
     }
 
-    // Trường hợp mặc định nếu không tìm thấy thông báo
+    // Default error message if key not found
     return 'Unknown error';
 }
-// Lấy tham số từ request
 
-
+// Retrieve parameters from request
 $device_id = $_GET['device_id'] ?? '';
-$license_key = $_GET['license_key'] ?? '';
-$clientIP = Common::getRealIpAddr();
-$geo = @$_SERVER["HTTP_CF_IPCOUNTRY"] ?? 'không có thông tin quốc gia';
-$os_name = $_GET['os_name'] ?? ''; // Hệ điều hành
-$os_version = $_GET['os_version'] ?? ''; //Phiên bản hệ điều hành
+$count = $_GET['count'] ?? '';
 $lang_code = $_GET['lang_code'] ?? '';
-$cpu_name = $_GET['cpu_name'] ?? ''; //THông tin cpu
-$cpu_arch = $_GET['cpu_arch'] ?? ''; //THông tin ram
-$json_info = $_GET['json_info'] ?? ''; //THông tin ram
 
-
-
-
-if (!$lang_code || !$os_version || !$os_name || !$cpu_name ||  !$cpu_arch || !$device_id) {
+if (!$lang_code || !$count || !$device_id) {
     http_response_code(400);
-    // Kiểm tra và xử lý thông báo lỗi
-    $error_key = 'missing_parameters'; // Key của thông báo lỗi
+    // Handle missing parameters error
+    $error_key = 'missing_parameters';
     $error_message = getErrorMessage($lang_code, $error_key);
     echo json_encode(['error' => $error_message]);
     exit;
 }
 
-
-// Kiểm tra xem địa chỉ MAC đã tồn tại trong bảng driver hay chưa
+// Check if the device ID exists in the database
 $stmt = $connection->prepare("SELECT * FROM device WHERE device_id = :device_id");
 $stmt->execute([':device_id' => $device_id]);
 $device = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if ($device) {
-    // Nếu đã tồn tại, kiểm tra và cập nhật số lượt tải nếu cần
-    $download_count = $device['download_count'];
-    $last_updated = $device['last_updated'];
-    $current_date = date('Y-m-d');
+    try {
+        // Calculate new download count
+        $download_count = $device['download_count'];
+        $new_download_count = max($download_count - $count, 0); // Ensure download count doesn't go negative
 
-    if ($last_updated != $current_date) {
-        // Reset số lượt tải về 5 và cập nhật ngày hiện tại
-        $download_count = 5;
-        // Prepare and execute SQL statement
-        $stmt = $connection->prepare("UPDATE device SET download_count = :download_count, last_updated = :current_date WHERE device_id = :device_id");
-        $stmt->execute([':download_count' => $download_count, ':current_date' => $current_date, ':device_id' => $device_id]);
+        // Update the device record with the new download count
+        $update_stmt = $connection->prepare("UPDATE device SET download_count = :new_download_count WHERE device_id = :device_id");
+        $update_stmt->execute([
+            ':new_download_count' => $new_download_count,
+            ':device_id' => $device_id
+        ]);
+
+        // Retrieve updated device information
+        $updated_device_stmt = $connection->prepare("SELECT * FROM device WHERE device_id = :device_id");
+        $updated_device_stmt->execute([':device_id' => $device_id]);
+        $updated_device = $updated_device_stmt->fetch(PDO::FETCH_ASSOC);
+
+        // Prepare success response
+        $error_key = 'device_information';
+        $error_message = getErrorMessage($lang_code, $error_key);
+        echo json_encode([
+            'device_id' => $device_id,
+            'count' => $updated_device['download_count'],
+            'isAccept' => true,
+            'message' => $error_message
+        ]);
+    } catch (PDOException $e) {
+        // Prepare error response if database update fails
+        $error_message = 'Database error: ' . $e->getMessage();
+        echo json_encode([
+            'device_id' => $device_id,
+            'count' => $device['download_count'],
+            'isAccept' => false,
+            'error' => $error_message
+        ]);
     }
-    $error_key = 'device_information'; // Key của thông báo lỗi
-    $error_message = getErrorMessage($lang_code, $error_key);
-    echo json_encode([
-        'device_id' => $device_id,
-        'download_count' => $download_count,
-        'message' => $error_message
-    ]);
 } else {
-    // Nếu chưa tồn tại, thêm mới vào bảng device với số lượt tải mặc định là 5
-    $default_download_count = 5;
-    $current_date = date('Y-m-d');
-
-    $sql = "INSERT INTO device (device_id, client_ip, os_name, os_version, download_count, last_updated, geo, cpu_name, cpu_arch, json_info) VALUES (:device_id, :client_ip, :os_name, :os_version, :download_count, :current_date, :geo, :cpu_name, :cpu_arch, :json_info)";
-    $stmt = $connection->prepare($sql);
-    $stmt->execute([
-        ':client_ip' => $clientIP,
-        ':device_id' => $device_id,
-        ':download_count' => $default_download_count,
-        ':current_date' => $current_date,
-        ':os_name' => $os_name,
-        ':os_version' => $os_version,
-        ':geo' => $geo,
-        ':cpu_name' => $cpu_name,
-        ':cpu_arch' => $cpu_arch,
-        ':json_info' => $json_info,
-    ]);
-    $error_key = 'device_successfully'; // Key của thông báo lỗi
+    // Device ID not found in the database
+    $error_key = 'device_not_found';
     $error_message = getErrorMessage($lang_code, $error_key);
-    echo json_encode([
-        'device_id' => $device_id,
-        'download_count' => $default_download_count,
-        'message' => $error_message
-    ]);
+    echo json_encode(['error' => $error_message]);
 }
+

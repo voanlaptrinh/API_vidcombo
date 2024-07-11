@@ -2,7 +2,7 @@
 require_once './redis.php';
 require_once './common.php';
 
-//Hầm lấy ra ngôn ngữ
+// Function to get error message based on language
 function getErrorMessage($lang_code, $error_key)
 {
     $lang_file = 'lang/' . $lang_code . '.json';
@@ -14,65 +14,164 @@ function getErrorMessage($lang_code, $error_key)
         }
     }
 
-    // Trường hợp mặc định nếu không tìm thấy thông báo
+    // Default message if error key not found
     return 'Unknown error';
 }
 
+$today = date('Y-m-d');
 
-$license_key = $_GET['license_key'] ?? ''; // Key nhận từ request
+$license_key = $_GET['license_key'] ?? ''; // Key from request
 $lang_code = $_GET['lang_code'] ?? '';
-
-
-
-if (!$license_key || !$lang_code) {
-    http_response_code(400);
-    $error_key = 'key_lang_missing'; // Key của thông báo lỗi
-    $error_message = getErrorMessage($lang_code, $error_key);
-    echo json_encode(['error' => $error_message]);
-    exit;
-}
+$device_id = $_GET['device_id'] ?? '';
+$clientIP = Common::getRealIpAddr();
+$geo = @$_SERVER["HTTP_CF_IPCOUNTRY"] ?? 'Không có thông tin quốc gia';
+$os_name = $_GET['os_name'] ?? ''; // Operating System
+$os_version = $_GET['os_version'] ?? ''; // OS Version
+$cpu_name = $_GET['cpu_name'] ?? ''; // CPU Info
+$cpu_arch = $_GET['cpu_arch'] ?? ''; // RAM Info
+$json_info = $_GET['json_info'] ?? ''; // Additional info
 
 $connection = Common::getDatabaseConnection();
 if (!$connection) {
     throw new Exception('Database connection could not be established.');
 }
 
-$redis = new RedisCache($license_key);
-
 try {
 
-    // Kiểm tra bộ đệm Redis để biết trạng thái khóa cấp phép
+    // Check Redis cache to determine license key status
+    $redis = new RedisCache($license_key);
     $license_key_cache = $redis->getCache();
 
     if ($license_key_cache) {
         $result = json_decode($license_key_cache, true);
     } else {
-        $stmt = $connection->prepare("SELECT `license_key`, `status`, `current_period_end` FROM licensekey WHERE `license_key` = :license_key");
+        $stmt = $connection->prepare("SELECT `license_key`, `status`, `current_period_end`, `plan`, `user_number` FROM licensekey WHERE `license_key` = :license_key");
         $stmt->execute([':license_key' => $license_key]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($result) {
-            $redis->setCache(json_encode($result), 3600); // tồn tại trong 1 giờ
+            $redis->setCache(json_encode($result), 3600); // Cache for 1 hour
         }
     }
 
+    if ($result && $result['status'] == 'active') {
 
-    if ($result) {
-        // Key tồn tại trong CSDL, xử lý logic kiểm tra trạng thái
+        // If license key is active, insert into licensekey_device table
         $status = $result['status'];
         $current_period_end = $result['current_period_end'] ? (new DateTime($result['current_period_end']))->format('d-m-Y') : 'N/A';
-        // Giả sử 'status' là trường lưu trạng thái
-        echo json_encode([
-            'license_key' => $license_key,
-            'status' => $status,
-            'end_date' => $current_period_end,
+
+        // Check if device_id and license_key combination already exists in licensekey_device
+        $stmt_check = $connection->prepare("SELECT COUNT(*) AS count FROM licensekey_device WHERE device_id = :device_id AND license_key = :license_key");
+        $stmt_check->execute([
+            ':device_id' => $device_id,
+            ':license_key' => $license_key,
+        ]);
+        $count = $stmt_check->fetchColumn();
+
+        if ($count == 0) {
+            // Insert into licensekey_device if not already associated
+            $sql = "INSERT INTO licensekey_device (device_id, license_key) VALUES (:device_id, :license_key)";
+            $stmt_insert = $connection->prepare($sql);
+            $stmt_insert->execute([
+                ':device_id' => $device_id,
+                ':license_key' => $license_key,
+            ]);
+        }
+    }
+
+    // Insert or update device information
+    $stmt_device_check = $connection->prepare("SELECT COUNT(*) AS count, download_count, last_updated FROM device WHERE device_id = :device_id");
+    $stmt_device_check->execute([':device_id' => $device_id]);
+    $device_info = $stmt_device_check->fetch(PDO::FETCH_ASSOC);
+
+    if ($device_info['count'] == 0) {
+        // Insert new device record with download_count = 5
+        $sql_insert_device = "INSERT INTO device (client_ip, geo, device_id, os_name, os_version, download_count, last_updated, cpu_name, cpu_arch, json_info) 
+                          VALUES (:client_ip, :geo, :device_id, :os_name, :os_version, :download_count, :today, :cpu_name, :cpu_arch, :json_info)";
+        $stmt_insert_device = $connection->prepare($sql_insert_device);
+        $stmt_insert_device->execute([
+            ':client_ip' => $clientIP,
+            ':geo' => $geo,
+            ':device_id' => $device_id,
+            ':os_name' => $os_name,
+            ':os_version' => $os_version,
+            ':today' => $today,
+            ':cpu_name' => $cpu_name,
+            ':cpu_arch' => $cpu_arch,
+            ':json_info' => $json_info,
+            ':download_count' => 5,
         ]);
     } else {
-        // Key không tồn tại
-        $error_key = 'key_not_found'; // Key của thông báo lỗi
+
+        if (!isset($device_info['last_updated']) || $today !== date('Y-m-d', strtotime($device_info['last_updated']))) {
+            // Fetch current download_count and last_updated
+            $stmt = $connection->prepare("SELECT `download_count`, `last_updated` FROM device WHERE `device_id` = :device_id");
+            $stmt->execute([':device_id' => $device_id]);
+            $device = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            // Update device table with download_count = 5 and today's date
+            $sql_update_device = "UPDATE device SET download_count = 5, last_updated = :today WHERE device_id = :device_id";
+            $stmt_update_device = $connection->prepare($sql_update_device);
+            $stmt_update_device->execute([
+                ':today' => $today,
+                ':device_id' => $device_id,
+            ]);
+
+            $download_count = 5;
+            $device_info['download_count'] = 5;
+            $device_info['last_updated'] = $today;
+        }
+    }
+    if ($result) {
+        $stmt_count = $connection->prepare("SELECT COUNT(DISTINCT device_id) AS used_device_count FROM licensekey_device WHERE license_key = :license_key");
+        $stmt_count->execute([':license_key' => $license_key]);
+        $used_device_count = $stmt_count->fetchColumn();
+
+        if ($result['status'] == 'active') {
+            $error_key = 'active_key';
+            $error_message = getErrorMessage($lang_code, $error_key);
+           
+            if ($result['plan'] == 'price_1PV2QfIXbeKO1uxjVvaZPb8p' && $used_device_count > 5 
+            || $result['plan'] == 'price_1PV2USIXbeKO1uxjnL1w3qPC' && $used_device_count > 10
+            ||$result['plan'] == 'price_1PV2VjIXbeKO1uxjHlOtM0oL' && $used_device_count > 7
+            ) {
+                $error_key = 'active_limit';
+                $error_message = getErrorMessage($lang_code, $error_key);
+                $status = 'inactive';
+            }
+           
+            echo json_encode([
+                'license_key' => $license_key,
+                'status' => $status,
+                'end_date' => $current_period_end,
+                'count_free' => ($device_info['count'] == 0) ? 5 : $device_info['download_count'],
+                'used_device_count' => $used_device_count,
+                'plan' => $result['plan'],
+                'mess' => $error_message 
+            ]);
+        } elseif ($result['status'] == 'inactive') {
+            $error_key = 'key_inactive';
+            $error_message = getErrorMessage($lang_code, $error_key);
+            $current_period_end = $result['current_period_end'] ? (new DateTime($result['current_period_end']))->format('d-m-Y') : 'N/A';
+            echo json_encode([
+                'license_key' => $license_key,
+                'status' => $result['status'],
+                'end_date' =>  $current_period_end,
+                'count_free' => ($device_info['count'] == 0) ? 5 : $device_info['download_count'],
+                'mess' => $error_message,
+            ]);
+        }
+    } else {
+        $error_key = 'key_not_found';
         $error_message = getErrorMessage($lang_code, $error_key);
 
-        echo json_encode(['error' => $error_message]);
+        echo json_encode([
+            'license_key' => null,
+            'mess' => $error_message,
+            'status' => 'invalid',
+            'end_date' => null,
+            'count_free' => ($device_info['count'] == 0) ? 5 : $device_info['download_count'],
+        ]);
     }
 } catch (PDOException $e) {
     if ($lang_code === 'vi') {
@@ -81,4 +180,6 @@ try {
         echo json_encode(['error' => 'Error: ' . $e->getMessage()]);
     }
 }
+
+// Close database connection
 $connection = null;

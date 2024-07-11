@@ -6,5 +6,9 @@
     "device_successfully": "Driver added successfully",
     "download_limit_reached": "Download limit reached",
     "key_lang_missing": "License_key or language is missing",
-    "key_not_found": "Key not found"
+    "key_not_found": "Key not found",
+    "key_inactive": "The key is correct but has expired",
+    "active_limit": "The key has reached the device usage limit",
+     "active_key": "Your friend's key has been used successfully",
+    "device_not_found": "The device is not available"
 }

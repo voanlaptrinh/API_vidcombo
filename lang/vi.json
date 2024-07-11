@@ -6,5 +6,9 @@
     "device_successfully" : "Driver được thêm thành công",
     "download_limit_reached" : "Đã đạt đến giới hạn tải xuống",
     "key_lang_missing" : "License_key hoặc ngôn ngữ bị thiếu",
-    "key_not_found" : "License Key không tồn tại"
+    "key_not_found" : "License Key không tồn tại",
+    "key_inactive": "Key đúng nhưng đã hết hạn",
+    "active_limit": "Key đã đạt tới giới hạn thiết bị sử dụng",
+    "active_key": "Key của bạn của bạn đã được sử dụng thành công",
+     "device_not_found": "Thiết bị này không có sẵn"
 }

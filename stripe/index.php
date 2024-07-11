@@ -8,8 +8,8 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 Stripe::setApiKey('sk_test_51OeDsPIXbeKO1uxjfGZLmBaoVYMdmbThMwRHSrNa6Zigu0FnQYuAatgfPEodv9suuRFROdNRHux5vUhDp7jC6nca00GbHqdk1Y');
-define('ENDPOINT_SECRET', 'whsec_LbKCxrDhpvIqZf1iITZdbxA4z0tIxkhk');
-// define('ENDPOINT_SECRET', 'whsec_5f17c8c4ada7dddedac39a07084388d087b1743d38e16af8bd996bb97a21c910');
+// define('ENDPOINT_SECRET', 'whsec_LbKCxrDhpvIqZf1iITZdbxA4z0tIxkhk');
+define('ENDPOINT_SECRET', 'whsec_5f17c8c4ada7dddedac39a07084388d087b1743d38e16af8bd996bb97a21c910');
 
 
 $stripe_funtion = new StripeApiFunction();
@@ -654,16 +654,15 @@ class StripeApiFunction
             ':bank_name' => 'Stripe'
         ]);
 
-
-        $stmt = $this->connection->prepare("INSERT INTO licensekey (customer_id, status, subscription_id, license_key, send) VALUES (:customer_id, :status, :subscription_id, :license_key, :send)");
+       
+        $stmt = $this->connection->prepare("INSERT INTO licensekey (customer_id, status, subscription_id, license_key, send, plan) VALUES (:customer_id, :status, :subscription_id, :license_key, :send, :plan)");
         $stmt->execute([
             ':customer_id' => $customer,
             ':subscription_id' => $subscription_id,
             ':license_key' => $licenseKey,
             ':status' => $status_key,
             ':send' => 'not',
-
-
+            ':plan' => $plan,
         ]);
 
         error_log("Subscription created for customer: $customer, subscription ID: $subscription_id, status: $status, current period start: $current_period_start_date, current period end: $current_period_end_date");
