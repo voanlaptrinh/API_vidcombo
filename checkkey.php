@@ -67,7 +67,6 @@ try {
             ':license_key' => $license_key,
         ]);
         $count = $stmt_check->fetchColumn();
-
         // Kiểm tra period_end trong licensekey
         $currentDateTime = new DateTime();
         $periodEndDateTime = new DateTime($result['current_period_end']);
@@ -85,11 +84,6 @@ try {
                 ':license_key' => $license_key
             ]);
         }
-
-
-
-
-
         if ($count == 0) {
             // Insert into licensekey_device if not already associated
             $sql = "INSERT INTO licensekey_device (device_id, license_key) VALUES (:device_id, :license_key)";
@@ -150,7 +144,9 @@ try {
         $used_device_count = $stmt_count->fetchColumn();
 
         if ($result['status'] == 'active') {
-           
+            $error_key = 'active_key';
+            $error_message = getErrorMessage($lang_code, $error_key);
+
             $plan1 = 'price_1PV2QfIXbeKO1uxjVvaZPb8p';
             $plan2 = 'price_1PV2VjIXbeKO1uxjHlOtM0oL';
             $plan3 = 'price_1PV2USIXbeKO1uxjnL1w3qPC';
@@ -170,8 +166,6 @@ try {
                 $error_message = getErrorMessage($lang_code, $error_key);
                 $status = 'inactive';
             }
-
-
             if ($result['plan'] == $plan1) {
                 $lever = '1';
             } elseif ($result['plan'] == $plan2) {
