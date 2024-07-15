@@ -72,7 +72,6 @@ try {
         $currentDateTime = new DateTime();
         $periodEndDateTime = new DateTime($result['current_period_end']);
 
-     var_dump($periodEndDateTime);
 
         if ($periodEndDateTime <= $currentDateTime) {
             $status = 'inactive';
