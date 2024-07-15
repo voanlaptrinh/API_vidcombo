@@ -34,7 +34,7 @@ if (!$lang_code || !$count || !$device_id) {
     // Handle missing parameters error
     $error_key = 'missing_parameters';
     $error_message = getErrorMessage($lang_code, $error_key);
-    echo json_encode(['error' => $error_message]);
+    echo json_encode(['message' => $error_message]);
     exit;
 }
 
@@ -77,13 +77,13 @@ if ($device) {
             'device_id' => $device_id,
             'count' => $device['download_count'],
             'isAccept' => false,
-            'error' => $error_message
+            'message' => $error_message
         ]);
     }
 } else {
     // Device ID not found in the database
     $error_key = 'device_not_found';
     $error_message = getErrorMessage($lang_code, $error_key);
-    echo json_encode(['error' => $error_message]);
+    echo json_encode(['message' => $error_message]);
 }
 

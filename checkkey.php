@@ -58,7 +58,7 @@ try {
 
         // If license key is active, insert into licensekey_device table
         $status = $result['status'];
-        $current_period_end = $result['current_period_end'] ? (new DateTime($result['current_period_end']))->format('d-m-Y') : 'N/A';
+        $current_period_end = $result['current_period_end'] ? (new DateTime($result['current_period_end']))->format('d/m/Y') : 'N/A';
 
         // Check if device_id and license_key combination already exists in licensekey_device
         $stmt_check = $connection->prepare("SELECT COUNT(*) AS count FROM licensekey_device WHERE device_id = :device_id AND license_key = :license_key");
@@ -67,6 +67,29 @@ try {
             ':license_key' => $license_key,
         ]);
         $count = $stmt_check->fetchColumn();
+
+        // Kiểm tra period_end trong licensekey
+        $currentDateTime = new DateTime();
+        $periodEndDateTime = new DateTime($result['current_period_end']);
+
+     var_dump($periodEndDateTime);
+
+        if ($periodEndDateTime <= $currentDateTime) {
+            $status = 'inactive';
+            $error_key = 'expired';
+            $error_message = getErrorMessage($lang_code, $error_key);
+
+            // Cập nhật trạng thái trong cơ sở dữ liệu thành inactive
+            $stmt = $connection->prepare("UPDATE licensekey SET status = :status WHERE license_key = :license_key");
+            $stmt->execute([
+                ':status' => 'inactive',
+                ':license_key' => $license_key
+            ]);
+        }
+
+
+
+
 
         if ($count == 0) {
             // Insert into licensekey_device if not already associated
@@ -128,18 +151,36 @@ try {
         $used_device_count = $stmt_count->fetchColumn();
 
         if ($result['status'] == 'active') {
-            $error_key = 'active_key';
-            $error_message = getErrorMessage($lang_code, $error_key);
            
-            if ($result['plan'] == 'price_1PV2QfIXbeKO1uxjVvaZPb8p' && $used_device_count > 5 
-            || $result['plan'] == 'price_1PV2USIXbeKO1uxjnL1w3qPC' && $used_device_count > 10
-            ||$result['plan'] == 'price_1PV2VjIXbeKO1uxjHlOtM0oL' && $used_device_count > 7
-            ) {
+            $plan1 = 'price_1PV2QfIXbeKO1uxjVvaZPb8p';
+            $plan2 = 'price_1PV2VjIXbeKO1uxjHlOtM0oL';
+            $plan3 = 'price_1PV2USIXbeKO1uxjnL1w3qPC';
+
+            if ($result['plan'] == $plan1 && $used_device_count > 5) {
                 $error_key = 'active_limit';
                 $error_message = getErrorMessage($lang_code, $error_key);
                 $status = 'inactive';
             }
-           
+            if ($result['plan'] == $plan2 && $used_device_count > 7) {
+                $error_key = 'active_limit';
+                $error_message = getErrorMessage($lang_code, $error_key);
+                $status = 'inactive';
+            }
+            if ($result['plan'] == $plan3 && $used_device_count > 10) {
+                $error_key = 'active_limit';
+                $error_message = getErrorMessage($lang_code, $error_key);
+                $status = 'inactive';
+            }
+
+
+            if ($result['plan'] == $plan1) {
+                $lever = '1';
+            } elseif ($result['plan'] == $plan2) {
+                $lever = '2';
+            } else {
+                $lever = '3';
+            }
+
             echo json_encode([
                 'license_key' => $license_key,
                 'status' => $status,
@@ -147,12 +188,13 @@ try {
                 'count_free' => ($device_info['count'] == 0) ? 5 : $device_info['download_count'],
                 'used_device_count' => $used_device_count,
                 'plan' => $result['plan'],
-                'mess' => $error_message 
+                'lever' => $lever,
+                'mess' => $error_message,
             ]);
         } elseif ($result['status'] == 'inactive') {
             $error_key = 'key_inactive';
             $error_message = getErrorMessage($lang_code, $error_key);
-            $current_period_end = $result['current_period_end'] ? (new DateTime($result['current_period_end']))->format('d-m-Y') : 'N/A';
+            $current_period_end = $result['current_period_end'] ? (new DateTime($result['current_period_end']))->format('d/m/Y') : 'N/A';
             echo json_encode([
                 'license_key' => $license_key,
                 'status' => $result['status'],
@@ -175,9 +217,9 @@ try {
     }
 } catch (PDOException $e) {
     if ($lang_code === 'vi') {
-        echo json_encode(['error' => 'Lỗi: ' . $e->getMessage()]);
+        echo json_encode(['mess' => 'Lỗi: ' . $e->getMessage()]);
     } else {
-        echo json_encode(['error' => 'Error: ' . $e->getMessage()]);
+        echo json_encode(['mess' => 'Error: ' . $e->getMessage()]);
     }
 }
 
