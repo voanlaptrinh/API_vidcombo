@@ -545,6 +545,11 @@ class StripeApiFunction
 
         $subscription_id = $invoice->subscription;
      
+        //select license theo gói sub
+        $stmt = $this->connection->prepare("SELECT `license_key` FROM licensekey WHERE subscription_id = :subscription_id");
+        $stmt->execute([':subscription_id' => $subscription_id]);
+        $license_key = $stmt->fetchColumn();
+
 
         $stmt = $this->connection->prepare("UPDATE licensekey SET current_period_end = :current_period_end, plan = :plan WHERE subscription_id = :subscription_id");
         $stmt->execute([
@@ -553,6 +558,12 @@ class StripeApiFunction
             ':subscription_id' => $subscription_id,
         ]);
 
+        
+        //update redis cache
+        
+        require_once './redis.php';
+        $redis = new RedisCache($license_key);
+        $redis->setCache('', 3600); // Cache for 1 hour
       
         error_log("Invoice paid:" . $period_end);
     }
