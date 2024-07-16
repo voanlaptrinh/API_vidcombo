@@ -563,8 +563,7 @@ class StripeApiFunction
         
         require_once './redis.php';
         $redis = new RedisCache($license_key);
-        $redis->setCache('', 3600); // Cache for 1 hour
-        error_log($plan);
+        $redis->delCache(); // Cache for 1 hour
         error_log("Invoice paid:" . $period_end);
     }
 
