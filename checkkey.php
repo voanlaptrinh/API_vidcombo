@@ -45,7 +45,7 @@ try {
     if ($license_key_cache) {
         $result = json_decode($license_key_cache, true);
     } else {
-        $stmt = $connection->prepare("SELECT `license_key`, `status`, `current_period_end`, `plan`, `user_number` FROM licensekey WHERE `license_key` = :license_key");
+        $stmt = $connection->prepare("SELECT `license_key`, `status`, `current_period_end`, `plan` FROM licensekey WHERE `license_key` = :license_key");
         $stmt->execute([':license_key' => $license_key]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 

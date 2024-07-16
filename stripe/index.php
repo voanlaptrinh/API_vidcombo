@@ -656,11 +656,9 @@ class StripeApiFunction
             ':customer' => $customer,
             ':subscription_json' => $subscription,
             ':plan' => $plan,
-            ':bank_name' => 'Stripe2'
+            ':bank_name' => 'Stripe'
         ]);
-        $logFile = __DIR__ . '/logs/Savekey.log';
-        $logMessage = "Subscription created for customer: $customer, subscription ID: $subscription_id, status: $status, current period start: $current_period_start_date, current period end: $current_period_end_date";
-        error_log($logMessage . PHP_EOL, 3, $logFile);
+     
 
         $stmt2 = $this->connection->prepare("INSERT INTO licensekey (customer_id, status, subscription_id, license_key, send, plan) VALUES (:customer_id, :status, :subscription_id, :license_key, :send, :plan)");
         $stmt2->execute([
