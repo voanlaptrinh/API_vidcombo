@@ -315,9 +315,7 @@ class StripeApiFunction
 
 
         try {
-            $logFile = __DIR__ . '/logs/event_log.log';
-            error_log($event->type . PHP_EOL, 3, $logFile);
-            error_log("Event:" . $event->type);
+           
             switch ($event->type) {
 
                 case 'invoice.payment_succeeded': //Xảy ra bất cứ khi nào nỗ lực thanh toán hóa đơn thành công.
@@ -441,10 +439,7 @@ class StripeApiFunction
         $pre_end = $invoice->lines['data'][0]['period']['end'];
         $period_end = $pre_end;
 
-        $logFile = __DIR__ . '/logs/handleInvoiceUpdated.log';
-        error_log($invoice . PHP_EOL, 3, $logFile);
-        error_log("Event:" . $invoice);
-
+       
         try {
             // Cập nhật thông tin trong bảng invoice
             $sql = $this->connection->prepare("UPDATE invoice SET status = :status, subscription_id = :subscription_id, customer_id = :customer_id, amount_paid= :amount_paid, period_end= :period_end WHERE invoice_id = :invoice_id");
@@ -533,9 +528,7 @@ class StripeApiFunction
         $customer_email = $invoice->customer_email;
         $subscription_id = $invoice->subscription;
 
-        $logFile = __DIR__ . '/logs/handleInvoiceCreated.log';
-        error_log($invoice . PHP_EOL, 3, $logFile);
-        error_log("Event:" . $$invoice);
+      
     }
 
     function handleInvoicePaid($invoice)
@@ -554,8 +547,7 @@ class StripeApiFunction
             ':subscription_id' => $subscription_id,
         ]);
 
-        $logFile = __DIR__ . '/logs/invoice_log.log';
-        error_log($invoice . PHP_EOL, 3, $logFile);
+      
         error_log("Invoice paid:" . $period_end);
     }
 
@@ -695,10 +687,6 @@ class StripeApiFunction
             return null;
         }
     }
-
-
-
-
 
 
 
@@ -867,8 +855,7 @@ class StripeApiFunction
         $period_end_subscription = date('Y-m-d H:i:s', $subscription->current_period_end);
     
         // Ghi log
-        $logFile = __DIR__ . '/logs/handleSubscriptionDeleted.log';
-        error_log($subscription . PHP_EOL, 3, $logFile);
+      
         error_log("subscription: " . $subscription);
     
         // Cập nhật trạng thái đăng ký trong cơ sở dữ liệu của bạn
