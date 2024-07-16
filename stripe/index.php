@@ -658,13 +658,14 @@ class StripeApiFunction
             ':plan' => $plan,
             ':bank_name' => 'Stripe'
         ]);
-        $stmt = $this->connection->prepare("INSERT INTO licensekey (customer_id, status, subscription_id, license_key, send) VALUES (:customer_id, :status, :subscription_id, :license_key, :send)");
+        $stmt = $this->connection->prepare("INSERT INTO licensekey (customer_id, status, subscription_id, license_key, send, plan) VALUES (:customer_id, :status, :subscription_id, :license_key, :send. :plan)");
         $stmt->execute([
             ':customer_id' => $customer,
             ':subscription_id' => $subscription_id,
             ':license_key' => $licenseKey,
             ':status' => $status_key,
             ':send' => 'not',
+            ':plan' => $plan
             
         ]);
 
