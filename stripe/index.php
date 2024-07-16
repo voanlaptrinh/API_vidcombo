@@ -8,8 +8,8 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 Stripe::setApiKey('sk_test_51OeDsPIXbeKO1uxjfGZLmBaoVYMdmbThMwRHSrNa6Zigu0FnQYuAatgfPEodv9suuRFROdNRHux5vUhDp7jC6nca00GbHqdk1Y');
-define('ENDPOINT_SECRET', 'whsec_LbKCxrDhpvIqZf1iITZdbxA4z0tIxkhk');
-// define('ENDPOINT_SECRET', 'whsec_5f17c8c4ada7dddedac39a07084388d087b1743d38e16af8bd996bb97a21c910');
+// define('ENDPOINT_SECRET', 'whsec_LbKCxrDhpvIqZf1iITZdbxA4z0tIxkhk');
+define('ENDPOINT_SECRET', 'whsec_5f17c8c4ada7dddedac39a07084388d087b1743d38e16af8bd996bb97a21c910');
 
 
 $stripe_funtion = new StripeApiFunction();
@@ -74,7 +74,7 @@ class StripeApiFunction
             throw new Exception('Database connection could not be established.');
         }
     }
-    public $web_domain = 'https://api.vidcombo.com'; //
+    public $web_domain = 'https://www.vidcombo.com/'; //
     public $plans = array(
         '1month' => 'price_1PV2QfIXbeKO1uxjVvaZPb8p',
         '12month' => 'price_1PV2USIXbeKO1uxjnL1w3qPC',
@@ -564,7 +564,7 @@ class StripeApiFunction
         require_once './redis.php';
         $redis = new RedisCache($license_key);
         $redis->setCache('', 3600); // Cache for 1 hour
-      
+        error_log($plan);
         error_log("Invoice paid:" . $period_end);
     }
 
