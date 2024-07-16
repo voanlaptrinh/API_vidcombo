@@ -9,7 +9,8 @@ if (!$connection) {
 header("Content-Type: application/json");
 
 //Ham lấy ra ngôn ngữ
-function getErrorMessage($lang_code, $error_key) {
+function getErrorMessage($lang_code, $error_key)
+{
     $lang_file = 'lang/' . $lang_code . '.json';
 
     if (file_exists($lang_file)) {
@@ -39,7 +40,7 @@ $json_info = $_GET['json_info'] ?? ''; //THông tin ram
 
 $today = date('Y-m-d');
 
-if ( !$lang_code || !$device_id || !$os_name || !$os_version || !$cpu_name || !$cpu_arch || !$json_info) {
+if (!$lang_code || !$device_id || !$os_name || !$os_version || !$cpu_name || !$cpu_arch || !$json_info) {
     http_response_code(400);
     $error_key = 'missing_parameters'; // Key của thông báo lỗi
     $error_message = getErrorMessage($lang_code, $error_key);
@@ -72,7 +73,7 @@ if ($license_key) {
         $current_period_end = $result['current_period_end'] ? (new DateTime($result['current_period_end']))->format('d-m-Y') : 'N/A';
 
         // Response with premium plan info
-        InsertDevice($connection, $clientIP, $geo, $device_id, $os_name, $os_version, $license_key, $today, $cpu_name, $cpu_arch,$json_info);
+        InsertDevice($connection, $clientIP, $geo, $device_id, $os_name, $os_version, $license_key, $today, $cpu_name, $cpu_arch, $json_info);
 
         echo json_encode([
             'license_key' => $license_key,
@@ -121,7 +122,7 @@ if ($device) {
     }
 } else {
     // Thêm bản ghi mới cho thiết bị với số lần tải mặc định
-    InsertDevice($connection, $clientIP, $geo, $device_id, $os_name, $os_version, $license_key, $today, $cpu_name, $cpu_arch,$json_info);
+    InsertDevice($connection, $clientIP, $geo, $device_id, $os_name, $os_version, $license_key, $today, $cpu_name, $cpu_arch, $json_info);
 }
 
 $response = [
@@ -135,7 +136,7 @@ $response = [
 
 
 
-function InsertDevice($connection, $clientIP, $geo, $device_id, $os_name, $os_version, $license_key, $today, $cpu_name, $cpu_arch,$json_info)
+function InsertDevice($connection, $clientIP, $geo, $device_id, $os_name, $os_version, $license_key, $today, $cpu_name, $cpu_arch, $json_info)
 {
     // Kiểm tra xem đã có bản ghi với device_id và license_key này chưa
     $stmt = $connection->prepare("SELECT COUNT(*) AS count FROM device WHERE device_id = :device_id AND license_key = :license_key");

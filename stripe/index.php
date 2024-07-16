@@ -74,7 +74,7 @@ class StripeApiFunction
             throw new Exception('Database connection could not be established.');
         }
     }
-    public $web_domain = 'https://api.vidcombo.com';
+    public $web_domain = 'https://api.vidcombo.com'; //
     public $plans = array(
         '1month' => 'price_1PV2QfIXbeKO1uxjVvaZPb8p',
         '12month' => 'price_1PV2USIXbeKO1uxjnL1w3qPC',
@@ -478,8 +478,8 @@ class StripeApiFunction
 
                     // Content
                     $mail->isHTML(true);
-                    $mail->Subject = 'Your invoice details';
-                    $mail->Body    =
+                    $mail->Subject = 'Payment Successful';
+                    $mail->Body    = 
                         "Dear $customer_email,<br>
                         <br>Code Bill: $invoice_id<br>
                         <br>Total amount paid: $amount_due $<br>
@@ -539,11 +539,17 @@ class StripeApiFunction
         $pre_end = $last_line_item['period']['end'];
         $period_end = date('Y-m-d H:i:s', $pre_end);
 
-        $subscription_id = $invoice->subscription;
+        $last_plan_item = end($invoice->lines['data']);
+        $plan = $last_plan_item['plan']['id'];
 
-        $stmt = $this->connection->prepare("UPDATE licensekey SET current_period_end = :current_period_end WHERE subscription_id = :subscription_id");
+
+        $subscription_id = $invoice->subscription;
+     
+
+        $stmt = $this->connection->prepare("UPDATE licensekey SET current_period_end = :current_period_end, plan = :plan WHERE subscription_id = :subscription_id");
         $stmt->execute([
             ':current_period_end' => $period_end,
+            ':plan' => $plan,
             ':subscription_id' => $subscription_id,
         ]);
 
