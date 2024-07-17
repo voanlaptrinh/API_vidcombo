@@ -557,13 +557,10 @@ class StripeApiFunction
             ':plan' => $plan,
             ':subscription_id' => $subscription_id,
         ]);
-
-        
         //update redis cache
-        
-        require_once './redis.php';
+        require_once '../redis.php';
         $redis = new RedisCache($license_key);
-        $redis->delCache(); // Cache for 1 hour
+        $redis->setCache('', 3600); // Cache for 1 hour
         error_log("Invoice paid:" . $period_end);
     }
 
