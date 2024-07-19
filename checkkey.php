@@ -50,6 +50,7 @@ try {
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($result) {
+            $redis->delCache(); // Xóa cache cũ
             $redis->setCache(json_encode($result), 3600); // Cache for 1 hour
         }
     }
@@ -138,6 +139,7 @@ try {
             $device_info['last_updated'] = $today;
         }
     }
+    
     if ($result) {
         $stmt_count = $connection->prepare("SELECT COUNT(DISTINCT device_id) AS used_device_count FROM licensekey_device WHERE license_key = :license_key");
         $stmt_count->execute([':license_key' => $license_key]);

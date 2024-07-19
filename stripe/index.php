@@ -315,7 +315,7 @@ class StripeApiFunction
 
 
         try {
-           
+
             switch ($event->type) {
 
                 case 'invoice.payment_succeeded': //Xảy ra bất cứ khi nào nỗ lực thanh toán hóa đơn thành công.
@@ -439,7 +439,7 @@ class StripeApiFunction
         $pre_end = $invoice->lines['data'][0]['period']['end'];
         $period_end = $pre_end;
 
-       
+
         try {
             // Cập nhật thông tin trong bảng invoice
             $sql = $this->connection->prepare("UPDATE invoice SET status = :status, subscription_id = :subscription_id, customer_id = :customer_id, amount_paid= :amount_paid, period_end= :period_end WHERE invoice_id = :invoice_id");
@@ -461,33 +461,64 @@ class StripeApiFunction
                 // ]);
 
                 // Gửi email thông báo
+                // Create an instance of PHPMailer
                 $mail = new PHPMailer(true);
+
                 try {
-                    //Server settings
+                    // Server settings
                     $mail->isSMTP();
                     $mail->Host       = 'smtp.gmail.com';  // Use the correct SMTP server
                     $mail->SMTPAuth   = true;
-                    $mail->Username   = 'thanbatbai3092002@gmail.com';  // Your Gmail address
-                    $mail->Password   = 'etejnwheciweprdo';  // Your Gmail password or app-specific password
+                    $mail->Username   = 'vidcombo.com@gmail.com';  // Your Gmail address
+                    $mail->Password   = 'fyebyrtcnehwravx';  // Your Gmail password or app-specific password
                     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
                     $mail->Port       = 587;  // TCP port to connect to
 
-                    //Recipients
+                    // Recipients
                     $mail->setFrom('no-reply@example.com', 'Mailer');
                     $mail->addAddress($customer_email);
 
                     // Content
                     $mail->isHTML(true);
                     $mail->Subject = 'Payment Successful';
-                    $mail->Body    = 
-                        "Dear $customer_email,<br>
-                        <br>Code Bill: $invoice_id<br>
-                        <br>Total amount paid: $amount_due $<br>
-                        <br>Date created: $invoice_date<br>
-                        <br>Thank you for your subscription! subid: " . $subscription_id;
+
+                    // Define the email body
+                    $email_body = "
+                    <div style='padding: 0px; margin: 0px; height: 100%; width: 100%; font-family: Arial, &quot;Times New Roman&quot;, Calibri;text-align:center!important'>  
+                    <div class='container' style='width: 100%; margin-right: auto; margin-left: auto; color: white;'>
+        <div class='' style='display:flex;min-height:100vh!important;justify-content: center;'>
+            <div class='main' style='background: #BB82FE; padding: 50px; border-radius: 10px; margin: 0px auto; max-width: 600px; width:100%; max-height: 700px;display: block;font-family: inherit;'>
+                <h2 style='text-align: center;color: white;'>Payment Successful</h2>
+                <p style='text-align: center;color: white;'>Dear: $customer_email</p>
+                <hr style='color: white;'>
+                <div class='payment-info'>
+                    <h4 style='text-align: center;color: white;'>Total amount paid</h4>
+                    <h2 style='text-align: center;color: white;'>$amount_due $</h2>
+                    <div>
+                        <div style='border: 1px solid white; padding: 0 10px; border-radius: 10px;'>
+                            <h4 style='text-align: center;'>Code Bill</h4>
+                            <p style='text-align:center!important'>$invoice_id</p>
+                        </div>
+                        <div style='border: 1px solid white; padding: 0 10px; border-radius: 10px; margin-top: 10px;'>
+                            <h4 style='text-align: center;'>Date Created</h4>
+                            <p style='text-align:center!important'>$invoice_date</p>
+                        </div>
+                        <div style='border: 1px solid white; padding: 0 10px; border-radius: 10px; margin-top: 10px;'>
+                            <h4 style='text-align: center;'>Subscription Subid</h4>
+                            <p style='text-align:center!important'>$subscription_id</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div></div>";
+
+                    // Assign the email body
+                    $mail->Body = $email_body;
 
                     // Send the email
                     $mail->send();
+                    echo 'Email has been sent successfully';
                 } catch (Exception $e) {
                     error_log("Email could not be sent. Mailer Error: {$mail->ErrorInfo}");
                 }
@@ -527,8 +558,6 @@ class StripeApiFunction
         $status = $invoice->status;
         $customer_email = $invoice->customer_email;
         $subscription_id = $invoice->subscription;
-
-      
     }
 
     function handleInvoicePaid($invoice)
@@ -544,7 +573,7 @@ class StripeApiFunction
 
 
         $subscription_id = $invoice->subscription;
-     
+
         //select license theo gói sub
         $stmt = $this->connection->prepare("SELECT `license_key` FROM licensekey WHERE subscription_id = :subscription_id");
         $stmt->execute([':subscription_id' => $subscription_id]);
@@ -672,7 +701,7 @@ class StripeApiFunction
             ':plan' => $plan,
             ':bank_name' => 'Stripe'
         ]);
-     
+
 
         $stmt2 = $this->connection->prepare("INSERT INTO licensekey (customer_id, status, subscription_id, license_key, send, plan) VALUES (:customer_id, :status, :subscription_id, :license_key, :send, :plan)");
         $stmt2->execute([
@@ -682,7 +711,7 @@ class StripeApiFunction
             ':status' => $status_key,
             ':send' => 'not',
             ':plan' => $plan
-            
+
         ]);
 
         error_log("Subscription created for customer: $customer, subscription ID: $subscription_id, status: $status, current period start: $current_period_start_date, current period end: $current_period_end_date");
@@ -796,8 +825,8 @@ class StripeApiFunction
             $mail->isSMTP();
             $mail->Host       = 'smtp.gmail.com';  // Use the correct SMTP server
             $mail->SMTPAuth   = true;
-            $mail->Username   = 'thanbatbai3092002@gmail.com';  // Your Gmail address
-            $mail->Password   = 'etejnwheciweprdo';  // Your Gmail password or app-specific password
+            $mail->Username   = 'vidcombo.com@gmail.com';  // Your Gmail address
+            $mail->Password   = 'fyebyrtcnehwravx';  // Your Gmail password or app-specific password
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port       = 587;  // TCP port to connect to
 
@@ -808,7 +837,28 @@ class StripeApiFunction
             // Content
             $mail->isHTML(true);
             $mail->Subject = 'Your License Key';
-            $mail->Body    = "Dear $customer_email,<br><br>Your license key is: $licenseKey<br><br>Thank you for your subscription! subid: " . $subscription_id;
+            $mail->Body    = "
+            <div style='padding: 0px; margin: 0px; height: 100%; width: 100%; font-family: Arial, &quot;Times New Roman&quot;, Calibri; text-align:center!important'>  
+                    <div class='container' style='width: 100%; margin-right: auto; margin-left: auto; color: white;'>
+        <div class='' style='display:flex;min-height:100vh!important;justify-content: center;'>
+            <div class='main' style='background: #BB82FE; padding: 50px; border-radius: 10px; margin: 0px auto; max-width: 600px; width:100%; max-height: 700px;display: block;font-family: inherit;'>
+                <h2 style='text-align: center;color: white;'>License Key Successful</h2>
+                <p style='text-align: center;color: white;'>Dear: $customer_email</p>
+                <hr style='color: white;'>
+                <div class='payment-info'>
+                    <h4 style='text-align: center;color: white;'>License key for you</h4>
+                    <h2 style='text-align: center;color: white;'>$licenseKey</h2>
+                    <div>
+                        <div style='border: 1px solid white; padding: 0 10px; border-radius: 10px;'>
+                            <h4 style='text-align: center;color: white;'>Subscription Subid</h4>
+                            <pcolor: white;>$subscription_id</pcolor:>
+                        </div>
+                     <h5 style='text-align: center;color: white;'>Thank You!</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div></div>" ;
 
             // Send the email
             $mail->send();
@@ -870,11 +920,11 @@ class StripeApiFunction
         $subscription_id = $subscription->id;
         $status = $subscription->status;
         $period_end_subscription = date('Y-m-d H:i:s', $subscription->current_period_end);
-    
+
         // Ghi log
-      
+
         error_log("subscription: " . $subscription);
-    
+
         // Cập nhật trạng thái đăng ký trong cơ sở dữ liệu của bạn
         $stmt = $this->connection->prepare("UPDATE subscriptions SET status = :status, current_period_end = :current_period_end WHERE subscription_id = :subscription_id AND customer_id = :customer_id");
         $stmt->execute([
@@ -883,13 +933,13 @@ class StripeApiFunction
             ':customer_id' => $customer,
             ':current_period_end' => $period_end_subscription
         ]);
-    
+
         // Lấy period_end từ licensekey
         $licensekey_stmt = $this->connection->prepare("SELECT current_period_end FROM licensekey WHERE subscription_id = :subscription_id");
         $licensekey_stmt->execute([':subscription_id' => $subscription_id]);
         $licensekey = $licensekey_stmt->fetch(PDO::FETCH_ASSOC);
         $period_end_licensekey = $licensekey['current_period_end'];
-    
+
         // So sánh period_end và cập nhật trạng thái nếu cần
         if ($period_end_subscription <= $period_end_licensekey) {
             $update_stmt = $this->connection->prepare("UPDATE licensekey SET status = :status WHERE subscription_id = :subscription_id");
@@ -898,10 +948,10 @@ class StripeApiFunction
                 ':subscription_id' => $subscription_id
             ]);
         }
-    
+
         error_log("Subscription deleted for customer: $customer, subscription ID: $subscription_id");
     }
-    
+
 
     // Hàm để tạo license key ngẫu nhiên
     function generateLicenseKey()
