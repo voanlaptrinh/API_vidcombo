@@ -487,25 +487,25 @@ class StripeApiFunction
                     <div style='padding: 0px; margin: 0px; height: 100%; width: 100%; font-family: Arial, &quot;Times New Roman&quot;, Calibri;text-align:center!important'>  
                     <div class='container' style='width: 100%; margin-right: auto; margin-left: auto; color: white;'>
         <div class='' style='display:flex;min-height:100vh!important;justify-content: center;'>
-            <div class='main' style='background: #BB82FE; padding: 50px; border-radius: 10px; margin: 0px auto; max-width: 600px; width:100%; max-height: 700px;display: block;font-family: inherit;'>
-                <h2 style='text-align: center;color: white;'>Payment Successful</h2>
-                <p style='text-align: center;color: white;'>Dear: $customer_email</p>
+            <div class='main' style='background: black; padding: 50px; border-radius: 10px; margin: 0px auto; max-width: 600px; width:100%; max-height: 700px;display: block;font-family: inherit;'>
+                <h2 style='text-align: center;color: #bb82fe;font-size: 40px;'>Payment Successful</h2>
+                <p style='text-align: center;color: #bb82fe;'>Dear: $customer_email</p>
                 <hr style='color: white;'>
                 <div class='payment-info'>
                     <h4 style='text-align: center;color: white;'>Total amount paid</h4>
-                    <h2 style='text-align: center;color: white;'>$amount_due $</h2>
+                    <h2 style='text-align: center;color: white; font-weight: 900;font-size: 30px;'>$amount_due $</h2>
                     <div>
                         <div style='border: 1px solid white; padding: 0 10px; border-radius: 10px;'>
                             <h4 style='text-align: center;'>Code Bill</h4>
-                            <p style='text-align:center!important'>$invoice_id</p>
+                            <p style='text-align:center!important; font-size:20px; font-weight: 900;'>$invoice_id</p>
                         </div>
                         <div style='border: 1px solid white; padding: 0 10px; border-radius: 10px; margin-top: 10px;'>
                             <h4 style='text-align: center;'>Date Created</h4>
-                            <p style='text-align:center!important'>$invoice_date</p>
+                            <p style='text-align:center!important;font-size:20px; font-weight: 900;'>$invoice_date</p>
                         </div>
-                        <div style='border: 1px solid white; padding: 0 10px; border-radius: 10px; margin-top: 10px;'>
-                            <h4 style='text-align: center;'>Subscription Subid</h4>
-                            <p style='text-align:center!important'>$subscription_id</p>
+                        <div style='border: 1px solid white; padding: 0 10px; border-radius: 10px; margin-top: 10px;background: white;'>
+                            <h4 style='text-align: center;color:#bb82fe'>Subscription Subid</h4>
+                            <p style='text-align:center!important;font-size:20px; font-weight: 900;color:#bb82fe'>$subscription_id</p>
                         </div>
                     </div>
                 </div>
@@ -841,19 +841,19 @@ class StripeApiFunction
             <div style='padding: 0px; margin: 0px; height: 100%; width: 100%; font-family: Arial, &quot;Times New Roman&quot;, Calibri; text-align:center!important'>  
                     <div class='container' style='width: 100%; margin-right: auto; margin-left: auto; color: white;'>
         <div class='' style='display:flex;min-height:100vh!important;justify-content: center;'>
-            <div class='main' style='background: #BB82FE; padding: 50px; border-radius: 10px; margin: 0px auto; max-width: 600px; width:100%; max-height: 700px;display: block;font-family: inherit;'>
-                <h2 style='text-align: center;color: white;'>License Key Successful</h2>
+            <div class='main' style='background: black; padding: 50px; border-radius: 10px; margin: 0px auto; max-width: 600px; width:100%; max-height: 700px;display: block;font-family: inherit;'>
+                <h2 style='text-align: center;color: #bb82fe;font-size: 40px;'>License Key Successful</h2>
                 <p style='text-align: center;color: white;'>Dear: $customer_email</p>
                 <hr style='color: white;'>
                 <div class='payment-info'>
-                    <h4 style='text-align: center;color: white;'>License key for you</h4>
-                    <h2 style='text-align: center;color: white;'>$licenseKey</h2>
+                    <h4 style='text-align: center;color: white; font-size:20px'>License key for you</h4>
+                    <h2 style='text-align: center;color: #bb82fe; background: white;border-radius: 9px;padding: 10px;font-weight: 900; font-size: 30px;'>$licenseKey</h2>
                     <div>
                         <div style='border: 1px solid white; padding: 0 10px; border-radius: 10px;'>
                             <h4 style='text-align: center;color: white;'>Subscription Subid</h4>
-                            <pcolor: white;>$subscription_id</pcolor:>
+                            <p style='color: white; font-size:20px;font-weight: 700;'>$subscription_id</p>
                         </div>
-                     <h5 style='text-align: center;color: white;'>Thank You!</h5>
+                     <h5 style='text-align: center;color: white; padding-top:10px;font-size:18px'>Thank You!</h5>
                     </div>
                 </div>
             </div>
