@@ -463,7 +463,10 @@ class StripeApiFunction
                 // Gửi email thông báo
                 // Create an instance of PHPMailer
                 $mail = new PHPMailer(true);
-
+               
+               // Giá trị từ Stripe
+                $amount_in_dollars = $amount_due / 100;
+             $amount_due =  number_format($amount_in_dollars, 2);
                 try {
                     // Server settings
                     $mail->isSMTP();
@@ -475,7 +478,7 @@ class StripeApiFunction
                     $mail->Port       = 587;  // TCP port to connect to
 
                     // Recipients
-                    $mail->setFrom('no-reply@example.com', 'Mailer');
+                    $mail->setFrom('vidcombo.com@gmail.com', 'Vidcombo');
                     $mail->addAddress($customer_email);
 
                     // Content
@@ -831,7 +834,7 @@ class StripeApiFunction
             $mail->Port       = 587;  // TCP port to connect to
 
             //Recipients
-            $mail->setFrom('no-reply@example.com', 'Mailer');
+            $mail->setFrom('vidcombo.com@gmail.com', 'Vidcombo');
             $mail->addAddress($customer_email);
 
             // Content
@@ -847,7 +850,7 @@ class StripeApiFunction
                 <hr style='color: white;'>
                 <div class='payment-info'>
                     <h4 style='text-align: center;color: white; font-size:20px'>License key for you</h4>
-                    <h2 style='text-align: center;color: #bb82fe; background: white;border-radius: 9px;padding: 10px;font-weight: 900; font-size: 30px;'>$licenseKey</h2>
+                    <h2 style='text-align: center;color: #bb82fe; background: white;border-radius: 9px;padding: 10px;font-weight: 900; font-size: 25px;'>$licenseKey</h2>
                     <div>
                         <div style='border: 1px solid white; padding: 0 10px; border-radius: 10px;'>
                             <h4 style='text-align: center;color: white;'>Subscription Subid</h4>
