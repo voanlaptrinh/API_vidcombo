@@ -1,29 +1,28 @@
 <?php
-header('Content-Type: application/json');
-
+$response = '';
 $latestVersion = "1.2.0";
-$ytdlpVersion = "2024.07.01";
+$ytdlpVersion = "2024.07.25xyzx";
 $ffmpegVersion = "7.0.1";
 
 $releaseNotes = "Đã sửa lỗi và có bản cập nhật";
 
-$os = isset($_GET['os'])?strtolower($_GET['os']):'';
-$currentVersion = isset($_GET['current_version'])?$_GET['current_version']:'';
-$ytdlp_version = isset($_GET['ytdlp_version'])?$_GET['ytdlp_version']:'';
-$ffmpeg_version = isset($_GET['ffmpeg_version'])?$_GET['ffmpeg_version']:'';
+$os = isset($_GET['os'])?strtolower(trim($_GET['os'])):'';
+$currentVersion = isset($_GET['current_version'])?trim($_GET['current_version']):'';
+$ytdlp_version = isset($_GET['ytdlp_version'])?trim($_GET['ytdlp_version']):'';
+$ffmpeg_version = isset($_GET['ffmpeg_version'])?trim($_GET['ffmpeg_version']):'';
 
 if ($currentVersion && $ytdlp_version && $ffmpeg_version && $os) {
     if ($os == 'windows64') {
         $downloadUrl = "https://www.vidcombo.com/";
-        $downloadYtdlp = "https://api.vidcombo.com/download/ytdlp/2024-07-01/yt-dlp_x64.zip";
+        $downloadYtdlp = "https://api.vidcombo.com/download/ytdlp/2024-07-25/yt-dlp.zip";
         $downloadFfmpeg = "https://api.vidcombo.com/download/ffmpeg-7.0.1_x64.zip";
     } elseif ($os == 'windows86' || $os == 'windows32') {
         $downloadUrl = "https://www.vidcombo.com/";
-        $downloadYtdlp = "https://api.vidcombo.com/download/ytdlp/2024-07-01/yt-dlp_x86.zip";
+        $downloadYtdlp = "https://api.vidcombo.com/download/ytdlp/2024-07-25/yt-dlp_x86.zip";
         $downloadFfmpeg = "https://api.vidcombo.com/download/ffmpeg-7.0.1_x32.zip";
     } elseif ($os == 'macos') {
         $downloadUrl = "https://www.vidcombo.com/";
-        $downloadYtdlp = "https://api.vidcombo.com/download/ytdlp/2024-07-01/yt-dlp_macos.zip";
+        $downloadYtdlp = "https://api.vidcombo.com/download/ytdlp/2024-07-25/yt-dlp_macos.zip";
         $downloadFfmpeg = "https://api.vidcombo.com/download/ffmpeg-7.0.1_macos.zip";
     } else {
         $response = [
@@ -33,13 +32,13 @@ if ($currentVersion && $ytdlp_version && $ffmpeg_version && $os) {
         echo json_encode($response);
         exit;
     }
-    $appUpdateAvailable = version_compare($currentVersion, $latestVersion, '!=');
-    $ytdlpUpdateAvailable = version_compare($ytdlp_version, $ytdlpVersion, '!=');
-    $ffmpegUpdateAvailable = version_compare($ffmpeg_version, $ffmpegVersion, '!=');
+    $appUpdateAvailable = $currentVersion != $latestVersion;
+    $ytdlpUpdateAvailable = $ytdlp_version != $ytdlpVersion;
+    $ffmpegUpdateAvailable = $ffmpeg_version != $ffmpegVersion;
 
 
     $response = [
-        'update' => $appUpdateAvailable ,
+        'update' =>  $appUpdateAvailable,
         'latest_version' => $latestVersion,
         'download_url' => $downloadUrl,
         'release_notes' => $releaseNotes,
@@ -67,5 +66,6 @@ if ($currentVersion && $ytdlp_version && $ffmpeg_version && $os) {
     ];
 }
 
+header('Content-Type: application/json');
 echo json_encode($response);
 
