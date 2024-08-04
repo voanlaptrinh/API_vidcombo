@@ -43,7 +43,7 @@ try {
     $license_key_cache = $redis->getCache();
 
     if ($license_key_cache) {
-        $result = json_decode($license_key_cache, true);
+    //     $result = json_decode($license_key_cache, true);
     } else {
         $stmt = $connection->prepare("SELECT `license_key`, `status`, `current_period_end`, `plan` FROM licensekey WHERE `license_key` = :license_key");
         $stmt->execute([':license_key' => $license_key]);
@@ -94,6 +94,8 @@ try {
                 ':license_key' => $license_key,
             ]);
         }
+
+
     }
 
     // Insert or update device information
@@ -103,8 +105,8 @@ try {
 
     if ($device_info['count'] == 0) {
         // Insert new device record with download_count = 5
-        $sql_insert_device = "INSERT INTO device (client_ip, geo, device_id, os_name, os_version, download_count, last_updated, cpu_name, cpu_arch, json_info) 
-                          VALUES (:client_ip, :geo, :device_id, :os_name, :os_version, :download_count, :today, :cpu_name, :cpu_arch, :json_info)";
+        $sql_insert_device = "INSERT INTO device (client_ip,license_key, geo, device_id, os_name, os_version, download_count, last_updated, cpu_name, cpu_arch, json_info) 
+                          VALUES (:client_ip, :license_key, :geo, :device_id, :os_name, :os_version, :download_count, :today, :cpu_name, :cpu_arch, :json_info)";
         $stmt_insert_device = $connection->prepare($sql_insert_device);
         $stmt_insert_device->execute([
             ':client_ip' => $clientIP,
@@ -116,6 +118,7 @@ try {
             ':cpu_name' => $cpu_name,
             ':cpu_arch' => $cpu_arch,
             ':json_info' => $json_info,
+            ':license_key' => $license_key,
             ':download_count' => 5,
         ]);
     } else {
