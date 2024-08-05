@@ -99,7 +99,7 @@ try {
     }
 
     // Insert or update device information
-    $stmt_device_check = $connection->prepare("SELECT COUNT(*) AS count, download_count, last_updated FROM device WHERE device_id = :device_id");
+    $stmt_device_check = $connection->prepare("SELECT COUNT(*) AS count, download_count, last_updated, license_key FROM device WHERE device_id = :device_id");
     $stmt_device_check->execute([':device_id' => $device_id]);
     $device_info = $stmt_device_check->fetch(PDO::FETCH_ASSOC);
 
@@ -107,7 +107,7 @@ try {
         // Insert new device record with download_count = 5
         $sql_insert_device = "INSERT INTO device (client_ip,license_key, geo, device_id, os_name, os_version, download_count, last_updated, cpu_name, cpu_arch, json_info) 
                           VALUES (:client_ip, :license_key, :geo, :device_id, :os_name, :os_version, :download_count, :today, :cpu_name, :cpu_arch, :json_info)";
-        
+      
         $stmt_insert_device = $connection->prepare($sql_insert_device);
         $stmt_insert_device->execute([
             ':client_ip' => $clientIP,
@@ -123,7 +123,16 @@ try {
             ':download_count' => 5,
         ]);
     } else {
-
+       
+        if ($device_info['license_key'] != $license_key) {
+            // Update the license_key in the device table
+            $sql_update_device_key = "UPDATE device SET license_key = :license_key WHERE device_id = :device_id";
+            $stmt_update_device_key = $connection->prepare($sql_update_device_key);
+            $stmt_update_device_key->execute([
+                ':license_key' => $license_key,
+                ':device_id' => $device_id,
+            ]);
+        }
         if (!isset($device_info['last_updated']) || $today !== date('Y-m-d', strtotime($device_info['last_updated']))) {
             // Fetch current download_count and last_updated
             $stmt = $connection->prepare("SELECT `download_count`, `last_updated` FROM device WHERE `device_id` = :device_id");
@@ -133,9 +142,11 @@ try {
             // Update device table with download_count = 5 and today's date
             $sql_update_device = "UPDATE device SET download_count = 5, last_updated = :today WHERE device_id = :device_id";
             $stmt_update_device = $connection->prepare($sql_update_device);
+            
             $stmt_update_device->execute([
                 ':today' => $today,
                 ':device_id' => $device_id,
+               
             ]);
 
             $download_count = 5;
