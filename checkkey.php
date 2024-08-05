@@ -152,9 +152,9 @@ try {
             $error_key = 'active_key';
             $error_message = getErrorMessage($lang_code, $error_key);
 
-            $plan1 = 'price_1PV2QfIXbeKO1uxjVvaZPb8p';
-            $plan2 = 'price_1PV2VjIXbeKO1uxjHlOtM0oL';
-            $plan3 = 'price_1PV2USIXbeKO1uxjnL1w3qPC';
+            $plan1 = 'price_1PiultJykwD5LYvpJyb57WJ9';
+            $plan2 = 'price_1Piun4JykwD5LYvpVkpiWzuR';
+            $plan3 = 'price_1PiunkJykwD5LYvp0IGdnFUt';
 
             if ($result['plan'] == $plan1 && $used_device_count > 5) {
                 $error_key = 'active_limit';
