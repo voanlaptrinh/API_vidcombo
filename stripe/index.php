@@ -220,7 +220,7 @@ class StripeApiFunction
                     ]],
                     'mode' => 'subscription',
                     'success_url' => $this->web_domain . "success?session_id={CHECKOUT_SESSION_ID}",
-                    'cancel_url' => $this->web_domain . "/cancel.html",
+                    'cancel_url' => $this->web_domain,
                 ]);
 
                 header('Content-Type: application/json');
