@@ -9,8 +9,8 @@ use PHPMailer\PHPMailer\Exception;
 
 
 
-$apiKey = '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';
-$endpointSecret = 'whsec_xFaRWzhwBZ800CsllRVX89YHhxqPLja6';
+$apiKey =  Common::$apiKey;
+$endpointSecret = Common::$endpointSecret;
 
 Stripe::setApiKey($apiKey);
 define('ENDPOINT_SECRET', $endpointSecret);
@@ -54,6 +54,7 @@ class StripeApiFunction
     private $connection;
     private $apiKey;
     private $endpointSecret;
+    private $plans;
     // Hàm khởi tạo
     public function __construct()
     {
@@ -68,19 +69,21 @@ class StripeApiFunction
         $this->apiKey = $apiKey;
         $this->endpointSecret = $endpointSecret;
         $this->connection = Common::getDatabaseConnection();
+        $this->plans = Common::$plans;
         if (!$this->connection) {
             throw new Exception('Database connection could not be established.');
         }
     }
 
    
-    public $web_domain = 'https://www.vidcombo.com/'; //
+    public $web_domain = 'https://www.vidcombo.com/'; 
    
-    public $plans = array(
-        'plan1' => 'price_1PiultJykwD5LYvpJyb57WJ9',
-        'plan2' => 'price_1Piun4JykwD5LYvpVkpiWzuR',
-        'plan3' => 'price_1PiunkJykwD5LYvp0IGdnFUt',
-    );
+    // public $plans = array(
+    //     'plan1' => 'price_1Pl0EDJykwD5LYvp7ymIxuGP', //Id test
+    //     // 'plan1' => 'price_1PiultJykwD5LYvpJyb57WJ9',
+    //     'plan2' => 'price_1Piun4JykwD5LYvpVkpiWzuR',
+    //     'plan3' => 'price_1PiunkJykwD5LYvp0IGdnFUt',
+    // );
 
 
     function emailSubcription()
