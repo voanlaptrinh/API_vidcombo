@@ -7,8 +7,13 @@ use Stripe\Stripe;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-Stripe::setApiKey('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');
-define('ENDPOINT_SECRET', 'whsec_xFaRWzhwBZ800CsllRVX89YHhxqPLja6');
+
+
+$apiKey = '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';
+$endpointSecret = 'whsec_xFaRWzhwBZ800CsllRVX89YHhxqPLja6';
+
+Stripe::setApiKey($apiKey);
+define('ENDPOINT_SECRET', $endpointSecret);
 // define('ENDPOINT_SECRET', 'whsec_5f17c8c4ada7dddedac39a07084388d087b1743d38e16af8bd996bb97a21c910');
 
 
@@ -27,9 +32,7 @@ switch ($func) {
     case 'check-subscription':
         $stripe_funtion->checkSubscription();
         break;
-        // case 'send-license-key':
-        //     $stripe_funtion->sendLicenseKey(); // lấy ra trạng thái của key và key và địa chỉ mac
-        //     break;
+    
     case 'verify-license-key':
         $stripe_funtion->verifyLicenseKey();
         break;
@@ -44,41 +47,39 @@ switch ($func) {
         echo '404 Not Found';
         exit;
 }
-// if ($requestUri === '/api/v1/create-checkout-session' && $method === 'POST') {
-//     $stripe_funtion->createCheckoutSession();
-// } elseif ($requestUri === '/api/v1/check-subscription' && $method === 'GET') {
-//     $stripe_funtion->checkSubscription();
-// } elseif ($requestUri === '/api/v1/send-license-key' && $method === 'POST') {
-//     $stripe_funtion->sendLicenseKey();
-// } elseif ($requestUri === '/api/v1/verify-license-key' && $method === 'POST') {
-//     $stripe_funtion->verifyLicenseKey();
-// } elseif ($requestUri === '/webhook' && $method === 'POST') {
-//     $stripe_funtion->handleWebhook();
-// } else {
-//     header("HTTP/1.1 404 Not Found");
-//     echo '404 Not Found';
-// }
+
 
 class StripeApiFunction
 {
     private $connection;
+    private $apiKey;
+    private $endpointSecret;
     // Hàm khởi tạo
-    function __construct()
+    public function __construct()
     {
+        
         $this->init();
     }
     function init()
     {
+        global $apiKey; 
+        global $endpointSecret; 
+
+        $this->apiKey = $apiKey;
+        $this->endpointSecret = $endpointSecret;
         $this->connection = Common::getDatabaseConnection();
         if (!$this->connection) {
             throw new Exception('Database connection could not be established.');
         }
     }
+
+   
     public $web_domain = 'https://www.vidcombo.com/'; //
+   
     public $plans = array(
-        '1month' => 'price_1PiultJykwD5LYvpJyb57WJ9',
-        '12month' => 'price_1PiunkJykwD5LYvp0IGdnFUt',
-        '6month' => 'price_1Piun4JykwD5LYvpVkpiWzuR'
+        'plan1' => 'price_1PiultJykwD5LYvpJyb57WJ9',
+        'plan2' => 'price_1Piun4JykwD5LYvpVkpiWzuR',
+        'plan3' => 'price_1PiunkJykwD5LYvp0IGdnFUt',
     );
 
 
@@ -126,37 +127,7 @@ class StripeApiFunction
         echo json_encode(['subscriptions' => $subscriptions]);
     }
 
-    // Hàm tạo phiên Stripe Checkout
-    // function createCheckoutSession()
-    // {
-    //     // Lấy dữ liệu từ yêu cầu
-    //     $body = file_get_contents('php://input');
-    //     parse_str($body, $data);
 
-
-    //     $plan = $data['plan'] ?? null;
-    //     $customer = $data['customer'] ?? null;
-
-    //     // Tạo phiên Stripe Checkout
-    //     $session = \Stripe\Checkout\Session::create([
-    //         'payment_method_types' => ['card'],
-    //         'customer' => $customer,
-    //         'start_date' => 'now',
-    //         'end_behavior' => 'release',
-    //         'line_items' => [[
-    //             'price' => $plan,
-    //             'quantity' => 1,
-    //         ]],
-    //         'mode' => 'subscription',
-    //         'success_url' => $this->web_domain . "/stripe/success.php?session_id={CHECKOUT_SESSION_ID}",
-    //         'cancel_url' => $this->web_domain . "/stripe/cancel.html",
-    //     ]);
-
-
-    //     // Gửi phản hồi JSON về phiên được tạo
-    //     header('Content-Type: application/json');
-    //     echo json_encode(['session' => $session]);
-    // }
 
     function findSubscriptionIdByLicenseKey($licenseKey)
     {
@@ -184,6 +155,8 @@ class StripeApiFunction
         $licenseKey = $data['license_key'] ?? null;
         $plan = $data['plan'] ?? null;
 
+        // Lấy giá trị plan từ mảng $plans
+        $planKey = $this->plans[$plan] ?? null;
 
         if (!$plan) {
             header('Content-Type: application/json');
@@ -202,7 +175,7 @@ class StripeApiFunction
                     'items' => [
                         [
                             'id' => $subscription->items->data[0]->id,
-                            'price' => $plan,
+                            'price' => $planKey,
                         ],
                     ],
                     'proration_behavior' => 'create_prorations',
@@ -215,7 +188,7 @@ class StripeApiFunction
                 $session = \Stripe\Checkout\Session::create([
                     'payment_method_types' => ['card'],
                     'line_items' => [[
-                        'price' => $plan,
+                        'price' => $planKey,
                         'quantity' => 1,
                     ]],
                     'mode' => 'subscription',
@@ -463,10 +436,10 @@ class StripeApiFunction
                 // Gửi email thông báo
                 // Create an instance of PHPMailer
                 $mail = new PHPMailer(true);
-               
-               // Giá trị từ Stripe
+
+                // Giá trị từ Stripe
                 $amount_in_dollars = $amount_due / 100;
-             $amount_due =  number_format($amount_in_dollars, 2);
+                $amount_due =  number_format($amount_in_dollars, 2);
                 try {
                     // Server settings
                     $mail->isSMTP();
@@ -582,12 +555,14 @@ class StripeApiFunction
         $stmt->execute([':subscription_id' => $subscription_id]);
         $license_key = $stmt->fetchColumn();
 
+        $plan_name = array_search($plan, $this->plans);
 
-        $stmt = $this->connection->prepare("UPDATE licensekey SET current_period_end = :current_period_end, plan = :plan WHERE subscription_id = :subscription_id");
+        $stmt = $this->connection->prepare("UPDATE licensekey SET current_period_end = :current_period_end, plan = :plan, plan_alias =:plan_alias WHERE subscription_id = :subscription_id");
         $stmt->execute([
             ':current_period_end' => $period_end,
             ':plan' => $plan,
             ':subscription_id' => $subscription_id,
+            ':plan_alias' => $plan_name,
         ]);
         //update redis cache
 
@@ -692,6 +667,8 @@ class StripeApiFunction
         $current_period_end_date = date('Y-m-d H:i:s', $current_period_end);
         $status_key = 'active';
 
+
+
         $stmt = $this->connection->prepare("INSERT INTO subscriptions (customer_id, subscription_id, status, current_period_start, current_period_end, customer, subscription_json, plan, bank_name) VALUES (:customer_id, :subscription_id, :status, :current_period_start, :current_period_end, :customer, :subscription_json, :plan, :bank_name)");
         $stmt->execute([
             ':customer_id' => $customer,
@@ -706,15 +683,21 @@ class StripeApiFunction
         ]);
 
 
-        $stmt2 = $this->connection->prepare("INSERT INTO licensekey (customer_id, status, subscription_id, license_key, send, plan) VALUES (:customer_id, :status, :subscription_id, :license_key, :send, :plan)");
+
+        // Lấy giá trị plan từ mảng $plans
+        $plan_name = array_search($plan, $this->plans);
+
+        $stmt2 = $this->connection->prepare("INSERT INTO licensekey (customer_id, status, subscription_id, license_key, send, plan, plan_alias, sk_key, sign_key) VALUES (:customer_id, :status, :subscription_id, :license_key, :send, :plan, :plan_alias, :sk_key, :sign_key)");
         $stmt2->execute([
             ':customer_id' => $customer,
             ':subscription_id' => $subscription_id,
             ':license_key' => $licenseKey,
             ':status' => $status_key,
             ':send' => 'not',
-            ':plan' => $plan
-
+            ':plan' => $plan,
+            ':plan_alias' => $plan_name,
+            ':sk_key' =>$this->apiKey,
+            ':sign_key' =>$this->endpointSecret,
         ]);
 
         error_log("Subscription created for customer: $customer, subscription ID: $subscription_id, status: $status, current period start: $current_period_start_date, current period end: $current_period_end_date");
@@ -861,7 +844,7 @@ class StripeApiFunction
                 </div>
             </div>
         </div>
-    </div></div>" ;
+    </div></div>";
 
             // Send the email
             $mail->send();

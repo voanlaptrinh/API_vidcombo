@@ -45,7 +45,7 @@ try {
     if ($license_key_cache) {
         $result = json_decode($license_key_cache, true);
     } else {
-        $stmt = $connection->prepare("SELECT `license_key`, `status`, `current_period_end`, `plan` FROM licensekey WHERE `license_key` = :license_key");
+        $stmt = $connection->prepare("SELECT `license_key`, `status`, `current_period_end`, `plan`, `plan_alias` FROM licensekey WHERE `license_key` = :license_key");
         $stmt->execute([':license_key' => $license_key]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -164,41 +164,31 @@ try {
             $error_key = 'active_key';
             $error_message = getErrorMessage($lang_code, $error_key);
 
-            $plan1 = 'price_1PiultJykwD5LYvpJyb57WJ9';
-            $plan2 = 'price_1Piun4JykwD5LYvpVkpiWzuR';
-            $plan3 = 'price_1PiunkJykwD5LYvp0IGdnFUt';
 
-            if ($result['plan'] == $plan1 && $used_device_count > 5) {
+            if ($result['plan_alias'] && $used_device_count > 5) {
                 $error_key = 'active_limit';
                 $error_message = getErrorMessage($lang_code, $error_key);
                 $status = 'inactive';
             }
-            if ($result['plan'] == $plan2 && $used_device_count > 7) {
+            if ($result['plan_alias'] && $used_device_count > 7) {
                 $error_key = 'active_limit';
                 $error_message = getErrorMessage($lang_code, $error_key);
                 $status = 'inactive';
             }
-            if ($result['plan'] == $plan3 && $used_device_count > 10) {
+            if ($result['plan_alias'] && $used_device_count > 10) {
                 $error_key = 'active_limit';
                 $error_message = getErrorMessage($lang_code, $error_key);
                 $status = 'inactive';
             }
-            if ($result['plan'] == $plan1) {
-                $lever = '1';
-            } elseif ($result['plan'] == $plan2) {
-                $lever = '2';
-            } else {
-                $lever = '3';
-            }
-
+       
             echo json_encode([
                 'license_key' => $license_key,
                 'status' => $status,
                 'end_date' => $current_period_end,
                 'count_free' => ($device_info['count'] == 0) ? 5 : $device_info['download_count'],
                 'used_device_count' => $used_device_count,
-                'plan' => $result['plan'],
-                'lever' => $lever,
+                // 'plan' => $result['plan'],
+                'lever' => $result['plan_alias'],
                 'mess' => $error_message,
             ]);
         } elseif ($result['status'] == 'inactive') {
