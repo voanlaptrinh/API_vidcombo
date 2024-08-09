@@ -32,7 +32,7 @@ switch ($func) {
     case 'check-subscription':
         $stripe_funtion->checkSubscription();
         break;
-    
+
     case 'verify-license-key':
         $stripe_funtion->verifyLicenseKey();
         break;
@@ -58,13 +58,13 @@ class StripeApiFunction
     // Hàm khởi tạo
     public function __construct()
     {
-        
+
         $this->init();
     }
     function init()
     {
-        global $apiKey; 
-        global $endpointSecret; 
+        global $apiKey;
+        global $endpointSecret;
 
         $this->apiKey = $apiKey;
         $this->endpointSecret = $endpointSecret;
@@ -75,9 +75,9 @@ class StripeApiFunction
         }
     }
 
-   
-    public $web_domain = 'https://www.vidcombo.com/'; 
-   
+
+    public $web_domain = 'https://www.vidcombo.com/';
+
     // public $plans = array(
     //     'plan1' => 'price_1Pl0EDJykwD5LYvp7ymIxuGP', //Id test
     //     // 'plan1' => 'price_1PiultJykwD5LYvpJyb57WJ9',
@@ -427,14 +427,9 @@ class StripeApiFunction
                 ':invoice_id' => $invoice_id,
                 ':period_end' => $period_end
             ]);
-
+            error_log("status error: " . $status);
             // Chỉ cập nhật bảng licensekey nếu trạng thái là 'paid'
             if ($status == 'paid') {
-                // $stmt = $this->connection->prepare("UPDATE licensekey SET current_period_end = :current_period_end WHERE subscription_id = :subscription_id");
-                // $stmt->execute([
-                //     ':current_period_end' => $period_end,
-                //     ':subscription_id' => $subscription_id,
-                // ]);
 
                 // Gửi email thông báo
                 // Create an instance of PHPMailer
@@ -460,37 +455,59 @@ class StripeApiFunction
                     // Content
                     $mail->isHTML(true);
                     $mail->Subject = 'Payment Successful';
-
+$svg_base64 = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xNS42NjMyIDIwLjc0NUMxMy42NDkyIDE4LjczMSAxMC4zODM4IDE4LjczMSA4LjM2OTgxIDIwLjc0NUw3Ljc2MTQ4IDIxLjM1MzNDNS43NDc0OCAyMy4zNjczIDUuNzQ3NDcgMjYuNjMyNyA3Ljc2MTQ4IDI4LjY0NjdMMjEuMzUzNiA0Mi4yMzg4QzIzLjM2NzcgNDQuMjUyOCAyNi42MzMgNDQuMjUyOCAyOC42NDcgNDIuMjM4OEw0Mi4yMzkyIDI4LjY0NjdDNDQuMjUzMiAyNi42MzI3IDQ0LjI1MzIgMjMuMzY3MyA0Mi4yMzkyIDIxLjM1MzNMNDEuNjEwMiAyMC43MjQ0QzM5LjU5NjIgMTguNzEwNCAzNi4zMzA5IDE4LjcxMDQgMzQuMzE2OSAyMC43MjQ0TDI4LjYyNjQgMjYuNDE0OUMyNi42MTI0IDI4LjQyODkgMjMuMzQ3MSAyOC40Mjg5IDIxLjMzMzEgMjYuNDE0OUwxNS42NjMyIDIwLjc0NVoiIGZpbGw9InVybCgjcGFpbnQwX2xpbmVhcl8zMTJfMjIwOSkiLz4KPG1hc2sgaWQ9Im1hc2swXzMxMl8yMjA5IiBzdHlsZT0ibWFzay10eXBlOmFscGhhIiBtYXNrVW5pdHM9InVzZXJTcGFjZU9uVXNlIiB4PSI2IiB5PSIxOSIgd2lkdGg9IjM4IiBoZWlnaHQ9IjI1Ij4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xNS42NjMyIDIwLjc0NUMxMy42NDkyIDE4LjczMSAxMC4zODM4IDE4LjczMSA4LjM2OTgxIDIwLjc0NUw3Ljc2MTQ4IDIxLjM1MzNDNS43NDc0OCAyMy4zNjczIDUuNzQ3NDcgMjYuNjMyNyA3Ljc2MTQ4IDI4LjY0NjdMMjEuMzUzNiA0Mi4yMzg4QzIzLjM2NzcgNDQuMjUyOCAyNi42MzMgNDQuMjUyOCAyOC42NDcgNDIuMjM4OEw0Mi4yMzkyIDI4LjY0NjdDNDQuMjUzMiAyNi42MzI3IDQ0LjI1MzIgMjMuMzY3MyA0Mi4yMzkyIDIxLjM1MzNMNDEuNjEwMiAyMC43MjQ0QzM5LjU5NjIgMTguNzEwNCAzNi4zMzA5IDE4LjcxMDQgMzQuMzE2OSAyMC43MjQ0TDI4LjYyNjQgMjYuNDE0OUMyNi42MTI0IDI4LjQyODkgMjMuMzQ3MSAyOC40Mjg5IDIxLjMzMzEgMjYuNDE0OUwxNS42NjMyIDIwLjc0NVoiIGZpbGw9IiMwM0JFRkUiLz4KPC9tYXNrPgo8ZyBtYXNrPSJ1cmwoI21hc2swXzMxMl8yMjA5KSI+CjxwYXRoIGQ9Ik02LjgwMzcxIDI4LjQ0NTlDMTcuMDI0MyAzNS43MTI5IDI1Ljk3OTEgMjkuNTI0MiAzMC4wNTc5IDI1LjAyMzRMMjIuMzY5IDIzLjA1NDNMMTguNzU5IDE5LjA2OTJMMTQuMzA1MSAxNS41OTk5QzExLjM5ODMgMTUuOTEyNCA1LjQ0NDA5IDE2LjUzNzUgNC44ODE0OSAxNi41Mzc1QzQuMzE4ODkgMTYuNTM3NSAyLjMzNDE1IDE5LjYwMDYgMS40MTIxMSAyMS4xMzIxTDYuODAzNzEgMjguNDQ1OVoiIGZpbGw9IiMwM0JFRkUiLz4KPC9nPgo8Y2lyY2xlIGN4PSIyNS4wMzI5IiBjeT0iMTIuNzU3MyIgcj0iNi40Nzg0NyIgZmlsbD0iIzAwQzJGRiIvPgo8ZGVmcz4KPGxpbmVhckdyYWRpZW50IGlkPSJwYWludDBfbGluZWFyXzMxMl8yMjA5IiB4MT0iOS4wNDg4NSIgeTE9IjM4LjU5NDciIHgyPSI0MC42NDgyIiB5Mj0iMjkuMzc3OSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBzdG9wLWNvbG9yPSIjMDNCRUZFIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzg1MjJGQiIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPgo=';
                     // Define the email body
                     $email_body = "
-                    <div style='padding: 0px; margin: 0px; height: 100%; width: 100%; font-family: Arial, &quot;Times New Roman&quot;, Calibri;text-align:center!important'>  
-                    <div class='container' style='width: 100%; margin-right: auto; margin-left: auto; color: white;'>
-        <div class='' style='display:flex;min-height:100vh!important;justify-content: center;'>
-            <div class='main' style='background: black; padding: 50px; border-radius: 10px; margin: 0px auto; max-width: 600px; width:100%; max-height: 700px;display: block;font-family: inherit;'>
-                <h2 style='text-align: center;color: #bb82fe;font-size: 40px;'>Payment Successful</h2>
-                <p style='text-align: center;color: #bb82fe;'>Dear: $customer_email</p>
-                <hr style='color: white;'>
-                <div class='payment-info'>
-                    <h4 style='text-align: center;color: white;'>Total amount paid</h4>
-                    <h2 style='text-align: center;color: white; font-weight: 900;font-size: 30px;'>$amount_due $</h2>
-                    <div>
-                        <div style='border: 1px solid white; padding: 0 10px; border-radius: 10px;'>
-                            <h4 style='text-align: center;'>Code Bill</h4>
-                            <p style='text-align:center!important; font-size:20px; font-weight: 900;'>$invoice_id</p>
+                    <div style='background: #F6F2FF; '>
+                        <div
+                            style='padding: 0px; margin: 0px; height: 100%; width: 100%; text-align: center!important'>
+                            <div class='container' style='width: 100%; margin-right: auto; margin-left: auto; color: white;'>
+                                <div class='' style='display:flex;min-height:100vh!important;justify-content: center;'>
+                                    <div class='main'
+                                        style='box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;background: #FFFFFF; padding: 50px; border-radius: 10px; margin: 60px auto; max-width: 640px; width:100%; max-height: 100%;display: block;font-family: inherit;'>
+                                    <div style='display: flex; justify-content: center; !important'>
+                                       
+                                       <div>
+                                        <img src='$svg_base64' width='50' height='50' alt='SVG Image' />
+                                        </div>
+                                        <div>
+                                        <h2 style='color: black; font-size: 30px;'>Vidcombo</h2>
+                                     </div>
+                                    </div>
+                                        <h2 style='text-align: center;color: #bb82fe;font-size: 24px;margin: 0;'>Payment Successful</h2>
+                                        <p style='text-align: center;color: #1D1F24;font-size: 18px;margin: 10px 0 10px 0;'>Dear: $customer_email</p>
+                                        <hr style='color: white;'>
+                                        <div class='payment-info' style='padding-bottom: 60px; padding-top: 15px;'>
+                                            <h4 style='text-align: center;color:#77797C;font-size: 14px;margin: 5px 0 0 0;'>Total amount paid</h4>
+                                            <h2 style='text-align: center;color: #1D1F24; font-weight: 900;font-size: 30px;margin: 0 0 20px 0;'>$amount_due $
+                                            </h2>
+                                            <div>
+                                                <div style='padding-top: 10px; border-radius: 10px;'>
+                                                    <h4 style='text-align: center;color:#77797C; margin: 0;font-size: 14px;'>Code Bill</h4>
+                                                    <p style='text-align:center!important; font-size:19px; font-weight: 900;color:#77797C;font-size: 24px;margin:0;'>$invoice_id
+                                                    </p>
+                                                </div>
+                                                <div
+                                                    style='padding-top: 10px; border-radius: 10px; margin-top: 10px;'>
+                                                    <h4 style='text-align: center;color:#77797C;font-size: 14px;;margin:0;'>Date Created</h4>
+                                                    <p style='text-align:center!important;font-size:19px; font-weight: 900;color: #77797C;font-size: 24px;margin:0;'>$invoice_date
+                                                    </p>
+                                                </div>
+                                                <div
+                                                    style='padding-top: 10px; border-radius: 10px; margin-top: 10px;background: white;'>
+                                                    <h4 style='text-align: center;color:#77797C;font-size: 14px;;margin:0;'>Subscription Subid</h4>
+                                                    <p style='text-align:center!important;font-size:19px; font-weight: 900;color:#77797C;font-size: 24px;margin:0;'>
+                                                        $subscription_id</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr style='color: white; margin-top: 10px;'>
+                                        <h4 style='text-align: center;color:#77797C;font-size: 22px;margin: 10px 0 20px 0;'>Thank you!</h4>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div style='border: 1px solid white; padding: 0 10px; border-radius: 10px; margin-top: 10px;'>
-                            <h4 style='text-align: center;'>Date Created</h4>
-                            <p style='text-align:center!important;font-size:20px; font-weight: 900;'>$invoice_date</p>
-                        </div>
-                        <div style='border: 1px solid white; padding: 0 10px; border-radius: 10px; margin-top: 10px;background: white;'>
-                            <h4 style='text-align: center;color:#bb82fe'>Subscription Subid</h4>
-                            <p style='text-align:center!important;font-size:20px; font-weight: 900;color:#bb82fe'>$subscription_id</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div></div>";
+                    </div>";
 
                     // Assign the email body
                     $mail->Body = $email_body;
@@ -699,8 +716,8 @@ class StripeApiFunction
             ':send' => 'not',
             ':plan' => $plan,
             ':plan_alias' => $plan_name,
-            ':sk_key' =>$this->apiKey,
-            ':sign_key' =>$this->endpointSecret,
+            ':sk_key' => $this->apiKey,
+            ':sign_key' => $this->endpointSecret,
         ]);
 
         error_log("Subscription created for customer: $customer, subscription ID: $subscription_id, status: $status, current period start: $current_period_start_date, current period end: $current_period_end_date");
@@ -758,7 +775,6 @@ class StripeApiFunction
 
         // Kiểm tra xem licenseKey tồn tại trong bảng licensekey
 
-
         // Sử dụng Prepared Statement để tránh tấn công SQL injection
         $stmt = $this->connection->prepare("INSERT INTO invoice (invoice_id, amount_paid, currency, status, invoice_datetime, customer_email, payment_intent, amount_due, created, period_end, period_start, subscription_id, customer_id) VALUES (:invoice_id, :amount_paid, :currency, :status, :invoice_datetime, :customer_email, :payment_intent, :amount_due, :created, :period_end, :period_start, :subscription_id, :customer_id)");
         $stmt->execute([
@@ -785,22 +801,14 @@ class StripeApiFunction
         ]);
 
 
-        // $stmt = $this->connection->prepare("UPDATE licensekey SET current_period_end = :current_period_end WHERE subscription_id = :subscription_id");
-        // if (!$stmt) {
-        //     throw new Exception('Query preparation failed');
-        // }
-        // $stmt->execute([
-        //     ':current_period_end' => $period_end,
-        //     ':subscription_id' => $subscription_id,
-        // ]);
 
 
-        $stmt = $this->connection->prepare("SELECT license_key FROM licensekey WHERE subscription_id = :subscription_id");
+        $stmt = $this->connection->prepare("SELECT license_key, send FROM licensekey WHERE subscription_id = :subscription_id");
         $stmt->execute([':subscription_id' => $subscription_id]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         // Kiểm tra và gửi email chỉ khi licenseKey tồn tại
 
-        if ($result && isset($result['license_key'])) {
+        if ($result && isset($result['license_key']) && $result['send'] === 'not') {
 
             $licenseKey = $result['license_key'];
 
@@ -859,7 +867,99 @@ class StripeApiFunction
         } else {
             error_log("No license key found for subscription ID: $subscription_id");
         }
+
+
+
+
+
+        if ($status == 'paid') {
+            $mail = new PHPMailer(true);
+
+            // Giá trị từ Stripe
+            $amount_in_dollars = $amount_due / 100;
+            $amount_due =  number_format($amount_in_dollars, 2);
+            try {
+                // Server settings
+                $mail->isSMTP();
+                $mail->Host       = 'smtp.gmail.com';  // Use the correct SMTP server
+                $mail->SMTPAuth   = true;
+                $mail->Username   = 'vidcombo.com@gmail.com';  // Your Gmail address
+                $mail->Password   = 'fyebyrtcnehwravx';  // Your Gmail password or app-specific password
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                $mail->Port       = 587;  // TCP port to connect to
+                // Recipients
+                $mail->setFrom('vidcombo.com@gmail.com', 'Vidcombo');
+                $mail->addAddress($customer_email);
+
+                // Content
+                $mail->isHTML(true);
+                $mail->Subject = 'Payment Successful';
+
+                // Define the email body
+                $email_body = "
+                <div style='background: #F6F2FF; '>
+                        <div
+                            style='padding: 0px; margin: 0px; height: 100%; width: 100%; text-align: center!important'>
+                            <div class='container' style='width: 100%; margin-right: auto; margin-left: auto; color: white;'>
+                                <div class='' style='display:flex;min-height:100vh!important;justify-content: center;'>
+                                    <div class='main'
+                                        style='box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;background: #FFFFFF; padding: 50px; border-radius: 10px; margin: 60px auto; max-width: 640px; width:100%; max-height: 100%;display: block;font-family: inherit;'>
+                                    <div style='display: flex; justify-content: center; !important'>
+                                       
+                                       <div>
+                                        <img src='' width='50' height='50' alt='SVG Image' />
+                                        </div>
+                                        <div>
+                                        <h2 style='color: black; font-size: 30px;'>Vidcombo</h2>
+                                     </div>
+                                    </div>
+                                        <h2 style='text-align: center;color: #bb82fe;font-size: 24px;margin: 0;'>Payment Successful</h2>
+                                        <p style='text-align: center;color: #1D1F24;font-size: 18px;margin: 10px 0 10px 0;'>Dear: $customer_email</p>
+                                        <hr style='color: white;'>
+                                        <div class='payment-info' style='padding-bottom: 60px; padding-top: 15px;'>
+                                            <h4 style='text-align: center;color:#77797C;font-size: 14px;margin: 5px 0 0 0;'>Total amount paid</h4>
+                                            <h2 style='text-align: center;color: #1D1F24; font-weight: 900;font-size: 30px;margin: 0 0 20px 0;'>$amount_due $
+                                            </h2>
+                                            <div>
+                                                <div style='padding-top: 10px; border-radius: 10px;'>
+                                                    <h4 style='text-align: center;color:#77797C; margin: 0;font-size: 14px;'>Code Bill</h4>
+                                                    <p style='text-align:center!important; font-size:19px; font-weight: 900;color:#77797C;font-size: 24px;margin:0;'>$invoice_id
+                                                    </p>
+                                                </div>
+                                                <div
+                                                    style='padding-top: 10px; border-radius: 10px; margin-top: 10px;'>
+                                                    <h4 style='text-align: center;color:#77797C;font-size: 14px;;margin:0;'>Date Created</h4>
+                                                    <p style='text-align:center!important;font-size:19px; font-weight: 900;color: #77797C;font-size: 24px;margin:0;'>$invoice_date
+                                                    </p>
+                                                </div>
+                                                <div
+                                                    style='padding-top: 10px; border-radius: 10px; margin-top: 10px;background: white;'>
+                                                    <h4 style='text-align: center;color:#77797C;font-size: 14px;;margin:0;'>Subscription Subid</h4>
+                                                    <p style='text-align:center!important;font-size:19px; font-weight: 900;color:#77797C;font-size: 24px;margin:0;'>
+                                                        $subscription_id</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr style='color: white; margin-top: 10px;'>
+                                        <h4 style='text-align: center;color:#77797C;font-size: 22px;margin: 10px 0 20px 0;'>Thank you!</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>";
+
+                // Assign the email body
+                $mail->Body = $email_body;
+
+                // Send the email
+                $mail->send();
+                echo 'Email has been sent successfully';
+            } catch (Exception $e) {
+                error_log("Email could not be sent. Mailer Error: {$mail->ErrorInfo}");
+            }
+        }
     }
+
 
 
     function handleSubscriptionUpdated($subscription)
