@@ -455,54 +455,51 @@ class StripeApiFunction
                     // Content
                     $mail->isHTML(true);
                     $mail->Subject = 'Payment Successful';
-$svg_base64 = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xNS42NjMyIDIwLjc0NUMxMy42NDkyIDE4LjczMSAxMC4zODM4IDE4LjczMSA4LjM2OTgxIDIwLjc0NUw3Ljc2MTQ4IDIxLjM1MzNDNS43NDc0OCAyMy4zNjczIDUuNzQ3NDcgMjYuNjMyNyA3Ljc2MTQ4IDI4LjY0NjdMMjEuMzUzNiA0Mi4yMzg4QzIzLjM2NzcgNDQuMjUyOCAyNi42MzMgNDQuMjUyOCAyOC42NDcgNDIuMjM4OEw0Mi4yMzkyIDI4LjY0NjdDNDQuMjUzMiAyNi42MzI3IDQ0LjI1MzIgMjMuMzY3MyA0Mi4yMzkyIDIxLjM1MzNMNDEuNjEwMiAyMC43MjQ0QzM5LjU5NjIgMTguNzEwNCAzNi4zMzA5IDE4LjcxMDQgMzQuMzE2OSAyMC43MjQ0TDI4LjYyNjQgMjYuNDE0OUMyNi42MTI0IDI4LjQyODkgMjMuMzQ3MSAyOC40Mjg5IDIxLjMzMzEgMjYuNDE0OUwxNS42NjMyIDIwLjc0NVoiIGZpbGw9InVybCgjcGFpbnQwX2xpbmVhcl8zMTJfMjIwOSkiLz4KPG1hc2sgaWQ9Im1hc2swXzMxMl8yMjA5IiBzdHlsZT0ibWFzay10eXBlOmFscGhhIiBtYXNrVW5pdHM9InVzZXJTcGFjZU9uVXNlIiB4PSI2IiB5PSIxOSIgd2lkdGg9IjM4IiBoZWlnaHQ9IjI1Ij4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xNS42NjMyIDIwLjc0NUMxMy42NDkyIDE4LjczMSAxMC4zODM4IDE4LjczMSA4LjM2OTgxIDIwLjc0NUw3Ljc2MTQ4IDIxLjM1MzNDNS43NDc0OCAyMy4zNjczIDUuNzQ3NDcgMjYuNjMyNyA3Ljc2MTQ4IDI4LjY0NjdMMjEuMzUzNiA0Mi4yMzg4QzIzLjM2NzcgNDQuMjUyOCAyNi42MzMgNDQuMjUyOCAyOC42NDcgNDIuMjM4OEw0Mi4yMzkyIDI4LjY0NjdDNDQuMjUzMiAyNi42MzI3IDQ0LjI1MzIgMjMuMzY3MyA0Mi4yMzkyIDIxLjM1MzNMNDEuNjEwMiAyMC43MjQ0QzM5LjU5NjIgMTguNzEwNCAzNi4zMzA5IDE4LjcxMDQgMzQuMzE2OSAyMC43MjQ0TDI4LjYyNjQgMjYuNDE0OUMyNi42MTI0IDI4LjQyODkgMjMuMzQ3MSAyOC40Mjg5IDIxLjMzMzEgMjYuNDE0OUwxNS42NjMyIDIwLjc0NVoiIGZpbGw9IiMwM0JFRkUiLz4KPC9tYXNrPgo8ZyBtYXNrPSJ1cmwoI21hc2swXzMxMl8yMjA5KSI+CjxwYXRoIGQ9Ik02LjgwMzcxIDI4LjQ0NTlDMTcuMDI0MyAzNS43MTI5IDI1Ljk3OTEgMjkuNTI0MiAzMC4wNTc5IDI1LjAyMzRMMjIuMzY5IDIzLjA1NDNMMTguNzU5IDE5LjA2OTJMMTQuMzA1MSAxNS41OTk5QzExLjM5ODMgMTUuOTEyNCA1LjQ0NDA5IDE2LjUzNzUgNC44ODE0OSAxNi41Mzc1QzQuMzE4ODkgMTYuNTM3NSAyLjMzNDE1IDE5LjYwMDYgMS40MTIxMSAyMS4xMzIxTDYuODAzNzEgMjguNDQ1OVoiIGZpbGw9IiMwM0JFRkUiLz4KPC9nPgo8Y2lyY2xlIGN4PSIyNS4wMzI5IiBjeT0iMTIuNzU3MyIgcj0iNi40Nzg0NyIgZmlsbD0iIzAwQzJGRiIvPgo8ZGVmcz4KPGxpbmVhckdyYWRpZW50IGlkPSJwYWludDBfbGluZWFyXzMxMl8yMjA5IiB4MT0iOS4wNDg4NSIgeTE9IjM4LjU5NDciIHgyPSI0MC42NDgyIiB5Mj0iMjkuMzc3OSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBzdG9wLWNvbG9yPSIjMDNCRUZFIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzg1MjJGQiIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPgo=';
                     // Define the email body
                     $email_body = "
                     <div style='background: #F6F2FF; '>
-                        <div
-                            style='padding: 0px; margin: 0px; height: 100%; width: 100%; text-align: center!important'>
+                        <div style='padding: 0px; margin: 0px; height: 100%; width: 100%; text-align: center!important'>
                             <div class='container' style='width: 100%; margin-right: auto; margin-left: auto; color: white;'>
                                 <div class='' style='display:flex;min-height:100vh!important;justify-content: center;'>
                                     <div class='main'
                                         style='box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;background: #FFFFFF; padding: 50px; border-radius: 10px; margin: 60px auto; max-width: 640px; width:100%; max-height: 100%;display: block;font-family: inherit;'>
-                                    <div style='display: flex; justify-content: center; !important'>
-                                       
-                                       <div>
-                                        <img src='$svg_base64' width='50' height='50' alt='SVG Image' />
-                                        </div>
-                                        <div>
-                                        <h2 style='color: black; font-size: 30px;'>Vidcombo</h2>
-                                     </div>
-                                    </div>
-                                        <h2 style='text-align: center;color: #bb82fe;font-size: 24px;margin: 0;'>Payment Successful</h2>
-                                        <p style='text-align: center;color: #1D1F24;font-size: 18px;margin: 10px 0 10px 0;'>Dear: $customer_email</p>
-                                        <hr style='color: white;'>
-                                        <div class='payment-info' style='padding-bottom: 60px; padding-top: 15px;'>
-                                            <h4 style='text-align: center;color:#77797C;font-size: 14px;margin: 5px 0 0 0;'>Total amount paid</h4>
-                                            <h2 style='text-align: center;color: #1D1F24; font-weight: 900;font-size: 30px;margin: 0 0 20px 0;'>$amount_due $
-                                            </h2>
-                                            <div>
-                                                <div style='padding-top: 10px; border-radius: 10px;'>
-                                                    <h4 style='text-align: center;color:#77797C; margin: 0;font-size: 14px;'>Code Bill</h4>
-                                                    <p style='text-align:center!important; font-size:19px; font-weight: 900;color:#77797C;font-size: 24px;margin:0;'>$invoice_id
-                                                    </p>
-                                                </div>
-                                                <div
-                                                    style='padding-top: 10px; border-radius: 10px; margin-top: 10px;'>
-                                                    <h4 style='text-align: center;color:#77797C;font-size: 14px;;margin:0;'>Date Created</h4>
-                                                    <p style='text-align:center!important;font-size:19px; font-weight: 900;color: #77797C;font-size: 24px;margin:0;'>$invoice_date
-                                                    </p>
-                                                </div>
-                                                <div
-                                                    style='padding-top: 10px; border-radius: 10px; margin-top: 10px;background: white;'>
-                                                    <h4 style='text-align: center;color:#77797C;font-size: 14px;;margin:0;'>Subscription Subid</h4>
-                                                    <p style='text-align:center!important;font-size:19px; font-weight: 900;color:#77797C;font-size: 24px;margin:0;'>
-                                                        $subscription_id</p>
+                                        <div style='display: flex !important; justify-content: center; !important'>
+                                        
+                                            <div style='display: flex !important; justify-content: center; !important'>
+                                                <img src='https://news.htvietnam.vn/image/1723303821.png' width='50' height='50' alt='SVG Image' />
+                                                <h2 style='color: black; font-size: 30px;;margin: 10px 0 35px;'>Vidcombo</h2>
+                                                
+                                              
+                                            </div>
+                                                <h2 style='text-align: center;color: #bb82fe;font-size: 24px;margin: 0;'>Payment Successful</h2>
+                                                <p style='text-align: center;color: #1D1F24;font-size: 18px;margin: 10px 0 10px 0;'>Dear: $customer_email</p>
+                                                <hr style='color: white;'>
+                                            <div class='payment-info' style='padding-bottom: 60px; padding-top: 15px;'>
+                                                    <h4 style='text-align: center;color:#77797C;font-size: 14px;margin: 5px 0 0 0;'>Total amount paid</h4>
+                                                    <h2 style='text-align: center;color: #1D1F24; font-weight: 900;font-size: 30px;margin: 0 0 20px 0;'>$amount_due $</h2>
+                                                <div>
+                                                    <div style='padding-top: 10px; border-radius: 10px;'>
+                                                        <h4 style='text-align: center;color:#77797C; margin: 0;font-size: 14px;'>Code Bill</h4>
+                                                        <p style='text-align:center!important; font-size:19px; font-weight: 900;color:#77797C;font-size: 24px;margin:0;'>$invoice_id
+                                                        </p>
+                                                    </div>
+                                                    <div
+                                                        style='padding-top: 10px; border-radius: 10px; margin-top: 10px;'>
+                                                        <h4 style='text-align: center;color:#77797C;font-size: 14px;;margin:0;'>Date Created</h4>
+                                                        <p style='text-align:center!important;font-size:19px; font-weight: 900;color: #77797C;font-size: 24px;margin:0;'>$invoice_date
+                                                        </p>
+                                                    </div>
+                                                    <div
+                                                        style='padding-top: 10px; border-radius: 10px; margin-top: 10px;background: white;'>
+                                                        <h4 style='text-align: center;color:#77797C;font-size: 14px;;margin:0;'>Subscription Subid</h4>
+                                                        <p style='text-align:center!important;font-size:19px; font-weight: 900;color:#77797C;font-size: 24px;margin:0;'>
+                                                            $subscription_id</p>
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <hr style='color: white; margin-top: 10px;'>
+                                            <h4 style='text-align: center;color:#77797C;font-size: 22px;margin: 10px 0 20px 0;'>Thank you!</h4>
                                         </div>
-                                        <hr style='color: white; margin-top: 10px;'>
-                                        <h4 style='text-align: center;color:#77797C;font-size: 22px;margin: 10px 0 20px 0;'>Thank you!</h4>
                                     </div>
                                 </div>
                             </div>
@@ -586,9 +583,9 @@ $svg_base64 = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZ
         ]);
         //update redis cache
 
-        require_once '../redis.php';
-        $redis = new RedisCache($license_key);
-        $redis->setCache('', 3600); // Cache for 1 hour
+        // require_once '../redis.php';
+        // $redis = new RedisCache($license_key);
+        // $redis->setCache('', 3600); // Cache for 1 hour
         error_log("Invoice paid:" . $period_end);
     }
 
@@ -835,27 +832,43 @@ $svg_base64 = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZ
             $mail->isHTML(true);
             $mail->Subject = 'Your License Key';
             $mail->Body    = "
-            <div style='padding: 0px; margin: 0px; height: 100%; width: 100%; font-family: Arial, &quot;Times New Roman&quot;, Calibri; text-align:center!important'>  
-                    <div class='container' style='width: 100%; margin-right: auto; margin-left: auto; color: white;'>
-        <div class='' style='display:flex;min-height:100vh!important;justify-content: center;'>
-            <div class='main' style='background: black; padding: 50px; border-radius: 10px; margin: 0px auto; max-width: 600px; width:100%; max-height: 700px;display: block;font-family: inherit;'>
-                <h2 style='text-align: center;color: #bb82fe;font-size: 40px;'>License Key Successful</h2>
-                <p style='text-align: center;color: white;'>Dear: $customer_email</p>
-                <hr style='color: white;'>
-                <div class='payment-info'>
-                    <h4 style='text-align: center;color: white; font-size:20px'>License key for you</h4>
-                    <h2 style='text-align: center;color: #bb82fe; background: white;border-radius: 9px;padding: 10px;font-weight: 900; font-size: 25px;'>$licenseKey</h2>
-                    <div>
-                        <div style='border: 1px solid white; padding: 0 10px; border-radius: 10px;'>
-                            <h4 style='text-align: center;color: white;'>Subscription Subid</h4>
-                            <p style='color: white; font-size:20px;font-weight: 700;'>$subscription_id</p>
+                    <div style='background: #F6F2FF; '>
+                        <div style='padding: 0px; margin: 0px; height: 100%; width: 100%; text-align: center!important'>
+                            <div class='container' style='width: 100%; margin-right: auto; margin-left: auto; color: white;'>
+                                <div class='' style='display:flex;min-height:100vh!important;justify-content: center;'>
+                                    <div class='main'
+                                        style='box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;background: #FFFFFF; padding: 50px; border-radius: 10px; margin: 60px auto; max-width: 640px; width:100%; max-height: 100%;display: block;font-family: inherit;'>
+                                        <div style='display: flex !important; justify-content: center; !important'>
+                                        
+                                            <div style='display: flex !important; justify-content: center; !important'>
+                                                <img src='https://news.htvietnam.vn/image/1723303821.png' width='50' height='50' alt='SVG Image' />
+                                                <h2 style='color: black; font-size: 30px;;margin: 10px 0 35px;'>Vidcombo</h2>
+                                                
+                                              
+                                            </div>
+                                                <h2 style='text-align: center;color: #bb82fe;font-size: 24px;margin: 0;'>Payment Successful</h2>
+                                                <p style='text-align: center;color: #1D1F24;font-size: 18px;margin: 10px 0 10px 0;'>Dear: $customer_email</p>
+                                                <hr style='color: white;'>
+                                            <div class='payment-info' style='padding-bottom: 60px; padding-top: 15px;'>
+                                                   
+                                                <div>
+                                                  
+                                                    <div
+                                                        style='padding-top: 10px; border-radius: 10px; margin-top: 10px;background: white;'>
+                                                        <h4 style='text-align: center;color:#77797C;font-size: 14px;;margin:0;'>License key for you</h4>
+                                                        <p style='text-align:center!important;font-size:19px; font-weight: 900;color:#77797C;font-size: 24px;margin:0;'>
+                                                            $licenseKey</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr style='color: white; margin-top: 10px;'>
+                                            <h4 style='text-align: center;color:#77797C;font-size: 22px;margin: 10px 0 20px 0;'>Thank you!</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                     <h5 style='text-align: center;color: white; padding-top:10px;font-size:18px'>Thank You!</h5>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div></div>";
+                    </div> ";
 
             // Send the email
             $mail->send();
@@ -898,50 +911,48 @@ $svg_base64 = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZ
                 // Define the email body
                 $email_body = "
                 <div style='background: #F6F2FF; '>
-                        <div
-                            style='padding: 0px; margin: 0px; height: 100%; width: 100%; text-align: center!important'>
+                        <div style='padding: 0px; margin: 0px; height: 100%; width: 100%; text-align: center!important'>
                             <div class='container' style='width: 100%; margin-right: auto; margin-left: auto; color: white;'>
                                 <div class='' style='display:flex;min-height:100vh!important;justify-content: center;'>
                                     <div class='main'
                                         style='box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;background: #FFFFFF; padding: 50px; border-radius: 10px; margin: 60px auto; max-width: 640px; width:100%; max-height: 100%;display: block;font-family: inherit;'>
-                                    <div style='display: flex; justify-content: center; !important'>
-                                       
-                                       <div>
-                                        <img src='' width='50' height='50' alt='SVG Image' />
-                                        </div>
-                                        <div>
-                                        <h2 style='color: black; font-size: 30px;'>Vidcombo</h2>
-                                     </div>
-                                    </div>
-                                        <h2 style='text-align: center;color: #bb82fe;font-size: 24px;margin: 0;'>Payment Successful</h2>
-                                        <p style='text-align: center;color: #1D1F24;font-size: 18px;margin: 10px 0 10px 0;'>Dear: $customer_email</p>
-                                        <hr style='color: white;'>
-                                        <div class='payment-info' style='padding-bottom: 60px; padding-top: 15px;'>
-                                            <h4 style='text-align: center;color:#77797C;font-size: 14px;margin: 5px 0 0 0;'>Total amount paid</h4>
-                                            <h2 style='text-align: center;color: #1D1F24; font-weight: 900;font-size: 30px;margin: 0 0 20px 0;'>$amount_due $
-                                            </h2>
-                                            <div>
-                                                <div style='padding-top: 10px; border-radius: 10px;'>
-                                                    <h4 style='text-align: center;color:#77797C; margin: 0;font-size: 14px;'>Code Bill</h4>
-                                                    <p style='text-align:center!important; font-size:19px; font-weight: 900;color:#77797C;font-size: 24px;margin:0;'>$invoice_id
-                                                    </p>
-                                                </div>
-                                                <div
-                                                    style='padding-top: 10px; border-radius: 10px; margin-top: 10px;'>
-                                                    <h4 style='text-align: center;color:#77797C;font-size: 14px;;margin:0;'>Date Created</h4>
-                                                    <p style='text-align:center!important;font-size:19px; font-weight: 900;color: #77797C;font-size: 24px;margin:0;'>$invoice_date
-                                                    </p>
-                                                </div>
-                                                <div
-                                                    style='padding-top: 10px; border-radius: 10px; margin-top: 10px;background: white;'>
-                                                    <h4 style='text-align: center;color:#77797C;font-size: 14px;;margin:0;'>Subscription Subid</h4>
-                                                    <p style='text-align:center!important;font-size:19px; font-weight: 900;color:#77797C;font-size: 24px;margin:0;'>
-                                                        $subscription_id</p>
+                                        <div style='display: flex !important; justify-content: center; !important'>
+                                        
+                                            <div style='display: flex !important; justify-content: center; !important'>
+                                                <img src='https://news.htvietnam.vn/image/1723303821.png' width='50' height='50' alt='SVG Image' />
+                                                <h2 style='color: black; font-size: 30px;;margin: 10px 0 35px;'>Vidcombo</h2>
+                                                
+                                              
+                                            </div>
+                                                <h2 style='text-align: center;color: #bb82fe;font-size: 24px;margin: 0;'>Payment Successful</h2>
+                                                <p style='text-align: center;color: #1D1F24;font-size: 18px;margin: 10px 0 10px 0;'>Dear: $customer_email</p>
+                                                <hr style='color: white;'>
+                                            <div class='payment-info' style='padding-bottom: 60px; padding-top: 15px;'>
+                                                    <h4 style='text-align: center;color:#77797C;font-size: 14px;margin: 5px 0 0 0;'>Total amount paid</h4>
+                                                    <h2 style='text-align: center;color: #1D1F24; font-weight: 900;font-size: 30px;margin: 0 0 20px 0;'>$amount_due $</h2>
+                                                <div>
+                                                    <div style='padding-top: 10px; border-radius: 10px;'>
+                                                        <h4 style='text-align: center;color:#77797C; margin: 0;font-size: 14px;'>Code Bill</h4>
+                                                        <p style='text-align:center!important; font-size:19px; font-weight: 900;color:#77797C;font-size: 24px;margin:0;'>$invoice_id
+                                                        </p>
+                                                    </div>
+                                                    <div
+                                                        style='padding-top: 10px; border-radius: 10px; margin-top: 10px;'>
+                                                        <h4 style='text-align: center;color:#77797C;font-size: 14px;;margin:0;'>Date Created</h4>
+                                                        <p style='text-align:center!important;font-size:19px; font-weight: 900;color: #77797C;font-size: 24px;margin:0;'>$invoice_date
+                                                        </p>
+                                                    </div>
+                                                    <div
+                                                        style='padding-top: 10px; border-radius: 10px; margin-top: 10px;background: white;'>
+                                                        <h4 style='text-align: center;color:#77797C;font-size: 14px;;margin:0;'>Subscription Subid</h4>
+                                                        <p style='text-align:center!important;font-size:19px; font-weight: 900;color:#77797C;font-size: 24px;margin:0;'>
+                                                            $subscription_id</p>
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <hr style='color: white; margin-top: 10px;'>
+                                            <h4 style='text-align: center;color:#77797C;font-size: 22px;margin: 10px 0 20px 0;'>Thank you!</h4>
                                         </div>
-                                        <hr style='color: white; margin-top: 10px;'>
-                                        <h4 style='text-align: center;color:#77797C;font-size: 22px;margin: 10px 0 20px 0;'>Thank you!</h4>
                                     </div>
                                 </div>
                             </div>
