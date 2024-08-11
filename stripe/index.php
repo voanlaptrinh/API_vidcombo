@@ -465,14 +465,15 @@ class StripeApiFunction
                                         style='box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;background: #FFFFFF; padding: 50px; border-radius: 10px; margin: 60px auto; max-width: 640px; width:100%; max-height: 100%;display: block;font-family: inherit;'>
                                         <div style='display: flex !important; justify-content: center; !important'>
                                         
-                                            <div style='display: flex !important; justify-content: center; !important'>
-                                                <img src='https://news.htvietnam.vn/image/1723303821.png' width='50' height='50' alt='SVG Image' />
-                                                <h2 style='color: black; font-size: 30px;;margin: 10px 0 35px;'>Vidcombo</h2>
-                                                
-                                              
-                                            </div>
+                                             <table role='presentation' style='margin: 0 auto; padding-bottom: 40px;'>
+                                                <tr>
+                                                    <td style='text-align: center;'>
+                                                        <img src='https://www.vidcombo.com/images/logo%20copy.png' width='250' height='50' alt='Logo Image' />
+                                                    </td>
+                                                </tr>
+                                            </table>
                                                 <h2 style='text-align: center;color: #bb82fe;font-size: 24px;margin: 0;'>Payment Successful</h2>
-                                                <p style='text-align: center;color: #1D1F24;font-size: 18px;margin: 10px 0 10px 0;'>Dear: $customer_email</p>
+                                                <p style='text-align: center;color: #1D1F24;font-size: 14px;margin: 10px 0 10px 0;'>Dear: $customer_email</p>
                                                 <hr style='color: white;'>
                                             <div class='payment-info' style='padding-bottom: 60px; padding-top: 15px;'>
                                                     <h4 style='text-align: center;color:#77797C;font-size: 14px;margin: 5px 0 0 0;'>Total amount paid</h4>
@@ -838,16 +839,18 @@ class StripeApiFunction
                                 <div class='' style='display:flex;min-height:100vh!important;justify-content: center;'>
                                     <div class='main'
                                         style='box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;background: #FFFFFF; padding: 50px; border-radius: 10px; margin: 60px auto; max-width: 640px; width:100%; max-height: 100%;display: block;font-family: inherit;'>
-                                        <div style='display: flex !important; justify-content: center; !important'>
+                                        <div style=''>
                                         
-                                            <div style='display: flex !important; justify-content: center; !important'>
-                                                <img src='https://news.htvietnam.vn/image/1723303821.png' width='50' height='50' alt='SVG Image' />
-                                                <h2 style='color: black; font-size: 30px;;margin: 10px 0 35px;'>Vidcombo</h2>
-                                                
-                                              
-                                            </div>
+                                           <table role='presentation' style='margin: 0 auto; padding-bottom: 40px;'>
+                                                <tr>
+                                                    <td style='text-align: center;'>
+                                                        <img src='https://www.vidcombo.com/images/logo%20copy.png' width='250' height='50' alt='Logo Image' />
+                                                    </td>
+                                                </tr>
+                                            </table>
+
                                                 <h2 style='text-align: center;color: #bb82fe;font-size: 24px;margin: 0;'>Payment Successful</h2>
-                                                <p style='text-align: center;color: #1D1F24;font-size: 18px;margin: 10px 0 10px 0;'>Dear: $customer_email</p>
+                                                <p style='text-align: center;color: #1D1F24;font-size: 14px;margin: 10px 0 10px 0;'>Dear: $customer_email</p>
                                                 <hr style='color: white;'>
                                             <div class='payment-info' style='padding-bottom: 60px; padding-top: 15px;'>
                                                    
@@ -918,14 +921,15 @@ class StripeApiFunction
                                         style='box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;background: #FFFFFF; padding: 50px; border-radius: 10px; margin: 60px auto; max-width: 640px; width:100%; max-height: 100%;display: block;font-family: inherit;'>
                                         <div style='display: flex !important; justify-content: center; !important'>
                                         
-                                            <div style='display: flex !important; justify-content: center; !important'>
-                                                <img src='https://news.htvietnam.vn/image/1723303821.png' width='50' height='50' alt='SVG Image' />
-                                                <h2 style='color: black; font-size: 30px;;margin: 10px 0 35px;'>Vidcombo</h2>
-                                                
-                                              
-                                            </div>
+                                             <table role='presentation' style='margin: 0 auto; padding-bottom: 40px;'>
+                                                <tr>
+                                                    <td style='text-align: center;'>
+                                                        <img src='https://www.vidcombo.com/images/logo%20copy.png' width='250' height='50' alt='Logo Image' />
+                                                    </td>
+                                                </tr>
+                                            </table>
                                                 <h2 style='text-align: center;color: #bb82fe;font-size: 24px;margin: 0;'>Payment Successful</h2>
-                                                <p style='text-align: center;color: #1D1F24;font-size: 18px;margin: 10px 0 10px 0;'>Dear: $customer_email</p>
+                                                <p style='text-align: center;color: #1D1F24;font-size: 14px;margin: 10px 0 10px 0;'>Dear: $customer_email</p>
                                                 <hr style='color: white;'>
                                             <div class='payment-info' style='padding-bottom: 60px; padding-top: 15px;'>
                                                     <h4 style='text-align: center;color:#77797C;font-size: 14px;margin: 5px 0 0 0;'>Total amount paid</h4>
