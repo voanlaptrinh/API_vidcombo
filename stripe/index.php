@@ -583,9 +583,9 @@ class StripeApiFunction
         ]);
         //update redis cache
 
-        // require_once '../redis.php';
-        // $redis = new RedisCache($license_key);
-        // $redis->setCache('', 3600); // Cache for 1 hour
+        require_once '../redis.php';
+        $redis = new RedisCache($license_key);
+        $redis->setCache('', 3600); // Xaasop cache
         error_log("Invoice paid:" . $period_end);
     }
 
