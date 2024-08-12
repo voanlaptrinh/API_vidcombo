@@ -465,14 +465,17 @@ class StripeApiFunction
                                         style='box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;background: #FFFFFF; padding: 50px; border-radius: 10px; margin: 60px auto; max-width: 640px; width:100%; max-height: 100%;display: block;font-family: inherit;'>
                                         <div style='display: flex !important; justify-content: center; !important'>
                                         
-                                             <table role='presentation' style='margin: 0 auto; padding-bottom: 40px;'>
+                                             <table role='presentation' style='margin: 0 auto; padding-bottom: 15px;'>
                                                 <tr>
                                                     <td style='text-align: center;'>
-                                                        <img src='https://www.vidcombo.com/images/logo%20copy.png' width='250' height='50' alt='Logo Image' />
+                                                        <img src='https://www.vidcombo.com/images/logo-128x128.png' width='50' height='50' alt='Logo Image' />
+                                                    </td>
+                                                    <td style='text-align: center; padding-left:14px;'>
+                                                        <h3 style='font-size: 40px;color:#000'> Vidcombo </h3>
                                                     </td>
                                                 </tr>
                                             </table>
-                                                <h2 style='text-align: center;color: #bb82fe;font-size: 24px;margin: 0;'>Payment Successful</h2>
+                                                <h2 style='text-align: center;color: #bb82fe;font-size: 40px;margin: 0;'>Payment Successful</h2>
                                                 <p style='text-align: center;color: #1D1F24;font-size: 14px;margin: 10px 0 10px 0;'>Dear: $customer_email</p>
                                                 <hr style='color: white;'>
                                             <div class='payment-info' style='padding-bottom: 60px; padding-top: 15px;'>
@@ -480,20 +483,20 @@ class StripeApiFunction
                                                     <h2 style='text-align: center;color: #1D1F24; font-weight: 900;font-size: 30px;margin: 0 0 20px 0;'>$amount_due $</h2>
                                                 <div>
                                                     <div style='padding-top: 10px; border-radius: 10px;'>
-                                                        <h4 style='text-align: center;color:#77797C; margin: 0;font-size: 14px;'>Code Bill</h4>
-                                                        <p style='text-align:center!important; font-size:19px; font-weight: 900;color:#77797C;font-size: 24px;margin:0;'>$invoice_id
+                                                        <h4 style='text-align: center;color:#77797C; margin: 0;font-size: 16px;'>Code Bill</h4>
+                                                        <p style='text-align:center!important; font-size:19px; font-weight: 900;color:#000;font-size: 24px;margin:0;'>$invoice_id
                                                         </p>
                                                     </div>
                                                     <div
                                                         style='padding-top: 10px; border-radius: 10px; margin-top: 10px;'>
-                                                        <h4 style='text-align: center;color:#77797C;font-size: 14px;;margin:0;'>Date Created</h4>
-                                                        <p style='text-align:center!important;font-size:19px; font-weight: 900;color: #77797C;font-size: 24px;margin:0;'>$invoice_date
+                                                        <h4 style='text-align: center;color:#77797C;font-size: 16px;;margin:0;'>Date Created</h4>
+                                                        <p style='text-align:center!important;font-size:19px; font-weight: 900;color: #000;font-size: 24px;margin:0;'>$invoice_date
                                                         </p>
                                                     </div>
                                                     <div
                                                         style='padding-top: 10px; border-radius: 10px; margin-top: 10px;background: white;'>
-                                                        <h4 style='text-align: center;color:#77797C;font-size: 14px;;margin:0;'>Subscription Subid</h4>
-                                                        <p style='text-align:center!important;font-size:19px; font-weight: 900;color:#77797C;font-size: 24px;margin:0;'>
+                                                        <h4 style='text-align: center;color:#77797C;font-size: 16px;;margin:0;'>Subscription Subid</h4>
+                                                        <p style='text-align:center!important;font-size:19px; font-weight: 900;color:#000;font-size: 24px;margin:0;'>
                                                             $subscription_id</p>
                                                     </div>
                                                 </div>
@@ -841,16 +844,19 @@ class StripeApiFunction
                                         style='box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;background: #FFFFFF; padding: 50px; border-radius: 10px; margin: 60px auto; max-width: 640px; width:100%; max-height: 100%;display: block;font-family: inherit;'>
                                         <div style=''>
                                         
-                                           <table role='presentation' style='margin: 0 auto; padding-bottom: 40px;'>
+                                           <table role='presentation' style='margin: 0 auto; padding-bottom: 15px;'>
                                                 <tr>
                                                     <td style='text-align: center;'>
-                                                        <img src='https://www.vidcombo.com/images/logo%20copy.png' width='250' height='50' alt='Logo Image' />
+                                                        <img src='https://www.vidcombo.com/images/logo-128x128.png' width='50' height='50' alt='Logo Image' />
+                                                    </td>
+                                                    <td style='text-align: center; padding-left:14px;'>
+                                                        <h3 style='font-size: 40px;color:#000'> Vidcombo </h3>
                                                     </td>
                                                 </tr>
                                             </table>
 
-                                                <h2 style='text-align: center;color: #bb82fe;font-size: 24px;margin: 0;'>Payment Successful</h2>
-                                                <p style='text-align: center;color: #1D1F24;font-size: 14px;margin: 10px 0 10px 0;'>Dear: $customer_email</p>
+                                                <h2 style='text-align: center;color: #bb82fe;font-size: 40px;margin: 0;'>Payment Successful</h2>
+                                                <p style='text-align: center;color: #1D1F24;font-size: 16px;margin: 10px 0 10px 0;'>Dear: $customer_email</p>
                                                 <hr style='color: white;'>
                                             <div class='payment-info' style='padding-bottom: 60px; padding-top: 15px;'>
                                                    
@@ -858,8 +864,8 @@ class StripeApiFunction
                                                   
                                                     <div
                                                         style='padding-top: 10px; border-radius: 10px; margin-top: 10px;background: white;'>
-                                                        <h4 style='text-align: center;color:#77797C;font-size: 14px;;margin:0;'>License key for you</h4>
-                                                        <p style='text-align:center!important;font-size:19px; font-weight: 900;color:#77797C;font-size: 24px;margin:0;'>
+                                                        <h4 style='text-align: center;color:#77797C;font-size: 16px;;margin:0;'>License key for you</h4>
+                                                        <p style='text-align:center!important;font-size:19px; font-weight: 900;color:#000;font-size: 24px;margin:0;'>
                                                             $licenseKey</p>
                                                     </div>
                                                 </div>
@@ -921,35 +927,38 @@ class StripeApiFunction
                                         style='box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;background: #FFFFFF; padding: 50px; border-radius: 10px; margin: 60px auto; max-width: 640px; width:100%; max-height: 100%;display: block;font-family: inherit;'>
                                         <div style='display: flex !important; justify-content: center; !important'>
                                         
-                                             <table role='presentation' style='margin: 0 auto; padding-bottom: 40px;'>
+                                             <table role='presentation' style='margin: 0 auto; padding-bottom: 15px;'>
                                                 <tr>
                                                     <td style='text-align: center;'>
-                                                        <img src='https://www.vidcombo.com/images/logo%20copy.png' width='250' height='50' alt='Logo Image' />
+                                                        <img src='https://www.vidcombo.com/images/logo-128x128.png' width='50' height='50' alt='Logo Image' />
+                                                    </td>
+                                                    <td style='text-align: center; padding-left:14px;'>
+                                                        <h3 style='font-size: 40px;color:#000'> Vidcombo </h3>
                                                     </td>
                                                 </tr>
                                             </table>
-                                                <h2 style='text-align: center;color: #bb82fe;font-size: 24px;margin: 0;'>Payment Successful</h2>
+                                                <h2 style='text-align: center;color: #bb82fe;font-size: 40px;margin: 0;'>Payment Successful</h2>
                                                 <p style='text-align: center;color: #1D1F24;font-size: 14px;margin: 10px 0 10px 0;'>Dear: $customer_email</p>
                                                 <hr style='color: white;'>
                                             <div class='payment-info' style='padding-bottom: 60px; padding-top: 15px;'>
-                                                    <h4 style='text-align: center;color:#77797C;font-size: 14px;margin: 5px 0 0 0;'>Total amount paid</h4>
+                                                    <h4 style='text-align: center;color:#77797C;font-size: 16px;margin: 5px 0 0 0;'>Total amount paid</h4>
                                                     <h2 style='text-align: center;color: #1D1F24; font-weight: 900;font-size: 30px;margin: 0 0 20px 0;'>$amount_due $</h2>
                                                 <div>
                                                     <div style='padding-top: 10px; border-radius: 10px;'>
-                                                        <h4 style='text-align: center;color:#77797C; margin: 0;font-size: 14px;'>Code Bill</h4>
-                                                        <p style='text-align:center!important; font-size:19px; font-weight: 900;color:#77797C;font-size: 24px;margin:0;'>$invoice_id
+                                                        <h4 style='text-align: center;color:#77797C; margin: 0;font-size: 16px;'>Code Bill</h4>
+                                                        <p style='text-align:center!important; font-size:19px; font-weight: 900;color:#000;font-size: 24px;margin:0;'>$invoice_id
                                                         </p>
                                                     </div>
                                                     <div
                                                         style='padding-top: 10px; border-radius: 10px; margin-top: 10px;'>
-                                                        <h4 style='text-align: center;color:#77797C;font-size: 14px;;margin:0;'>Date Created</h4>
-                                                        <p style='text-align:center!important;font-size:19px; font-weight: 900;color: #77797C;font-size: 24px;margin:0;'>$invoice_date
+                                                        <h4 style='text-align: center;color:#77797C;font-size: 16px;;margin:0;'>Date Created</h4>
+                                                        <p style='text-align:center!important;font-size:19px; font-weight: 900;color: #000;font-size: 24px;margin:0;'>$invoice_date
                                                         </p>
                                                     </div>
                                                     <div
                                                         style='padding-top: 10px; border-radius: 10px; margin-top: 10px;background: white;'>
-                                                        <h4 style='text-align: center;color:#77797C;font-size: 14px;;margin:0;'>Subscription Subid</h4>
-                                                        <p style='text-align:center!important;font-size:19px; font-weight: 900;color:#77797C;font-size: 24px;margin:0;'>
+                                                        <h4 style='text-align: center;color:#77797C;font-size: 16px;;margin:0;'>Subscription Subid</h4>
+                                                        <p style='text-align:center!important;font-size:19px; font-weight: 900;color:#000;font-size: 24px;margin:0;'>
                                                             $subscription_id</p>
                                                     </div>
                                                 </div>
