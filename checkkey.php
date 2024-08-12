@@ -22,7 +22,7 @@ $today = date('Y-m-d');
 
 $license_key = $_GET['license_key'] ?? ''; // Key from request
 $lang_code = $_GET['lang_code'] ?? '';
-$device_id = urldecode($_GET['device_id']) ?? '';
+$device_id = isset($_GET['device_id']) ? urldecode($_GET['device_id']) : '';
 $clientIP = Common::getRealIpAddr();
 $geo = @$_SERVER["HTTP_CF_IPCOUNTRY"] ?? 'Không có thông tin quốc gia';
 $os_name = $_GET['os_name'] ?? ''; // Operating System
@@ -35,7 +35,11 @@ $connection = Common::getDatabaseConnection();
 if (!$connection) {
     throw new Exception('Database connection could not be established.');
 }
-
+if (!$device_id || !$os_name || !$os_version || !$cpu_name || !$cpu_arch || !$json_info) {
+    http_response_code(400);
+    echo json_encode(['message' => 'Handle missing parameters error']);
+    exit;
+}
 
 // Insert or update device information
 $stmt_device_check = $connection->prepare("SELECT COUNT(*) AS count, download_count, last_updated, license_key FROM device WHERE device_id = :device_id");
