@@ -285,9 +285,9 @@ class StripeApiFunction
 
         $data = $request_data . "\n" . $raw_input_data . "\n" . $server_data;
 
-        $log_directory = 'log/';
+        // $log_directory = 'log/';
 
-        file_put_contents($log_directory . $fname, $data);
+        // file_put_contents($log_directory . $fname, $data);
 
 
         try {
@@ -364,11 +364,15 @@ class StripeApiFunction
         $payment_intent = $refund->payment_intent;
         $payment_method = $refund->payment_method;
         $receipt_url = $refund->receipt_url;
+        $created_at = $refund->created;
+        $created_date = date('Y-m-d H:i:s', $created_at);
+        $stmt = $this->connection->prepare("SELECT `plan_alias` FROM licensekey WHERE customer_id = :customer_id");
+        $stmt->execute([':customer_id' => $customer_id]);
+        $plan_alias = $stmt->fetchColumn();
 
-
-        $query = 'INSERT INTO refund (amount_captured, amount_refunded, customer_id, invoice_id, payment_intent, payment_method, receipt_url) VALUES (?, ?, ?, ?, ?, ?, ?)';
+        $query = 'INSERT INTO refund (amount_captured, amount_refunded, customer_id, invoice_id, payment_intent, payment_method, receipt_url, plan_alias, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
         $stmt = $this->connection->prepare($query);
-        $stmt->execute([$amount_captured, $amount_refunded, $customer_id, $invoice_id, $payment_intent, $payment_method, $receipt_url]);
+        $stmt->execute([$amount_captured, $amount_refunded, $customer_id, $invoice_id, $payment_intent, $payment_method, $receipt_url, $plan_alias, $created_date]);
 
         $updateQuery = 'UPDATE licensekey SET status = "inactive" WHERE customer_id = ?';
         $updateStmt = $this->connection->prepare($updateQuery);
