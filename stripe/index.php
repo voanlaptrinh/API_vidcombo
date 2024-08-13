@@ -708,7 +708,7 @@ class StripeApiFunction
         // Lấy giá trị plan từ mảng $plans
         $plan_name = array_search($plan, $this->plans);
 
-        $stmt2 = $this->connection->prepare("INSERT INTO licensekey (customer_id, status, subscription_id, license_key, send, plan, plan_alias, sk_key, sign_key) VALUES (:customer_id, :status, :subscription_id, :license_key, :send, :plan, :plan_alias, :sk_key, :sign_key)");
+        $stmt2 = $this->connection->prepare("INSERT INTO licensekey (customer_id, status, subscription_id, license_key, send, plan, plan_alias, sk_key, sign_key, created_at) VALUES (:customer_id, :status, :subscription_id, :license_key, :send, :plan, :plan_alias, :sk_key, :sign_key, :created_at)");
         $stmt2->execute([
             ':customer_id' => $customer,
             ':subscription_id' => $subscription_id,
@@ -719,6 +719,7 @@ class StripeApiFunction
             ':plan_alias' => $plan_name,
             ':sk_key' => $this->apiKey,
             ':sign_key' => $this->endpointSecret,
+            ':created_at' => $current_period_start_date
         ]);
 
         error_log("Subscription created for customer: $customer, subscription ID: $subscription_id, status: $status, current period start: $current_period_start_date, current period end: $current_period_end_date");
@@ -1069,8 +1070,9 @@ class StripeApiFunction
     // Hàm để tạo license key ngẫu nhiên
     function generateLicenseKey()
     {
-        return bin2hex(random_bytes(16));
+        return strtoupper(bin2hex(random_bytes(16)));
     }
+    
     function saveInvoiceToDatabase($invoiceId, $customerId, $amountDue, $currency, $status, $customer_email, $subscription_id)
     {
 
