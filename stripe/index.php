@@ -7,19 +7,24 @@ use Stripe\Stripe;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-$stripeSecrets = Common::getStripeSecrets();
-if ($stripeSecrets) {
-    $apiKey = $stripeSecrets['apiKey'];
-    $endpointSecret = $stripeSecrets['endpointSecret'];
-    $plans = $stripeSecrets['plans'];
-} else {
-    die('No active Stripe');
-}
+// $stripeSecrets = Common::getStripeSecrets();
+// if ($stripeSecrets) {
+//     $apiKey = $stripeSecrets['apiKey'];
+//     $endpointSecret = $stripeSecrets['endpointSecret'];
+//     $plans = $stripeSecrets['plans'];
+// } else {
+//     die('No active Stripe');
+// }
 
+// Stripe::setApiKey($apiKey);
+// define('ENDPOINT_SECRET', $endpointSecret);
+
+$apiKey =  Common::$apiKey;
+$endpointSecret = Common::$endpointSecret;
 
 Stripe::setApiKey($apiKey);
 define('ENDPOINT_SECRET', $endpointSecret);
-
+// define('ENDPOINT_SECRET', 'whsec_5f17c8c4ada7dddedac39a07084388d087b1743d38e16af8bd996bb97a21c910');
 
 
 $stripe_funtion = new StripeApiFunction();
@@ -68,22 +73,34 @@ class StripeApiFunction
     }
     function init()
     {
-        
 
-        $stripeSecrets = Common::getStripeSecrets();
 
-        if ($stripeSecrets) {
-            $this->apiKey = $stripeSecrets['apiKey'];
-            $this->endpointSecret = $stripeSecrets['endpointSecret'];
-            $this->plans = json_decode($stripeSecrets['plans'], true);
-        } else {
-            throw new Exception('No active Stripe secrets found.');
-        }
+        // $stripeSecrets = Common::getStripeSecrets();
+
+        // if ($stripeSecrets) {
+        //     $this->apiKey = $stripeSecrets['apiKey'];
+        //     $this->endpointSecret = $stripeSecrets['endpointSecret'];
+        //     $this->plans = json_decode($stripeSecrets['plans'], true);
+        // } else {
+        //     throw new Exception('No active Stripe secrets found.');
+        // }
+        // $this->connection = Common::getDatabaseConnection();
+        // // $this->plans = Common::$plans;
+        // if (!$this->connection) {
+        //     throw new Exception('Database connection could not be established.');
+        // }
+
+        global $apiKey;
+        global $endpointSecret;
+
+        $this->apiKey = $apiKey;
+        $this->endpointSecret = $endpointSecret;
         $this->connection = Common::getDatabaseConnection();
-        // $this->plans = Common::$plans;
+        $this->plans = Common::$plans;
         if (!$this->connection) {
             throw new Exception('Database connection could not be established.');
         }
+
     }
 
 
@@ -162,7 +179,7 @@ class StripeApiFunction
         $plan = $data['plan'] ?? null;
         // Lấy giá trị plan từ mảng $plans
         $planKey = $this->plans[$plan] ?? null;
-      
+
         if (!$plan) {
             header('Content-Type: application/json');
             echo json_encode(['error' => 'New plan and customer are required']);
@@ -274,16 +291,22 @@ class StripeApiFunction
     // Hàm xử lý webhook
     function handleWebhook()
     {
-        $sig = $_SERVER['HTTP_STRIPE_SIGNATURE'];
+        $sig = $_SERVER['HTTP_STRIPE_SIGNATURE'] ?? '';
         $payload = @file_get_contents('php://input');
 
-        $event = \Stripe\Webhook::constructEvent($payload, $sig, ENDPOINT_SECRET);
+        var_dump($payload, $sig, ENDPOINT_SECRET);
+        try {
+            $event = \Stripe\Webhook::constructEvent($payload, $sig, ENDPOINT_SECRET);
+        } catch (\Throwable $e) {
+            error_log("Database error: " . $e->getMessage());
+        }
 
-        $fname = date('Y_m_d_H_i_s') . '.log';
 
         $request_data = json_encode($_REQUEST);
         $raw_input_data = json_encode(file_get_contents('php://input'));
         $server_data = json_encode($_SERVER);
+
+        $fname = date('Y_m_d_H_i_s') . '.log';
 
         $data = $request_data . "\n" . $raw_input_data . "\n" . $server_data;
 
@@ -672,7 +695,7 @@ class StripeApiFunction
         $current_period_start_date = date('Y-m-d H:i:s', $current_period_start);
         $current_period_end_date = date('Y-m-d H:i:s', $current_period_end);
         $status_key = 'active';
-       
+
 
 
         $stmt = $this->connection->prepare("INSERT INTO subscriptions (customer_id, subscription_id, status, current_period_start, current_period_end, customer, subscription_json, plan, bank_name) VALUES (:customer_id, :subscription_id, :status, :current_period_start, :current_period_end, :customer, :subscription_json, :plan, :bank_name)");
@@ -729,6 +752,7 @@ class StripeApiFunction
 
 
 
+
     function saveSubscriptionToDatabase($subscriptionId, $customerId, $status, $currentPeriodEnd)
     {
 
@@ -758,7 +782,7 @@ class StripeApiFunction
         $subscription_id = $invoice->subscription;
         $customer_id = $invoice->customer;
         $customer_name = $invoice->customer_name;
-        
+
         $invoice_date = date('Y-m-d H:i:s', $invoice->created);
         $invoiced_date = date('Y-m-d', $invoice->created);
 
