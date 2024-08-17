@@ -6,14 +6,15 @@ date_default_timezone_set('UTC');
 class Common
 {
     
- // 'plan1' => 'price_1Pl0EDJykwD5LYvp7ymIxuGP', // Id test
+        // 'plan1' => 'price_1Pl0EDJykwD5LYvp7ymIxuGP', // Id test
         // // 'plan1' => 'price_1PiultJykwD5LYvpJyb57WJ9',
         // 'plan2' => 'price_1Piun4JykwD5LYvpVkpiWzuR',
         // 'plan3' => 'price_1PiunkJykwD5LYvp0IGdnFUt',
     static function getDatabaseConnection() {
         try {
 
-            $connection = new PDO("mysql:host=localhost; dbname=admin_vidcombo; charset=utf8;", "root", "");
+            // $connection = new PDO("mysql:host=localhost; dbname=admin_vidcombo; charset=utf8;", "root", "");
+            $connection = new PDO("mysql:host=localhost; dbname=vidcombo_db; charset=utf8;", "vidcombo_db_user", "vidcombo_db_pass");
             $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             return $connection;
         } catch (PDOException $e) {
