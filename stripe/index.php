@@ -588,7 +588,7 @@ class StripeApiFunction
 
         $last_plan_item = end($invoice->lines['data']);
         $plan = $last_plan_item['plan']['id'];
-
+$customer_name = $invoice->customer_name;
 
         $subscription_id = $invoice->subscription;
 
@@ -611,7 +611,7 @@ class StripeApiFunction
         require_once '../redis.php';
         $redis = new RedisCache($license_key);
         $redis->setCache('', 3600); // Xaasop cache
-        error_log("Invoice paid:" . $period_end);
+        error_log("Invoice paid:" . $invoice);
 
         $stmt = $this->connection->prepare("SELECT license_key, send FROM licensekey WHERE subscription_id = :subscription_id");
         $stmt->execute([':subscription_id' => $subscription_id]);
