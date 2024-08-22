@@ -625,14 +625,16 @@ class StripeApiFunction
             $customer_email = $this->getCustomerEmailBySubscriptionId($subscription_id);
 
             //Gửi licenseKey qua email
-            Common::sendLicenseKeyEmail($customer_email, $customer_name, $licenseKey);
+            $resu = Common::sendLicenseKeyEmail($customer_email, $customer_name, $licenseKey);
+            if($resu){
+                $licensekey_stmt = $this->connection->prepare("UPDATE licensekey SET send = :send WHERE subscription_id = :subscription_id");
+                $licensekey_stmt->execute([
+                    ':send' => 'ok',
+                    ':subscription_id' => $subscription_id
+                ]);
+            }
 
-
-            $licensekey_stmt = $this->connection->prepare("UPDATE licensekey SET send = :send WHERE subscription_id = :subscription_id");
-            $licensekey_stmt->execute([
-                ':send' => 'ok',
-                ':subscription_id' => $subscription_id
-            ]);
+            
         } else {
             error_log("No license key found for subscription ID: $subscription_id");
         }
