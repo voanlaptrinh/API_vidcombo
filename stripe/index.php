@@ -477,67 +477,7 @@ class StripeApiFunction
 
                 Common::sendSuccessEmail($customer_email, $customer_name, $amount_due, $invoiced_date);
 
-                // $mail = new PHPMailer(true);
-                // try {
-                //     // Server settings
-                //     $mail->isSMTP();
-                //     $mail->Host       = 'smtp.gmail.com';  // Use the correct SMTP server
-                //     $mail->SMTPAuth   = true;
-                //     $mail->Username   = 'vidcombo.com@gmail.com';  // Your Gmail address
-                //     $mail->Password   = 'fyebyrtcnehwravx';  // Your Gmail password or app-specific password
-                //     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-                //     $mail->Port       = 587;  // TCP port to connect to
-
-                //     // Recipients
-                //     $mail->setFrom('vidcombo.com@gmail.com', 'Vidcombo');
-                //     $mail->addAddress($customer_email);
-
-                //     // Content
-                //     $mail->isHTML(true);
-                //     $mail->Subject = 'Payment Successful';
-                //     // Define the email body
-                //     $email_body = "
-                //     <div  style='background: #F6F2FF;'>
-
-                //         <div style='text-align: center;padding-bottom: 10px; padding-top:10px'>
-                //             <img src='https://www.vidcombo.com/images/logo_vidcombo.png' alt=''>
-                //         </div>
-
-                //         <div style='padding: 0px; margin: 0px; height: 100%;  font-family: Arial; text-align: center!important'>
-                //             <div class='container' style='width: 100%; margin-right: auto; margin-left: auto; color: white;'>
-                //                 <div class='' style='display:flex; min-height:50vh!important;justify-content: center;'>
-                //                     <div class='main'
-                //                         style='box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;background: #FFFFFF; padding: 20px 50px 50px 50px; border-radius: 10px; margin: 0px auto; max-width: 640px; max-height: 430px;display: block;font-family: inherit;'>
-                //                           <div style='text-align: center;'>
-
-                //                                 <img src='https://www.vidcombo.com/images/check.png' alt=''>
-
-
-                //                         </div>
-                //                         <h2 style='text-align: center;color: #8522FB;font-size: 30px;margin: 30px 0 30px 0;'>Payment Successful</h2>
-                //                         <p style='text-align: center;color: #1D1F24;font-size: 20px;margin: 10px 0 10px 0;'>Hello $customer_name,</p>
-                //                         <p style='text-align: center;color: #77797C;font-size: 20px;margin: 10px 0 10px 0;'>Thank you for your payment of <span style='color: #0a0a0a;font-weight: 700;'>$amount_due $</span> on
-                //                             $invoiced_date.</p>
-                //                     <p style='text-align: center;color: #77797C;'>You can view account at <a href='https://www.vidcombo.com/' style='color: #8522FB;font-weight: 700;'>Vidcombo.com</a></p>
-
-                //                     <hr style='margin-top: 50px;'>
-                //                     <h4 style='text-align: center;color:#77797C;font-size: 22px;margin: 10px 0 20px 0;'>Thank you!</h4>
-                //                     </div>
-                //                 </div>
-                //             </div>
-                //         </div>
-                //     </div>
-                //     ";
-
-                //     // Assign the email body
-                //     $mail->Body = $email_body;
-
-                //     // Send the email
-                //     $mail->send();
-                //     echo 'Email has been sent successfully';
-                // } catch (Exception $e) {
-                //     error_log("Email could not be sent. Mailer Error: {$mail->ErrorInfo}");
-                // }
+               
             }
         } catch (PDOException $e) {
             // Ghi lại lỗi nếu có vấn đề với cơ sở dữ liệu
@@ -911,14 +851,7 @@ class StripeApiFunction
         ]);
 
 
-        // Kiểm tra giá trị của $status và cập nhật trạng thái của licensekey
-        // if ($status === 'expired') {
-        //     $status = 'inactive';
-        // } elseif ($status === 'active') {
-        //     $status = 'active';
-        // } else {
-        //     // Xử lý trạng thái khác nếu cần
-        // }
+     
     }
 
     function updateSubscriptionStatus($subscriptionId, $status, $currentPeriodEnd)
