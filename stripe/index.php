@@ -575,7 +575,7 @@ class StripeApiFunction
         $status = $invoice->status;
         $customer_email = $invoice->customer_email;
         $subscription_id = $invoice->subscription;
-        error_log("Invoice created for customer" . $invoice);
+        // error_log("Invoice created for customer" . $invoice);
     }
 
     function handleInvoicePaid($invoice)
@@ -592,10 +592,12 @@ class StripeApiFunction
 
    //Lất các thông tin liên quán
     $subscription_id = $invoice_array['subscription'];
-    $last_line_item = end($invoice_array['lines']['data']);
+    $last_index = count($invoice_array['lines']['data']) - 1;
+    $last_line_item = $invoice_array['lines']['data'][$last_index];
+
+    // Lấy giá trị period end từ phần tử cuối cùng
     $pre_end = $last_line_item['period']['end'];
     $period_end = date('Y-m-d H:i:s', $pre_end);
-    // error_log(' $invoice_array' . $period_end);
     
     // Lấy plan và customer_name từ mảng
     $plan = $last_line_item['plan']['id'];
