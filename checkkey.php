@@ -64,7 +64,7 @@ if ($device_info['count'] == 0) {
         ':cpu_arch' => $cpu_arch,
         ':json_info' => $json_info,
         ':license_key' => $license_key,
-        ':download_count' => 10,
+        ':download_count' => 5,
     ]);
 } else {
 
@@ -190,7 +190,7 @@ if ($license_key && strlen($license_key) <= 32 ) {
             'license_key' => $license_key,
             'status' => $status,
             'end_date' => $current_period_end,
-            'count_free' => ($device_info['count'] == 0) ? 10 : $device_info['download_count'],
+            'count_free' => ($device_info['count'] == 0) ? 5 : $device_info['download_count'],
             'used_device_count' => $used_device_count,
             // 'plan' => $key_result['plan'],
             'lever' => $key_result['plan_alias'],
@@ -204,7 +204,7 @@ if ($license_key && strlen($license_key) <= 32 ) {
             'license_key' => $license_key,
             'status' => $key_result['status'],
             'end_date' =>  $current_period_end,
-            'count_free' => ($device_info['count'] == 0) ? 10 : $device_info['download_count'],
+            'count_free' => ($device_info['count'] == 0) ? 5 : $device_info['download_count'],
             'mess' => $error_message,
         ]);
     }
@@ -216,7 +216,7 @@ if ($license_key && strlen($license_key) <= 32 ) {
             'mess' => $error_message,
             'status' => 'invalid',
             'end_date' => null,
-            'count_free' => ($device_info['count'] == 0) ? 10 : $device_info['download_count'],
+            'count_free' => ($device_info['count'] == 0) ? 5 : $device_info['download_count'],
         ]);
     }
 } else {
@@ -228,7 +228,7 @@ if ($license_key && strlen($license_key) <= 32 ) {
         'mess' => $error_message,
         'status' => 'invalid',
         'end_date' => null,
-        'count_free' => ($device_info['count'] == 0) ? 10 : $device_info['download_count'],
+        'count_free' => ($device_info['count'] == 0) ? 5 : $device_info['download_count'],
     ]);
 }
 
