@@ -436,7 +436,7 @@ class StripeApiFunction
                 ':invoice_id' => $invoice_id,
                 ':period_end' => $period_end
             ]);
-      ;
+
             // Chỉ cập nhật bảng licensekey nếu trạng thái là 'paid'
             if ($status == 'paid') {
 
