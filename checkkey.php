@@ -77,33 +77,13 @@ if ($device_info['count'] == 0) {
             ':device_id' => $device_id,
         ]);
     }
-    // if (!isset($device_info['last_updated']) || $today !== date('Y-m-d', strtotime($device_info['last_updated']))) {
-    //     // Fetch current download_count and last_updated
-    //     $stmt = $connection->prepare("SELECT `download_count`, `last_updated` FROM device WHERE `device_id` = :device_id");
-    //     $stmt->execute([':device_id' => $device_id]);
-    //     $device = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    //     // Update device table with download_count = 3 and today's date
-    //     $sql_update_device = "UPDATE device SET download_count =10, last_updated = :today WHERE device_id = :device_id";
-    //     $stmt_update_device = $connection->prepare($sql_update_device);
-
-    //     $stmt_update_device->execute([
-    //         ':today' => $today,
-    //         ':device_id' => $device_id,
-
-    //     ]);
-
-
-    //     $device_info['download_count'] = 3;
-    //     $device_info['last_updated'] = $today;
-    // }
 }
 
 
 
 // strlen lấy ra bao nhiêu ký tự trong chuỗi
-if ($license_key && strlen($license_key) <= 32 ) {
-   
+if ($license_key && strlen($license_key) <= 32) {
+
     $redis = new RedisCache($license_key);
     $license_key_cache = $redis->getCache();
 
@@ -121,10 +101,20 @@ if ($license_key && strlen($license_key) <= 32 ) {
     }
 
     if ($key_result && $key_result['status'] == 'active') {
-
-        // If license key is active, insert into licensekey_device table
+        $datetime = date('Y-m-d H:i:s'); // Định dạng ngày giờ hiện tại
         $status = $key_result['status'];
         $current_period_end = $key_result['current_period_end'] ? (new DateTime($key_result['current_period_end']))->format('d/m/Y') : 'N/A';
+
+        if ($device_info['license_key'] != $license_key) {
+           
+            // Cập nhật date_updatekey trong bảng device
+            $sql_update_date = "UPDATE device SET update_key_at = :datetime WHERE device_id = :device_id";
+            $stmt_update_date = $connection->prepare($sql_update_date);
+            $stmt_update_date->execute([
+                ':datetime' => $datetime, // Ngày giờ hiện tại
+                ':device_id' => $device_id,
+            ]);
+        }
 
         // Check if device_id and license_key combination already exists in licensekey_device
         $stmt_check = $connection->prepare("SELECT COUNT(*) AS count FROM licensekey_device WHERE device_id = :device_id AND license_key = :license_key");
@@ -207,8 +197,7 @@ if ($license_key && strlen($license_key) <= 32 ) {
             'count_free' => ($device_info['count'] == 0) ? 5 : $device_info['download_count'],
             'mess' => $error_message,
         ]);
-    }
-    else {
+    } else {
         $error_key = 'key_not_found';
         $error_message = getErrorMessage($lang_code, $error_key);
         echo json_encode([
