@@ -768,7 +768,7 @@ class StripeApiFunction
         $customer_email = $invoice->customer_email;
         $payment_intent = $invoice->payment_intent;
         // $amount_due = $invoice->amount_due;
-        $amount_due =  $last_line_item['plan']['amount'];;
+        $amount_due =  $last_line_item['plan']['amount'];
         $created = $invoice->created;
         $period_end = $last_line_item['period']['end'];
         $period_start = $last_line_item['period']['start'];
