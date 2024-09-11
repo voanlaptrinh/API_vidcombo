@@ -703,7 +703,6 @@ class StripeApiFunction
         $current_period_end_date = date('Y-m-d H:i:s', $current_period_end);
         $status_key = 'active';
 
-error_log('asdasdas subscription' . $subscription);
 
         $stmt = $this->connection->prepare("INSERT INTO subscriptions (customer_id, subscription_id, status, current_period_start, current_period_end, customer, subscription_json, plan, bank_name) VALUES (:customer_id, :subscription_id, :status, :current_period_start, :current_period_end, :customer, :subscription_json, :plan, :bank_name)");
         $stmt->execute([
@@ -753,16 +752,26 @@ error_log('asdasdas subscription' . $subscription);
     function handleInvoiceFinalized($invoice)
     {
         // Lấy thông tin từ đối tượng hóa đơn
+        $invoice_array = [
+            'lines' => [
+                'data' => $invoice->lines['data']
+            ],
+        ];
+        $last_index = count($invoice_array['lines']['data']) - 1;
+        $last_line_item = $invoice_array['lines']['data'][$last_index];
+
+
         $invoice_id = $invoice->id;
         $amount_paid = $invoice->amount_paid;
         $currency = $invoice->currency;
         $status = $invoice->status;
         $customer_email = $invoice->customer_email;
         $payment_intent = $invoice->payment_intent;
-        $amount_due = $invoice->amount_due;
+        // $amount_due = $invoice->amount_due;
+        $amount_due =  $last_line_item['plan']['amount'];;
         $created = $invoice->created;
-        $period_end = $invoice->period_end;
-        $period_start = $invoice->period_start;
+        $period_end = $last_line_item['period']['end'];
+        $period_start = $last_line_item['period']['start'];
         $subscription_id = $invoice->subscription;
         $customer_id = $invoice->customer;
         $customer_name = $invoice->customer_name;
@@ -771,7 +780,6 @@ error_log('asdasdas subscription' . $subscription);
         $invoiced_date = date('Y-m-d', $invoice->created);
 
         // Kiểm tra xem licenseKey tồn tại trong bảng licensekey
-
         // Sử dụng Prepared Statement để tránh tấn công SQL injection
         $stmt = $this->connection->prepare("INSERT INTO invoice (invoice_id, amount_paid, currency, status, invoice_datetime, customer_email, payment_intent, amount_due, created, period_end, period_start, subscription_id, customer_id) VALUES (:invoice_id, :amount_paid, :currency, :status, :invoice_datetime, :customer_email, :payment_intent, :amount_due, :created, :period_end, :period_start, :subscription_id, :customer_id)");
         $stmt->execute([
