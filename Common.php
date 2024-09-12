@@ -1,4 +1,5 @@
 <?php
+require_once 'redis.php';
 ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
@@ -16,9 +17,8 @@ class Common
     static function getDatabaseConnection()
     {
         try {
-
-            $connection = new PDO("mysql:host=localhost; dbname=admin_vidcombo; charset=utf8;", "root", "");
-            // $connection = new PDO("mysql:host=localhost; dbname=vidcombo_db; charset=utf8;", "vidcombo_db_user", "vidcombo_db_pass");
+            // $connection = new PDO("mysql:host=localhost; dbname=admin_vidcombo; charset=utf8;", "root", "");
+            $connection = new PDO("mysql:host=localhost; dbname=vidcombo_db; charset=utf8;", "vidcombo_db_user", "vidcombo_db_pass");
             $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             return $connection;
         } catch (PDOException $e) {
@@ -30,11 +30,18 @@ class Common
 
     static function getStripeSecrets()
     {
-        $connection = self::getDatabaseConnection();
+        $redis = new RedisCache('stripe_secrets');
+        $cache = $redis->getCache();
+        if ($cache) {
+            $result = json_decode($cache, true);
+        } else {
+            $connection = self::getDatabaseConnection();
+            $query = $connection->prepare("SELECT `apiKey`, `endpointSecret`, `plan_jsonId` FROM `stripe_secrets` WHERE `status` = 'active'");
+            $query->execute();
+            $result = $query->fetch(PDO::FETCH_ASSOC);
 
-        $query = $connection->prepare("SELECT apiKey, endpointSecret, plan_jsonId FROM stripe_secrets WHERE status = 'active'");
-        $query->execute();
-        $result = $query->fetch(PDO::FETCH_ASSOC);
+            $redis->setCache(json_encode($result), 3600*24); // Cache for 1day
+        }
 
         if ($result) {
             return [
@@ -107,8 +114,7 @@ class Common
 
         // Send the email
         try {
-            $mail->send();
-            return true;
+            return $mail->send();
         } catch (Exception $e) {
             // Handle errors
             return false;
@@ -144,8 +150,6 @@ class Common
         // Assign the email body
         $mail->Body = $template;
 
-
-
         // Send the email
         try {
             $mail->send();
@@ -154,5 +158,53 @@ class Common
             // Handle errors
             return false;
         }
+    }
+    public static function getInt($param, $defaultValue=0)
+    {
+        return isset($_GET[$param])? intval($_GET[$param]) : $defaultValue;
+    }
+
+    public static function getString($param, $defaultValue="")
+    {
+        return isset($_GET[$param])? self::cleanQuery($_GET[$param]) : $defaultValue;
+    }
+
+    public static function getIntPOST($param, $defaultValue=0)
+    {
+        return isset($_POST[$param])? intval($_POST[$param]) : $defaultValue;
+    }
+
+    public static function getStringPOST($param, $defaultValue="")
+    {
+        return isset($_POST[$param])? self::cleanQuery($_POST[$param]) : $defaultValue;
+    }
+
+    static function cleanQuery($string)
+    {
+        if(empty($string)) return $string;
+        $string = trim($string);
+
+        $badWords = array(
+            "/Select(.*)From/i"
+        , "/Union(.*)Select/i"
+        , "/Update(.*)Set/i"
+        , "/Delete(.*)From/i"
+        , "/Drop(.*)Table/i"
+        , "/Insert(.*)Into/i"
+        );
+
+        $string = preg_replace($badWords, "", $string);
+
+        return $string;
+    }
+
+    static function getErrorMessage($lang_code, $error_key)
+    {
+        $lang_file = __DIR__.'/lang/' . $lang_code . '.json';
+        if(!file_exists($lang_file))
+            $lang_file = __DIR__.'/lang/en.json';
+
+        $lang_data = json_decode(file_get_contents($lang_file), true);
+        return isset($lang_data[$error_key])?$lang_data[$error_key]:'';
     }
 }

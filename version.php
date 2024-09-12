@@ -1,8 +1,8 @@
 <?php
 $response = '';
 $latestVersion = "1.2.0";
-$ytdlpVersion = "2024.07.25xyzx";
-$ffmpegVersion = "7.0.1";
+$ytdlpVersion = "2024.08.06.v2";
+$ffmpegVersion = "7.0.1.v1";
 
 $releaseNotes = "Đã sửa lỗi và có bản cập nhật";
 
@@ -14,15 +14,15 @@ $ffmpeg_version = isset($_GET['ffmpeg_version'])?trim($_GET['ffmpeg_version']):'
 if ($currentVersion && $ytdlp_version && $ffmpeg_version && $os) {
     if ($os == 'windows64') {
         $downloadUrl = "https://www.vidcombo.com/";
-        $downloadYtdlp = "https://api.vidcombo.com/download/ytdlp/2024-07-25/yt-dlp.zip";
+        $downloadYtdlp = "https://api.vidcombo.com/download/ytdlp/2024-08-06/yt-dlp.zip";
         $downloadFfmpeg = "https://api.vidcombo.com/download/ffmpeg-7.0.1_x64.zip";
     } elseif ($os == 'windows86' || $os == 'windows32') {
         $downloadUrl = "https://www.vidcombo.com/";
-        $downloadYtdlp = "https://api.vidcombo.com/download/ytdlp/2024-07-25/yt-dlp_x86.zip";
+        $downloadYtdlp = "https://api.vidcombo.com/download/ytdlp/2024-08-06/yt-dlp_x86.zip";
         $downloadFfmpeg = "https://api.vidcombo.com/download/ffmpeg-7.0.1_x32.zip";
     } elseif ($os == 'macos') {
         $downloadUrl = "https://www.vidcombo.com/";
-        $downloadYtdlp = "https://api.vidcombo.com/download/ytdlp/2024-07-25/yt-dlp_macos.zip";
+        $downloadYtdlp = "https://api.vidcombo.com/download/ytdlp/2024-08-06/yt-dlp_macos.zip";
         $downloadFfmpeg = "https://api.vidcombo.com/download/ffmpeg-7.0.1_macos.zip";
     } else {
         $response = [

@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="42ebf190-b2fd-443c-9e33-20fdd2c543e0" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/checkkey.php" beforeDir="false" afterPath="$PROJECT_DIR$/checkkey.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common.php" beforeDir="false" afterPath="$PROJECT_DIR$/Common.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/getdownload.php" beforeDir="false" afterPath="$PROJECT_DIR$/getdownload.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stripe/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/stripe/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/version.php" beforeDir="false" afterPath="$PROJECT_DIR$/version.php" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
+    <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
+    <execution />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration">
+    <include_path>
+      <path value="$PROJECT_DIR$/vendor/nikic/fast-route" />
+      <path value="$PROJECT_DIR$/vendor/phpmailer/phpmailer" />
+      <path value="$PROJECT_DIR$/vendor/composer" />
+      <path value="$PROJECT_DIR$/vendor/psr/container" />
+      <path value="$PROJECT_DIR$/vendor/psr/http-server-middleware" />
+      <path value="$PROJECT_DIR$/vendor/stripe/stripe-php" />
+      <path value="$PROJECT_DIR$/vendor/psr/http-server-handler" />
+      <path value="$PROJECT_DIR$/vendor/psr/log" />
+      <path value="$PROJECT_DIR$/vendor/psr/http-factory" />
+      <path value="$PROJECT_DIR$/vendor/slim/slim" />
+      <path value="$PROJECT_DIR$/vendor/slim/psr7" />
+      <path value="$PROJECT_DIR$/vendor/psr/http-message" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php80" />
+      <path value="$PROJECT_DIR$/vendor/fig/http-message-util" />
+      <path value="$PROJECT_DIR$/vendor/ralouphie/getallheaders" />
+      <path value="$PROJECT_DIR$/vendor/predis/predis" />
+    </include_path>
+  </component>
+  <component name="ProjectId" id="2hldie2RdtettQmaWgF81ziDHq4" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../protong" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="preferences.editor" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\xampp\htdocs\api.vidcombo.com\download" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="42ebf190-b2fd-443c-9e33-20fdd2c543e0" name="Changes" comment="" />
+      <created>1718172725466</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1718172725466</updated>
+      <workItem from="1718172726859" duration="8126000" />
+      <workItem from="1718332401997" duration="3349000" />
+      <workItem from="1718582187311" duration="623000" />
+      <workItem from="1718936244859" duration="8661000" />
+      <workItem from="1719200596417" duration="4308000" />
+      <workItem from="1719557957522" duration="1217000" />
+      <workItem from="1719628325193" duration="621000" />
+      <workItem from="1719675151984" duration="130000" />
+      <workItem from="1719817910265" duration="2209000" />
+      <workItem from="1719886964042" duration="4044000" />
+      <workItem from="1720405483510" duration="11702000" />
+      <workItem from="1720508923373" duration="7314000" />
+      <workItem from="1720770626765" duration="2436000" />
+      <workItem from="1721032270611" duration="9468000" />
+      <workItem from="1721389814561" duration="2484000" />
+      <workItem from="1721630315672" duration="1810000" />
+      <workItem from="1721880711716" duration="3645000" />
+      <workItem from="1722483559035" duration="9591000" />
+      <workItem from="1722820912315" duration="5927000" />
+      <workItem from="1723000104696" duration="23566000" />
+      <workItem from="1723688373914" duration="5567000" />
+      <workItem from="1724036653818" duration="576000" />
+      <workItem from="1724290351793" duration="4243000" />
+      <workItem from="1724395432448" duration="4291000" />
+      <workItem from="1724989318529" duration="704000" />
+      <workItem from="1725440601816" duration="341000" />
+      <workItem from="1725724405096" duration="7000" />
+      <workItem from="1725870649844" duration="736000" />
+      <workItem from="1725975991091" duration="628000" />
+      <workItem from="1726022097838" duration="1048000" />
+      <workItem from="1726028973698" duration="27174000" />
+    </task>
+    <task id="LOCAL-00001" summary="format code">
+      <created>1718175610426</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1718175610426</updated>
+    </task>
+    <task id="LOCAL-00002" summary="format code">
+      <created>1720411747577</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1720411747577</updated>
+    </task>
+    <task id="LOCAL-00003" summary="fix">
+      <created>1722485639790</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1722485639790</updated>
+    </task>
+    <task id="LOCAL-00004" summary="update key">
+      <created>1722843305236</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1722843305236</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="39d6112a-fd1c-4788-9ca3-7b9bee7ed243">
+          <value>
+            <State>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="roots">
+                    <value>
+                      <list>
+                        <option value="$PROJECT_DIR$" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="39d6112a-fd1c-4788-9ca3-7b9bee7ed243" value="TOOL_WINDOW" />
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="format code" />
+    <MESSAGE value="fix" />
+    <MESSAGE value="update key" />
+    <option name="LAST_COMMIT_MESSAGE" value="update key" />
+  </component>
+</project>

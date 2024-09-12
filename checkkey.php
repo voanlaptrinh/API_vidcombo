@@ -1,228 +1,186 @@
 <?php
-require_once './redis.php';
-require_once './common.php';
+require_once 'redis.php';
+require_once 'common.php';
 
-// Function to get error message based on language
-function getErrorMessage($lang_code, $error_key)
+class checkKey
 {
-    $lang_file = 'lang/' . $lang_code . '.json';
+    public $connection;
+    public $freeDL = 5;
 
-    if (file_exists($lang_file)) {
-        $lang_data = json_decode(file_get_contents($lang_file), true);
-        if (isset($lang_data[$error_key])) {
-            return $lang_data[$error_key];
+    function check()
+    {
+        $license_key = Common::getString('license_key');
+        $lang_code = Common::getString('lang_code','en');
+        $device_id = urldecode(Common::getString('device_id'));
+        $clientIP = Common::getRealIpAddr();
+        $geo = @$_SERVER["HTTP_CF_IPCOUNTRY"] ?$_SERVER["HTTP_CF_IPCOUNTRY"]: 'unknown';
+        $os_name = Common::getString('os_name'); // Operating System
+        $os_version = Common::getString('os_version'); // OS Version
+        $cpu_name = Common::getString('cpu_name'); // CPU Info
+        $cpu_arch = Common::getString('cpu_arch'); // RAM Info
+        $json_info = Common::getString('json_info'); // Additional info
+
+        if (!$device_id || !$license_key) {
+            echo json_encode(['message' => 'Handle missing parameters error']);
+            exit;
         }
-    }
 
-    // Default message if error key not found
-    return 'Unknown error';
-}
+        $this->connection = Common::getDatabaseConnection();
+        if (!$this->connection) {
+            throw new Exception('Database connection could not be established.');
+        }
+        // Insert or update device information
+        $stmt_device_check = $this->connection->prepare("SELECT `id`, `download_count`, `last_updated`, `license_key` FROM `device` WHERE `device_id` = :device_id");
+        $stmt_device_check->execute([':device_id' => $device_id]);
+        $device_info = $stmt_device_check->fetch(PDO::FETCH_ASSOC);
 
-$today = date('Y-m-d');
-
-$license_key = $_GET['license_key'] ?? ''; // Key from request
-$lang_code = $_GET['lang_code'] ?? '';
-$device_id = isset($_GET['device_id']) ? urldecode($_GET['device_id']) : '';
-$clientIP = Common::getRealIpAddr();
-$geo = @$_SERVER["HTTP_CF_IPCOUNTRY"] ?? 'Không có thông tin quốc gia';
-$os_name = $_GET['os_name'] ?? ''; // Operating System
-$os_version = $_GET['os_version'] ?? ''; // OS Version
-$cpu_name = $_GET['cpu_name'] ?? ''; // CPU Info
-$cpu_arch = $_GET['cpu_arch'] ?? ''; // RAM Info
-$json_info = $_GET['json_info'] ?? ''; // Additional info
-
-$connection = Common::getDatabaseConnection();
-if (!$connection) {
-    throw new Exception('Database connection could not be established.');
-}
-if (!$device_id || !$os_name || !$os_version || !$cpu_name || !$cpu_arch || !$json_info) {
-    http_response_code(400);
-    echo json_encode(['message' => 'Handle missing parameters error']);
-    exit;
-}
-
-// Insert or update device information
-$stmt_device_check = $connection->prepare("SELECT COUNT(*) AS count, download_count, last_updated, license_key FROM device WHERE device_id = :device_id");
-$stmt_device_check->execute([':device_id' => $device_id]);
-$device_info = $stmt_device_check->fetch(PDO::FETCH_ASSOC);
-
-
-if ($device_info['count'] == 0) {
-
-    $sql_insert_device = "INSERT INTO device (client_ip,license_key, geo, device_id, os_name, os_version, download_count, last_updated, cpu_name, cpu_arch, json_info) 
+        if (!@$device_info['id']) {
+            $sql_insert_device = "INSERT INTO `device` (`client_ip`,`license_key`, `geo`, `device_id`, `os_name`, `os_version`, `download_count`, `last_updated`, `cpu_name`, `cpu_arch`, `json_info`) 
                       VALUES (:client_ip, :license_key, :geo, :device_id, :os_name, :os_version, :download_count, :today, :cpu_name, :cpu_arch, :json_info)";
 
-    $stmt_insert_device = $connection->prepare($sql_insert_device);
-    $stmt_insert_device->execute([
-        ':client_ip' => $clientIP,
-        ':geo' => $geo,
-        ':device_id' => $device_id,
-        ':os_name' => $os_name,
-        ':os_version' => $os_version,
-        ':today' => $today,
-        ':cpu_name' => $cpu_name,
-        ':cpu_arch' => $cpu_arch,
-        ':json_info' => $json_info,
-        ':license_key' => $license_key,
-        ':download_count' => 5,
-    ]);
-} else {
-
-    if ($device_info['license_key'] != $license_key) {
-        // Update the license_key in the device table
-        $sql_update_device_key = "UPDATE device SET license_key = :license_key WHERE device_id = :device_id";
-        $stmt_update_device_key = $connection->prepare($sql_update_device_key);
-        $stmt_update_device_key->execute([
-            ':license_key' => $license_key,
-            ':device_id' => $device_id,
-        ]);
-    }
-}
-
-
-
-// strlen lấy ra bao nhiêu ký tự trong chuỗi
-if ($license_key && strlen($license_key) <= 32) {
-
-    $redis = new RedisCache($license_key);
-    $license_key_cache = $redis->getCache();
-
-    if ($license_key_cache) {
-        $key_result = json_decode($license_key_cache, true);
-    } else {
-        $stmt = $connection->prepare("SELECT `license_key`, `status`, `current_period_end`, `plan`, `plan_alias` FROM licensekey WHERE `license_key` = :license_key");
-        $stmt->execute([':license_key' => $license_key]);
-        $key_result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($key_result) {
-            $redis->delCache(); // Xóa cache cũ
-            $redis->setCache(json_encode($key_result), 3600); // Cache for 1 hour
-        }
-    }
-
-    if ($key_result && $key_result['status'] == 'active') {
-        $datetime = date('Y-m-d H:i:s'); // Định dạng ngày giờ hiện tại
-        $status = $key_result['status'];
-        $current_period_end = $key_result['current_period_end'] ? (new DateTime($key_result['current_period_end']))->format('d/m/Y') : 'N/A';
-
-        if ($device_info['license_key'] != $license_key) {
-           
-            // Cập nhật date_updatekey trong bảng device
-            $sql_update_date = "UPDATE device SET update_key_at = :datetime WHERE device_id = :device_id";
-            $stmt_update_date = $connection->prepare($sql_update_date);
-            $stmt_update_date->execute([
-                ':datetime' => $datetime, // Ngày giờ hiện tại
+            $stmt_insert_device = $this->connection->prepare($sql_insert_device);
+            $stmt_insert_device->execute([
+                ':client_ip' => $clientIP,
+                ':geo' => $geo,
                 ':device_id' => $device_id,
-            ]);
-        }
-
-        // Check if device_id and license_key combination already exists in licensekey_device
-        $stmt_check = $connection->prepare("SELECT COUNT(*) AS count FROM licensekey_device WHERE device_id = :device_id AND license_key = :license_key");
-        $stmt_check->execute([
-            ':device_id' => $device_id,
-            ':license_key' => $license_key,
-        ]);
-        $count = $stmt_check->fetchColumn();
-        // Kiểm tra period_end trong licensekey
-        $currentDateTime = new DateTime();
-        $periodEndDateTime = new DateTime($key_result['current_period_end']);
-
-
-        if ($periodEndDateTime <= $currentDateTime) {
-            $status = 'inactive';
-            $error_key = 'expired';
-            $error_message = getErrorMessage($lang_code, $error_key);
-
-            // Cập nhật trạng thái trong cơ sở dữ liệu thành inactive
-            $stmt = $connection->prepare("UPDATE licensekey SET status = :status WHERE license_key = :license_key");
-            $stmt->execute([
-                ':status' => 'inactive',
-                ':license_key' => $license_key
-            ]);
-        }
-        if ($count == 0) {
-            // Insert into licensekey_device if not already associated
-            $sql = "INSERT INTO licensekey_device (device_id, license_key) VALUES (:device_id, :license_key)";
-            $stmt_insert = $connection->prepare($sql);
-            $stmt_insert->execute([
-                ':device_id' => $device_id,
+                ':os_name' => $os_name,
+                ':os_version' => $os_version,
+                ':today' => date('Y-m-d'),
+                ':cpu_name' => $cpu_name,
+                ':cpu_arch' => $cpu_arch,
+                ':json_info' => $json_info,
                 ':license_key' => $license_key,
+                ':download_count' => 5,
             ]);
         }
+        else {
+            $this->freeDL = intval($device_info['download_count']);
+        }
+
+        // strlen lấy ra bao nhiêu ký tự trong chuỗi
+        if (strlen($license_key) === 32)
+        {
+            $redis_license = new RedisCache('DETAIL_'.$license_key);
+            $license_key_cache = $redis_license->getCache();
+            if ($license_key_cache) {
+                $key_row = json_decode($license_key_cache, true);
+            } else {
+                $stmt = $this->connection->prepare("SELECT `id`,`license_key`, `status`, `current_period_end`, `plan`, `plan_alias` FROM `licensekey` WHERE `license_key` = :license_key");
+                $stmt->execute([':license_key' => $license_key]);
+                $key_row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                $redis_license->setCache(json_encode($key_row), ($key_row?300:60)); // Cache for 5mins
+            }
+
+            if (isset($key_row['status']))
+            {
+                $periodEndDateTime = strtotime($key_row['current_period_end']);
+                $current_period_end = date('Y-m-d', $periodEndDateTime);
+                if($key_row['status'] == 'active')
+                {
+                    // Kiểm tra period_end trong licensekey
+                    if ($periodEndDateTime <= time())
+                    {
+                        // Cập nhật trạng thái trong cơ sở dữ liệu thành inactive
+                        $stmt = $this->connection->prepare("UPDATE `licensekey` SET `status` = :status WHERE `license_key` = :license_key");
+                        $stmt->execute([
+                            ':status' => 'inactive',
+                            ':license_key' => $license_key
+                        ]);
+                        $redis_license->setCache('', 60); // Cache for 1 min
+
+                        $error_key = 'expired';
+                        $status = 'inactive';
+                        $this->print_mess($error_key,$lang_code,$license_key, $status,$current_period_end,$this->freeDL, true);
+                    }
+                    else {
+                        $error_key = 'active_key';
+                        $status = $key_row['status'];
+
+                        if (!isset($device_info['license_key']) || $device_info['license_key'] != $license_key) {
+                            // Check if device_id and license_key combination already exists in licensekey_device
+                            $stmt_check = $this->connection->prepare("SELECT COUNT(*) AS `count_licensekey_device` FROM `licensekey_device` WHERE `device_id` = :device_id AND `license_key` = :license_key");
+                            $stmt_check->execute([
+                                ':device_id' => $device_id,
+                                ':license_key' => $license_key,
+                            ]);
+                            $count_licensekey_device = $stmt_check->fetchColumn();
+
+                            if(!$count_licensekey_device){
+                                $stmt_count = $this->connection->prepare("SELECT COUNT(DISTINCT `device_id`) AS `used_device_count` FROM `licensekey_device` WHERE `license_key` = :license_key");
+                                $stmt_count->execute([':license_key' => $license_key]);
+                                $used_device_count = $stmt_count->fetchColumn();
+                            } else {
+                                $used_device_count = 1;
+                            }
+                            if ($key_row['plan_alias'] == 'plan1' && $used_device_count >= 3) {
+                                $error_key = 'active_limit';
+                                $status = 'inactive';
+                            }
+                            elseif ($key_row['plan_alias'] == 'plan2' && $used_device_count >= 5) {
+                                $error_key = 'active_limit';
+                                $status = 'inactive';
+                            }
+                            elseif ($key_row['plan_alias'] == 'plan3' && $used_device_count >= 7) {
+                                $error_key = 'active_limit';
+                                $status = 'inactive';
+                            }
+                            else {
+                                // Update the license_key in the device table
+                                $sql_update_device_key = "UPDATE `device` SET `license_key` = :license_key, `update_key_at` = :cur_time WHERE `device_id` = :device_id";
+                                $stmt_update_device_key = $this->connection->prepare($sql_update_device_key);
+                                $stmt_update_device_key->execute([
+                                    ':device_id' => $device_id,
+                                    ':license_key' => $license_key,
+                                    ':cur_time' => date('Y-m-d H:i:s'), // Ngày giờ hiện tại
+                                ]);
+
+                                if (!$count_licensekey_device) {
+                                    // Insert into licensekey_device if not already associated
+                                    $sql = "INSERT INTO `licensekey_device` (`device_id`, `license_key`) VALUES (:device_id, :license_key)";
+                                    $stmt_insert = $this->connection->prepare($sql);
+                                    $stmt_insert->execute([
+                                        ':device_id' => $device_id,
+                                        ':license_key' => $license_key,
+                                    ]);
+                                }
+                            }
+                        }
+                        $this->print_mess($error_key,$lang_code,$license_key, $status,$current_period_end,$this->freeDL, true);
+                    }
+                }
+                else {
+                    $error_key = 'key_inactive';
+                    $this->print_mess($error_key,$lang_code,$license_key, $key_row['status'],$current_period_end,$this->freeDL, true);
+                }
+            }
+            else {
+                $error_key = 'key_not_found';
+                $this->print_mess($error_key,$lang_code,null,'invalid',null,$this->freeDL, true);
+            }
+        }
+        else {
+            $error_key = 'key_not_found';
+            $this->print_mess($error_key,$lang_code,null,'invalid',null,$this->freeDL, true);
+        }
+
+        // Close database connection
+        $this->connection = null;
     }
 
-
-    $stmt_count = $connection->prepare("SELECT COUNT(DISTINCT device_id) AS used_device_count FROM licensekey_device WHERE license_key = :license_key");
-    $stmt_count->execute([':license_key' => $license_key]);
-    $used_device_count = $stmt_count->fetchColumn();
-
-    if ($key_result && is_array($key_result) && $key_result['status'] == 'active') {
-        $error_key = 'active_key';
-        $error_message = getErrorMessage($lang_code, $error_key);
-
-        if ($key_result['plan_alias'] == 'plan1' && $used_device_count > 3) {
-            $error_key = 'active_limit';
-            $error_message = getErrorMessage($lang_code, $error_key);
-            $status = 'inactive';
-        }
-        if ($key_result['plan_alias'] == 'plan2' && $used_device_count > 5) {
-            $error_key = 'active_limit';
-            $error_message = getErrorMessage($lang_code, $error_key);
-            $status = 'inactive';
-        }
-        if ($key_result['plan_alias'] == 'plan3' && $used_device_count > 7) {
-            $error_key = 'active_limit';
-            $error_message = getErrorMessage($lang_code, $error_key);
-            $status = 'inactive';
-        }
-
-        echo json_encode([
-            'license_key' => $license_key,
+    function print_mess($error_key, $lang_code, $license, $status, $end_date, $count_free, $is_exit=false){
+        $error_message = Common::getErrorMessage($lang_code, $error_key);
+        $data = array(
+            'license_key' => $license,
+            'mess' => $error_message,
             'status' => $status,
-            'end_date' => $current_period_end,
-            'count_free' => ($device_info['count'] == 0) ? 5 : $device_info['download_count'],
-            'used_device_count' => $used_device_count,
-            // 'plan' => $key_result['plan'],
-            'lever' => $key_result['plan_alias'],
-            'mess' => $error_message,
-        ]);
-    } elseif ($key_result && is_array($key_result) && $key_result['status'] == 'inactive') {
-        $error_key = 'key_inactive';
-        $error_message = getErrorMessage($lang_code, $error_key);
-        $current_period_end = $key_result['current_period_end'] ? (new DateTime($key_result['current_period_end']))->format('d/m/Y') : 'N/A';
-        echo json_encode([
-            'license_key' => $license_key,
-            'status' => $key_result['status'],
-            'end_date' =>  $current_period_end,
-            'count_free' => ($device_info['count'] == 0) ? 5 : $device_info['download_count'],
-            'mess' => $error_message,
-        ]);
-    } else {
-        $error_key = 'key_not_found';
-        $error_message = getErrorMessage($lang_code, $error_key);
-        echo json_encode([
-            'license_key' => null,
-            'mess' => $error_message,
-            'status' => 'invalid',
-            'end_date' => null,
-            'count_free' => ($device_info['count'] == 0) ? 5 : $device_info['download_count'],
-        ]);
+            'end_date' => $end_date,
+            'count_free' => $count_free,
+        );
+        echo json_encode($data);
+        if($is_exit) exit;
     }
-} else {
-    $error_key = 'key_not_found';
-    $error_message = getErrorMessage($lang_code, $error_key);
-
-    echo json_encode([
-        'license_key' => null,
-        'mess' => $error_message,
-        'status' => 'invalid',
-        'end_date' => null,
-        'count_free' => ($device_info['count'] == 0) ? 5 : $device_info['download_count'],
-    ]);
 }
 
-
-
-
-// Close database connection
-$connection = null;
+$checkKey = new checkKey();
+$checkKey->check();
