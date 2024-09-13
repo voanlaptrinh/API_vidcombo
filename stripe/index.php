@@ -34,7 +34,7 @@ class StripeApiFunction
     private $apiKey;
     private $endpointSecret;
     private $plans;
-    public $web_domain = 'http://localhost:8000/';
+    public $web_domain = 'https://www.vidcombo.com/';
     // Hàm khởi tạo
     public function __construct()
     {
