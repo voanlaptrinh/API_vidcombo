@@ -34,7 +34,7 @@ class StripeApiFunction
     private $apiKey;
     private $endpointSecret;
     private $plans;
-    public $web_domain = 'https://www.vidcombo.com/';
+    public $web_domain = 'http://localhost:8000/';
     // Hàm khởi tạo
     public function __construct()
     {
@@ -48,8 +48,7 @@ class StripeApiFunction
             $this->endpointSecret = $stripeSecrets['endpointSecret'];
             $this->plans = json_decode($stripeSecrets['plans'], true);
             Stripe::setApiKey($this->apiKey);
-        }
-        else {
+        } else {
             throw new Exception('No active Stripe secrets found.');
         }
         $this->connection = Common::getDatabaseConnection();
@@ -61,15 +60,15 @@ class StripeApiFunction
 
     function findSubscriptionIdByLicenseKey($licenseKey)
     {
-        if(!$licenseKey || strlen($licenseKey)!=32)
+        if (!$licenseKey || strlen($licenseKey) != 32)
             return null;
-        
+
         // Chuẩn bị và thực hiện truy vấn
         $stmt = $this->connection->prepare("SELECT `subscription_id` FROM `licensekey` WHERE `license_key` = :license_key");
         $stmt->execute([':license_key' => $licenseKey]);
         $device = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if(isset($device['subscription_id']) && $device['subscription_id'])
+        if (isset($device['subscription_id']) && $device['subscription_id'])
             return $device['subscription_id'];
         return null;
     }
@@ -78,9 +77,9 @@ class StripeApiFunction
         // Lấy dữ liệu từ yêu cầu
         $body = file_get_contents('php://input');
         parse_str($body, $data);
-        $licenseKey = isset($data['license_key'])?$data['license_key']:'';
-        $plan = isset($data['plan'])?$data['plan']:'plan1';
-        $planKey = isset($this->plans[$plan])?$this->plans[$plan]:'';
+        $licenseKey = isset($data['license_key']) ? $data['license_key'] : '';
+        $plan = isset($data['plan']) ? $data['plan'] : 'plan1';
+        $planKey = isset($this->plans[$plan]) ? $this->plans[$plan] : '';
 
         if (!$planKey) {
             header('Content-Type: application/json');
@@ -132,8 +131,9 @@ class StripeApiFunction
     // Hàm kiểm tra subscription
     function checkSubscription()
     {
+     
         $subscriptionId = Common::getString('subscriptionId');
-
+      
         if (!$subscriptionId) {
             header("HTTP/1.1 400 Bad Request");
             echo json_encode(['error' => 'subscriptionId parameter is missing']);
@@ -176,8 +176,7 @@ class StripeApiFunction
         // file_put_contents($log_directory . $fname, $data);
 
         try {
-            switch ($event->type)
-            {
+            switch ($event->type) {
                 case 'invoice.payment_succeeded': //Xảy ra bất cứ khi nào nỗ lực thanh toán hóa đơn thành công.
                     $this->handleInvoicePaymentSucceeded($event->data->object);
                     break;
@@ -259,7 +258,7 @@ class StripeApiFunction
         $updateQuery = 'UPDATE `licensekey` SET `status` = "inactive" WHERE customer_id = ?';
         $updateStmt = $this->connection->prepare($updateQuery);
         $updateStmt->execute([$customer_id]);
-//        error_log('update licensekey' . $refund);
+        //        error_log('update licensekey' . $refund);
     }
 
     function handleCustomerUpdated($customer)
@@ -273,7 +272,7 @@ class StripeApiFunction
 
         // Chuẩn bị truy vấn SQL để chèn hoặc cập nhật khách hàng vào cơ sở dữ liệu
         $query = 'INSERT INTO `customers` (`customer_id`, `email`, `name`, `created_at`) VALUES (?, ?, ?, ?)  
-    ON DUPLICATE KEY UPDATE `email` = "'.$email.'",  `name` = "'.$name.'", `created_at` = "'.$created_date.'"';
+    ON DUPLICATE KEY UPDATE `email` = "' . $email . '",  `name` = "' . $name . '", `created_at` = "' . $created_date . '"';
         $stmt = $this->connection->prepare($query);
         $stmt->execute([$customer_id, $email, $name, $created_date]);
 
@@ -295,64 +294,67 @@ class StripeApiFunction
         $customer_email = $invoice->customer_email;
 
         $invoice_date = date('Y-m-d H:i:s', $invoice->created);
-        $pre_end = $invoice->lines['data'][0]['period']['end'];
-        $plan_id = $invoice->lines['data'][0]['plan']['id'];
-        $period_end = $pre_end;
+        // $pre_end = $invoice->lines['data'][0]['period']['end'];
+        // $plan_id = $invoice->lines['data'][0]['plan']['id'];
+
+
+        $invoice_array = [
+            'lines' => [
+                'data' => $invoice->lines['data']
+            ],
+        ];
+        $last_index = count($invoice_array['lines']['data']) - 1;
+        $last_line_item = $invoice_array['lines']['data'][$last_index];
+        $pre_end = $last_line_item['period']['end'];
+        $plan_id = $last_line_item['plan']['id'];
+
+
         $invoiced_date = date('Y-m-d', $invoice->created);
         $customer_name = $invoice->customer_name;
 
-        try {
-            // Cập nhật thông tin trong bảng invoice
-            $sql = $this->connection->prepare("UPDATE `invoice` SET `status` = :status, `subscription_id` = :subscription_id, `customer_id` = :customer_id, `amount_paid`= :amount_paid, `period_end`= :period_end WHERE `invoice_id` = :invoice_id");
-            $sql->execute([
-                ':status' => $status,
+        // Cập nhật thông tin trong bảng invoice
+        $sql = $this->connection->prepare("UPDATE `invoice` SET `status` = :status, `subscription_id` = :subscription_id, `customer_id` = :customer_id, `amount_paid`= :amount_paid, `period_end`= :period_end WHERE `invoice_id` = :invoice_id");
+        $sql->execute([
+            ':status' => $status,
+            ':subscription_id' => $subscription_id,
+            ':customer_id' => $customer_id,
+            ':amount_paid' => $amount_paid,
+            ':invoice_id' => $invoice_id,
+            ':period_end' => $pre_end
+        ]);
+
+        // Chỉ cập nhật bảng licensekey nếu trạng thái là 'paid'
+        if ($status == 'paid') {
+            $stmt_check = $this->connection->prepare("SELECT COUNT(*) FROM `licensekey` WHERE `subscription_id` = :subscription_id");
+            $stmt_check->execute([
                 ':subscription_id' => $subscription_id,
-                ':customer_id' => $customer_id,
-                ':amount_paid' => $amount_paid,
-                ':invoice_id' => $invoice_id,
-                ':period_end' => $period_end
             ]);
+            $keyExists = $stmt_check->fetchColumn();
 
-            // Chỉ cập nhật bảng licensekey nếu trạng thái là 'paid'
-            if ($status == 'paid')
-            {
-                $stmt_check = $this->connection->prepare("SELECT COUNT(*) FROM `licensekey` WHERE `subscription_id` = :subscription_id");
-                $stmt_check->execute([
+            if (!$keyExists) {
+                // Nếu key chưa tồn tại, tạo key mới
+                $licenseKey = $this->generateLicenseKey();
+                $plan_alias = array_search($plan_id, $this->plans);
+
+                $stmt2 = $this->connection->prepare("INSERT INTO `licensekey` (`customer_id`, `status`, `subscription_id`, `license_key`, `send`, `plan`, `plan_alias`, `sk_key`, `sign_key`, `created_at`) VALUES (:customer_id, :status, :subscription_id, :license_key, :send, :plan, :plan_alias, :sk_key, :sign_key, :created_at)");
+                $stmt2->execute([
+                    ':customer_id' => $customer_id,
                     ':subscription_id' => $subscription_id,
+                    ':license_key' => $licenseKey,
+                    ':status' => 'active',
+                    ':send' => 'not',
+                    ':plan' => $plan_id,
+                    ':plan_alias' => $plan_alias,
+                    ':sk_key' => $this->apiKey,
+                    ':sign_key' => $this->endpointSecret,
+                    ':created_at' => $invoice_date
                 ]);
-                $keyExists = $stmt_check->fetchColumn();
-
-                if (!$keyExists) {
-                    // Nếu key chưa tồn tại, tạo key mới
-                    $licenseKey = $this->generateLicenseKey();
-                    $plan_alias = array_search($plan_id, $this->plans);
-
-                    $stmt2 = $this->connection->prepare("INSERT INTO `licensekey` (`customer_id`, `status`, `subscription_id`, `license_key`, `send`, `plan`, `plan_alias`, `sk_key`, `sign_key`, `created_at`) VALUES (:customer_id, :status, :subscription_id, :license_key, :send, :plan, :plan_alias, :sk_key, :sign_key, :created_at)");
-                    $stmt2->execute([
-                        ':customer_id' => $customer_id,
-                        ':subscription_id' => $subscription_id,
-                        ':license_key' => $licenseKey,
-                        ':status' => 'active',
-                        ':send' => 'not',
-                        ':plan' => $plan_id,
-                        ':plan_alias' => $plan_alias,
-                        ':sk_key' => $this->apiKey,
-                        ':sign_key' => $this->endpointSecret,
-                        ':created_at' => $invoice_date
-                    ]);
-                }
-                $amount_in_dollars = $amount_due / 100;
-                $amount_due =  number_format($amount_in_dollars, 2);
-                // Gửi email thông báo
-                // Create an instance of PHPMailer
-                Common::sendSuccessEmail($customer_email, $customer_name, $amount_due, $invoiced_date);
             }
-        } catch (PDOException $e) {
-            // Ghi lại lỗi nếu có vấn đề với cơ sở dữ liệu
-            error_log("Database error: " . $e->getMessage());
-        } catch (Exception $e) {
-            // Ghi lại các lỗi khác
-            error_log("General error: " . $e->getMessage());
+            $amount_in_dollars = $amount_due / 100;
+            $amount_due =  number_format($amount_in_dollars, 2);
+            // Gửi email thông báo
+            // Create an instance of PHPMailer
+            Common::sendSuccessEmail($customer_email, $customer_name, $amount_due, $invoiced_date);
         }
     }
 
@@ -405,6 +407,14 @@ class StripeApiFunction
         $pre_end = $last_line_item['period']['end'];
         $period_end = date('Y-m-d H:i:s', $pre_end);
 
+
+
+        //Ghi lại log của invoice paid
+        $logFile = './invoice/' . date('Y-m-d_H-i-s') . '.log';
+        $logData = date('Y-m-d H:i:s') . " - Subscription ID: " . $subscription_id . ", Period End: " . $period_end . PHP_EOL;
+        file_put_contents($logFile, $logData, FILE_APPEND);
+
+
         // Lấy plan và customer_name từ mảng
         $plan = $last_line_item['plan']['id'];
         $customer_name = $invoice_array['customer_name'];
@@ -434,10 +444,10 @@ class StripeApiFunction
         $stmt = $this->connection->prepare("SELECT * FROM `licensekey` WHERE `subscription_id` = :subscription_id");
         $stmt->execute([':subscription_id' => $subscription_id]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        $license_key = isset($result['license_key'])?$result['license_key']:'';
+        $license_key = isset($result['license_key']) ? $result['license_key'] : '';
 
-        if($license_key){
-            $redis = new RedisCache('DETAIL_'.$license_key);
+        if ($license_key) {
+            $redis = new RedisCache('DETAIL_' . $license_key);
             $redis->setCache('', 300);
 
             // Gửi email nếu license_key tồn tại và chưa được gửi
@@ -527,8 +537,7 @@ class StripeApiFunction
             $stmt->execute([':subscription_id' => $subscription_id]);
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
             return isset($result['customer_email']) ? $result['customer_email'] : null;
-        }
-        catch (PDOException $e) {
+        } catch (PDOException $e) {
             error_log("Error occurred in getCustomerEmailBySubscriptionId: " . $e->getMessage());
             return null;
         }
@@ -598,8 +607,7 @@ class StripeApiFunction
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         // Kiểm tra và gửi email chỉ khi licenseKey tồn tại
 
-        if ($result && isset($result['license_key']) && $result['send'] === 'not') 
-        {
+        if ($result && isset($result['license_key']) && $result['send'] === 'not') {
             $licenseKey = $result['license_key'];
 
             error_log("EMAIL: $customer_email");
@@ -608,7 +616,7 @@ class StripeApiFunction
             //Gửi licenseKey qua email
             $send_status = Common::sendLicenseKeyEmail($customer_email, $customer_name, $licenseKey);
 
-            if($send_status){
+            if ($send_status) {
                 $licensekey_stmt = $this->connection->prepare("UPDATE `licensekey` SET `send` = :send WHERE `subscription_id` = :subscription_id");
                 $licensekey_stmt->execute([
                     ':send' => 'ok',
@@ -656,9 +664,9 @@ class StripeApiFunction
         $status = $subscription->status;
         $period_end_subscription = date('Y-m-d H:i:s', $subscription->current_period_end);
 
-        // Ghi log
-
-        error_log("subscription: " . $subscription);
+        $logFile = './subcriptiondelete/' . date('Y-m-d_H-i-s') . '.log';
+        $logData = date('Y-m-d H:i:s') . " - Subscription ID: " . $subscription_id . ", Period End: " . $period_end_subscription . PHP_EOL;
+        file_put_contents($logFile, $logData, FILE_APPEND);
 
         // Cập nhật trạng thái đăng ký trong cơ sở dữ liệu của bạn
         $stmt = $this->connection->prepare("UPDATE `subscriptions` SET `status` = :status, `current_period_end` = :current_period_end WHERE `subscription_id` = :subscription_id AND `customer_id` = :customer_id");
@@ -692,18 +700,4 @@ class StripeApiFunction
     {
         return strtoupper(bin2hex(random_bytes(16)));
     }
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
