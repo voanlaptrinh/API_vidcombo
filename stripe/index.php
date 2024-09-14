@@ -316,31 +316,6 @@ class StripeApiFunction
             // Chỉ cập nhật bảng licensekey nếu trạng thái là 'paid'
             if ($status == 'paid')
             {
-                $stmt_check = $this->connection->prepare("SELECT COUNT(*) FROM `licensekey` WHERE `subscription_id` = :subscription_id");
-                $stmt_check->execute([
-                    ':subscription_id' => $subscription_id,
-                ]);
-                $keyExists = $stmt_check->fetchColumn();
-
-                if (!$keyExists) {
-                    // Nếu key chưa tồn tại, tạo key mới
-                    $licenseKey = $this->generateLicenseKey();
-                    $plan_alias = array_search($plan_id, $this->plans);
-
-                    $stmt2 = $this->connection->prepare("INSERT INTO `licensekey` (`customer_id`, `status`, `subscription_id`, `license_key`, `send`, `plan`, `plan_alias`, `sk_key`, `sign_key`, `created_at`) VALUES (:customer_id, :status, :subscription_id, :license_key, :send, :plan, :plan_alias, :sk_key, :sign_key, :created_at)");
-                    $stmt2->execute([
-                        ':customer_id' => $customer_id,
-                        ':subscription_id' => $subscription_id,
-                        ':license_key' => $licenseKey,
-                        ':status' => 'active',
-                        ':send' => 'not',
-                        ':plan' => $plan_id,
-                        ':plan_alias' => $plan_alias,
-                        ':sk_key' => $this->apiKey,
-                        ':sign_key' => $this->endpointSecret,
-                        ':created_at' => $invoice_date
-                    ]);
-                }
                 $amount_in_dollars = $amount_due / 100;
                 $amount_due =  number_format($amount_in_dollars, 2);
                 // Gửi email thông báo
@@ -422,12 +397,13 @@ class StripeApiFunction
         ]);
 
         // Cập nhật licensekey trong cơ sở dữ liệu
-        $stmt = $this->connection->prepare("UPDATE `licensekey` SET `current_period_end` = :current_period_end, `plan` = :plan, `plan_alias` = :plan_alias WHERE `subscription_id` = :subscription_id");
+        $stmt = $this->connection->prepare("UPDATE `licensekey` SET `current_period_end` = :current_period_end, `plan` = :plan, `plan_alias` = :plan_alias, `status`=:status WHERE `subscription_id` = :subscription_id");
         $stmt->execute([
             ':current_period_end' => $period_end,
             ':plan' => $plan,
-            ':subscription_id' => $subscription_id,
             ':plan_alias' => $plan_name,
+            ':status' => 'active',
+            ':subscription_id' => $subscription_id,
         ]);
 
         // Cập nhật redis cache
@@ -489,7 +465,12 @@ class StripeApiFunction
             ':current_period_end' => $current_period_end_date,
             ':subscription_id' => $subscription_id,
         ]);
-        // error_log("Invoice payment succeeded for customer: $customer, subscription ID: $subscription_id, status: $status, current period end: $current_period_end_date ");
+
+        /*Cập nhật status của key*/
+
+        /*Nếu chưa gửi key -> gửi*/
+
+        /*Gửi email thanh toán thành công*/
     }
 
     // Hàm để xử lý khi một subscription mới được tạo
@@ -515,6 +496,24 @@ class StripeApiFunction
             ':subscription_json' => $subscription,
             ':plan' => $plan,
             ':bank_name' => 'Stripe'
+        ]);
+
+        /*Tạo key*/
+        $licenseKey = $this->generateLicenseKey();
+        $plan_alias = array_search($plan, $this->plans);
+
+        $stmt2 = $this->connection->prepare("INSERT INTO `licensekey` (`customer_id`, `status`, `subscription_id`, `license_key`, `send`, `plan`, `plan_alias`, `sk_key`, `sign_key`, `created_at`) VALUES (:customer_id, :status, :subscription_id, :license_key, :send, :plan, :plan_alias, :sk_key, :sign_key, :created_at)");
+        $stmt2->execute([
+            ':customer_id' => $customer,
+            ':subscription_id' => $subscription_id,
+            ':license_key' => $licenseKey,
+            ':status' => 'inactive',
+            ':send' => 'not',
+            ':plan' => $plan,
+            ':plan_alias' => $plan_alias,
+            ':sk_key' => $this->apiKey,
+            ':sign_key' => $this->endpointSecret,
+            ':created_at' => date('Y-m-d H:i:s')
         ]);
 
         error_log("Subscription created for customer: $customer, subscription ID: $subscription_id, status: $status, current period start: $current_period_start_date, current period end: $current_period_end_date");
