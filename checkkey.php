@@ -91,7 +91,7 @@ class checkKey
 
                         $error_key = 'expired';
                         $status = 'inactive';
-                        $this->print_mess($error_key,$lang_code,$license_key, $status,$current_period_end,$this->freeDL, true);
+                        $this->print_mess($error_key,$lang_code,$license_key, $status,$current_period_end,$this->freeDL, true, $key_row['plan_alias']);
                     }
                     else {
                         $error_key = 'active_key';
@@ -146,29 +146,29 @@ class checkKey
                                 }
                             }
                         }
-                        $this->print_mess($error_key,$lang_code,$license_key, $status,$current_period_end,$this->freeDL, true);
+                        $this->print_mess($error_key,$lang_code,$license_key, $status,$current_period_end,$this->freeDL, true, $key_row['plan_alias']);
                     }
                 }
                 else {
                     $error_key = 'key_inactive';
-                    $this->print_mess($error_key,$lang_code,$license_key, $key_row['status'],$current_period_end,$this->freeDL, true);
+                    $this->print_mess($error_key,$lang_code,$license_key, $key_row['status'],$current_period_end,$this->freeDL, true, $key_row['plan_alias']);
                 }
             }
             else {
                 $error_key = 'key_not_found';
-                $this->print_mess($error_key,$lang_code,null,'invalid',null,$this->freeDL, true);
+                $this->print_mess($error_key,$lang_code,null,'invalid',null,$this->freeDL, true,'');
             }
         }
         else {
             $error_key = 'key_not_found';
-            $this->print_mess($error_key,$lang_code,null,'invalid',null,$this->freeDL, true);
+            $this->print_mess($error_key,$lang_code,null,'invalid',null,$this->freeDL, true,'');
         }
 
         // Close database connection
         $this->connection = null;
     }
 
-    function print_mess($error_key, $lang_code, $license, $status, $end_date, $count_free, $is_exit=false){
+    function print_mess($error_key, $lang_code, $license, $status, $end_date, $count_free, $is_exit=false, $levers) {
         $error_message = Common::getErrorMessage($lang_code, $error_key);
         $data = array(
             'license_key' => $license,
@@ -176,6 +176,7 @@ class checkKey
             'status' => $status,
             'end_date' => $end_date,
             'count_free' => $count_free,
+            'lever' => $levers,
         );
         echo json_encode($data);
         if($is_exit) exit;
