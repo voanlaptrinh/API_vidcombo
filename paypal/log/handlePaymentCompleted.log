@@ -1,0 +1,2935 @@
+
+Webhook event received:
+Array
+(
+    [id] => WH-59J14825JC878413N-9AV183542W453890P
+    [event_version] => 1.0
+    [create_time] => 2024-11-12T07:38:57.138Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 11.0 USD
+    [resource] => Array
+        (
+            [amount] => Array
+                (
+                    [total] => 11.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 11.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [create_time] => 2024-11-12T07:38:52Z
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 1.04
+                )
+
+            [billing_agreement_id] => I-KXE7WP2C7L57
+            [update_time] => 2024-11-12T07:38:52Z
+            [soft_descriptor] => PAYPAL *TEST STORE
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/7XD18831SY844074N
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/7XD18831SY844074N/refund
+                        )
+
+                )
+
+            [id] => 7XD18831SY844074N
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-59J14825JC878413N-9AV183542W453890P
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-59J14825JC878413N-9AV183542W453890P/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+current_period_end22:
+2024-12-11 10:00:00
+
+12-11-2024 07:38:57
+Webhook event received:
+Array
+(
+    [id] => WH-9J412553DA6265729-6T445966JT6426700
+    [event_version] => 1.0
+    [create_time] => 2024-11-12T07:43:51.989Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 11.0 USD
+    [resource] => Array
+        (
+            [amount] => Array
+                (
+                    [total] => 11.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 11.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [create_time] => 2024-11-12T07:43:46Z
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 1.04
+                )
+
+            [billing_agreement_id] => I-FJRG2E1UBDJ6
+            [update_time] => 2024-11-12T07:43:46Z
+            [soft_descriptor] => PAYPAL *TEST STORE
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/8V894972P5832103F
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/8V894972P5832103F/refund
+                        )
+
+                )
+
+            [id] => 8V894972P5832103F
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-9J412553DA6265729-6T445966JT6426700
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-9J412553DA6265729-6T445966JT6426700/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+current_period_end22:
+2024-12-11 10:00:00
+
+plan_alias2024-11-12 07:43:51
+Webhook event received:
+Array
+(
+    [id] => WH-1Y64174059652102S-4VT512957U2914401
+    [event_version] => 1.0
+    [create_time] => 2024-11-12T07:47:36.703Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 11.0 USD
+    [resource] => Array
+        (
+            [amount] => Array
+                (
+                    [total] => 11.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 11.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [create_time] => 2024-11-12T07:47:32Z
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 1.04
+                )
+
+            [billing_agreement_id] => I-HR25DC76C3DX
+            [update_time] => 2024-11-12T07:47:32Z
+            [soft_descriptor] => PAYPAL *TEST STORE
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/04M83516C0850310M
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/04M83516C0850310M/refund
+                        )
+
+                )
+
+            [id] => 04M83516C0850310M
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-1Y64174059652102S-4VT512957U2914401
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-1Y64174059652102S-4VT512957U2914401/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+current_period_end22:
+2024-11-12 14:46:48
+
+1
+plan_alias2024-11-12 07:47:36
+Webhook event received:
+Array
+(
+    [id] => WH-2JF143871H994751A-8DJ72498VJ912751L
+    [event_version] => 1.0
+    [create_time] => 2024-11-12T07:49:09.145Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 11.0 USD
+    [resource] => Array
+        (
+            [amount] => Array
+                (
+                    [total] => 11.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 11.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [create_time] => 2024-11-12T07:49:04Z
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 1.04
+                )
+
+            [billing_agreement_id] => I-TRP9RV5YL9BW
+            [update_time] => 2024-11-12T07:49:04Z
+            [soft_descriptor] => PAYPAL *TEST STORE
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/10J51190FN2135815
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/10J51190FN2135815/refund
+                        )
+
+                )
+
+            [id] => 10J51190FN2135815
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-2JF143871H994751A-8DJ72498VJ912751L
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-2JF143871H994751A-8DJ72498VJ912751L/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+current_period_end22:
+2024-12-11 10:00:00
+
+1
+plan_aliasArray
+(
+    [id] => 160
+    [0] => 160
+    [subscription_id] => I-TRP9RV5YL9BW
+    [1] => I-TRP9RV5YL9BW
+    [customer_id] => 
+    [2] => 
+    [status] => active
+    [3] => active
+    [current_period_start] => 2024-11-12 14:48:57
+    [4] => 2024-11-12 14:48:57
+    [current_period_end] => 2024-12-11 10:00:00
+    [5] => 2024-12-11 10:00:00
+    [customer] => 
+    [6] => 
+    [subscription_json] => {"id":"WH-8U934447H4056634D-24P90184SP940710R","event_version":"1.0","create_time":"2024-11-12T07:48:34.684Z","resource_type":"subscription","resource_version":"2.0","event_type":"BILLING.SUBSCRIPTION.CREATED","summary":"Subscription created","resource":{"start_time":"2024-11-12T07:48:34Z","quantity":"1","create_time":"2024-11-12T07:48:34Z","links":[{"href":"https:\/\/www.sandbox.paypal.com\/webapps\/billing\/subscriptions?ba_token=BA-9S47271570940925C","rel":"approve","method":"GET"},{"href":"https:\/\/api.sandbox.paypal.com\/v1\/billing\/subscriptions\/I-TRP9RV5YL9BW","rel":"edit","method":"PATCH"},{"href":"https:\/\/api.sandbox.paypal.com\/v1\/billing\/subscriptions\/I-TRP9RV5YL9BW","rel":"self","method":"GET"}],"id":"I-TRP9RV5YL9BW","plan_overridden":false,"plan_id":"P-7GJ766049N2331039M4ZLDCY","status":"APPROVAL_PENDING"},"links":[{"href":"https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-8U934447H4056634D-24P90184SP940710R","rel":"self","method":"GET"},{"href":"https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-8U934447H4056634D-24P90184SP940710R\/resend","rel":"resend","method":"POST"}]}
+    [7] => {"id":"WH-8U934447H4056634D-24P90184SP940710R","event_version":"1.0","create_time":"2024-11-12T07:48:34.684Z","resource_type":"subscription","resource_version":"2.0","event_type":"BILLING.SUBSCRIPTION.CREATED","summary":"Subscription created","resource":{"start_time":"2024-11-12T07:48:34Z","quantity":"1","create_time":"2024-11-12T07:48:34Z","links":[{"href":"https:\/\/www.sandbox.paypal.com\/webapps\/billing\/subscriptions?ba_token=BA-9S47271570940925C","rel":"approve","method":"GET"},{"href":"https:\/\/api.sandbox.paypal.com\/v1\/billing\/subscriptions\/I-TRP9RV5YL9BW","rel":"edit","method":"PATCH"},{"href":"https:\/\/api.sandbox.paypal.com\/v1\/billing\/subscriptions\/I-TRP9RV5YL9BW","rel":"self","method":"GET"}],"id":"I-TRP9RV5YL9BW","plan_overridden":false,"plan_id":"P-7GJ766049N2331039M4ZLDCY","status":"APPROVAL_PENDING"},"links":[{"href":"https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-8U934447H4056634D-24P90184SP940710R","rel":"self","method":"GET"},{"href":"https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-8U934447H4056634D-24P90184SP940710R\/resend","rel":"resend","method":"POST"}]}
+    [plan] => P-7GJ766049N2331039M4ZLDCY
+    [8] => P-7GJ766049N2331039M4ZLDCY
+    [create_time] => 2024-11-12 14:48:57.510524
+    [9] => 2024-11-12 14:48:57.510524
+    [bank_name] => PayPal
+    [10] => PayPal
+    [customer_email] => voanlaptrinh@gmail.com
+    [11] => voanlaptrinh@gmail.com
+)
+
+Webhook event received:
+Array
+(
+    [id] => WH-2U593016KF831733N-2NK874419N742870E
+    [event_version] => 1.0
+    [create_time] => 2024-11-12T07:51:53.344Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 11.0 USD
+    [resource] => Array
+        (
+            [amount] => Array
+                (
+                    [total] => 11.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 11.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [create_time] => 2024-11-12T07:51:49Z
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 1.04
+                )
+
+            [billing_agreement_id] => I-3LBXNPPHGDE1
+            [update_time] => 2024-11-12T07:51:49Z
+            [soft_descriptor] => PAYPAL *TEST STORE
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/4PY06023N7166091V
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/4PY06023N7166091V/refund
+                        )
+
+                )
+
+            [id] => 4PY06023N7166091V
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-2U593016KF831733N-2NK874419N742870E
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-2U593016KF831733N-2NK874419N742870E/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+current_period_end22:
+2024-11-12 14:51:23
+
+plan_id P-7GJ766049N2331039M4ZLDCY
+plan_aliasArray
+(
+    [id] => 161
+    [0] => 161
+    [subscription_id] => I-3LBXNPPHGDE1
+    [1] => I-3LBXNPPHGDE1
+    [customer_id] => 
+    [2] => 
+    [status] => APPROVAL_PENDING
+    [3] => APPROVAL_PENDING
+    [current_period_start] => 2024-11-12 07:51:25
+    [4] => 2024-11-12 07:51:25
+    [current_period_end] => 2024-11-12 14:51:23
+    [5] => 2024-11-12 14:51:23
+    [customer] => 
+    [6] => 
+    [subscription_json] => {"id":"WH-17F12214DH9913235-8U745801PH339903W","event_version":"1.0","create_time":"2024-11-12T07:51:25.896Z","resource_type":"subscription","resource_version":"2.0","event_type":"BILLING.SUBSCRIPTION.CREATED","summary":"Subscription created","resource":{"start_time":"2024-11-12T07:51:25Z","quantity":"1","create_time":"2024-11-12T07:51:25Z","links":[{"href":"https:\/\/www.sandbox.paypal.com\/webapps\/billing\/subscriptions?ba_token=BA-8XR35901379349521","rel":"approve","method":"GET"},{"href":"https:\/\/api.sandbox.paypal.com\/v1\/billing\/subscriptions\/I-3LBXNPPHGDE1","rel":"edit","method":"PATCH"},{"href":"https:\/\/api.sandbox.paypal.com\/v1\/billing\/subscriptions\/I-3LBXNPPHGDE1","rel":"self","method":"GET"}],"id":"I-3LBXNPPHGDE1","plan_overridden":false,"plan_id":"P-7GJ766049N2331039M4ZLDCY","status":"APPROVAL_PENDING"},"links":[{"href":"https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-17F12214DH9913235-8U745801PH339903W","rel":"self","method":"GET"},{"href":"https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-17F12214DH9913235-8U745801PH339903W\/resend","rel":"resend","method":"POST"}]}
+    [7] => {"id":"WH-17F12214DH9913235-8U745801PH339903W","event_version":"1.0","create_time":"2024-11-12T07:51:25.896Z","resource_type":"subscription","resource_version":"2.0","event_type":"BILLING.SUBSCRIPTION.CREATED","summary":"Subscription created","resource":{"start_time":"2024-11-12T07:51:25Z","quantity":"1","create_time":"2024-11-12T07:51:25Z","links":[{"href":"https:\/\/www.sandbox.paypal.com\/webapps\/billing\/subscriptions?ba_token=BA-8XR35901379349521","rel":"approve","method":"GET"},{"href":"https:\/\/api.sandbox.paypal.com\/v1\/billing\/subscriptions\/I-3LBXNPPHGDE1","rel":"edit","method":"PATCH"},{"href":"https:\/\/api.sandbox.paypal.com\/v1\/billing\/subscriptions\/I-3LBXNPPHGDE1","rel":"self","method":"GET"}],"id":"I-3LBXNPPHGDE1","plan_overridden":false,"plan_id":"P-7GJ766049N2331039M4ZLDCY","status":"APPROVAL_PENDING"},"links":[{"href":"https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-17F12214DH9913235-8U745801PH339903W","rel":"self","method":"GET"},{"href":"https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-17F12214DH9913235-8U745801PH339903W\/resend","rel":"resend","method":"POST"}]}
+    [plan] => P-7GJ766049N2331039M4ZLDCY
+    [8] => P-7GJ766049N2331039M4ZLDCY
+    [create_time] => 2024-11-12 07:51:25.896000
+    [9] => 2024-11-12 07:51:25.896000
+    [bank_name] => PayPal
+    [10] => PayPal
+    [customer_email] => 
+    [11] => 
+)
+
+Webhook event received:
+Array
+(
+    [id] => WH-0BA934483G286254C-55G85300VV3446205
+    [event_version] => 1.0
+    [create_time] => 2024-11-12T07:55:28.932Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 11.0 USD
+    [resource] => Array
+        (
+            [amount] => Array
+                (
+                    [total] => 11.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 11.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [create_time] => 2024-11-12T07:55:24Z
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 1.04
+                )
+
+            [billing_agreement_id] => I-1BU197YTG6KA
+            [update_time] => 2024-11-12T07:55:24Z
+            [soft_descriptor] => PAYPAL *TEST STORE
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/3A6429808W350372X
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/3A6429808W350372X/refund
+                        )
+
+                )
+
+            [id] => 3A6429808W350372X
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-0BA934483G286254C-55G85300VV3446205
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-0BA934483G286254C-55G85300VV3446205/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+current_period_end22:
+2024-11-12 14:54:53
+
+plan_idP-7GJ766049N2331039M4ZLDCY
+plan_aliasArray
+(
+    [id] => 163
+    [0] => 163
+    [subscription_id] => I-1BU197YTG6KA
+    [1] => I-1BU197YTG6KA
+    [customer_id] => 
+    [2] => 
+    [status] => APPROVAL_PENDING
+    [3] => APPROVAL_PENDING
+    [current_period_start] => 2024-11-12 07:55:01
+    [4] => 2024-11-12 07:55:01
+    [current_period_end] => 2024-11-12 14:54:53
+    [5] => 2024-11-12 14:54:53
+    [customer] => 
+    [6] => 
+    [subscription_json] => {"id":"WH-6MY63755VC8815018-411652068L002614P","event_version":"1.0","create_time":"2024-11-12T07:55:01.670Z","resource_type":"subscription","resource_version":"2.0","event_type":"BILLING.SUBSCRIPTION.CREATED","summary":"Subscription created","resource":{"start_time":"2024-11-12T07:55:01Z","quantity":"1","create_time":"2024-11-12T07:55:01Z","links":[{"href":"https:\/\/www.sandbox.paypal.com\/webapps\/billing\/subscriptions?ba_token=BA-0AW46357D6836674J","rel":"approve","method":"GET"},{"href":"https:\/\/api.sandbox.paypal.com\/v1\/billing\/subscriptions\/I-1BU197YTG6KA","rel":"edit","method":"PATCH"},{"href":"https:\/\/api.sandbox.paypal.com\/v1\/billing\/subscriptions\/I-1BU197YTG6KA","rel":"self","method":"GET"}],"id":"I-1BU197YTG6KA","plan_overridden":false,"plan_id":"P-7GJ766049N2331039M4ZLDCY","status":"APPROVAL_PENDING"},"links":[{"href":"https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-6MY63755VC8815018-411652068L002614P","rel":"self","method":"GET"},{"href":"https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-6MY63755VC8815018-411652068L002614P\/resend","rel":"resend","method":"POST"}]}
+    [7] => {"id":"WH-6MY63755VC8815018-411652068L002614P","event_version":"1.0","create_time":"2024-11-12T07:55:01.670Z","resource_type":"subscription","resource_version":"2.0","event_type":"BILLING.SUBSCRIPTION.CREATED","summary":"Subscription created","resource":{"start_time":"2024-11-12T07:55:01Z","quantity":"1","create_time":"2024-11-12T07:55:01Z","links":[{"href":"https:\/\/www.sandbox.paypal.com\/webapps\/billing\/subscriptions?ba_token=BA-0AW46357D6836674J","rel":"approve","method":"GET"},{"href":"https:\/\/api.sandbox.paypal.com\/v1\/billing\/subscriptions\/I-1BU197YTG6KA","rel":"edit","method":"PATCH"},{"href":"https:\/\/api.sandbox.paypal.com\/v1\/billing\/subscriptions\/I-1BU197YTG6KA","rel":"self","method":"GET"}],"id":"I-1BU197YTG6KA","plan_overridden":false,"plan_id":"P-7GJ766049N2331039M4ZLDCY","status":"APPROVAL_PENDING"},"links":[{"href":"https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-6MY63755VC8815018-411652068L002614P","rel":"self","method":"GET"},{"href":"https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-6MY63755VC8815018-411652068L002614P\/resend","rel":"resend","method":"POST"}]}
+    [plan] => P-7GJ766049N2331039M4ZLDCY
+    [8] => P-7GJ766049N2331039M4ZLDCY
+    [create_time] => 2024-11-12 07:55:01.670000
+    [9] => 2024-11-12 07:55:01.670000
+    [bank_name] => PayPal
+    [10] => PayPal
+    [customer_email] => 
+    [11] => 
+)
+
+Array
+(
+    [plan1] => PROD-7DA42850VD047815J
+    [plan2] => PROD-7PG07772L2231204L
+    [plan3] => PROD-8F925866J0561851S
+)
+
+Webhook event received:
+Array
+(
+    [id] => WH-8RH34549W06506105-6PG425931M037251R
+    [event_version] => 1.0
+    [create_time] => 2024-11-12T08:02:43.975Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 11.0 USD
+    [resource] => Array
+        (
+            [amount] => Array
+                (
+                    [total] => 11.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 11.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [create_time] => 2024-11-12T08:02:39Z
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 1.04
+                )
+
+            [billing_agreement_id] => I-46RSJME0LN4D
+            [update_time] => 2024-11-12T08:02:39Z
+            [soft_descriptor] => PAYPAL *TEST STORE
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/4WC17322VF3936517
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/4WC17322VF3936517/refund
+                        )
+
+                )
+
+            [id] => 4WC17322VF3936517
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-8RH34549W06506105-6PG425931M037251R
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-8RH34549W06506105-6PG425931M037251R/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+current_period_end22:
+2024-11-12 15:02:08
+
+plan_idP-7GJ766049N2331039M4ZLDCY
+plan_aliasplan1Array
+(
+    [id] => 164
+    [0] => 164
+    [subscription_id] => I-46RSJME0LN4D
+    [1] => I-46RSJME0LN4D
+    [customer_id] => 
+    [2] => 
+    [status] => APPROVAL_PENDING
+    [3] => APPROVAL_PENDING
+    [current_period_start] => 2024-11-12 08:02:14
+    [4] => 2024-11-12 08:02:14
+    [current_period_end] => 2024-11-12 15:02:08
+    [5] => 2024-11-12 15:02:08
+    [customer] => 
+    [6] => 
+    [subscription_json] => {"id":"WH-9WD71281EB829084C-49C108639L2769148","event_version":"1.0","create_time":"2024-11-12T08:02:14.502Z","resource_type":"subscription","resource_version":"2.0","event_type":"BILLING.SUBSCRIPTION.CREATED","summary":"Subscription created","resource":{"start_time":"2024-11-12T08:02:14Z","quantity":"1","create_time":"2024-11-12T08:02:14Z","links":[{"href":"https:\/\/www.sandbox.paypal.com\/webapps\/billing\/subscriptions?ba_token=BA-79964787UP9634300","rel":"approve","method":"GET"},{"href":"https:\/\/api.sandbox.paypal.com\/v1\/billing\/subscriptions\/I-46RSJME0LN4D","rel":"edit","method":"PATCH"},{"href":"https:\/\/api.sandbox.paypal.com\/v1\/billing\/subscriptions\/I-46RSJME0LN4D","rel":"self","method":"GET"}],"id":"I-46RSJME0LN4D","plan_overridden":false,"plan_id":"P-7GJ766049N2331039M4ZLDCY","status":"APPROVAL_PENDING"},"links":[{"href":"https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-9WD71281EB829084C-49C108639L2769148","rel":"self","method":"GET"},{"href":"https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-9WD71281EB829084C-49C108639L2769148\/resend","rel":"resend","method":"POST"}]}
+    [7] => {"id":"WH-9WD71281EB829084C-49C108639L2769148","event_version":"1.0","create_time":"2024-11-12T08:02:14.502Z","resource_type":"subscription","resource_version":"2.0","event_type":"BILLING.SUBSCRIPTION.CREATED","summary":"Subscription created","resource":{"start_time":"2024-11-12T08:02:14Z","quantity":"1","create_time":"2024-11-12T08:02:14Z","links":[{"href":"https:\/\/www.sandbox.paypal.com\/webapps\/billing\/subscriptions?ba_token=BA-79964787UP9634300","rel":"approve","method":"GET"},{"href":"https:\/\/api.sandbox.paypal.com\/v1\/billing\/subscriptions\/I-46RSJME0LN4D","rel":"edit","method":"PATCH"},{"href":"https:\/\/api.sandbox.paypal.com\/v1\/billing\/subscriptions\/I-46RSJME0LN4D","rel":"self","method":"GET"}],"id":"I-46RSJME0LN4D","plan_overridden":false,"plan_id":"P-7GJ766049N2331039M4ZLDCY","status":"APPROVAL_PENDING"},"links":[{"href":"https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-9WD71281EB829084C-49C108639L2769148","rel":"self","method":"GET"},{"href":"https:\/\/api.sandbox.paypal.com\/v1\/notifications\/webhooks-events\/WH-9WD71281EB829084C-49C108639L2769148\/resend","rel":"resend","method":"POST"}]}
+    [plan] => P-7GJ766049N2331039M4ZLDCY
+    [8] => P-7GJ766049N2331039M4ZLDCY
+    [create_time] => 2024-11-12 08:02:14.502000
+    [9] => 2024-11-12 08:02:14.502000
+    [bank_name] => PayPal
+    [10] => PayPal
+    [customer_email] => 
+    [11] => 
+)
+
+Array
+(
+    [plan1] => P-7GJ766049N2331039M4ZLDCY
+    [plan2] => P-5G991511Y8995590CM4ZLDTQ
+    [plan3] => P-4R172511F9560643TM4ZLD2Y
+)
+
+Webhook event received:
+Array
+(
+    [id] => WH-50R87984YE7494008-26Y9894379126131M
+    [event_version] => 1.0
+    [create_time] => 2024-11-12T08:54:37.133Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 11.0 USD
+    [resource] => Array
+        (
+            [amount] => Array
+                (
+                    [total] => 11.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 11.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [create_time] => 2024-11-12T08:54:32Z
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 1.04
+                )
+
+            [billing_agreement_id] => I-FCC2C6EWRDNJ
+            [update_time] => 2024-11-12T08:54:32Z
+            [soft_descriptor] => PAYPAL *TEST STORE
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/7PU33123JJ4840050
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/7PU33123JJ4840050/refund
+                        )
+
+                )
+
+            [id] => 7PU33123JJ4840050
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-50R87984YE7494008-26Y9894379126131M
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-50R87984YE7494008-26Y9894379126131M/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-61K19840ES239060N-7AM39437GA679590U
+    [event_version] => 1.0
+    [create_time] => 2024-11-12T09:32:47.648Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 11.0 USD
+    [resource] => Array
+        (
+            [amount] => Array
+                (
+                    [total] => 11.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 11.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [create_time] => 2024-11-12T09:32:42Z
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 1.04
+                )
+
+            [billing_agreement_id] => I-6WVS7RGMJNVP
+            [update_time] => 2024-11-12T09:32:42Z
+            [soft_descriptor] => PAYPAL *TEST STORE
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/4CK899691W9881216
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/4CK899691W9881216/refund
+                        )
+
+                )
+
+            [id] => 4CK899691W9881216
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-61K19840ES239060N-7AM39437GA679590U
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-61K19840ES239060N-7AM39437GA679590U/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-18L23821SN988750N-72888926F7129215X
+    [event_version] => 1.0
+    [create_time] => 2024-11-12T09:47:45.167Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 11.0 USD
+    [resource] => Array
+        (
+            [amount] => Array
+                (
+                    [total] => 11.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 11.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [create_time] => 2024-11-12T09:47:41Z
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 1.04
+                )
+
+            [billing_agreement_id] => I-LV3PY62PEY60
+            [update_time] => 2024-11-12T09:47:41Z
+            [soft_descriptor] => PAYPAL *TEST STORE
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/6L842031U75631417
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/6L842031U75631417/refund
+                        )
+
+                )
+
+            [id] => 6L842031U75631417
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-18L23821SN988750N-72888926F7129215X
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-18L23821SN988750N-72888926F7129215X/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-3YF56604NS689840H-9GM204879H631115P
+    [event_version] => 1.0
+    [create_time] => 2024-11-13T01:27:01.967Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 11.0 USD
+    [resource] => Array
+        (
+            [billing_agreement_id] => I-0XM2Y9AWMVDH
+            [amount] => Array
+                (
+                    [total] => 11.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 11.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [update_time] => 2024-11-13T01:26:58Z
+            [create_time] => 2024-11-13T01:26:58Z
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 0.87
+                )
+
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/6H6774553Y069562E
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/6H6774553Y069562E/refund
+                        )
+
+                )
+
+            [id] => 6H6774553Y069562E
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-3YF56604NS689840H-9GM204879H631115P
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-3YF56604NS689840H-9GM204879H631115P/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-8F351097TX1432829-3CT907274C932322A
+    [event_version] => 1.0
+    [create_time] => 2024-11-13T01:36:22.307Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 11.0 USD
+    [resource] => Array
+        (
+            [billing_agreement_id] => I-8DR7A1K3YHST
+            [amount] => Array
+                (
+                    [total] => 11.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 11.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [update_time] => 2024-11-13T01:36:18Z
+            [create_time] => 2024-11-13T01:36:18Z
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 0.87
+                )
+
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/1RE36639SF4134252
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/1RE36639SF4134252/refund
+                        )
+
+                )
+
+            [id] => 1RE36639SF4134252
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-8F351097TX1432829-3CT907274C932322A
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-8F351097TX1432829-3CT907274C932322A/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-4NA440494V6052914-9FS00316CN266933D
+    [event_version] => 1.0
+    [create_time] => 2024-11-13T01:40:48.794Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 11.0 USD
+    [resource] => Array
+        (
+            [billing_agreement_id] => I-EGNJJ860V68E
+            [amount] => Array
+                (
+                    [total] => 11.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 11.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [update_time] => 2024-11-13T01:40:44Z
+            [create_time] => 2024-11-13T01:40:44Z
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 0.87
+                )
+
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/15172112EC408303U
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/15172112EC408303U/refund
+                        )
+
+                )
+
+            [id] => 15172112EC408303U
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-4NA440494V6052914-9FS00316CN266933D
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-4NA440494V6052914-9FS00316CN266933D/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-14B476874B337740P-5TB528444G5545709
+    [event_version] => 1.0
+    [create_time] => 2024-11-13T01:51:00.113Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 11.0 USD
+    [resource] => Array
+        (
+            [billing_agreement_id] => I-9K0J5PTTYKAK
+            [amount] => Array
+                (
+                    [total] => 11.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 11.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [update_time] => 2024-11-13T01:50:55Z
+            [create_time] => 2024-11-13T01:50:55Z
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 0.87
+                )
+
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/6W775556LY752261E
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/6W775556LY752261E/refund
+                        )
+
+                )
+
+            [id] => 6W775556LY752261E
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-14B476874B337740P-5TB528444G5545709
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-14B476874B337740P-5TB528444G5545709/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-3GX14976KU172535K-5AM81017BJ563992V
+    [event_version] => 1.0
+    [create_time] => 2024-11-13T01:55:38.304Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 11.0 USD
+    [resource] => Array
+        (
+            [billing_agreement_id] => I-E8W18MU7830J
+            [amount] => Array
+                (
+                    [total] => 11.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 11.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [update_time] => 2024-11-13T01:55:34Z
+            [create_time] => 2024-11-13T01:55:34Z
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 0.87
+                )
+
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/5CR82910YE440670K
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/5CR82910YE440670K/refund
+                        )
+
+                )
+
+            [id] => 5CR82910YE440670K
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-3GX14976KU172535K-5AM81017BJ563992V
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-3GX14976KU172535K-5AM81017BJ563992V/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-7WP7276898929364F-17749719BV665800R
+    [event_version] => 1.0
+    [create_time] => 2024-11-13T02:03:39.974Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 11.0 USD
+    [resource] => Array
+        (
+            [billing_agreement_id] => I-8D3JLFFCYAL8
+            [amount] => Array
+                (
+                    [total] => 11.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 11.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [update_time] => 2024-11-13T02:03:35Z
+            [create_time] => 2024-11-13T02:03:35Z
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 0.87
+                )
+
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/6MD55598YH549590T
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/6MD55598YH549590T/refund
+                        )
+
+                )
+
+            [id] => 6MD55598YH549590T
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-7WP7276898929364F-17749719BV665800R
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-7WP7276898929364F-17749719BV665800R/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-2VA65525CX6114127-45221823R1009720Y
+    [event_version] => 1.0
+    [create_time] => 2024-11-13T02:06:04.254Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 11.0 USD
+    [resource] => Array
+        (
+            [billing_agreement_id] => I-MXD9H9S5HAP2
+            [amount] => Array
+                (
+                    [total] => 11.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 11.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [update_time] => 2024-11-13T02:06:00Z
+            [create_time] => 2024-11-13T02:06:00Z
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 0.87
+                )
+
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/5UW19145WA951102X
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/5UW19145WA951102X/refund
+                        )
+
+                )
+
+            [id] => 5UW19145WA951102X
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-2VA65525CX6114127-45221823R1009720Y
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-2VA65525CX6114127-45221823R1009720Y/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-1KE66723VH722812X-9XA82816TD387845W
+    [event_version] => 1.0
+    [create_time] => 2024-11-13T02:13:22.306Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 11.0 USD
+    [resource] => Array
+        (
+            [billing_agreement_id] => I-E8MW77N32C5H
+            [amount] => Array
+                (
+                    [total] => 11.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 11.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [update_time] => 2024-11-13T02:13:17Z
+            [create_time] => 2024-11-13T02:13:17Z
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 0.87
+                )
+
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/8EK603997H0007403
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/8EK603997H0007403/refund
+                        )
+
+                )
+
+            [id] => 8EK603997H0007403
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-1KE66723VH722812X-9XA82816TD387845W
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-1KE66723VH722812X-9XA82816TD387845W/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-5P035224LV920901E-21X74691EL911374N
+    [event_version] => 1.0
+    [create_time] => 2024-11-13T02:15:31.995Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 11.0 USD
+    [resource] => Array
+        (
+            [billing_agreement_id] => I-74LB2ULAX5W0
+            [amount] => Array
+                (
+                    [total] => 11.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 11.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [update_time] => 2024-11-13T02:15:26Z
+            [create_time] => 2024-11-13T02:15:26Z
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 0.87
+                )
+
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/8PF99018BU925270B
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/8PF99018BU925270B/refund
+                        )
+
+                )
+
+            [id] => 8PF99018BU925270B
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-5P035224LV920901E-21X74691EL911374N
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-5P035224LV920901E-21X74691EL911374N/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-9M489454HG079415X-60F19700U4918962F
+    [event_version] => 1.0
+    [create_time] => 2024-11-13T02:18:33.466Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 11.0 USD
+    [resource] => Array
+        (
+            [billing_agreement_id] => I-VPBC2D1G8SJB
+            [amount] => Array
+                (
+                    [total] => 11.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 11.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [update_time] => 2024-11-13T02:18:29Z
+            [create_time] => 2024-11-13T02:18:29Z
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 0.87
+                )
+
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/4SS66224TU9860527
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/4SS66224TU9860527/refund
+                        )
+
+                )
+
+            [id] => 4SS66224TU9860527
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-9M489454HG079415X-60F19700U4918962F
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-9M489454HG079415X-60F19700U4918962F/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-9ND777507W968412W-1PN112307C027904N
+    [event_version] => 1.0
+    [create_time] => 2024-11-13T02:26:55.563Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 11.0 USD
+    [resource] => Array
+        (
+            [billing_agreement_id] => I-RFVXP2MTS0PG
+            [amount] => Array
+                (
+                    [total] => 11.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 11.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [update_time] => 2024-11-13T02:26:51Z
+            [create_time] => 2024-11-13T02:26:51Z
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 0.87
+                )
+
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/2WY43928EH3450725
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/2WY43928EH3450725/refund
+                        )
+
+                )
+
+            [id] => 2WY43928EH3450725
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-9ND777507W968412W-1PN112307C027904N
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-9ND777507W968412W-1PN112307C027904N/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-97W150203R8615158-04449928RR4643151
+    [event_version] => 1.0
+    [create_time] => 2024-11-13T02:32:14.633Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 11.0 USD
+    [resource] => Array
+        (
+            [billing_agreement_id] => I-CSC5U8YMRHCT
+            [amount] => Array
+                (
+                    [total] => 11.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 11.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [update_time] => 2024-11-13T02:32:09Z
+            [create_time] => 2024-11-13T02:32:09Z
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 0.87
+                )
+
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/37Y52930V1938063M
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/37Y52930V1938063M/refund
+                        )
+
+                )
+
+            [id] => 37Y52930V1938063M
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-97W150203R8615158-04449928RR4643151
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-97W150203R8615158-04449928RR4643151/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Invoice insertion complete:
+Invoice ID: WH-97W150203R8615158-04449928RR4643151
+Customer Email: sb-gnfvg33961218@personal.example.com
+Payment Intent: 37Y52930V1938063M
+Currency: USD
+Total Amount: 11.00
+Subtotal: 11.00
+Invoice Date Time: 2024-11-13 02:32:14
+
+Webhook event received:
+Array
+(
+    [id] => WH-25358861N0827284F-95860345FG470954D
+    [event_version] => 1.0
+    [create_time] => 2024-11-13T02:37:25.254Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 11.0 USD
+    [resource] => Array
+        (
+            [billing_agreement_id] => I-DS2NXB9T57NL
+            [amount] => Array
+                (
+                    [total] => 11.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 11.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [update_time] => 2024-11-13T02:37:21Z
+            [create_time] => 2024-11-13T02:37:21Z
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 0.87
+                )
+
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/3G172867DL268301T
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/3G172867DL268301T/refund
+                        )
+
+                )
+
+            [id] => 3G172867DL268301T
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-25358861N0827284F-95860345FG470954D
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-25358861N0827284F-95860345FG470954D/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Invoice insertion complete:
+Invoice ID: WH-25358861N0827284F-95860345FG470954D
+Customer Email: 
+Payment Intent: 3G172867DL268301T
+Currency: USD
+Total Amount: 11.00
+Subtotal: 11.00
+Invoice Date Time: 2024-11-13 02:37:25
+
+Webhook event received:
+Array
+(
+    [id] => WH-24U13287LK949544N-7D331606TN708874A
+    [event_version] => 1.0
+    [create_time] => 2024-11-13T02:39:41.250Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 11.0 USD
+    [resource] => Array
+        (
+            [billing_agreement_id] => I-T5SMRG6SNNY3
+            [amount] => Array
+                (
+                    [total] => 11.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 11.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [update_time] => 2024-11-13T02:39:37Z
+            [create_time] => 2024-11-13T02:39:37Z
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 0.87
+                )
+
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/4EU24606YP3399941
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/4EU24606YP3399941/refund
+                        )
+
+                )
+
+            [id] => 4EU24606YP3399941
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-24U13287LK949544N-7D331606TN708874A
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-24U13287LK949544N-7D331606TN708874A/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Invoice insertion complete:
+Invoice ID: WH-24U13287LK949544N-7D331606TN708874A
+Customer Email: 
+Payment Intent: 4EU24606YP3399941
+Currency: USD
+Total Amount: 11.00
+Subtotal: 11.00
+Invoice Date Time: 2024-11-13 02:39:41
+
+Webhook event received:
+Array
+(
+    [id] => WH-4V425404UJ314851R-41Y25419KL960980H
+    [event_version] => 1.0
+    [create_time] => 2024-11-13T02:48:14.265Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 11.0 USD
+    [resource] => Array
+        (
+            [billing_agreement_id] => I-V15X2AH0J9PE
+            [amount] => Array
+                (
+                    [total] => 11.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 11.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [update_time] => 2024-11-13T02:48:10Z
+            [create_time] => 2024-11-13T02:48:10Z
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 0.87
+                )
+
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/30202497D5388391N
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/30202497D5388391N/refund
+                        )
+
+                )
+
+            [id] => 30202497D5388391N
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-4V425404UJ314851R-41Y25419KL960980H
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-4V425404UJ314851R-41Y25419KL960980H/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Invoice insertion complete:
+Invoice ID: WH-4V425404UJ314851R-41Y25419KL960980H
+Customer Email: 
+Payment Intent: 30202497D5388391N
+Currency: USD
+Total Amount: 11.00
+Subtotal: 11.00
+Invoice Date Time: 2024-11-13 02:48:14
+
+Webhook event received:
+Array
+(
+    [id] => WH-0MC77455TD243233N-348620594V7661713
+    [event_version] => 1.0
+    [create_time] => 2024-11-13T02:55:55.692Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 11.0 USD
+    [resource] => Array
+        (
+            [billing_agreement_id] => I-XK2U19CYF07C
+            [amount] => Array
+                (
+                    [total] => 11.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 11.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [update_time] => 2024-11-13T02:55:51Z
+            [create_time] => 2024-11-13T02:55:51Z
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 0.87
+                )
+
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/2SN680107K527245R
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/2SN680107K527245R/refund
+                        )
+
+                )
+
+            [id] => 2SN680107K527245R
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-0MC77455TD243233N-348620594V7661713
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-0MC77455TD243233N-348620594V7661713/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Invoice insertion complete:
+Invoice ID: WH-0MC77455TD243233N-348620594V7661713
+Customer Email: sb-gnfvg33961218@personal.example.com
+Payment Intent: 2SN680107K527245R
+Currency: USD
+Total Amount: 11.00
+Subtotal: 11.00
+Invoice Date Time: 2024-11-13 02:55:55
+
+Webhook event received:
+Array
+(
+    [id] => WH-60W61873HS447434G-7MY712602S673723M
+    [event_version] => 1.0
+    [create_time] => 2024-11-13T03:00:26.804Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 11.0 USD
+    [resource] => Array
+        (
+            [billing_agreement_id] => I-1M3PUB1L7690
+            [amount] => Array
+                (
+                    [total] => 11.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 11.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [update_time] => 2024-11-13T03:00:22Z
+            [create_time] => 2024-11-13T03:00:22Z
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 0.87
+                )
+
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/8S9088266K618445Y
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/8S9088266K618445Y/refund
+                        )
+
+                )
+
+            [id] => 8S9088266K618445Y
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-60W61873HS447434G-7MY712602S673723M
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-60W61873HS447434G-7MY712602S673723M/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Invoice insertion complete:
+Invoice ID: WH-60W61873HS447434G-7MY712602S673723M
+Customer Email: 
+Payment Intent: 8S9088266K618445Y
+Currency: USD
+Total Amount: 11.00
+Subtotal: 11.00
+Invoice Date Time: 2024-11-13 03:00:26
+
+Webhook event received:
+Array
+(
+    [id] => WH-8MW64718LV672500H-8NR189549N778914B
+    [event_version] => 1.0
+    [create_time] => 2024-11-13T03:02:19.357Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 11.0 USD
+    [resource] => Array
+        (
+            [billing_agreement_id] => I-2H1MX1P5GNJN
+            [amount] => Array
+                (
+                    [total] => 11.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 11.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [update_time] => 2024-11-13T03:02:15Z
+            [create_time] => 2024-11-13T03:02:15Z
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 0.87
+                )
+
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/8GE5842563438013L
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/8GE5842563438013L/refund
+                        )
+
+                )
+
+            [id] => 8GE5842563438013L
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-8MW64718LV672500H-8NR189549N778914B
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-8MW64718LV672500H-8NR189549N778914B/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Invoice insertion complete:
+Invoice ID: WH-8MW64718LV672500H-8NR189549N778914B
+Customer Email: 
+Payment Intent: 8GE5842563438013L
+Currency: USD
+Total Amount: 11.00
+Subtotal: 11.00
+Invoice Date Time: 2024-11-13 03:02:19
+
+Webhook event received:
+Array
+(
+    [id] => WH-9AA36350KB147353U-9BB519081U014033A
+    [event_version] => 1.0
+    [create_time] => 2024-11-13T03:07:26.164Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 11.0 USD
+    [resource] => Array
+        (
+            [billing_agreement_id] => I-X12HCGMUHKMM
+            [amount] => Array
+                (
+                    [total] => 11.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 11.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [update_time] => 2024-11-13T03:07:22Z
+            [create_time] => 2024-11-13T03:07:22Z
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 0.87
+                )
+
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/39C985260P6630107
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/39C985260P6630107/refund
+                        )
+
+                )
+
+            [id] => 39C985260P6630107
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-9AA36350KB147353U-9BB519081U014033A
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-9AA36350KB147353U-9BB519081U014033A/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Invoice insertion complete:
+Invoice ID: WH-9AA36350KB147353U-9BB519081U014033A
+Customer Email: 
+Payment Intent: 39C985260P6630107
+Currency: USD
+Total Amount: 11.00
+Subtotal: 11.00
+Invoice Date Time: 2024-11-13 03:07:26
+
+Webhook event received:
+Array
+(
+    [id] => WH-12N98784EN018152H-3MT65455CE567280V
+    [event_version] => 1.0
+    [create_time] => 2024-11-13T03:10:04.655Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 11.0 USD
+    [resource] => Array
+        (
+            [billing_agreement_id] => I-PYY7VKKDB8B4
+            [amount] => Array
+                (
+                    [total] => 11.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 11.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [update_time] => 2024-11-13T03:10:00Z
+            [create_time] => 2024-11-13T03:10:00Z
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 0.87
+                )
+
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/3HS87364JN248690C
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/3HS87364JN248690C/refund
+                        )
+
+                )
+
+            [id] => 3HS87364JN248690C
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-12N98784EN018152H-3MT65455CE567280V
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-12N98784EN018152H-3MT65455CE567280V/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Invoice insertion complete:
+Invoice ID: WH-12N98784EN018152H-3MT65455CE567280V
+Customer Email: 
+Payment Intent: 3HS87364JN248690C
+Currency: USD
+Total Amount: 11.00
+Subtotal: 11.00
+Invoice Date Time: 2024-11-13 03:10:04
+
+Webhook event received:
+Array
+(
+    [id] => WH-3DB43896986289158-20F76876R51875542
+    [event_version] => 1.0
+    [create_time] => 2024-11-13T03:16:46.478Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 66.0 USD
+    [resource] => Array
+        (
+            [billing_agreement_id] => I-GXF38U4CCNUP
+            [amount] => Array
+                (
+                    [total] => 66.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 66.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [update_time] => 2024-11-13T03:16:42Z
+            [create_time] => 2024-11-13T03:16:42Z
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 2.79
+                )
+
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/7N985553TY966753D
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/7N985553TY966753D/refund
+                        )
+
+                )
+
+            [id] => 7N985553TY966753D
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-3DB43896986289158-20F76876R51875542
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-3DB43896986289158-20F76876R51875542/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Invoice insertion complete:
+Invoice ID: WH-3DB43896986289158-20F76876R51875542
+Customer Email: 
+Payment Intent: 7N985553TY966753D
+Currency: USD
+Total Amount: 66.00
+Subtotal: 66.00
+Invoice Date Time: 2024-11-13 03:16:46
+
+Webhook event received:
+Array
+(
+    [id] => WH-9HB73152S8735591A-8LF38757D1147802P
+    [event_version] => 1.0
+    [create_time] => 2024-11-13T03:23:48.475Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 66.0 USD
+    [resource] => Array
+        (
+            [billing_agreement_id] => I-X6TPY4FV22E2
+            [amount] => Array
+                (
+                    [total] => 66.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 66.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [update_time] => 2024-11-13T03:23:44Z
+            [create_time] => 2024-11-13T03:23:44Z
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 2.79
+                )
+
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/5H706218B82989949
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/5H706218B82989949/refund
+                        )
+
+                )
+
+            [id] => 5H706218B82989949
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-9HB73152S8735591A-8LF38757D1147802P
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-9HB73152S8735591A-8LF38757D1147802P/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Invoice insertion complete:
+Invoice ID: WH-9HB73152S8735591A-8LF38757D1147802P
+Customer Email: sb-gnfvg33961218@personal.example.com
+Payment Intent: 5H706218B82989949
+Currency: USD
+Total Amount: 66.00
+Subtotal: 66.00
+Invoice Date Time: 2024-11-13 03:23:48
+
+Webhook event received:
+Array
+(
+    [id] => WH-0H978451A02799030-8LN77552839507408
+    [event_version] => 1.0
+    [create_time] => 2024-11-13T03:28:54.690Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 66.0 USD
+    [resource] => Array
+        (
+            [billing_agreement_id] => I-LURXJECCC31H
+            [amount] => Array
+                (
+                    [total] => 66.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 66.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [update_time] => 2024-11-13T03:28:50Z
+            [create_time] => 2024-11-13T03:28:50Z
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 2.79
+                )
+
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/3BR71080KG8126449
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/3BR71080KG8126449/refund
+                        )
+
+                )
+
+            [id] => 3BR71080KG8126449
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-0H978451A02799030-8LN77552839507408
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-0H978451A02799030-8LN77552839507408/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Invoice insertion complete:
+Invoice ID: WH-0H978451A02799030-8LN77552839507408
+Customer Email: 
+Payment Intent: 3BR71080KG8126449
+Currency: USD
+Total Amount: 66.00
+Subtotal: 66.00
+Invoice Date Time: 2024-11-13 03:28:54
+
+Webhook event received:
+Array
+(
+    [id] => WH-6WS94840SU263345B-54R74906H8295034D
+    [event_version] => 1.0
+    [create_time] => 2024-11-13T03:35:32.360Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 66.0 USD
+    [resource] => Array
+        (
+            [billing_agreement_id] => I-D4YM9WA91DL1
+            [amount] => Array
+                (
+                    [total] => 66.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 66.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [update_time] => 2024-11-13T03:35:28Z
+            [create_time] => 2024-11-13T03:35:28Z
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 2.79
+                )
+
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/2WN08482P4569752R
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/2WN08482P4569752R/refund
+                        )
+
+                )
+
+            [id] => 2WN08482P4569752R
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-6WS94840SU263345B-54R74906H8295034D
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-6WS94840SU263345B-54R74906H8295034D/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Invoice insertion complete:
+Invoice ID: WH-6WS94840SU263345B-54R74906H8295034D
+Customer Email: sb-gnfvg33961218@personal.example.com
+Payment Intent: 2WN08482P4569752R
+Currency: USD
+Total Amount: 66.00
+Subtotal: 66.00
+Invoice Date Time: 2024-11-13 03:35:32
+

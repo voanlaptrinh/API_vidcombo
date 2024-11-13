@@ -1,0 +1,749 @@
+Webhook event received:
+Array
+(
+    [id] => WH-4XY236346W1372017-64L55110E2875602B
+    [event_version] => 1.0
+    [create_time] => 2024-11-12T06:56:10.703Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CANCELLED
+    [summary] => Subscription cancelled
+    [resource] => Array
+        (
+            [status_change_note] => User requested cancellation
+            [quantity] => 1
+            [subscriber] => Array
+                (
+                    [email_address] => voanlaptrinh@gmail.com
+                    [payer_id] => XMCB6B422QAPN
+                    [name] => Array
+                        (
+                            [given_name] => khánh
+                            [surname] => khanh
+                        )
+
+                    [shipping_address] => Array
+                        (
+                            [address] => Array
+                                (
+                                    [address_line_1] => Thanh xuân
+                                    [address_line_2] => thanh xuân
+                                    [admin_area_2] => hà nội
+                                    [admin_area_1] => Hà Nội
+                                    [postal_code] => 111111
+                                    [country_code] => VN
+                                )
+
+                        )
+
+                )
+
+            [create_time] => 2024-11-12T06:38:29Z
+            [plan_overridden] => 
+            [shipping_amount] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [start_time] => 2024-11-12T06:37:40Z
+            [update_time] => 2024-11-12T06:56:06Z
+            [billing_info] => Array
+                (
+                    [outstanding_balance] => Array
+                        (
+                            [currency_code] => USD
+                            [value] => 0.0
+                        )
+
+                    [cycle_executions] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [tenure_type] => REGULAR
+                                    [sequence] => 1
+                                    [cycles_completed] => 1
+                                    [cycles_remaining] => 0
+                                    [current_pricing_scheme_version] => 1
+                                    [total_cycles] => 0
+                                )
+
+                        )
+
+                    [last_payment] => Array
+                        (
+                            [amount] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 11.0
+                                )
+
+                            [time] => 2024-11-12T06:38:30Z
+                        )
+
+                    [failed_payments_count] => 0
+                )
+
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-HG56PMDTCUPJ
+                            [rel] => self
+                            [method] => GET
+                            [encType] => application/json
+                        )
+
+                )
+
+            [id] => I-HG56PMDTCUPJ
+            [plan_id] => P-7GJ766049N2331039M4ZLDCY
+            [status] => CANCELLED
+            [status_update_time] => 2024-11-12T06:56:06Z
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-4XY236346W1372017-64L55110E2875602B
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-4XY236346W1372017-64L55110E2875602B/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-4GW829267L4968233-1ED48951P1489510U
+    [event_version] => 1.0
+    [create_time] => 2024-11-12T07:01:33.786Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CANCELLED
+    [summary] => Subscription cancelled
+    [resource] => Array
+        (
+            [status_change_note] => User requested cancellation
+            [quantity] => 1
+            [subscriber] => Array
+                (
+                    [email_address] => voanlaptrinh@gmail.com
+                    [payer_id] => XMCB6B422QAPN
+                    [name] => Array
+                        (
+                            [given_name] => khánh
+                            [surname] => khanh
+                        )
+
+                    [shipping_address] => Array
+                        (
+                            [address] => Array
+                                (
+                                    [address_line_1] => Thanh xuân
+                                    [address_line_2] => thanh xuân
+                                    [admin_area_2] => hà nội
+                                    [admin_area_1] => Hà Nội
+                                    [postal_code] => 111111
+                                    [country_code] => VN
+                                )
+
+                        )
+
+                )
+
+            [create_time] => 2024-11-12T06:33:32Z
+            [plan_overridden] => 
+            [shipping_amount] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [start_time] => 2024-11-12T06:33:04Z
+            [update_time] => 2024-11-12T07:01:22Z
+            [billing_info] => Array
+                (
+                    [outstanding_balance] => Array
+                        (
+                            [currency_code] => USD
+                            [value] => 0.0
+                        )
+
+                    [cycle_executions] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [tenure_type] => REGULAR
+                                    [sequence] => 1
+                                    [cycles_completed] => 1
+                                    [cycles_remaining] => 0
+                                    [current_pricing_scheme_version] => 1
+                                    [total_cycles] => 0
+                                )
+
+                        )
+
+                    [last_payment] => Array
+                        (
+                            [amount] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 11.0
+                                )
+
+                            [time] => 2024-11-12T06:33:33Z
+                        )
+
+                    [failed_payments_count] => 0
+                )
+
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-XL5FJTFMMLG3
+                            [rel] => self
+                            [method] => GET
+                            [encType] => application/json
+                        )
+
+                )
+
+            [id] => I-XL5FJTFMMLG3
+            [plan_id] => P-7GJ766049N2331039M4ZLDCY
+            [status] => CANCELLED
+            [status_update_time] => 2024-11-12T07:01:22Z
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-4GW829267L4968233-1ED48951P1489510U
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-4GW829267L4968233-1ED48951P1489510U/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-34V48737AP549605R-59B24161D78182028
+    [event_version] => 1.0
+    [create_time] => 2024-11-12T07:02:33.163Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CANCELLED
+    [summary] => Subscription cancelled
+    [resource] => Array
+        (
+            [status_change_note] => User requested cancellation
+            [quantity] => 1
+            [subscriber] => Array
+                (
+                    [email_address] => voanlaptrinh@gmail.com
+                    [payer_id] => XMCB6B422QAPN
+                    [name] => Array
+                        (
+                            [given_name] => khánh
+                            [surname] => khanh
+                        )
+
+                    [shipping_address] => Array
+                        (
+                            [address] => Array
+                                (
+                                    [address_line_1] => Thanh xuân
+                                    [address_line_2] => thanh xuân
+                                    [admin_area_2] => hà nội
+                                    [admin_area_1] => Hà Nội
+                                    [postal_code] => 111111
+                                    [country_code] => VN
+                                )
+
+                        )
+
+                )
+
+            [create_time] => 2024-11-12T04:36:27Z
+            [plan_overridden] => 
+            [shipping_amount] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [start_time] => 2024-11-12T04:35:35Z
+            [update_time] => 2024-11-12T07:02:29Z
+            [billing_info] => Array
+                (
+                    [outstanding_balance] => Array
+                        (
+                            [currency_code] => USD
+                            [value] => 0.0
+                        )
+
+                    [cycle_executions] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [tenure_type] => REGULAR
+                                    [sequence] => 1
+                                    [cycles_completed] => 1
+                                    [cycles_remaining] => 0
+                                    [current_pricing_scheme_version] => 1
+                                    [total_cycles] => 0
+                                )
+
+                        )
+
+                    [last_payment] => Array
+                        (
+                            [amount] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 11.0
+                                )
+
+                            [time] => 2024-11-12T04:36:28Z
+                        )
+
+                    [failed_payments_count] => 0
+                )
+
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-KTVMDFM6X2U1
+                            [rel] => self
+                            [method] => GET
+                            [encType] => application/json
+                        )
+
+                )
+
+            [id] => I-KTVMDFM6X2U1
+            [plan_id] => P-7GJ766049N2331039M4ZLDCY
+            [status] => CANCELLED
+            [status_update_time] => 2024-11-12T07:02:29Z
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-34V48737AP549605R-59B24161D78182028
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-34V48737AP549605R-59B24161D78182028/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-5TW32797SB319894N-3AY22676S33259525
+    [event_version] => 1.0
+    [create_time] => 2024-11-12T07:06:03.674Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CANCELLED
+    [summary] => Subscription cancelled
+    [resource] => Array
+        (
+            [status_change_note] => User requested cancellation
+            [quantity] => 1
+            [subscriber] => Array
+                (
+                    [email_address] => voanlaptrinh@gmail.com
+                    [payer_id] => XMCB6B422QAPN
+                    [name] => Array
+                        (
+                            [given_name] => khánh
+                            [surname] => khanh
+                        )
+
+                    [shipping_address] => Array
+                        (
+                            [address] => Array
+                                (
+                                    [address_line_1] => Thanh xuân
+                                    [address_line_2] => thanh xuân
+                                    [admin_area_2] => hà nội
+                                    [admin_area_1] => Hà Nội
+                                    [postal_code] => 111111
+                                    [country_code] => VN
+                                )
+
+                        )
+
+                )
+
+            [create_time] => 2024-11-12T07:04:29Z
+            [plan_overridden] => 
+            [shipping_amount] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [start_time] => 2024-11-12T07:03:59Z
+            [update_time] => 2024-11-12T07:05:52Z
+            [billing_info] => Array
+                (
+                    [outstanding_balance] => Array
+                        (
+                            [currency_code] => USD
+                            [value] => 0.0
+                        )
+
+                    [cycle_executions] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [tenure_type] => REGULAR
+                                    [sequence] => 1
+                                    [cycles_completed] => 1
+                                    [cycles_remaining] => 0
+                                    [current_pricing_scheme_version] => 1
+                                    [total_cycles] => 0
+                                )
+
+                        )
+
+                    [last_payment] => Array
+                        (
+                            [amount] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 11.0
+                                )
+
+                            [time] => 2024-11-12T07:04:29Z
+                        )
+
+                    [failed_payments_count] => 0
+                )
+
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-7DMUDHJE20B0
+                            [rel] => self
+                            [method] => GET
+                            [encType] => application/json
+                        )
+
+                )
+
+            [id] => I-7DMUDHJE20B0
+            [plan_id] => P-7GJ766049N2331039M4ZLDCY
+            [status] => CANCELLED
+            [status_update_time] => 2024-11-12T07:05:52Z
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-5TW32797SB319894N-3AY22676S33259525
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-5TW32797SB319894N-3AY22676S33259525/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-7RJ94000ME8965913-3XT10915A8779232F
+    [event_version] => 1.0
+    [create_time] => 2024-11-12T07:16:34.280Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CANCELLED
+    [summary] => Subscription cancelled
+    [resource] => Array
+        (
+            [status_change_note] => User requested cancellation
+            [quantity] => 1
+            [subscriber] => Array
+                (
+                    [email_address] => voanlaptrinh@gmail.com
+                    [payer_id] => XMCB6B422QAPN
+                    [name] => Array
+                        (
+                            [given_name] => khánh
+                            [surname] => khanh
+                        )
+
+                    [shipping_address] => Array
+                        (
+                            [address] => Array
+                                (
+                                    [address_line_1] => Thanh xuân
+                                    [address_line_2] => thanh xuân
+                                    [admin_area_2] => hà nội
+                                    [admin_area_1] => Hà Nội
+                                    [postal_code] => 111111
+                                    [country_code] => VN
+                                )
+
+                        )
+
+                )
+
+            [create_time] => 2024-11-12T07:11:38Z
+            [plan_overridden] => 
+            [shipping_amount] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [start_time] => 2024-11-12T07:10:52Z
+            [update_time] => 2024-11-12T07:16:09Z
+            [billing_info] => Array
+                (
+                    [outstanding_balance] => Array
+                        (
+                            [currency_code] => USD
+                            [value] => 0.0
+                        )
+
+                    [cycle_executions] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [tenure_type] => REGULAR
+                                    [sequence] => 1
+                                    [cycles_completed] => 1
+                                    [cycles_remaining] => 0
+                                    [current_pricing_scheme_version] => 1
+                                    [total_cycles] => 0
+                                )
+
+                        )
+
+                    [last_payment] => Array
+                        (
+                            [amount] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 11.0
+                                )
+
+                            [time] => 2024-11-12T07:11:39Z
+                        )
+
+                    [failed_payments_count] => 0
+                )
+
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-VJ9HEVGNN5CY
+                            [rel] => self
+                            [method] => GET
+                            [encType] => application/json
+                        )
+
+                )
+
+            [id] => I-VJ9HEVGNN5CY
+            [plan_id] => P-7GJ766049N2331039M4ZLDCY
+            [status] => CANCELLED
+            [status_update_time] => 2024-11-12T07:16:09Z
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-7RJ94000ME8965913-3XT10915A8779232F
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-7RJ94000ME8965913-3XT10915A8779232F/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-26211414UA787284V-1UC14341F59944039
+    [event_version] => 1.0
+    [create_time] => 2024-11-13T02:58:33.914Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CANCELLED
+    [summary] => Subscription cancelled
+    [resource] => Array
+        (
+            [status_change_note] => User requested cancellation
+            [quantity] => 1
+            [subscriber] => Array
+                (
+                    [email_address] => sb-gnfvg33961218@personal.example.com
+                    [payer_id] => 8FLSJRKCKH8LG
+                    [name] => Array
+                        (
+                            [given_name] => John
+                            [surname] => Doe
+                        )
+
+                    [shipping_address] => Array
+                        (
+                            [address] => Array
+                                (
+                                    [address_line_1] => 1 Main St
+                                    [admin_area_2] => San Jose
+                                    [admin_area_1] => CA
+                                    [postal_code] => 95131
+                                    [country_code] => US
+                                )
+
+                        )
+
+                )
+
+            [create_time] => 2024-11-13T02:55:50Z
+            [plan_overridden] => 
+            [shipping_amount] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [start_time] => 2024-11-13T02:52:45Z
+            [update_time] => 2024-11-13T02:58:09Z
+            [billing_info] => Array
+                (
+                    [outstanding_balance] => Array
+                        (
+                            [currency_code] => USD
+                            [value] => 0.0
+                        )
+
+                    [cycle_executions] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [tenure_type] => REGULAR
+                                    [sequence] => 1
+                                    [cycles_completed] => 1
+                                    [cycles_remaining] => 0
+                                    [current_pricing_scheme_version] => 1
+                                    [total_cycles] => 0
+                                )
+
+                        )
+
+                    [last_payment] => Array
+                        (
+                            [amount] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 11.0
+                                )
+
+                            [time] => 2024-11-13T02:55:51Z
+                        )
+
+                    [failed_payments_count] => 0
+                )
+
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-XK2U19CYF07C
+                            [rel] => self
+                            [method] => GET
+                            [encType] => application/json
+                        )
+
+                )
+
+            [id] => I-XK2U19CYF07C
+            [plan_id] => P-2N046189W34174607M4ZR6PA
+            [status] => CANCELLED
+            [status_update_time] => 2024-11-13T02:58:09Z
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-26211414UA787284V-1UC14341F59944039
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-26211414UA787284V-1UC14341F59944039/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+

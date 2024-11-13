@@ -17,8 +17,8 @@ class Common
     static function getDatabaseConnection()
     {
         try {
-            // $connection = new PDO("mysql:host=localhost; dbname=admin_vidcombo; charset=utf8;", "root", "");
-            $connection = new PDO("mysql:host=localhost; dbname=vidcombo_db; charset=utf8;", "vidcombo_db_user", "vidcombo_db_pass");
+            $connection = new PDO("mysql:host=localhost; dbname=admin_vidcombo; charset=utf8;", "root", "");
+            // $connection = new PDO("mysql:host=localhost; dbname=vidcombo_db; charset=utf8;", "vidcombo_db_user", "vidcombo_db_pass");
             $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             return $connection;
         } catch (PDOException $e) {
@@ -53,7 +53,32 @@ class Common
 
         return null;
     }
+    static function getPaypalSecrets()
+    {
+    //     $redis = new RedisCache('stripe_secrets');
+    //     $cache = $redis->getCache();
+    //     if ($cache) {
+    //         $result = json_decode($cache, true);
+    //     } else {
+            $connection = self::getDatabaseConnection();
+            $query = $connection->prepare("SELECT `client_id`, `webhook_id`, `client_secret`, `plan_jsonId` FROM `paypal_secrets` WHERE `status` = 'active'");
+            $query->execute();
+            $result = $query->fetch(PDO::FETCH_ASSOC);
 
+            // $redis->setCache(json_encode($result), 3600*24); // Cache for 1day
+        // }
+
+        if ($result) {
+            return [
+                'client_id' => $result['client_id'],
+                'client_secret' => $result['client_secret'],
+                'webhook_id' => $result['webhook_id'],
+                'plans' => json_decode($result['plan_jsonId'], true),
+            ];
+        }
+
+        return null;
+    }
 
     // public static $apiKey = 'sk_test_51OeDsPIXbeKO1uxjfGZLmBaoVYMdmbThMwRHSrNa6Zigu0FnQYuAatgfPEodv9suuRFROdNRHux5vUhDp7jC6nca00GbHqdk1Y';
     // public static $endpointSecret = 'whsec_5f17c8c4ada7dddedac39a07084388d087b1743d38e16af8bd996bb97a21c910';
@@ -106,7 +131,7 @@ class Common
 
         // Load the HTML template
         $template = file_get_contents(__DIR__ . '/tem_mail/send_key.html');
-        error_log('teamplate' . $template);
+        // error_log('teamplate' . $template);
         $template = str_replace('{{ $customer_name }}', htmlspecialchars($customer_name), $template);
         $template = str_replace('{{ $licenseKey }}', htmlspecialchars($licenseKey), $template);
 

@@ -89,6 +89,16 @@ class ComposerStaticInit40aa654f2e66c20881ae0572fe987a10
         ),
     );
 
+    public static $prefixesPsr0 = array (
+        'P' => 
+        array (
+            'PayPal' => 
+            array (
+                0 => __DIR__ . '/..' . '/paypal/rest-api-sdk-php/lib',
+            ),
+        ),
+    );
+
     public static $classMap = array (
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
@@ -103,6 +113,7 @@ class ComposerStaticInit40aa654f2e66c20881ae0572fe987a10
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit40aa654f2e66c20881ae0572fe987a10::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit40aa654f2e66c20881ae0572fe987a10::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit40aa654f2e66c20881ae0572fe987a10::$prefixesPsr0;
             $loader->classMap = ComposerStaticInit40aa654f2e66c20881ae0572fe987a10::$classMap;
 
         }, null, ClassLoader::class);

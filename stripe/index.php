@@ -77,7 +77,7 @@ class StripeApiFunction
     {
         // Lấy dữ liệu từ yêu cầu
         $body = file_get_contents('php://input');
-        parse_str($body, $data);
+        parse_str($body, result: $data);
         $licenseKey = isset($data['license_key'])?$data['license_key']:'';
         $plan = isset($data['plan'])?$data['plan']:'plan1';
         $planKey = isset($this->plans[$plan])?$this->plans[$plan]:'';

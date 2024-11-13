@@ -1,0 +1,50 @@
+reviseSubscription: 
+reviseSubscription: 
+reviseSubscription: 
+cURL error: Failed to connect to api-m.sandbox.paypal.com port 443 after 21229 ms: Couldn't connect to server
+reviseSubscription: {"name":"AUTHENTICATION_FAILURE","message":"Authentication failed due to invalid authentication credentials or a missing Authorization header.","links":[{"href":"https://developer.paypal.com/docs/api/overview/#error","rel":"information_link"}]}
+reviseSubscription: Array
+(
+    [name] => AUTHENTICATION_FAILURE
+    [message] => Authentication failed due to invalid authentication credentials or a missing Authorization header.
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://developer.paypal.com/docs/api/overview/#error
+                    [rel] => information_link
+                )
+
+        )
+
+)
+
+reviseSubscription: {"name":"UNPROCESSABLE_ENTITY","message":"The requested action could not be performed, semantically incorrect, or failed business validation.","debug_id":"f560327878125","details":[{"issue":"PLAN_PRODUCT_NOT_COMPATIBLE","description":"The old and the new plans should be for the same product."}],"links":[{"href":"https://developer.paypal.com/docs/api/v1/billing/subscriptions#UNPROCESSABLE_ENTITY","rel":"information_link","method":"GET"}]}
+reviseSubscription: Array
+(
+    [name] => UNPROCESSABLE_ENTITY
+    [message] => The requested action could not be performed, semantically incorrect, or failed business validation.
+    [debug_id] => f5896054ae465
+    [details] => Array
+        (
+            [0] => Array
+                (
+                    [issue] => PLAN_PRODUCT_NOT_COMPATIBLE
+                    [description] => The old and the new plans should be for the same product.
+                )
+
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://developer.paypal.com/docs/api/v1/billing/subscriptions#UNPROCESSABLE_ENTITY
+                    [rel] => information_link
+                    [method] => GET
+                )
+
+        )
+
+)
+
