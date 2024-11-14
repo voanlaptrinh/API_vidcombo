@@ -75,6 +75,37 @@ class StripeApiFunction
             return $device['subscription_id'];
         return null;
     }
+    function getBackNameByLicenseKey($licenseKey)
+    {
+        try {
+            // First query to get the subscription_id from the licensekey table
+            $stmt =  $this->connection->prepare("SELECT subscription_id FROM licensekey WHERE license_key = :licenseKey");
+            $stmt->execute([':licenseKey' => $licenseKey]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            // Check if a subscription_id was found
+            if ($result && isset($result['subscription_id'])) {
+                $subscriptionId = $result['subscription_id'];
+
+                // Second query to get the back_name from the subscriptions table
+                $stmt =  $this->connection->prepare("SELECT bank_name FROM subscriptions WHERE subscription_id = :subscriptionId");
+                $stmt->execute([':subscriptionId' => $subscriptionId]);
+                $subscriptionResult = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                // Return the bank_name if found
+                if ($subscriptionResult && isset($subscriptionResult['bank_name'])) {
+                    return $subscriptionResult['bank_name'];
+                } else {
+                    return "bank_name not found for the given subscription_id.";
+                }
+            } else {
+                return "subscription_id not found for the given license_key.";
+            }
+        } catch (PDOException $e) {
+            return "Database error: " . $e->getMessage();
+        }
+    }
+
     function createCheckoutSession(): void
     {
         $body = file_get_contents('php://input');
@@ -91,7 +122,7 @@ class StripeApiFunction
             $encodedPlan = base64_encode($plan);
             $encodedLicenseKey = base64_encode($licenseKey);
             $url = "http://localhost:8080/pay?planKey=" . urlencode($encodedPlanKey) . "&licenseKey=" . urlencode($encodedLicenseKey) . "&planName=" . urlencode($encodedPlan);
-    
+
             // Trả về URL chuyển trang
             $response = [
                 'session' => [
@@ -102,33 +133,40 @@ class StripeApiFunction
             echo json_encode($response);
             exit();
         } else {
-            // Nếu có licenseKey, tìm subscriptionId và nâng cấp subscription
-            $subscriptionId = $this->findSubscriptionIdByLicenseKey($licenseKey);
-    
-            if ($subscriptionId) {
-                // Nếu có subscriptionId, nâng cấp subscription hiện tại
-                $subscription = \Stripe\Subscription::retrieve($subscriptionId);
-    
-                $updatedSubscription = \Stripe\Subscription::update($subscriptionId, [
-                    'items' => [
-                        [
-                            'id' => $subscription->items->data[0]->id,
-                            'price' => $planKey,
-                        ],
-                    ],
-                    'proration_behavior' => 'create_prorations',
-                ]);
-    
-                // Trả về thông tin subscription đã được cập nhật
-                header('Content-Type: application/json');
-                echo json_encode(['subscription' => $updatedSubscription]);
-                exit();
-            } else {
-                // Nếu không tìm thấy subscriptionId, trả về lỗi hoặc thông báo
-                header('Content-Type: application/json');
-                echo json_encode(['error' => 'No subscription found for the provided license key.']);
-                exit();
-            }
+            $bank_name =  $this->getBackNameByLicenseKey($licenseKey);
+            var_dump($bank_name);
+            die();
+            // if ($bank_name == 'Stripe') {
+            //     // Nếu có licenseKey, tìm subscriptionId và nâng cấp subscription
+            //     $subscriptionId = $this->findSubscriptionIdByLicenseKey($licenseKey);
+
+            //     if ($subscriptionId) {
+            //         // Nếu có subscriptionId, nâng cấp subscription hiện tại
+            //         $subscription = \Stripe\Subscription::retrieve($subscriptionId);
+
+            //         $updatedSubscription = \Stripe\Subscription::update($subscriptionId, [
+            //             'items' => [
+            //                 [
+            //                     'id' => $subscription->items->data[0]->id,
+            //                     'price' => $planKey,
+            //                 ],
+            //             ],
+            //             'proration_behavior' => 'create_prorations',
+            //         ]);
+
+            //         // Trả về thông tin subscription đã được cập nhật
+            //         header('Content-Type: application/json');
+            //         echo json_encode(['subscription' => $updatedSubscription]);
+            //         exit();
+            //     } else {
+            //         // Nếu không tìm thấy subscriptionId, trả về lỗi hoặc thông báo
+            //         header('Content-Type: application/json');
+            //         echo json_encode(['error' => 'No subscription found for the provided license key.']);
+            //         exit();
+            //     }
+            // } else {
+            //    error_log('paypal');
+            // }
         }
     }
 
