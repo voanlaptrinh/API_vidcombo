@@ -14,6 +14,9 @@ switch ($func) {
     case 'create-checkout-session':
         $stripe_funtion->createCheckoutSession();
         break;
+    case 'create-pay-stripe':
+        $stripe_funtion->createPaySessionStripe();
+        break;
     case 'check-subscription':
         $stripe_funtion->checkSubscription();
         break;
@@ -48,8 +51,7 @@ class StripeApiFunction
             $this->endpointSecret = $stripeSecrets['endpointSecret'];
             $this->plans = json_decode($stripeSecrets['plans'], true);
             Stripe::setApiKey($this->apiKey);
-        }
-        else {
+        } else {
             throw new Exception('No active Stripe secrets found.');
         }
         $this->connection = Common::getDatabaseConnection();
@@ -61,27 +63,85 @@ class StripeApiFunction
 
     function findSubscriptionIdByLicenseKey($licenseKey)
     {
-        if(!$licenseKey || strlen($licenseKey)!=32)
+        if (!$licenseKey || strlen($licenseKey) != 32)
             return null;
-        
+
         // Chuẩn bị và thực hiện truy vấn
         $stmt = $this->connection->prepare("SELECT `subscription_id` FROM `licensekey` WHERE `license_key` = :license_key");
         $stmt->execute([':license_key' => $licenseKey]);
         $device = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if(isset($device['subscription_id']) && $device['subscription_id'])
+        if (isset($device['subscription_id']) && $device['subscription_id'])
             return $device['subscription_id'];
         return null;
     }
-    function createCheckoutSession()
+    function createCheckoutSession(): void
     {
-        // Lấy dữ liệu từ yêu cầu
+        $body = file_get_contents('php://input');
+        parse_str($body, $data);
+
+        $licenseKey = isset($data['license_key']) ? $data['license_key'] : '';
+        $plan = isset($data['plan']) ? $data['plan'] : 'plan1';
+
+        $planKey = isset($this->plans[$plan]) ? $this->plans[$plan] : '';
+
+        if (empty($licenseKey)) {
+            // Nếu không có licenseKey, tạo URL chuyển trang
+            $encodedPlanKey = base64_encode($planKey);
+            $encodedPlan = base64_encode($plan);
+            $encodedLicenseKey = base64_encode($licenseKey);
+            $url = "http://localhost:8080/pay?planKey=" . urlencode($encodedPlanKey) . "&licenseKey=" . urlencode($encodedLicenseKey) . "&planName=" . urlencode($encodedPlan);
+    
+            // Trả về URL chuyển trang
+            $response = [
+                'session' => [
+                    'url' => $url
+                ]
+            ];
+            header('Content-Type: application/json');
+            echo json_encode($response);
+            exit();
+        } else {
+            // Nếu có licenseKey, tìm subscriptionId và nâng cấp subscription
+            $subscriptionId = $this->findSubscriptionIdByLicenseKey($licenseKey);
+    
+            if ($subscriptionId) {
+                // Nếu có subscriptionId, nâng cấp subscription hiện tại
+                $subscription = \Stripe\Subscription::retrieve($subscriptionId);
+    
+                $updatedSubscription = \Stripe\Subscription::update($subscriptionId, [
+                    'items' => [
+                        [
+                            'id' => $subscription->items->data[0]->id,
+                            'price' => $planKey,
+                        ],
+                    ],
+                    'proration_behavior' => 'create_prorations',
+                ]);
+    
+                // Trả về thông tin subscription đã được cập nhật
+                header('Content-Type: application/json');
+                echo json_encode(['subscription' => $updatedSubscription]);
+                exit();
+            } else {
+                // Nếu không tìm thấy subscriptionId, trả về lỗi hoặc thông báo
+                header('Content-Type: application/json');
+                echo json_encode(['error' => 'No subscription found for the provided license key.']);
+                exit();
+            }
+        }
+    }
+
+
+
+
+    function createPaySessionStripe()
+    {
         $body = file_get_contents('php://input');
         parse_str($body, result: $data);
-        $licenseKey = isset($data['license_key'])?$data['license_key']:'';
-        $plan = isset($data['plan'])?$data['plan']:'plan1';
-        $planKey = isset($this->plans[$plan])?$this->plans[$plan]:'';
-
+        $licenseKey = isset($data['license_key']) ? $data['license_key'] : '';
+        $plan = isset($data['plan']) ? $data['plan'] : 'plan1';
+        $planKey = isset($this->plans[$plan]) ? $this->plans[$plan] : '';
         if (!$planKey) {
             header('Content-Type: application/json');
             echo json_encode(['error' => 'New plan and customer are required']);
@@ -128,7 +188,6 @@ class StripeApiFunction
             echo json_encode(['error' => $e->getMessage()]);
         }
     }
-
     // Hàm kiểm tra subscription
     function checkSubscription()
     {
@@ -176,8 +235,7 @@ class StripeApiFunction
         // file_put_contents($log_directory . $fname, $data);
 
         try {
-            switch ($event->type)
-            {
+            switch ($event->type) {
                 case 'invoice.payment_succeeded': //Xảy ra bất cứ khi nào nỗ lực thanh toán hóa đơn thành công.
                     $this->handleInvoicePaymentSucceeded($event->data->object);
                     break;
@@ -259,7 +317,7 @@ class StripeApiFunction
         $updateQuery = 'UPDATE `licensekey` SET `status` = "inactive" WHERE customer_id = ?';
         $updateStmt = $this->connection->prepare($updateQuery);
         $updateStmt->execute([$customer_id]);
-//        error_log('update licensekey' . $refund);
+        //        error_log('update licensekey' . $refund);
     }
 
     function handleCustomerUpdated($customer)
@@ -273,7 +331,7 @@ class StripeApiFunction
 
         // Chuẩn bị truy vấn SQL để chèn hoặc cập nhật khách hàng vào cơ sở dữ liệu
         $query = 'INSERT INTO `customers` (`customer_id`, `email`, `name`, `created_at`) VALUES (?, ?, ?, ?)  
-    ON DUPLICATE KEY UPDATE `email` = "'.$email.'",  `name` = "'.$name.'", `created_at` = "'.$created_date.'"';
+    ON DUPLICATE KEY UPDATE `email` = "' . $email . '",  `name` = "' . $name . '", `created_at` = "' . $created_date . '"';
         $stmt = $this->connection->prepare($query);
         $stmt->execute([$customer_id, $email, $name, $created_date]);
 
@@ -314,8 +372,7 @@ class StripeApiFunction
             ]);
 
             // Chỉ cập nhật bảng licensekey nếu trạng thái là 'paid'
-            if ($status == 'paid')
-            {
+            if ($status == 'paid') {
                 $amount_in_dollars = $amount_due / 100;
                 $amount_due =  number_format($amount_in_dollars, 2);
                 // Gửi email thông báo
@@ -410,10 +467,10 @@ class StripeApiFunction
         $stmt = $this->connection->prepare("SELECT * FROM `licensekey` WHERE `subscription_id` = :subscription_id");
         $stmt->execute([':subscription_id' => $subscription_id]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        $license_key = isset($result['license_key'])?$result['license_key']:'';
+        $license_key = isset($result['license_key']) ? $result['license_key'] : '';
 
-        if($license_key){
-            $redis = new RedisCache('DETAIL_'.$license_key);
+        if ($license_key) {
+            $redis = new RedisCache('DETAIL_' . $license_key);
             $redis->setCache('', 300);
 
             // Gửi email nếu license_key tồn tại và chưa được gửi
@@ -526,8 +583,7 @@ class StripeApiFunction
             $stmt->execute([':subscription_id' => $subscription_id]);
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
             return isset($result['customer_email']) ? $result['customer_email'] : null;
-        }
-        catch (PDOException $e) {
+        } catch (PDOException $e) {
             error_log("Error occurred in getCustomerEmailBySubscriptionId: " . $e->getMessage());
             return null;
         }
@@ -597,8 +653,7 @@ class StripeApiFunction
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         // Kiểm tra và gửi email chỉ khi licenseKey tồn tại
 
-        if ($result && isset($result['license_key']) && $result['send'] === 'not') 
-        {
+        if ($result && isset($result['license_key']) && $result['send'] === 'not') {
             $licenseKey = $result['license_key'];
 
             error_log("EMAIL: $customer_email");
@@ -607,7 +662,7 @@ class StripeApiFunction
             //Gửi licenseKey qua email
             $send_status = Common::sendLicenseKeyEmail($customer_email, $customer_name, $licenseKey);
 
-            if($send_status){
+            if ($send_status) {
                 $licensekey_stmt = $this->connection->prepare("UPDATE `licensekey` SET `send` = :send WHERE `subscription_id` = :subscription_id");
                 $licensekey_stmt->execute([
                     ':send' => 'ok',
@@ -691,18 +746,4 @@ class StripeApiFunction
     {
         return strtoupper(bin2hex(random_bytes(16)));
     }
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

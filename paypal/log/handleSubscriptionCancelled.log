@@ -747,3 +747,127 @@ Array
 )
 
 
+Webhook event received:
+Array
+(
+    [id] => WH-5EG16422S70227432-3MG69373N4930263B
+    [event_version] => 1.0
+    [create_time] => 2024-11-14T09:41:03.741Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CANCELLED
+    [summary] => Subscription cancelled
+    [resource] => Array
+        (
+            [status_change_note] => User requested cancellation
+            [quantity] => 1
+            [subscriber] => Array
+                (
+                    [email_address] => sb-gnfvg33961218@personal.example.com
+                    [payer_id] => 8FLSJRKCKH8LG
+                    [name] => Array
+                        (
+                            [given_name] => John
+                            [surname] => Doe
+                        )
+
+                    [shipping_address] => Array
+                        (
+                            [address] => Array
+                                (
+                                    [address_line_1] => 1 Main St
+                                    [admin_area_2] => San Jose
+                                    [admin_area_1] => CA
+                                    [postal_code] => 95131
+                                    [country_code] => US
+                                )
+
+                        )
+
+                )
+
+            [create_time] => 2024-11-13T08:12:42Z
+            [plan_overridden] => 
+            [shipping_amount] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [start_time] => 2024-11-13T08:12:02Z
+            [update_time] => 2024-11-14T09:40:33Z
+            [billing_info] => Array
+                (
+                    [outstanding_balance] => Array
+                        (
+                            [currency_code] => USD
+                            [value] => 0.0
+                        )
+
+                    [cycle_executions] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [tenure_type] => REGULAR
+                                    [sequence] => 1
+                                    [cycles_completed] => 1
+                                    [cycles_remaining] => 0
+                                    [current_pricing_scheme_version] => 1
+                                    [total_cycles] => 0
+                                )
+
+                        )
+
+                    [last_payment] => Array
+                        (
+                            [amount] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 11.0
+                                )
+
+                            [time] => 2024-11-13T08:12:42Z
+                        )
+
+                    [failed_payments_count] => 0
+                )
+
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-56XAF5XMDW3W
+                            [rel] => self
+                            [method] => GET
+                            [encType] => application/json
+                        )
+
+                )
+
+            [id] => I-56XAF5XMDW3W
+            [plan_id] => P-2N046189W34174607M4ZR6PA
+            [status] => CANCELLED
+            [status_update_time] => 2024-11-14T09:40:33Z
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-5EG16422S70227432-3MG69373N4930263B
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-5EG16422S70227432-3MG69373N4930263B/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
