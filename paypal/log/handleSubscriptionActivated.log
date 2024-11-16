@@ -8283,3 +8283,4210 @@ Array
 current_period_end:
 2024-11-14 10:00:00
 
+Webhook event received:
+Array
+(
+    [id] => WH-01979508W9930154Y-2LT75766HR0604610
+    [event_version] => 1.0
+    [create_time] => 2024-11-15T04:23:03.553Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.ACTIVATED
+    [summary] => Subscription activated
+    [resource] => Array
+        (
+            [quantity] => 1
+            [subscriber] => Array
+                (
+                    [email_address] => sb-gnfvg33961218@personal.example.com
+                    [payer_id] => 8FLSJRKCKH8LG
+                    [name] => Array
+                        (
+                            [given_name] => John
+                            [surname] => Doe
+                        )
+
+                    [shipping_address] => Array
+                        (
+                            [address] => Array
+                                (
+                                    [address_line_1] => 1 Main St
+                                    [admin_area_2] => San Jose
+                                    [admin_area_1] => CA
+                                    [postal_code] => 95131
+                                    [country_code] => US
+                                )
+
+                        )
+
+                )
+
+            [create_time] => 2024-11-15T04:22:33Z
+            [plan_overridden] => 
+            [shipping_amount] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [start_time] => 2024-11-15T04:22:02Z
+            [update_time] => 2024-11-15T04:22:34Z
+            [billing_info] => Array
+                (
+                    [outstanding_balance] => Array
+                        (
+                            [currency_code] => USD
+                            [value] => 0.0
+                        )
+
+                    [cycle_executions] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [tenure_type] => REGULAR
+                                    [sequence] => 1
+                                    [cycles_completed] => 1
+                                    [cycles_remaining] => 0
+                                    [current_pricing_scheme_version] => 1
+                                    [total_cycles] => 0
+                                )
+
+                        )
+
+                    [last_payment] => Array
+                        (
+                            [amount] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 11.0
+                                )
+
+                            [time] => 2024-11-15T04:22:34Z
+                        )
+
+                    [next_billing_time] => 2024-11-15T10:00:00Z
+                    [failed_payments_count] => 0
+                )
+
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-C4RH0VPCNL26/cancel
+                            [rel] => cancel
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-C4RH0VPCNL26
+                            [rel] => edit
+                            [method] => PATCH
+                            [encType] => application/json
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-C4RH0VPCNL26
+                            [rel] => self
+                            [method] => GET
+                            [encType] => application/json
+                        )
+
+                    [3] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-C4RH0VPCNL26/suspend
+                            [rel] => suspend
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [4] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-C4RH0VPCNL26/capture
+                            [rel] => capture
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                )
+
+            [id] => I-C4RH0VPCNL26
+            [plan_id] => P-2N046189W34174607M4ZR6PA
+            [status] => ACTIVE
+            [status_update_time] => 2024-11-15T04:22:34Z
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-01979508W9930154Y-2LT75766HR0604610
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-01979508W9930154Y-2LT75766HR0604610/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+current_period_end:
+2024-11-15 10:00:00
+
+Webhook event received:
+Array
+(
+    [id] => WH-83D8618219021650A-3VL096725L196502T
+    [event_version] => 1.0
+    [create_time] => 2024-11-15T04:46:10.853Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.ACTIVATED
+    [summary] => Subscription activated
+    [resource] => Array
+        (
+            [quantity] => 1
+            [subscriber] => Array
+                (
+                    [email_address] => sb-gnfvg33961218@personal.example.com
+                    [payer_id] => 8FLSJRKCKH8LG
+                    [name] => Array
+                        (
+                            [given_name] => John
+                            [surname] => Doe
+                        )
+
+                    [shipping_address] => Array
+                        (
+                            [address] => Array
+                                (
+                                    [address_line_1] => 1 Main St
+                                    [admin_area_2] => San Jose
+                                    [admin_area_1] => CA
+                                    [postal_code] => 95131
+                                    [country_code] => US
+                                )
+
+                        )
+
+                )
+
+            [create_time] => 2024-11-15T04:46:05Z
+            [plan_overridden] => 
+            [shipping_amount] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [start_time] => 2024-11-15T04:45:18Z
+            [update_time] => 2024-11-15T04:46:06Z
+            [billing_info] => Array
+                (
+                    [outstanding_balance] => Array
+                        (
+                            [currency_code] => USD
+                            [value] => 0.0
+                        )
+
+                    [cycle_executions] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [tenure_type] => REGULAR
+                                    [sequence] => 1
+                                    [cycles_completed] => 1
+                                    [cycles_remaining] => 0
+                                    [current_pricing_scheme_version] => 1
+                                    [total_cycles] => 0
+                                )
+
+                        )
+
+                    [last_payment] => Array
+                        (
+                            [amount] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 11.0
+                                )
+
+                            [time] => 2024-11-15T04:46:06Z
+                        )
+
+                    [next_billing_time] => 2024-11-15T10:00:00Z
+                    [failed_payments_count] => 0
+                )
+
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-HM7F7W546B3P/cancel
+                            [rel] => cancel
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-HM7F7W546B3P
+                            [rel] => edit
+                            [method] => PATCH
+                            [encType] => application/json
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-HM7F7W546B3P
+                            [rel] => self
+                            [method] => GET
+                            [encType] => application/json
+                        )
+
+                    [3] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-HM7F7W546B3P/suspend
+                            [rel] => suspend
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [4] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-HM7F7W546B3P/capture
+                            [rel] => capture
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                )
+
+            [id] => I-HM7F7W546B3P
+            [plan_id] => P-2N046189W34174607M4ZR6PA
+            [status] => ACTIVE
+            [status_update_time] => 2024-11-15T04:46:06Z
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-83D8618219021650A-3VL096725L196502T
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-83D8618219021650A-3VL096725L196502T/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+current_period_end:
+2024-11-15 04:46:08
+
+Webhook event received:
+Array
+(
+    [id] => WH-1F478603XR4660503-4EH90153YV7227435
+    [event_version] => 1.0
+    [create_time] => 2024-11-15T04:50:48.124Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.ACTIVATED
+    [summary] => Subscription activated
+    [resource] => Array
+        (
+            [quantity] => 1
+            [subscriber] => Array
+                (
+                    [email_address] => sb-gnfvg33961218@personal.example.com
+                    [payer_id] => 8FLSJRKCKH8LG
+                    [name] => Array
+                        (
+                            [given_name] => John
+                            [surname] => Doe
+                        )
+
+                    [shipping_address] => Array
+                        (
+                            [address] => Array
+                                (
+                                    [address_line_1] => 1 Main St
+                                    [admin_area_2] => San Jose
+                                    [admin_area_1] => CA
+                                    [postal_code] => 95131
+                                    [country_code] => US
+                                )
+
+                        )
+
+                )
+
+            [create_time] => 2024-11-15T04:50:42Z
+            [plan_overridden] => 
+            [shipping_amount] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [start_time] => 2024-11-15T04:50:19Z
+            [update_time] => 2024-11-15T04:50:43Z
+            [billing_info] => Array
+                (
+                    [outstanding_balance] => Array
+                        (
+                            [currency_code] => USD
+                            [value] => 0.0
+                        )
+
+                    [cycle_executions] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [tenure_type] => REGULAR
+                                    [sequence] => 1
+                                    [cycles_completed] => 1
+                                    [cycles_remaining] => 0
+                                    [current_pricing_scheme_version] => 1
+                                    [total_cycles] => 0
+                                )
+
+                        )
+
+                    [last_payment] => Array
+                        (
+                            [amount] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 11.0
+                                )
+
+                            [time] => 2024-11-15T04:50:43Z
+                        )
+
+                    [next_billing_time] => 2024-11-15T10:00:00Z
+                    [failed_payments_count] => 0
+                )
+
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-CTLY382NU0RP/cancel
+                            [rel] => cancel
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-CTLY382NU0RP
+                            [rel] => edit
+                            [method] => PATCH
+                            [encType] => application/json
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-CTLY382NU0RP
+                            [rel] => self
+                            [method] => GET
+                            [encType] => application/json
+                        )
+
+                    [3] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-CTLY382NU0RP/suspend
+                            [rel] => suspend
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [4] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-CTLY382NU0RP/capture
+                            [rel] => capture
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                )
+
+            [id] => I-CTLY382NU0RP
+            [plan_id] => P-2N046189W34174607M4ZR6PA
+            [status] => ACTIVE
+            [status_update_time] => 2024-11-15T04:50:43Z
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-1F478603XR4660503-4EH90153YV7227435
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-1F478603XR4660503-4EH90153YV7227435/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+current_period_end:
+2024-11-15 04:50:38
+
+Webhook event received:
+Array
+(
+    [id] => WH-65U07841AF0626017-2PE01358WV5164703
+    [event_version] => 1.0
+    [create_time] => 2024-11-15T04:53:03.276Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.ACTIVATED
+    [summary] => Subscription activated
+    [resource] => Array
+        (
+            [quantity] => 1
+            [subscriber] => Array
+                (
+                    [email_address] => sb-gnfvg33961218@personal.example.com
+                    [payer_id] => 8FLSJRKCKH8LG
+                    [name] => Array
+                        (
+                            [given_name] => John
+                            [surname] => Doe
+                        )
+
+                    [shipping_address] => Array
+                        (
+                            [address] => Array
+                                (
+                                    [address_line_1] => 1 Main St
+                                    [admin_area_2] => San Jose
+                                    [admin_area_1] => CA
+                                    [postal_code] => 95131
+                                    [country_code] => US
+                                )
+
+                        )
+
+                )
+
+            [create_time] => 2024-11-15T04:52:51Z
+            [plan_overridden] => 
+            [shipping_amount] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [start_time] => 2024-11-15T04:52:18Z
+            [update_time] => 2024-11-15T04:52:52Z
+            [billing_info] => Array
+                (
+                    [outstanding_balance] => Array
+                        (
+                            [currency_code] => USD
+                            [value] => 0.0
+                        )
+
+                    [cycle_executions] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [tenure_type] => REGULAR
+                                    [sequence] => 1
+                                    [cycles_completed] => 1
+                                    [cycles_remaining] => 0
+                                    [current_pricing_scheme_version] => 1
+                                    [total_cycles] => 0
+                                )
+
+                        )
+
+                    [last_payment] => Array
+                        (
+                            [amount] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 11.0
+                                )
+
+                            [time] => 2024-11-15T04:52:52Z
+                        )
+
+                    [next_billing_time] => 2024-11-15T10:00:00Z
+                    [failed_payments_count] => 0
+                )
+
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-D30NTHNRGLDV/cancel
+                            [rel] => cancel
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-D30NTHNRGLDV
+                            [rel] => edit
+                            [method] => PATCH
+                            [encType] => application/json
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-D30NTHNRGLDV
+                            [rel] => self
+                            [method] => GET
+                            [encType] => application/json
+                        )
+
+                    [3] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-D30NTHNRGLDV/suspend
+                            [rel] => suspend
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [4] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-D30NTHNRGLDV/capture
+                            [rel] => capture
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                )
+
+            [id] => I-D30NTHNRGLDV
+            [plan_id] => P-2N046189W34174607M4ZR6PA
+            [status] => ACTIVE
+            [status_update_time] => 2024-11-15T04:52:52Z
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-65U07841AF0626017-2PE01358WV5164703
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-65U07841AF0626017-2PE01358WV5164703/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+current_period_end:
+2024-11-15 04:52:58Array
+(
+    [name] => AUTHENTICATION_FAILURE
+    [message] => Authentication failed due to invalid authentication credentials or a missing Authorization header.
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://developer.paypal.com/docs/api/overview/#error
+                    [rel] => information_link
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-74R53114MC731680V-8PF1094777323962F
+    [event_version] => 1.0
+    [create_time] => 2024-11-15T04:55:03.509Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.ACTIVATED
+    [summary] => Subscription activated
+    [resource] => Array
+        (
+            [quantity] => 1
+            [subscriber] => Array
+                (
+                    [email_address] => sb-gnfvg33961218@personal.example.com
+                    [payer_id] => 8FLSJRKCKH8LG
+                    [name] => Array
+                        (
+                            [given_name] => John
+                            [surname] => Doe
+                        )
+
+                    [shipping_address] => Array
+                        (
+                            [address] => Array
+                                (
+                                    [address_line_1] => 1 Main St
+                                    [admin_area_2] => San Jose
+                                    [admin_area_1] => CA
+                                    [postal_code] => 95131
+                                    [country_code] => US
+                                )
+
+                        )
+
+                )
+
+            [create_time] => 2024-11-15T04:54:57Z
+            [plan_overridden] => 
+            [shipping_amount] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [start_time] => 2024-11-15T04:54:27Z
+            [update_time] => 2024-11-15T04:54:58Z
+            [billing_info] => Array
+                (
+                    [outstanding_balance] => Array
+                        (
+                            [currency_code] => USD
+                            [value] => 0.0
+                        )
+
+                    [cycle_executions] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [tenure_type] => REGULAR
+                                    [sequence] => 1
+                                    [cycles_completed] => 1
+                                    [cycles_remaining] => 0
+                                    [current_pricing_scheme_version] => 1
+                                    [total_cycles] => 0
+                                )
+
+                        )
+
+                    [last_payment] => Array
+                        (
+                            [amount] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 11.0
+                                )
+
+                            [time] => 2024-11-15T04:54:57Z
+                        )
+
+                    [next_billing_time] => 2024-11-15T10:00:00Z
+                    [failed_payments_count] => 0
+                )
+
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-7MK8N1P396YU/cancel
+                            [rel] => cancel
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-7MK8N1P396YU
+                            [rel] => edit
+                            [method] => PATCH
+                            [encType] => application/json
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-7MK8N1P396YU
+                            [rel] => self
+                            [method] => GET
+                            [encType] => application/json
+                        )
+
+                    [3] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-7MK8N1P396YU/suspend
+                            [rel] => suspend
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [4] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-7MK8N1P396YU/capture
+                            [rel] => capture
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                )
+
+            [id] => I-7MK8N1P396YU
+            [plan_id] => P-2N046189W34174607M4ZR6PA
+            [status] => ACTIVE
+            [status_update_time] => 2024-11-15T04:54:58Z
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-74R53114MC731680V-8PF1094777323962F
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-74R53114MC731680V-8PF1094777323962F/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+current_period_end:
+2024-11-15 04:54:57Array
+(
+    [name] => AUTHENTICATION_FAILURE
+    [message] => Authentication failed due to invalid authentication credentials or a missing Authorization header.
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://developer.paypal.com/docs/api/overview/#error
+                    [rel] => information_link
+                )
+
+        )
+
+)
+
+
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-45G73371G91714005-8VD2022356922163R
+    [event_version] => 1.0
+    [create_time] => 2024-11-15T05:00:03.348Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.ACTIVATED
+    [summary] => Subscription activated
+    [resource] => Array
+        (
+            [quantity] => 1
+            [subscriber] => Array
+                (
+                    [email_address] => sb-gnfvg33961218@personal.example.com
+                    [payer_id] => 8FLSJRKCKH8LG
+                    [name] => Array
+                        (
+                            [given_name] => John
+                            [surname] => Doe
+                        )
+
+                    [shipping_address] => Array
+                        (
+                            [address] => Array
+                                (
+                                    [address_line_1] => 1 Main St
+                                    [admin_area_2] => San Jose
+                                    [admin_area_1] => CA
+                                    [postal_code] => 95131
+                                    [country_code] => US
+                                )
+
+                        )
+
+                )
+
+            [create_time] => 2024-11-15T04:59:45Z
+            [plan_overridden] => 
+            [shipping_amount] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [start_time] => 2024-11-15T04:59:12Z
+            [update_time] => 2024-11-15T04:59:46Z
+            [billing_info] => Array
+                (
+                    [outstanding_balance] => Array
+                        (
+                            [currency_code] => USD
+                            [value] => 0.0
+                        )
+
+                    [cycle_executions] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [tenure_type] => REGULAR
+                                    [sequence] => 1
+                                    [cycles_completed] => 1
+                                    [cycles_remaining] => 0
+                                    [current_pricing_scheme_version] => 1
+                                    [total_cycles] => 0
+                                )
+
+                        )
+
+                    [last_payment] => Array
+                        (
+                            [amount] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 11.0
+                                )
+
+                            [time] => 2024-11-15T04:59:46Z
+                        )
+
+                    [next_billing_time] => 2024-11-15T10:00:00Z
+                    [failed_payments_count] => 0
+                )
+
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-72CS4LBHLRW0/cancel
+                            [rel] => cancel
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-72CS4LBHLRW0
+                            [rel] => edit
+                            [method] => PATCH
+                            [encType] => application/json
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-72CS4LBHLRW0
+                            [rel] => self
+                            [method] => GET
+                            [encType] => application/json
+                        )
+
+                    [3] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-72CS4LBHLRW0/suspend
+                            [rel] => suspend
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [4] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-72CS4LBHLRW0/capture
+                            [rel] => capture
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                )
+
+            [id] => I-72CS4LBHLRW0
+            [plan_id] => P-2N046189W34174607M4ZR6PA
+            [status] => ACTIVE
+            [status_update_time] => 2024-11-15T04:59:46Z
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-45G73371G91714005-8VD2022356922163R
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-45G73371G91714005-8VD2022356922163R/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+current_period_end:
+2024-11-15 04:59:52Array
+(
+    [id] => P-2N046189W34174607M4ZR6PA
+    [product_id] => PROD-56L15867X6215711R
+    [name] => Gói 1 ngày
+    [status] => ACTIVE
+    [description] => A monthly subscription to our service.
+    [usage_type] => LICENSED
+    [billing_cycles] => Array
+        (
+            [0] => Array
+                (
+                    [pricing_scheme] => Array
+                        (
+                            [version] => 1
+                            [fixed_price] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 10.0
+                                )
+
+                            [create_time] => 2024-11-12T09:26:20Z
+                            [update_time] => 2024-11-12T09:26:20Z
+                        )
+
+                    [frequency] => Array
+                        (
+                            [interval_unit] => DAY
+                            [interval_count] => 1
+                        )
+
+                    [tenure_type] => REGULAR
+                    [sequence] => 1
+                    [total_cycles] => 0
+                )
+
+        )
+
+    [payment_preferences] => Array
+        (
+            [service_type] => PREPAID
+            [auto_bill_outstanding] => 1
+            [setup_fee] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [setup_fee_failure_action] => CANCEL
+            [payment_failure_threshold] => 3
+        )
+
+    [taxes] => Array
+        (
+            [percentage] => 10.0
+            [inclusive] => 
+        )
+
+    [quantity_supported] => 
+    [create_time] => 2024-11-12T09:26:20Z
+    [update_time] => 2024-11-12T09:26:20Z
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-2N046189W34174607M4ZR6PA
+                    [rel] => self
+                    [method] => GET
+                    [encType] => application/json
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-2N046189W34174607M4ZR6PA
+                    [rel] => edit
+                    [method] => PATCH
+                    [encType] => application/json
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-2N046189W34174607M4ZR6PA/deactivate
+                    [rel] => self
+                    [method] => POST
+                    [encType] => application/json
+                )
+
+        )
+
+)
+
+
+A21AAIH5IDpsZmd3IXkArUY_D3BRrtCOaOipPYl5lxT6acNAVh0YnsCMBKulO_6s2tgnGBfHrxB1PR84r9fNBizilcWgRO8tg
+
+Webhook event received:
+Array
+(
+    [id] => WH-3AL34008J3261510M-49X45207776159057
+    [event_version] => 1.0
+    [create_time] => 2024-11-15T05:03:26.420Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.ACTIVATED
+    [summary] => Subscription activated
+    [resource] => Array
+        (
+            [quantity] => 1
+            [subscriber] => Array
+                (
+                    [email_address] => sb-gnfvg33961218@personal.example.com
+                    [payer_id] => 8FLSJRKCKH8LG
+                    [name] => Array
+                        (
+                            [given_name] => John
+                            [surname] => Doe
+                        )
+
+                    [shipping_address] => Array
+                        (
+                            [address] => Array
+                                (
+                                    [address_line_1] => 1 Main St
+                                    [admin_area_2] => San Jose
+                                    [admin_area_1] => CA
+                                    [postal_code] => 95131
+                                    [country_code] => US
+                                )
+
+                        )
+
+                )
+
+            [create_time] => 2024-11-15T05:03:21Z
+            [plan_overridden] => 
+            [shipping_amount] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [start_time] => 2024-11-15T05:02:58Z
+            [update_time] => 2024-11-15T05:03:22Z
+            [billing_info] => Array
+                (
+                    [outstanding_balance] => Array
+                        (
+                            [currency_code] => USD
+                            [value] => 0.0
+                        )
+
+                    [cycle_executions] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [tenure_type] => REGULAR
+                                    [sequence] => 1
+                                    [cycles_completed] => 1
+                                    [cycles_remaining] => 0
+                                    [current_pricing_scheme_version] => 1
+                                    [total_cycles] => 0
+                                )
+
+                        )
+
+                    [last_payment] => Array
+                        (
+                            [amount] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 11.0
+                                )
+
+                            [time] => 2024-11-15T05:03:22Z
+                        )
+
+                    [next_billing_time] => 2024-11-15T10:00:00Z
+                    [failed_payments_count] => 0
+                )
+
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-T2HFHXMJDM1T/cancel
+                            [rel] => cancel
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-T2HFHXMJDM1T
+                            [rel] => edit
+                            [method] => PATCH
+                            [encType] => application/json
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-T2HFHXMJDM1T
+                            [rel] => self
+                            [method] => GET
+                            [encType] => application/json
+                        )
+
+                    [3] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-T2HFHXMJDM1T/suspend
+                            [rel] => suspend
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [4] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-T2HFHXMJDM1T/capture
+                            [rel] => capture
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                )
+
+            [id] => I-T2HFHXMJDM1T
+            [plan_id] => P-2N046189W34174607M4ZR6PA
+            [status] => ACTIVE
+            [status_update_time] => 2024-11-15T05:03:22Z
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-3AL34008J3261510M-49X45207776159057
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-3AL34008J3261510M-49X45207776159057/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+current_period_end:
+2024-11-15 05:03:13Array
+(
+    [id] => P-2N046189W34174607M4ZR6PA
+    [product_id] => PROD-56L15867X6215711R
+    [name] => Gói 1 ngày
+    [status] => ACTIVE
+    [description] => A monthly subscription to our service.
+    [usage_type] => LICENSED
+    [billing_cycles] => Array
+        (
+            [0] => Array
+                (
+                    [pricing_scheme] => Array
+                        (
+                            [version] => 1
+                            [fixed_price] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 10.0
+                                )
+
+                            [create_time] => 2024-11-12T09:26:20Z
+                            [update_time] => 2024-11-12T09:26:20Z
+                        )
+
+                    [frequency] => Array
+                        (
+                            [interval_unit] => DAY
+                            [interval_count] => 1
+                        )
+
+                    [tenure_type] => REGULAR
+                    [sequence] => 1
+                    [total_cycles] => 0
+                )
+
+        )
+
+    [payment_preferences] => Array
+        (
+            [service_type] => PREPAID
+            [auto_bill_outstanding] => 1
+            [setup_fee] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [setup_fee_failure_action] => CANCEL
+            [payment_failure_threshold] => 3
+        )
+
+    [taxes] => Array
+        (
+            [percentage] => 10.0
+            [inclusive] => 
+        )
+
+    [quantity_supported] => 
+    [create_time] => 2024-11-12T09:26:20Z
+    [update_time] => 2024-11-12T09:26:20Z
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-2N046189W34174607M4ZR6PA
+                    [rel] => self
+                    [method] => GET
+                    [encType] => application/json
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-2N046189W34174607M4ZR6PA
+                    [rel] => edit
+                    [method] => PATCH
+                    [encType] => application/json
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-2N046189W34174607M4ZR6PA/deactivate
+                    [rel] => self
+                    [method] => POST
+                    [encType] => application/json
+                )
+
+        )
+
+)
+
+
+A21AAIH5IDpsZmd3IXkArUY_D3BRrtCOaOipPYl5lxT6acNAVh0YnsCMBKulO_6s2tgnGBfHrxB1PR84r9fNBizilcWgRO8tg
+
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-77348840FJ117440U-3WB91344RX440031X
+    [event_version] => 1.0
+    [create_time] => 2024-11-15T05:06:33.536Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.ACTIVATED
+    [summary] => Subscription activated
+    [resource] => Array
+        (
+            [quantity] => 1
+            [subscriber] => Array
+                (
+                    [email_address] => sb-gnfvg33961218@personal.example.com
+                    [payer_id] => 8FLSJRKCKH8LG
+                    [name] => Array
+                        (
+                            [given_name] => John
+                            [surname] => Doe
+                        )
+
+                    [shipping_address] => Array
+                        (
+                            [address] => Array
+                                (
+                                    [address_line_1] => 1 Main St
+                                    [admin_area_2] => San Jose
+                                    [admin_area_1] => CA
+                                    [postal_code] => 95131
+                                    [country_code] => US
+                                )
+
+                        )
+
+                )
+
+            [create_time] => 2024-11-15T05:06:15Z
+            [plan_overridden] => 
+            [shipping_amount] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [start_time] => 2024-11-15T05:05:48Z
+            [update_time] => 2024-11-15T05:06:16Z
+            [billing_info] => Array
+                (
+                    [outstanding_balance] => Array
+                        (
+                            [currency_code] => USD
+                            [value] => 0.0
+                        )
+
+                    [cycle_executions] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [tenure_type] => REGULAR
+                                    [sequence] => 1
+                                    [cycles_completed] => 1
+                                    [cycles_remaining] => 0
+                                    [current_pricing_scheme_version] => 1
+                                    [total_cycles] => 0
+                                )
+
+                        )
+
+                    [last_payment] => Array
+                        (
+                            [amount] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 11.0
+                                )
+
+                            [time] => 2024-11-15T05:06:16Z
+                        )
+
+                    [next_billing_time] => 2024-11-15T10:00:00Z
+                    [failed_payments_count] => 0
+                )
+
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-5SXMAY8G637Y/cancel
+                            [rel] => cancel
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-5SXMAY8G637Y
+                            [rel] => edit
+                            [method] => PATCH
+                            [encType] => application/json
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-5SXMAY8G637Y
+                            [rel] => self
+                            [method] => GET
+                            [encType] => application/json
+                        )
+
+                    [3] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-5SXMAY8G637Y/suspend
+                            [rel] => suspend
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [4] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-5SXMAY8G637Y/capture
+                            [rel] => capture
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                )
+
+            [id] => I-5SXMAY8G637Y
+            [plan_id] => P-2N046189W34174607M4ZR6PA
+            [status] => ACTIVE
+            [status_update_time] => 2024-11-15T05:06:16Z
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-77348840FJ117440U-3WB91344RX440031X
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-77348840FJ117440U-3WB91344RX440031X/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+current_period_end:
+2024-11-15 05:06:29Array
+(
+    [id] => P-2N046189W34174607M4ZR6PA
+    [product_id] => PROD-56L15867X6215711R
+    [name] => Gói 1 ngày
+    [status] => ACTIVE
+    [description] => A monthly subscription to our service.
+    [usage_type] => LICENSED
+    [billing_cycles] => Array
+        (
+            [0] => Array
+                (
+                    [pricing_scheme] => Array
+                        (
+                            [version] => 1
+                            [fixed_price] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 10.0
+                                )
+
+                            [create_time] => 2024-11-12T09:26:20Z
+                            [update_time] => 2024-11-12T09:26:20Z
+                        )
+
+                    [frequency] => Array
+                        (
+                            [interval_unit] => DAY
+                            [interval_count] => 1
+                        )
+
+                    [tenure_type] => REGULAR
+                    [sequence] => 1
+                    [total_cycles] => 0
+                )
+
+        )
+
+    [payment_preferences] => Array
+        (
+            [service_type] => PREPAID
+            [auto_bill_outstanding] => 1
+            [setup_fee] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [setup_fee_failure_action] => CANCEL
+            [payment_failure_threshold] => 3
+        )
+
+    [taxes] => Array
+        (
+            [percentage] => 10.0
+            [inclusive] => 
+        )
+
+    [quantity_supported] => 
+    [create_time] => 2024-11-12T09:26:20Z
+    [update_time] => 2024-11-12T09:26:20Z
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-2N046189W34174607M4ZR6PA
+                    [rel] => self
+                    [method] => GET
+                    [encType] => application/json
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-2N046189W34174607M4ZR6PA
+                    [rel] => edit
+                    [method] => PATCH
+                    [encType] => application/json
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-2N046189W34174607M4ZR6PA/deactivate
+                    [rel] => self
+                    [method] => POST
+                    [encType] => application/json
+                )
+
+        )
+
+)
+
+
+A21AAIH5IDpsZmd3IXkArUY_D3BRrtCOaOipPYl5lxT6acNAVh0YnsCMBKulO_6s2tgnGBfHrxB1PR84r9fNBizilcWgRO8tg
+
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-1HF21597GK8720245-2GM63680C7218104H
+    [event_version] => 1.0
+    [create_time] => 2024-11-15T05:10:03.552Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.ACTIVATED
+    [summary] => Subscription activated
+    [resource] => Array
+        (
+            [quantity] => 1
+            [subscriber] => Array
+                (
+                    [email_address] => sb-gnfvg33961218@personal.example.com
+                    [payer_id] => 8FLSJRKCKH8LG
+                    [name] => Array
+                        (
+                            [given_name] => John
+                            [surname] => Doe
+                        )
+
+                    [shipping_address] => Array
+                        (
+                            [address] => Array
+                                (
+                                    [address_line_1] => 1 Main St
+                                    [admin_area_2] => San Jose
+                                    [admin_area_1] => CA
+                                    [postal_code] => 95131
+                                    [country_code] => US
+                                )
+
+                        )
+
+                )
+
+            [create_time] => 2024-11-15T05:09:30Z
+            [plan_overridden] => 
+            [shipping_amount] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [start_time] => 2024-11-15T05:08:57Z
+            [update_time] => 2024-11-15T05:09:31Z
+            [billing_info] => Array
+                (
+                    [outstanding_balance] => Array
+                        (
+                            [currency_code] => USD
+                            [value] => 0.0
+                        )
+
+                    [cycle_executions] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [tenure_type] => REGULAR
+                                    [sequence] => 1
+                                    [cycles_completed] => 1
+                                    [cycles_remaining] => 0
+                                    [current_pricing_scheme_version] => 1
+                                    [total_cycles] => 0
+                                )
+
+                        )
+
+                    [last_payment] => Array
+                        (
+                            [amount] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 11.0
+                                )
+
+                            [time] => 2024-11-15T05:09:31Z
+                        )
+
+                    [next_billing_time] => 2024-11-15T10:00:00Z
+                    [failed_payments_count] => 0
+                )
+
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-T6TTL28LXVCF/cancel
+                            [rel] => cancel
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-T6TTL28LXVCF
+                            [rel] => edit
+                            [method] => PATCH
+                            [encType] => application/json
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-T6TTL28LXVCF
+                            [rel] => self
+                            [method] => GET
+                            [encType] => application/json
+                        )
+
+                    [3] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-T6TTL28LXVCF/suspend
+                            [rel] => suspend
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [4] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-T6TTL28LXVCF/capture
+                            [rel] => capture
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                )
+
+            [id] => I-T6TTL28LXVCF
+            [plan_id] => P-2N046189W34174607M4ZR6PA
+            [status] => ACTIVE
+            [status_update_time] => 2024-11-15T05:09:31Z
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-1HF21597GK8720245-2GM63680C7218104H
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-1HF21597GK8720245-2GM63680C7218104H/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+current_period_end:
+2024-11-15 05:09:58Array
+(
+    [id] => P-2N046189W34174607M4ZR6PA
+    [product_id] => PROD-56L15867X6215711R
+    [name] => Gói 1 ngày
+    [status] => ACTIVE
+    [description] => A monthly subscription to our service.
+    [usage_type] => LICENSED
+    [billing_cycles] => Array
+        (
+            [0] => Array
+                (
+                    [pricing_scheme] => Array
+                        (
+                            [version] => 1
+                            [fixed_price] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 10.0
+                                )
+
+                            [create_time] => 2024-11-12T09:26:20Z
+                            [update_time] => 2024-11-12T09:26:20Z
+                        )
+
+                    [frequency] => Array
+                        (
+                            [interval_unit] => DAY
+                            [interval_count] => 1
+                        )
+
+                    [tenure_type] => REGULAR
+                    [sequence] => 1
+                    [total_cycles] => 0
+                )
+
+        )
+
+    [payment_preferences] => Array
+        (
+            [service_type] => PREPAID
+            [auto_bill_outstanding] => 1
+            [setup_fee] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [setup_fee_failure_action] => CANCEL
+            [payment_failure_threshold] => 3
+        )
+
+    [taxes] => Array
+        (
+            [percentage] => 10.0
+            [inclusive] => 
+        )
+
+    [quantity_supported] => 
+    [create_time] => 2024-11-12T09:26:20Z
+    [update_time] => 2024-11-12T09:26:20Z
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-2N046189W34174607M4ZR6PA
+                    [rel] => self
+                    [method] => GET
+                    [encType] => application/json
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-2N046189W34174607M4ZR6PA
+                    [rel] => edit
+                    [method] => PATCH
+                    [encType] => application/json
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-2N046189W34174607M4ZR6PA/deactivate
+                    [rel] => self
+                    [method] => POST
+                    [encType] => application/json
+                )
+
+        )
+
+)
+
+
+A21AAIH5IDpsZmd3IXkArUY_D3BRrtCOaOipPYl5lxT6acNAVh0YnsCMBKulO_6s2tgnGBfHrxB1PR84r9fNBizilcWgRO8tg
+
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-2X067073M91564251-3R472726RD6269025
+    [event_version] => 1.0
+    [create_time] => 2024-11-15T05:39:03.355Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.ACTIVATED
+    [summary] => Subscription activated
+    [resource] => Array
+        (
+            [quantity] => 1
+            [subscriber] => Array
+                (
+                    [email_address] => sb-gnfvg33961218@personal.example.com
+                    [payer_id] => 8FLSJRKCKH8LG
+                    [name] => Array
+                        (
+                            [given_name] => John
+                            [surname] => Doe
+                        )
+
+                    [shipping_address] => Array
+                        (
+                            [address] => Array
+                                (
+                                    [address_line_1] => 1 Main St
+                                    [admin_area_2] => San Jose
+                                    [admin_area_1] => CA
+                                    [postal_code] => 95131
+                                    [country_code] => US
+                                )
+
+                        )
+
+                )
+
+            [create_time] => 2024-11-15T05:38:56Z
+            [plan_overridden] => 
+            [shipping_amount] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [start_time] => 2024-11-15T05:38:18Z
+            [update_time] => 2024-11-15T05:38:57Z
+            [billing_info] => Array
+                (
+                    [outstanding_balance] => Array
+                        (
+                            [currency_code] => USD
+                            [value] => 0.0
+                        )
+
+                    [cycle_executions] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [tenure_type] => REGULAR
+                                    [sequence] => 1
+                                    [cycles_completed] => 1
+                                    [cycles_remaining] => 0
+                                    [current_pricing_scheme_version] => 1
+                                    [total_cycles] => 0
+                                )
+
+                        )
+
+                    [last_payment] => Array
+                        (
+                            [amount] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 11.0
+                                )
+
+                            [time] => 2024-11-15T05:38:57Z
+                        )
+
+                    [next_billing_time] => 2024-11-15T10:00:00Z
+                    [failed_payments_count] => 0
+                )
+
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-YF519P04N6HB/cancel
+                            [rel] => cancel
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-YF519P04N6HB
+                            [rel] => edit
+                            [method] => PATCH
+                            [encType] => application/json
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-YF519P04N6HB
+                            [rel] => self
+                            [method] => GET
+                            [encType] => application/json
+                        )
+
+                    [3] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-YF519P04N6HB/suspend
+                            [rel] => suspend
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [4] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-YF519P04N6HB/capture
+                            [rel] => capture
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                )
+
+            [id] => I-YF519P04N6HB
+            [plan_id] => P-2N046189W34174607M4ZR6PA
+            [status] => ACTIVE
+            [status_update_time] => 2024-11-15T05:38:57Z
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-2X067073M91564251-3R472726RD6269025
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-2X067073M91564251-3R472726RD6269025/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+current_period_end: 2024-11-16 05:38:54
+
+Webhook event received:
+Array
+(
+    [id] => WH-3WW63080E9948445G-46198034HP403570P
+    [event_version] => 1.0
+    [create_time] => 2024-11-15T05:45:03.835Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.ACTIVATED
+    [summary] => Subscription activated
+    [resource] => Array
+        (
+            [quantity] => 1
+            [subscriber] => Array
+                (
+                    [email_address] => sb-gnfvg33961218@personal.example.com
+                    [payer_id] => 8FLSJRKCKH8LG
+                    [name] => Array
+                        (
+                            [given_name] => John
+                            [surname] => Doe
+                        )
+
+                    [shipping_address] => Array
+                        (
+                            [address] => Array
+                                (
+                                    [address_line_1] => 1 Main St
+                                    [admin_area_2] => San Jose
+                                    [admin_area_1] => CA
+                                    [postal_code] => 95131
+                                    [country_code] => US
+                                )
+
+                        )
+
+                )
+
+            [create_time] => 2024-11-15T05:44:41Z
+            [plan_overridden] => 
+            [shipping_amount] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [start_time] => 2024-11-15T05:43:43Z
+            [update_time] => 2024-11-15T05:44:42Z
+            [billing_info] => Array
+                (
+                    [outstanding_balance] => Array
+                        (
+                            [currency_code] => USD
+                            [value] => 0.0
+                        )
+
+                    [cycle_executions] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [tenure_type] => REGULAR
+                                    [sequence] => 1
+                                    [cycles_completed] => 1
+                                    [cycles_remaining] => 0
+                                    [current_pricing_scheme_version] => 1
+                                    [total_cycles] => 0
+                                )
+
+                        )
+
+                    [last_payment] => Array
+                        (
+                            [amount] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 11.0
+                                )
+
+                            [time] => 2024-11-15T05:44:42Z
+                        )
+
+                    [next_billing_time] => 2024-11-15T10:00:00Z
+                    [failed_payments_count] => 0
+                )
+
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-2MARD0JCJ68Y/cancel
+                            [rel] => cancel
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-2MARD0JCJ68Y
+                            [rel] => edit
+                            [method] => PATCH
+                            [encType] => application/json
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-2MARD0JCJ68Y
+                            [rel] => self
+                            [method] => GET
+                            [encType] => application/json
+                        )
+
+                    [3] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-2MARD0JCJ68Y/suspend
+                            [rel] => suspend
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [4] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-2MARD0JCJ68Y/capture
+                            [rel] => capture
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                )
+
+            [id] => I-2MARD0JCJ68Y
+            [plan_id] => P-2N046189W34174607M4ZR6PA
+            [status] => ACTIVE
+            [status_update_time] => 2024-11-15T05:44:42Z
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-3WW63080E9948445G-46198034HP403570P
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-3WW63080E9948445G-46198034HP403570P/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+current_period_end: 2024-11-16 05:44:52
+
+Webhook event received:
+Array
+(
+    [id] => WH-4S3746498Y936792V-0G642686FR429734J
+    [event_version] => 1.0
+    [create_time] => 2024-11-15T07:21:03.353Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.ACTIVATED
+    [summary] => Subscription activated
+    [resource] => Array
+        (
+            [quantity] => 1
+            [subscriber] => Array
+                (
+                    [email_address] => sb-gnfvg33961218@personal.example.com
+                    [payer_id] => 8FLSJRKCKH8LG
+                    [name] => Array
+                        (
+                            [given_name] => John
+                            [surname] => Doe
+                        )
+
+                    [shipping_address] => Array
+                        (
+                            [address] => Array
+                                (
+                                    [address_line_1] => 1 Main St
+                                    [admin_area_2] => San Jose
+                                    [admin_area_1] => CA
+                                    [postal_code] => 95131
+                                    [country_code] => US
+                                )
+
+                        )
+
+                )
+
+            [create_time] => 2024-11-15T07:20:55Z
+            [plan_overridden] => 
+            [shipping_amount] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [start_time] => 2024-11-15T07:19:10Z
+            [update_time] => 2024-11-15T07:20:57Z
+            [billing_info] => Array
+                (
+                    [outstanding_balance] => Array
+                        (
+                            [currency_code] => USD
+                            [value] => 0.0
+                        )
+
+                    [cycle_executions] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [tenure_type] => REGULAR
+                                    [sequence] => 1
+                                    [cycles_completed] => 1
+                                    [cycles_remaining] => 0
+                                    [current_pricing_scheme_version] => 1
+                                    [total_cycles] => 0
+                                )
+
+                        )
+
+                    [last_payment] => Array
+                        (
+                            [amount] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 11.0
+                                )
+
+                            [time] => 2024-11-15T07:20:56Z
+                        )
+
+                    [next_billing_time] => 2024-11-15T10:00:00Z
+                    [failed_payments_count] => 0
+                )
+
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-69VD68HCL1U7/cancel
+                            [rel] => cancel
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-69VD68HCL1U7
+                            [rel] => edit
+                            [method] => PATCH
+                            [encType] => application/json
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-69VD68HCL1U7
+                            [rel] => self
+                            [method] => GET
+                            [encType] => application/json
+                        )
+
+                    [3] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-69VD68HCL1U7/suspend
+                            [rel] => suspend
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [4] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-69VD68HCL1U7/capture
+                            [rel] => capture
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                )
+
+            [id] => I-69VD68HCL1U7
+            [plan_id] => P-2N046189W34174607M4ZR6PA
+            [status] => ACTIVE
+            [status_update_time] => 2024-11-15T07:20:57Z
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-4S3746498Y936792V-0G642686FR429734J
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-4S3746498Y936792V-0G642686FR429734J/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+current_period_end: 2024-11-16 07:20:58
+
+Webhook event received:
+Array
+(
+    [id] => WH-39970476AD4012327-3PE013991W229015P
+    [event_version] => 1.0
+    [create_time] => 2024-11-15T07:39:03.666Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.ACTIVATED
+    [summary] => Subscription activated
+    [resource] => Array
+        (
+            [quantity] => 1
+            [subscriber] => Array
+                (
+                    [email_address] => sb-gnfvg33961218@personal.example.com
+                    [payer_id] => 8FLSJRKCKH8LG
+                    [name] => Array
+                        (
+                            [given_name] => John
+                            [surname] => Doe
+                        )
+
+                    [shipping_address] => Array
+                        (
+                            [address] => Array
+                                (
+                                    [address_line_1] => 1 Main St
+                                    [admin_area_2] => San Jose
+                                    [admin_area_1] => CA
+                                    [postal_code] => 95131
+                                    [country_code] => US
+                                )
+
+                        )
+
+                )
+
+            [create_time] => 2024-11-15T07:38:35Z
+            [plan_overridden] => 
+            [shipping_amount] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [start_time] => 2024-11-15T07:38:12Z
+            [update_time] => 2024-11-15T07:38:36Z
+            [billing_info] => Array
+                (
+                    [outstanding_balance] => Array
+                        (
+                            [currency_code] => USD
+                            [value] => 0.0
+                        )
+
+                    [cycle_executions] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [tenure_type] => REGULAR
+                                    [sequence] => 1
+                                    [cycles_completed] => 1
+                                    [cycles_remaining] => 0
+                                    [current_pricing_scheme_version] => 1
+                                    [total_cycles] => 0
+                                )
+
+                        )
+
+                    [last_payment] => Array
+                        (
+                            [amount] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 66.0
+                                )
+
+                            [time] => 2024-11-15T07:38:35Z
+                        )
+
+                    [next_billing_time] => 2024-11-20T10:00:00Z
+                    [failed_payments_count] => 0
+                )
+
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-FT1XH230K7LG/cancel
+                            [rel] => cancel
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-FT1XH230K7LG
+                            [rel] => edit
+                            [method] => PATCH
+                            [encType] => application/json
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-FT1XH230K7LG
+                            [rel] => self
+                            [method] => GET
+                            [encType] => application/json
+                        )
+
+                    [3] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-FT1XH230K7LG/suspend
+                            [rel] => suspend
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [4] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-FT1XH230K7LG/capture
+                            [rel] => capture
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                )
+
+            [id] => I-FT1XH230K7LG
+            [plan_id] => P-63F91990FB938624MM4ZR6WQ
+            [status] => ACTIVE
+            [status_update_time] => 2024-11-15T07:38:36Z
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-39970476AD4012327-3PE013991W229015P
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-39970476AD4012327-3PE013991W229015P/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+current_period_end: 2024-11-21 07:38:52
+
+Webhook event received:
+Array
+(
+    [id] => WH-9SY03563AK890852X-5K26464907304440P
+    [event_version] => 1.0
+    [create_time] => 2024-11-15T08:00:03.552Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.ACTIVATED
+    [summary] => Subscription activated
+    [resource] => Array
+        (
+            [quantity] => 1
+            [subscriber] => Array
+                (
+                    [email_address] => sb-gnfvg33961218@personal.example.com
+                    [payer_id] => 8FLSJRKCKH8LG
+                    [name] => Array
+                        (
+                            [given_name] => John
+                            [surname] => Doe
+                        )
+
+                    [shipping_address] => Array
+                        (
+                            [address] => Array
+                                (
+                                    [address_line_1] => 1 Main St
+                                    [admin_area_2] => San Jose
+                                    [admin_area_1] => CA
+                                    [postal_code] => 95131
+                                    [country_code] => US
+                                )
+
+                        )
+
+                )
+
+            [create_time] => 2024-11-15T07:59:38Z
+            [plan_overridden] => 
+            [shipping_amount] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [start_time] => 2024-11-15T07:57:12Z
+            [update_time] => 2024-11-15T07:59:40Z
+            [billing_info] => Array
+                (
+                    [outstanding_balance] => Array
+                        (
+                            [currency_code] => USD
+                            [value] => 0.0
+                        )
+
+                    [cycle_executions] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [tenure_type] => REGULAR
+                                    [sequence] => 1
+                                    [cycles_completed] => 1
+                                    [cycles_remaining] => 0
+                                    [current_pricing_scheme_version] => 1
+                                    [total_cycles] => 0
+                                )
+
+                        )
+
+                    [last_payment] => Array
+                        (
+                            [amount] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 11.0
+                                )
+
+                            [time] => 2024-11-15T07:59:39Z
+                        )
+
+                    [next_billing_time] => 2024-11-15T10:00:00Z
+                    [failed_payments_count] => 0
+                )
+
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-HLKHM8VD89X2/cancel
+                            [rel] => cancel
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-HLKHM8VD89X2
+                            [rel] => edit
+                            [method] => PATCH
+                            [encType] => application/json
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-HLKHM8VD89X2
+                            [rel] => self
+                            [method] => GET
+                            [encType] => application/json
+                        )
+
+                    [3] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-HLKHM8VD89X2/suspend
+                            [rel] => suspend
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [4] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-HLKHM8VD89X2/capture
+                            [rel] => capture
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                )
+
+            [id] => I-HLKHM8VD89X2
+            [plan_id] => P-2N046189W34174607M4ZR6PA
+            [status] => ACTIVE
+            [status_update_time] => 2024-11-15T07:59:40Z
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-9SY03563AK890852X-5K26464907304440P
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-9SY03563AK890852X-5K26464907304440P/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+current_period_end: 2024-11-16 07:59:53
+
+Webhook event received:
+Array
+(
+    [id] => WH-1AK185276K222515B-2AW691762K9594917
+    [event_version] => 1.0
+    [create_time] => 2024-11-15T08:04:04.014Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.ACTIVATED
+    [summary] => Subscription activated
+    [resource] => Array
+        (
+            [quantity] => 1
+            [subscriber] => Array
+                (
+                    [email_address] => sb-gnfvg33961218@personal.example.com
+                    [payer_id] => 8FLSJRKCKH8LG
+                    [name] => Array
+                        (
+                            [given_name] => John
+                            [surname] => Doe
+                        )
+
+                    [shipping_address] => Array
+                        (
+                            [address] => Array
+                                (
+                                    [address_line_1] => 1 Main St
+                                    [admin_area_2] => San Jose
+                                    [admin_area_1] => CA
+                                    [postal_code] => 95131
+                                    [country_code] => US
+                                )
+
+                        )
+
+                )
+
+            [create_time] => 2024-11-15T08:03:31Z
+            [plan_overridden] => 
+            [shipping_amount] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [start_time] => 2024-11-15T08:02:59Z
+            [update_time] => 2024-11-15T08:03:32Z
+            [billing_info] => Array
+                (
+                    [outstanding_balance] => Array
+                        (
+                            [currency_code] => USD
+                            [value] => 0.0
+                        )
+
+                    [cycle_executions] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [tenure_type] => REGULAR
+                                    [sequence] => 1
+                                    [cycles_completed] => 1
+                                    [cycles_remaining] => 0
+                                    [current_pricing_scheme_version] => 1
+                                    [total_cycles] => 0
+                                )
+
+                        )
+
+                    [last_payment] => Array
+                        (
+                            [amount] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 66.0
+                                )
+
+                            [time] => 2024-11-15T08:03:32Z
+                        )
+
+                    [next_billing_time] => 2024-11-21T10:00:00Z
+                    [failed_payments_count] => 0
+                )
+
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-C0XSPNS854DG/cancel
+                            [rel] => cancel
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-C0XSPNS854DG
+                            [rel] => edit
+                            [method] => PATCH
+                            [encType] => application/json
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-C0XSPNS854DG
+                            [rel] => self
+                            [method] => GET
+                            [encType] => application/json
+                        )
+
+                    [3] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-C0XSPNS854DG/suspend
+                            [rel] => suspend
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [4] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-C0XSPNS854DG/capture
+                            [rel] => capture
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                )
+
+            [id] => I-C0XSPNS854DG
+            [plan_id] => P-63F91990FB938624MM4ZR6WQ
+            [status] => ACTIVE
+            [status_update_time] => 2024-11-15T08:03:32Z
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-1AK185276K222515B-2AW691762K9594917
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-1AK185276K222515B-2AW691762K9594917/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+current_period_end: 2024-11-21 08:03:54
+
+Webhook event received:
+Array
+(
+    [id] => WH-5L618821D2462493P-9NP17872HX814984T
+    [event_version] => 1.0
+    [create_time] => 2024-11-15T08:39:34.030Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.ACTIVATED
+    [summary] => Subscription activated
+    [resource] => Array
+        (
+            [quantity] => 1
+            [subscriber] => Array
+                (
+                    [email_address] => sb-gnfvg33961218@personal.example.com
+                    [payer_id] => 8FLSJRKCKH8LG
+                    [name] => Array
+                        (
+                            [given_name] => John
+                            [surname] => Doe
+                        )
+
+                    [shipping_address] => Array
+                        (
+                            [address] => Array
+                                (
+                                    [address_line_1] => 1 Main St
+                                    [admin_area_2] => San Jose
+                                    [admin_area_1] => CA
+                                    [postal_code] => 95131
+                                    [country_code] => US
+                                )
+
+                        )
+
+                )
+
+            [create_time] => 2024-11-15T08:39:18Z
+            [plan_overridden] => 
+            [shipping_amount] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [start_time] => 2024-11-15T08:38:59Z
+            [update_time] => 2024-11-15T08:39:19Z
+            [billing_info] => Array
+                (
+                    [outstanding_balance] => Array
+                        (
+                            [currency_code] => USD
+                            [value] => 0.0
+                        )
+
+                    [cycle_executions] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [tenure_type] => REGULAR
+                                    [sequence] => 1
+                                    [cycles_completed] => 1
+                                    [cycles_remaining] => 0
+                                    [current_pricing_scheme_version] => 1
+                                    [total_cycles] => 0
+                                )
+
+                        )
+
+                    [last_payment] => Array
+                        (
+                            [amount] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 11.0
+                                )
+
+                            [time] => 2024-11-15T08:39:19Z
+                        )
+
+                    [next_billing_time] => 2024-11-16T10:00:00Z
+                    [failed_payments_count] => 0
+                )
+
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-JF84WKDAA8U4/cancel
+                            [rel] => cancel
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-JF84WKDAA8U4
+                            [rel] => edit
+                            [method] => PATCH
+                            [encType] => application/json
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-JF84WKDAA8U4
+                            [rel] => self
+                            [method] => GET
+                            [encType] => application/json
+                        )
+
+                    [3] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-JF84WKDAA8U4/suspend
+                            [rel] => suspend
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [4] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-JF84WKDAA8U4/capture
+                            [rel] => capture
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                )
+
+            [id] => I-JF84WKDAA8U4
+            [plan_id] => P-2N046189W34174607M4ZR6PA
+            [status] => ACTIVE
+            [status_update_time] => 2024-11-15T08:39:19Z
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-5L618821D2462493P-9NP17872HX814984T
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-5L618821D2462493P-9NP17872HX814984T/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+current_period_end: 2024-11-16 08:39:17
+
+Webhook event received:
+Array
+(
+    [id] => WH-3K01596771245560T-8P465264H89100040
+    [event_version] => 1.0
+    [create_time] => 2024-11-15T08:52:59.947Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.ACTIVATED
+    [summary] => Subscription activated
+    [resource] => Array
+        (
+            [quantity] => 1
+            [subscriber] => Array
+                (
+                    [email_address] => sb-gnfvg33961218@personal.example.com
+                    [payer_id] => 8FLSJRKCKH8LG
+                    [name] => Array
+                        (
+                            [given_name] => John
+                            [surname] => Doe
+                        )
+
+                    [shipping_address] => Array
+                        (
+                            [address] => Array
+                                (
+                                    [address_line_1] => 1 Main St
+                                    [admin_area_2] => San Jose
+                                    [admin_area_1] => CA
+                                    [postal_code] => 95131
+                                    [country_code] => US
+                                )
+
+                        )
+
+                )
+
+            [create_time] => 2024-11-15T08:52:54Z
+            [plan_overridden] => 
+            [shipping_amount] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [start_time] => 2024-11-15T08:52:04Z
+            [update_time] => 2024-11-15T08:52:55Z
+            [billing_info] => Array
+                (
+                    [outstanding_balance] => Array
+                        (
+                            [currency_code] => USD
+                            [value] => 0.0
+                        )
+
+                    [cycle_executions] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [tenure_type] => REGULAR
+                                    [sequence] => 1
+                                    [cycles_completed] => 1
+                                    [cycles_remaining] => 0
+                                    [current_pricing_scheme_version] => 1
+                                    [total_cycles] => 0
+                                )
+
+                        )
+
+                    [last_payment] => Array
+                        (
+                            [amount] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 11.0
+                                )
+
+                            [time] => 2024-11-15T08:52:55Z
+                        )
+
+                    [next_billing_time] => 2024-11-16T10:00:00Z
+                    [failed_payments_count] => 0
+                )
+
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-KFWPU5R4A9GM/cancel
+                            [rel] => cancel
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-KFWPU5R4A9GM
+                            [rel] => edit
+                            [method] => PATCH
+                            [encType] => application/json
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-KFWPU5R4A9GM
+                            [rel] => self
+                            [method] => GET
+                            [encType] => application/json
+                        )
+
+                    [3] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-KFWPU5R4A9GM/suspend
+                            [rel] => suspend
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [4] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-KFWPU5R4A9GM/capture
+                            [rel] => capture
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                )
+
+            [id] => I-KFWPU5R4A9GM
+            [plan_id] => P-2N046189W34174607M4ZR6PA
+            [status] => ACTIVE
+            [status_update_time] => 2024-11-15T08:52:55Z
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-3K01596771245560T-8P465264H89100040
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-3K01596771245560T-8P465264H89100040/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+current_period_end: 2024-11-16 08:52:49
+
+Webhook event received:
+Array
+(
+    [id] => WH-1M675887FM941835Y-2Y7501069V023633V
+    [event_version] => 1.0
+    [create_time] => 2024-11-15T10:05:03.639Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.ACTIVATED
+    [summary] => Subscription activated
+    [resource] => Array
+        (
+            [quantity] => 1
+            [subscriber] => Array
+                (
+                    [email_address] => sb-gnfvg33961218@personal.example.com
+                    [payer_id] => 8FLSJRKCKH8LG
+                    [name] => Array
+                        (
+                            [given_name] => John
+                            [surname] => Doe
+                        )
+
+                    [shipping_address] => Array
+                        (
+                            [address] => Array
+                                (
+                                    [address_line_1] => 1 Main St
+                                    [admin_area_2] => San Jose
+                                    [admin_area_1] => CA
+                                    [postal_code] => 95131
+                                    [country_code] => US
+                                )
+
+                        )
+
+                )
+
+            [create_time] => 2024-11-15T10:04:56Z
+            [plan_overridden] => 
+            [shipping_amount] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [start_time] => 2024-11-15T10:04:23Z
+            [update_time] => 2024-11-15T10:04:57Z
+            [billing_info] => Array
+                (
+                    [outstanding_balance] => Array
+                        (
+                            [currency_code] => USD
+                            [value] => 0.0
+                        )
+
+                    [cycle_executions] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [tenure_type] => REGULAR
+                                    [sequence] => 1
+                                    [cycles_completed] => 1
+                                    [cycles_remaining] => 0
+                                    [current_pricing_scheme_version] => 1
+                                    [total_cycles] => 0
+                                )
+
+                        )
+
+                    [last_payment] => Array
+                        (
+                            [amount] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 99.0
+                                )
+
+                            [time] => 2024-11-15T10:04:56Z
+                        )
+
+                    [next_billing_time] => 2024-11-24T10:00:00Z
+                    [failed_payments_count] => 0
+                )
+
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-UTY31R3H7KGX/cancel
+                            [rel] => cancel
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-UTY31R3H7KGX
+                            [rel] => edit
+                            [method] => PATCH
+                            [encType] => application/json
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-UTY31R3H7KGX
+                            [rel] => self
+                            [method] => GET
+                            [encType] => application/json
+                        )
+
+                    [3] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-UTY31R3H7KGX/suspend
+                            [rel] => suspend
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [4] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-UTY31R3H7KGX/capture
+                            [rel] => capture
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                )
+
+            [id] => I-UTY31R3H7KGX
+            [plan_id] => P-3MV286946S8608236M4ZSAPA
+            [status] => ACTIVE
+            [status_update_time] => 2024-11-15T10:04:57Z
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-1M675887FM941835Y-2Y7501069V023633V
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-1M675887FM941835Y-2Y7501069V023633V/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+current_period_end: 2024-11-24 10:04:46
+
+Webhook event received:
+Array
+(
+    [id] => WH-32H40365AM5151115-72D18357GN776124L
+    [event_version] => 1.0
+    [create_time] => 2024-11-16T02:03:33.438Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.ACTIVATED
+    [summary] => Subscription activated
+    [resource] => Array
+        (
+            [quantity] => 1
+            [subscriber] => Array
+                (
+                    [email_address] => sb-gnfvg33961218@personal.example.com
+                    [payer_id] => 8FLSJRKCKH8LG
+                    [name] => Array
+                        (
+                            [given_name] => John
+                            [surname] => Doe
+                        )
+
+                    [shipping_address] => Array
+                        (
+                            [address] => Array
+                                (
+                                    [address_line_1] => 1 Main St
+                                    [admin_area_2] => San Jose
+                                    [admin_area_1] => CA
+                                    [postal_code] => 95131
+                                    [country_code] => US
+                                )
+
+                        )
+
+                )
+
+            [create_time] => 2024-11-16T02:03:16Z
+            [plan_overridden] => 
+            [shipping_amount] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [start_time] => 2024-11-16T02:02:51Z
+            [update_time] => 2024-11-16T02:03:17Z
+            [billing_info] => Array
+                (
+                    [outstanding_balance] => Array
+                        (
+                            [currency_code] => USD
+                            [value] => 0.0
+                        )
+
+                    [cycle_executions] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [tenure_type] => REGULAR
+                                    [sequence] => 1
+                                    [cycles_completed] => 1
+                                    [cycles_remaining] => 0
+                                    [current_pricing_scheme_version] => 1
+                                    [total_cycles] => 0
+                                )
+
+                        )
+
+                    [last_payment] => Array
+                        (
+                            [amount] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 66.0
+                                )
+
+                            [time] => 2024-11-16T02:03:17Z
+                        )
+
+                    [next_billing_time] => 2024-11-21T10:00:00Z
+                    [failed_payments_count] => 0
+                )
+
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-SBAJ39RVXY0X/cancel
+                            [rel] => cancel
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-SBAJ39RVXY0X
+                            [rel] => edit
+                            [method] => PATCH
+                            [encType] => application/json
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-SBAJ39RVXY0X
+                            [rel] => self
+                            [method] => GET
+                            [encType] => application/json
+                        )
+
+                    [3] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-SBAJ39RVXY0X/suspend
+                            [rel] => suspend
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [4] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-SBAJ39RVXY0X/capture
+                            [rel] => capture
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                )
+
+            [id] => I-SBAJ39RVXY0X
+            [plan_id] => P-63F91990FB938624MM4ZR6WQ
+            [status] => ACTIVE
+            [status_update_time] => 2024-11-16T02:03:17Z
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-32H40365AM5151115-72D18357GN776124L
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-32H40365AM5151115-72D18357GN776124L/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+current_period_end: 2024-11-22 02:03:49
+
+Webhook event received:
+Array
+(
+    [id] => WH-32H40365AM5151115-72D18357GN776124L
+    [event_version] => 1.0
+    [create_time] => 2024-11-16T02:03:33.438Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.ACTIVATED
+    [summary] => Subscription activated
+    [resource] => Array
+        (
+            [quantity] => 1
+            [subscriber] => Array
+                (
+                    [email_address] => sb-gnfvg33961218@personal.example.com
+                    [payer_id] => 8FLSJRKCKH8LG
+                    [name] => Array
+                        (
+                            [given_name] => John
+                            [surname] => Doe
+                        )
+
+                    [shipping_address] => Array
+                        (
+                            [address] => Array
+                                (
+                                    [address_line_1] => 1 Main St
+                                    [admin_area_2] => San Jose
+                                    [admin_area_1] => CA
+                                    [postal_code] => 95131
+                                    [country_code] => US
+                                )
+
+                        )
+
+                )
+
+            [create_time] => 2024-11-16T02:03:16Z
+            [plan_overridden] => 
+            [shipping_amount] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [start_time] => 2024-11-16T02:02:51Z
+            [update_time] => 2024-11-16T02:03:17Z
+            [billing_info] => Array
+                (
+                    [outstanding_balance] => Array
+                        (
+                            [currency_code] => USD
+                            [value] => 0.0
+                        )
+
+                    [cycle_executions] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [tenure_type] => REGULAR
+                                    [sequence] => 1
+                                    [cycles_completed] => 1
+                                    [cycles_remaining] => 0
+                                    [current_pricing_scheme_version] => 1
+                                    [total_cycles] => 0
+                                )
+
+                        )
+
+                    [last_payment] => Array
+                        (
+                            [amount] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 66.0
+                                )
+
+                            [time] => 2024-11-16T02:03:17Z
+                        )
+
+                    [next_billing_time] => 2024-11-21T10:00:00Z
+                    [failed_payments_count] => 0
+                )
+
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-SBAJ39RVXY0X/cancel
+                            [rel] => cancel
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-SBAJ39RVXY0X
+                            [rel] => edit
+                            [method] => PATCH
+                            [encType] => application/json
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-SBAJ39RVXY0X
+                            [rel] => self
+                            [method] => GET
+                            [encType] => application/json
+                        )
+
+                    [3] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-SBAJ39RVXY0X/suspend
+                            [rel] => suspend
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [4] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-SBAJ39RVXY0X/capture
+                            [rel] => capture
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                )
+
+            [id] => I-SBAJ39RVXY0X
+            [plan_id] => P-63F91990FB938624MM4ZR6WQ
+            [status] => ACTIVE
+            [status_update_time] => 2024-11-16T02:03:17Z
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-32H40365AM5151115-72D18357GN776124L
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-32H40365AM5151115-72D18357GN776124L/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+current_period_end: 2024-11-22 02:04:53
+
+Webhook event received:
+Array
+(
+    [id] => WH-4H049843MG220814M-2TF58373AR342324L
+    [event_version] => 1.0
+    [create_time] => 2024-11-16T02:22:34.148Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.ACTIVATED
+    [summary] => Subscription activated
+    [resource] => Array
+        (
+            [quantity] => 1
+            [subscriber] => Array
+                (
+                    [email_address] => sb-gnfvg33961218@personal.example.com
+                    [payer_id] => 8FLSJRKCKH8LG
+                    [name] => Array
+                        (
+                            [given_name] => John
+                            [surname] => Doe
+                        )
+
+                    [shipping_address] => Array
+                        (
+                            [address] => Array
+                                (
+                                    [address_line_1] => 1 Main St
+                                    [admin_area_2] => San Jose
+                                    [admin_area_1] => CA
+                                    [postal_code] => 95131
+                                    [country_code] => US
+                                )
+
+                        )
+
+                )
+
+            [create_time] => 2024-11-16T02:22:25Z
+            [plan_overridden] => 
+            [shipping_amount] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [start_time] => 2024-11-16T02:21:54Z
+            [update_time] => 2024-11-16T02:22:26Z
+            [billing_info] => Array
+                (
+                    [outstanding_balance] => Array
+                        (
+                            [currency_code] => USD
+                            [value] => 0.0
+                        )
+
+                    [cycle_executions] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [tenure_type] => REGULAR
+                                    [sequence] => 1
+                                    [cycles_completed] => 1
+                                    [cycles_remaining] => 0
+                                    [current_pricing_scheme_version] => 1
+                                    [total_cycles] => 0
+                                )
+
+                        )
+
+                    [last_payment] => Array
+                        (
+                            [amount] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 11.0
+                                )
+
+                            [time] => 2024-11-16T02:22:25Z
+                        )
+
+                    [next_billing_time] => 2024-11-16T10:00:00Z
+                    [failed_payments_count] => 0
+                )
+
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-BXDBVX34E0D8/cancel
+                            [rel] => cancel
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-BXDBVX34E0D8
+                            [rel] => edit
+                            [method] => PATCH
+                            [encType] => application/json
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-BXDBVX34E0D8
+                            [rel] => self
+                            [method] => GET
+                            [encType] => application/json
+                        )
+
+                    [3] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-BXDBVX34E0D8/suspend
+                            [rel] => suspend
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [4] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-BXDBVX34E0D8/capture
+                            [rel] => capture
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                )
+
+            [id] => I-BXDBVX34E0D8
+            [plan_id] => P-2N046189W34174607M4ZR6PA
+            [status] => ACTIVE
+            [status_update_time] => 2024-11-16T02:22:26Z
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-4H049843MG220814M-2TF58373AR342324L
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-4H049843MG220814M-2TF58373AR342324L/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+current_period_end: 2024-11-17 02:22:18
+
+Webhook event received:
+Array
+(
+    [id] => WH-7CV24398CP567120C-3YF64654BP1012235
+    [event_version] => 1.0
+    [create_time] => 2024-11-16T02:29:26.957Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.ACTIVATED
+    [summary] => Subscription activated
+    [resource] => Array
+        (
+            [quantity] => 1
+            [subscriber] => Array
+                (
+                    [email_address] => sb-gnfvg33961218@personal.example.com
+                    [payer_id] => 8FLSJRKCKH8LG
+                    [name] => Array
+                        (
+                            [given_name] => John
+                            [surname] => Doe
+                        )
+
+                    [shipping_address] => Array
+                        (
+                            [address] => Array
+                                (
+                                    [address_line_1] => 1 Main St
+                                    [admin_area_2] => San Jose
+                                    [admin_area_1] => CA
+                                    [postal_code] => 95131
+                                    [country_code] => US
+                                )
+
+                        )
+
+                )
+
+            [create_time] => 2024-11-16T02:29:22Z
+            [plan_overridden] => 
+            [shipping_amount] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [start_time] => 2024-11-16T02:29:02Z
+            [update_time] => 2024-11-16T02:29:23Z
+            [billing_info] => Array
+                (
+                    [outstanding_balance] => Array
+                        (
+                            [currency_code] => USD
+                            [value] => 0.0
+                        )
+
+                    [cycle_executions] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [tenure_type] => REGULAR
+                                    [sequence] => 1
+                                    [cycles_completed] => 1
+                                    [cycles_remaining] => 0
+                                    [current_pricing_scheme_version] => 1
+                                    [total_cycles] => 0
+                                )
+
+                        )
+
+                    [last_payment] => Array
+                        (
+                            [amount] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 66.0
+                                )
+
+                            [time] => 2024-11-16T02:29:23Z
+                        )
+
+                    [next_billing_time] => 2024-11-21T10:00:00Z
+                    [failed_payments_count] => 0
+                )
+
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-GR26G0DLWEK3/cancel
+                            [rel] => cancel
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-GR26G0DLWEK3
+                            [rel] => edit
+                            [method] => PATCH
+                            [encType] => application/json
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-GR26G0DLWEK3
+                            [rel] => self
+                            [method] => GET
+                            [encType] => application/json
+                        )
+
+                    [3] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-GR26G0DLWEK3/suspend
+                            [rel] => suspend
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [4] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-GR26G0DLWEK3/capture
+                            [rel] => capture
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                )
+
+            [id] => I-GR26G0DLWEK3
+            [plan_id] => P-63F91990FB938624MM4ZR6WQ
+            [status] => ACTIVE
+            [status_update_time] => 2024-11-16T02:29:23Z
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-7CV24398CP567120C-3YF64654BP1012235
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-7CV24398CP567120C-3YF64654BP1012235/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+current_period_end: 2024-11-22 02:29:09
+
+Webhook event received:
+Array
+(
+    [id] => WH-7MG51795BE001203B-24015570EF336944W
+    [event_version] => 1.0
+    [create_time] => 2024-11-16T03:09:04.036Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.ACTIVATED
+    [summary] => Subscription activated
+    [resource] => Array
+        (
+            [quantity] => 1
+            [subscriber] => Array
+                (
+                    [email_address] => sb-gnfvg33961218@personal.example.com
+                    [payer_id] => 8FLSJRKCKH8LG
+                    [name] => Array
+                        (
+                            [given_name] => John
+                            [surname] => Doe
+                        )
+
+                    [shipping_address] => Array
+                        (
+                            [address] => Array
+                                (
+                                    [address_line_1] => 1 Main St
+                                    [admin_area_2] => San Jose
+                                    [admin_area_1] => CA
+                                    [postal_code] => 95131
+                                    [country_code] => US
+                                )
+
+                        )
+
+                )
+
+            [create_time] => 2024-11-16T03:08:56Z
+            [plan_overridden] => 
+            [shipping_amount] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [start_time] => 2024-11-16T03:08:31Z
+            [update_time] => 2024-11-16T03:08:57Z
+            [billing_info] => Array
+                (
+                    [outstanding_balance] => Array
+                        (
+                            [currency_code] => USD
+                            [value] => 0.0
+                        )
+
+                    [cycle_executions] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [tenure_type] => REGULAR
+                                    [sequence] => 1
+                                    [cycles_completed] => 1
+                                    [cycles_remaining] => 0
+                                    [current_pricing_scheme_version] => 1
+                                    [total_cycles] => 0
+                                )
+
+                        )
+
+                    [last_payment] => Array
+                        (
+                            [amount] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 66.0
+                                )
+
+                            [time] => 2024-11-16T03:08:56Z
+                        )
+
+                    [next_billing_time] => 2024-11-21T10:00:00Z
+                    [failed_payments_count] => 0
+                )
+
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-RYR5KEW95GB5/cancel
+                            [rel] => cancel
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-RYR5KEW95GB5
+                            [rel] => edit
+                            [method] => PATCH
+                            [encType] => application/json
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-RYR5KEW95GB5
+                            [rel] => self
+                            [method] => GET
+                            [encType] => application/json
+                        )
+
+                    [3] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-RYR5KEW95GB5/suspend
+                            [rel] => suspend
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [4] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-RYR5KEW95GB5/capture
+                            [rel] => capture
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                )
+
+            [id] => I-RYR5KEW95GB5
+            [plan_id] => P-63F91990FB938624MM4ZR6WQ
+            [status] => ACTIVE
+            [status_update_time] => 2024-11-16T03:08:57Z
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-7MG51795BE001203B-24015570EF336944W
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-7MG51795BE001203B-24015570EF336944W/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+current_period_end: 2024-11-22 03:08:48
+
+Webhook event received:
+Array
+(
+    [id] => WH-3NU0759228878470J-9BJ744769D8892746
+    [event_version] => 1.0
+    [create_time] => 2024-11-16T03:12:17.797Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.ACTIVATED
+    [summary] => Subscription activated
+    [resource] => Array
+        (
+            [quantity] => 1
+            [subscriber] => Array
+                (
+                    [email_address] => sb-gnfvg33961218@personal.example.com
+                    [payer_id] => 8FLSJRKCKH8LG
+                    [name] => Array
+                        (
+                            [given_name] => John
+                            [surname] => Doe
+                        )
+
+                    [shipping_address] => Array
+                        (
+                            [address] => Array
+                                (
+                                    [address_line_1] => 1 Main St
+                                    [admin_area_2] => San Jose
+                                    [admin_area_1] => CA
+                                    [postal_code] => 95131
+                                    [country_code] => US
+                                )
+
+                        )
+
+                )
+
+            [create_time] => 2024-11-16T03:12:12Z
+            [plan_overridden] => 
+            [shipping_amount] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [start_time] => 2024-11-16T03:11:45Z
+            [update_time] => 2024-11-16T03:12:14Z
+            [billing_info] => Array
+                (
+                    [outstanding_balance] => Array
+                        (
+                            [currency_code] => USD
+                            [value] => 0.0
+                        )
+
+                    [cycle_executions] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [tenure_type] => REGULAR
+                                    [sequence] => 1
+                                    [cycles_completed] => 1
+                                    [cycles_remaining] => 0
+                                    [current_pricing_scheme_version] => 1
+                                    [total_cycles] => 0
+                                )
+
+                        )
+
+                    [last_payment] => Array
+                        (
+                            [amount] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 66.0
+                                )
+
+                            [time] => 2024-11-16T03:12:13Z
+                        )
+
+                    [next_billing_time] => 2024-11-21T10:00:00Z
+                    [failed_payments_count] => 0
+                )
+
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-LGMCY8W5WYNM/cancel
+                            [rel] => cancel
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-LGMCY8W5WYNM
+                            [rel] => edit
+                            [method] => PATCH
+                            [encType] => application/json
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-LGMCY8W5WYNM
+                            [rel] => self
+                            [method] => GET
+                            [encType] => application/json
+                        )
+
+                    [3] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-LGMCY8W5WYNM/suspend
+                            [rel] => suspend
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [4] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-LGMCY8W5WYNM/capture
+                            [rel] => capture
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                )
+
+            [id] => I-LGMCY8W5WYNM
+            [plan_id] => P-63F91990FB938624MM4ZR6WQ
+            [status] => ACTIVE
+            [status_update_time] => 2024-11-16T03:12:14Z
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-3NU0759228878470J-9BJ744769D8892746
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-3NU0759228878470J-9BJ744769D8892746/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+current_period_end: 2024-11-22 03:12:00
+

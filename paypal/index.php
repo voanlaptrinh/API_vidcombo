@@ -106,8 +106,9 @@ class PaypalApiFunction
     private $connection;
     private $client_id;
     private $clientSecret;
+    private $access_token;
     private $plans;
-    public $web_domain = 'https://www.vidcombo.com/';
+    public $web_domain = 'http://localhost:8080/';
     function __construct()
     {
 
@@ -128,8 +129,28 @@ class PaypalApiFunction
         if (!$this->connection) {
             throw new Exception('Database connection could not be established.');
         }
+        $this->access_token = $this->get_paypal_access_token($this->client_id, $this->clientSecret);
     }
+    private function get_paypal_access_token($client_id, $clientSecret)
+    {
+        $url = "https://api.sandbox.paypal.com/v1/oauth2/token";
+        $headers = [
+            "Authorization: Basic " . base64_encode("$client_id:$clientSecret"),
+            "Content-Type: application/x-www-form-urlencoded"
+        ];
+        $data = "grant_type=client_credentials";
 
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        $result = json_decode($response);
+        return $result->access_token;
+    }
     // Hàm xử lý webhook từ PayPal
 
     function handlePaypalWebhook()
@@ -150,7 +171,7 @@ class PaypalApiFunction
             try {
                 switch ($event) {
                     case 'PAYMENT.SALE.COMPLETED': //Xảy ra bất cứ khi nào nỗ lực thanh toán hóa đơn thành công.
-                        $this->handlePaymentCompleted($data);
+                        $this->handlePaymentCompleted($data, $this->access_token);
                         break;
                     case 'PAYMENT.SALE.PENDING': //Xảy ra bất cứ khi nào nỗ lực thanh toán hóa đơn thành công.
                         $this->handlePaymentPending($data);
@@ -159,13 +180,13 @@ class PaypalApiFunction
                         $this->handleSubscriptionCreated($data);
                         break;
                     case 'BILLING.SUBSCRIPTION.UPDATED': //Xảy ra bất cứ khi nào nỗ lực thanh toán hóa đơn thành công.
-                        $this->handleSubscriptionUpdate($data);
+                        $this->handleSubscriptionUpdate($data, $this->access_token);
                         break;
                     case 'BILLING.SUBSCRIPTION.RE-ACTIVATED': //Xảy ra bất cứ khi nào nỗ lực thanh toán hóa đơn thành công.
                         $this->handleSubscriptionReActivated($data);
                         break;
                     case 'BILLING.SUBSCRIPTION.ACTIVATED': //Xảy ra bất cứ khi nào nỗ lực thanh toán hóa đơn thành công.
-                        $this->handleSubscriptionActivated($data);
+                        $this->handleSubscriptionActivated($data, $this->access_token);
                         break;
                     case 'BILLING.SUBSCRIPTION.CANCELLED': //Xảy ra bất cứ khi nào nỗ lực thanh toán hóa đơn thành công.
                         $this->handleSubscriptionCancelled($data);
@@ -196,9 +217,146 @@ class PaypalApiFunction
         }
     }
 
+    function handleSubscriptionActivated($data, $accessToken)
+    {
+        // Ghi log sự kiện nhận webhook
+        $logContent = "Webhook event received:\n" . print_r($data, true) . "\n\n";
+        file_put_contents('log/handleSubscriptionActivated.log', $logContent, FILE_APPEND);
+
+        // Kiểm tra trạng thái và chuẩn bị thông tin từ webhook
+        $status = $data['resource']['status'] == 'ACTIVE' ? 'active' : $data['resource']['status'];
+        $subscription_id = $data['resource']['id'];
+        $customer_email = $data['resource']['subscriber']['email_address'];
+        $customer_name = $data['resource']['subscriber']['email_address'];
+
+        // Gọi API PayPal để lấy chi tiết gói đăng ký
+        $plan_id = $data['resource']['plan_id'];
+        $planDetails = $this->getPlanDetailsFromPayPal($plan_id, $accessToken);
+        if (!$planDetails) {
+            error_log("Failed to fetch plan details for plan_id: $plan_id");
+            return;
+        }
+
+        // Tính toán ngày hết hạn của gói đăng ký
+        $current_period_end = $this->calculatePeriodEnd($planDetails['billing_cycles'][0]);
+
+        // Ghi log thời gian hết hạn
+        $formatted_period_end = $current_period_end->format('Y-m-d H:i:s');
+        file_put_contents('log/handleSubscriptionActivated.log', "current_period_end: $formatted_period_end\n\n", FILE_APPEND);
+
+        // Cập nhật subscription trong cơ sở dữ liệu
+        $this->updateSubscription($subscription_id, $status, $formatted_period_end, $customer_email);
+        $this->updateInvoiceEmail($subscription_id, $customer_email);
+
+        // Kiểm tra và gửi license key nếu chưa gửi
+        $this->checkAndSendLicenseKey($subscription_id, $customer_email, $customer_name, $formatted_period_end,);
+
+        error_log('Subscription activated successfully');
+    }
+
+    // Lấy chi tiết plan từ PayPal API
+    private function getPlanDetailsFromPayPal($plan_id, $accessToken)
+    {
+        $url = "https://api.sandbox.paypal.com/v1/billing/plans/{$plan_id}";
+        $headers = [
+            "Authorization: Bearer $accessToken",
+            "Content-Type: application/json"
+        ];
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+
+        if ($response === false) {
+            error_log("Error fetching plan details: " . curl_error($ch));
+            curl_close($ch);
+            return null;
+        }
+
+        curl_close($ch);
+        return json_decode($response, true);
+    }
+
+    // Tính toán ngày hết hạn từ gói đăng ký
+    private function calculatePeriodEnd($billingCycle)
+    {
+        $current_period_end = new DateTime(); // Giả sử ngày bắt đầu là hiện tại
+        $frequency = $billingCycle['pricing_scheme'];
+        $interval = $billingCycle['frequency'];
+
+        if (isset($interval['interval_unit']) && $interval['interval_unit'] == 'MONTH') {
+            $current_period_end->modify('+' . $interval['interval_count'] . ' month');
+        } elseif (isset($interval['interval_unit']) && $interval['interval_unit'] == 'DAY') {
+            $current_period_end->modify('+' . $interval['interval_count'] . ' day');
+        }
+
+        return $current_period_end;
+    }
+
+    // Cập nhật thông tin subscription vào cơ sở dữ liệu
+    private function updateSubscription($subscription_id, $status, $current_period_end, $customer_email)
+    {
+        $stmt = $this->connection->prepare("UPDATE `subscriptions` SET `status` = :status, `current_period_end` = :current_period_end, `customer_email` = :customer_email WHERE `subscription_id` = :subscription_id");
+        $stmt->execute([
+            ':subscription_id' => $subscription_id,
+            ':status' => $status,
+            ':current_period_end' => $current_period_end,
+            ':customer_email' => $customer_email
+        ]);
+    }
+
+    // Cập nhật email của khách hàng trong hóa đơn
+    private function updateInvoiceEmail($subscription_id, $customer_email)
+    {
+        $stmt = $this->connection->prepare("UPDATE `invoice` SET `customer_email` = :customer_email WHERE `subscription_id` = :subscription_id");
+        $stmt->execute([
+            ':subscription_id' => $subscription_id,
+            ':customer_email' => $customer_email
+        ]);
+    }
+
+    // Kiểm tra và gửi license key nếu chưa gửi
+    private function checkAndSendLicenseKey($subscription_id, $customer_email, $customer_name, $formatted_period_end)
+    {
+        $stmt = $this->connection->prepare("SELECT `license_key`, `send` FROM `licensekey` WHERE `subscription_id` = :subscription_id");
+        $stmt->execute([':subscription_id' => $subscription_id]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($result && isset($result['license_key']) && $result['send'] === 'not') {
+            $licenseKey = $result['license_key'];
+            error_log("Sending license key to: $customer_email");
+
+            // Gửi license key qua email
+            $send_status = Common::sendLicenseKeyEmail($customer_email, $customer_name, $licenseKey);
+
+            if ($send_status) {
+                $this->updateLicenseKeySendStatus($subscription_id, $formatted_period_end);
+            }
+        } else {
+            error_log("No license key found for subscription ID: $subscription_id");
+        }
+    }
+
+    // Cập nhật trạng thái gửi license key
+    private function updateLicenseKeySendStatus($subscription_id, $formatted_period_end)
+    {
+        $stmt = $this->connection->prepare("UPDATE `licensekey` SET `send` = :send , `current_period_end` = :current_period_end WHERE `subscription_id` = :subscription_id");
+        $stmt->execute([
+            ':send' => 'ok',
+            ':subscription_id' => $subscription_id,
+            ':current_period_end' => $formatted_period_end
+        ]);
+    }
+
+
+
+
+
+
 
     //--------- Start funtion webhook --------------/
-    function handlePaymentCompleted($data)
+    function handlePaymentCompleted($data, $access_token)
     {
         $logContent = "Webhook event received:\n" . print_r($data, true) . "\n\n";
         file_put_contents('log/handlePaymentCompleted.log', $logContent, FILE_APPEND);
@@ -213,19 +371,17 @@ class PaypalApiFunction
         $customer_name = $subscription['customer_email'];
         $current_period_end = $subscription['current_period_end'];
 
-
-        if ($subscription) {
-
-
-
-            $plan = $subscription['plan'];
-            $plan_alias = array_search($plan, $this->plans);
-            $sk_key = $this->client_id;
-            $sign_key = $this->clientSecret;
-            $date = DateTime::createFromFormat('Y-m-d\TH:i:s.u\Z', $create_time);
-            $formattedDateCreate_time = $date->format('Y-m-d H:i:s');
-            $licenseKey = $this->generateLicenseKey();
-
+        $plan = $subscription['plan'];
+        $plan_alias = array_search($plan, $this->plans);
+        $sk_key = $this->client_id;
+        $sign_key = $this->clientSecret;
+        $date = DateTime::createFromFormat('Y-m-d\TH:i:s.u\Z', $create_time);
+        $formattedDateCreate_time = $date->format('Y-m-d H:i:s');
+        $licenseKey = $this->generateLicenseKey();
+        $stmtCheck = $this->connection->prepare("SELECT COUNT(*) FROM `licensekey` WHERE `subscription_id` = :subscription_id");
+        $stmtCheck->execute([':subscription_id' => $subscription_id]);
+        $exists = $stmtCheck->fetchColumn();
+        if ($exists == 0) {
             $stmt2 = $this->connection->prepare("INSERT INTO `licensekey` (`status`, `subscription_id`, `license_key`, `send`, `plan`, `plan_alias`, `sk_key`, `sign_key`, `created_at`, `current_period_end`) VALUES ( :status, :subscription_id, :license_key, :send, :plan, :plan_alias, :sk_key, :sign_key, :created_at, :current_period_end)");
             $stmt2->execute([
                 ':subscription_id' => $subscription_id,
@@ -239,61 +395,147 @@ class PaypalApiFunction
                 ':created_at' => $formattedDateCreate_time,
                 ':current_period_end' => $current_period_end,
             ]);
-
-
-            $logContent = "Invoice insertion complete:\n"
-                . "Invoice ID: " . print_r($data['id'], true) . "\n"
-                . "Customer Email: " . print_r($customer_email, true) . "\n"
-                . "Payment Intent: " . print_r($data['resource']['id'], true) . "\n"
-                . "Currency: " . print_r($data['resource']['amount']['currency'], true) . "\n"
-                . "Total Amount: " . print_r($data['resource']['amount']['total'], true) . "\n"
-                . "Subtotal: " . print_r($data['resource']['amount']['details']['subtotal'], true) . "\n"
-                . "Invoice Date Time: " . print_r($formattedDateCreate_time, true) . "\n\n";
-
-            file_put_contents('log/handlePaymentCompleted.log', $logContent, FILE_APPEND);
-
-
-
-
-
-            $stmt3 = $this->connection->prepare("INSERT INTO `invoice` (`invoice_id`, `status`, `payment_intent`, `period_end`, `period_start`, `subscription_id`, `currency`, `amount_due`, `created`, `amount_paid`, `invoice_datetime`)
-                    VALUES (:invoice_id, :status, :payment_intent, :period_end, :period_start, :subscription_id, :currency, :amount_due, :created, :amount_paid, :invoice_datetime)");
-
-            $stmt3->execute([
-                ':invoice_id' => $data['id'],
-                ':status' => 'paid',
-                // ':customer_email' => $customer_email,
-                ':payment_intent' => $data['resource']['id'],
-                ':period_end' => strtotime($current_period_end),
-                ':period_start' => strtotime($data['create_time']),
-                ':subscription_id' => $subscription_id,
-                ':currency' => $data['resource']['amount']['currency'],
-                ':amount_due' => $data['resource']['amount']['total'],
-                ':created' => strtotime($data['create_time']),
-                ':amount_paid' => $data['resource']['amount']['details']['subtotal'],
-                ':invoice_datetime' => $formattedDateCreate_time,
-            ]);
         } else {
-            // Xử lý nếu không tìm thấy gói subscription
-            $logContent = "Subscription not found for ID: $subscription_id\n\n";
+            // Gia hạn
+            $current_period_end_date = new DateTime($current_period_end); // Ngày kết thúc hiện tại
+
+
+            error_log($plan);
+            $url = "https://api.sandbox.paypal.com/v1/billing/plans/{$plan}";
+            $headers = [
+                "Authorization: Bearer $access_token",
+                "Content-Type: application/json"
+            ];
+
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $response = curl_exec($ch);
+
+            if ($response === false) {
+                $error = curl_error($ch);
+                error_log("Error fetching plan details: $error");
+                curl_close($ch);
+                return;
+            }
+
+            curl_close($ch);
+            $planDetails = json_decode($response, true);
+            $logContent = "planDetails:\n"
+                . "Invoice ID: " . print_r($planDetails, true) . "\n";
+
             file_put_contents('log/handlePaymentCompleted.log', $logContent, FILE_APPEND);
+            $frequency = $planDetails['billing_cycles'][0]['frequency'];
+
+            if (isset($frequency['interval_unit']) && $frequency['interval_unit'] == 'MONTH') {
+                $current_period_end_date->modify('+' . $frequency['interval_count'] . ' month');
+            } elseif (isset($frequency['interval_unit']) && $frequency['interval_unit'] == 'DAY') {
+                $current_period_end_date->modify('+' . $frequency['interval_count'] . ' day');
+            }
+
+
+            // Cập nhật lại ngày hết hạn
+            $new_period_end = $current_period_end_date->format('Y-m-d H:i:s');
+            $stmtUpdate = $this->connection->prepare("UPDATE `subscriptions` SET `current_period_end` = :current_period_end WHERE `subscription_id` = :subscription_id");
+            $stmtUpdate->execute([
+                ':current_period_end' => $new_period_end,
+                ':subscription_id' => $subscription_id,
+            ]);
+            $stmt = $this->connection->prepare("UPDATE `licensekey` SET `current_period_end` = :current_period_end  WHERE `subscription_id` = :subscription_id");
+            $stmt->execute([
+                ':current_period_end' => $new_period_end,
+                ':subscription_id' => $subscription_id,
+
+            ]);
+        }
+
+
+
+        $stmt3 = $this->connection->prepare("INSERT INTO `invoice` (`invoice_id`,`customer_email`, `status`, `payment_intent`, `period_end`, `period_start`, `subscription_id`, `currency`, `amount_due`, `created`, `amount_paid`, `invoice_datetime`)
+                    VALUES (:invoice_id, :customer_email, :status, :payment_intent, :period_end, :period_start, :subscription_id, :currency, :amount_due, :created, :amount_paid, :invoice_datetime)");
+
+        $stmt3->execute([
+            ':invoice_id' => $data['id'],
+            ':status' => 'paid',
+            ':customer_email' => $customer_email,
+            ':payment_intent' => $data['resource']['id'],
+            ':period_end' => strtotime($current_period_end),
+            ':period_start' => strtotime($data['create_time']),
+            ':subscription_id' => $subscription_id,
+            ':currency' => $data['resource']['amount']['currency'],
+            ':amount_due' => $data['resource']['amount']['total'],
+            ':created' => strtotime($data['create_time']),
+            ':amount_paid' => $data['resource']['amount']['details']['subtotal'],
+            ':invoice_datetime' => $formattedDateCreate_time,
+        ]);
+        $logContent = "Invoice insertion complete:\n"
+            . "Invoice ID: " . print_r($data['id'], true) . "\n"
+            . "Customer Email: " . print_r($customer_email, true) . "\n"
+            . "Payment Intent: " . print_r($data['resource']['id'], true) . "\n"
+            . "Currency: " . print_r($data['resource']['amount']['currency'], true) . "\n"
+            . "Total Amount: " . print_r($data['resource']['amount']['total'], true) . "\n"
+            . "Subtotal: " . print_r($data['resource']['amount']['details']['subtotal'], true) . "\n"
+            . "Invoice Date Time: " . print_r($formattedDateCreate_time, true) . "\n\n";
+
+        file_put_contents('log/handlePaymentCompleted.log', $logContent, FILE_APPEND);
+        $stmt = $this->connection->prepare("SELECT `license_key`, `send` FROM `licensekey` WHERE `subscription_id` = :subscription_id");
+        $stmt->execute([':subscription_id' => $subscription_id]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($result && isset($result['license_key']) && $result['send'] === 'not') {
+            $licenseKey = $result['license_key'];
+            error_log("Sending license key to: $customer_email");
+
+            // Gửi license key qua email
+            $send_status = Common::sendLicenseKeyEmail($customer_email, $customer_name, $licenseKey);
+
+            if ($send_status) {
+                $stmt = $this->connection->prepare("UPDATE `licensekey` SET `send` = :send  WHERE `subscription_id` = :subscription_id");
+                $stmt->execute([
+                    ':send' => 'ok',
+                    ':subscription_id' => $subscription_id,
+
+                ]);
+            }
+        } else {
+            error_log("No license key found for subscription ID: $subscription_id");
         }
         error_log('paymentCOmple');
+    }
+    function handleSubscriptionUpdate($data, $access_token)
+    {
+        $logContent = "Webhook event received:\n" . print_r( $data, true) . "\n\n";
+        file_put_contents('log/handleSubscriptionUpdate.log', $logContent, FILE_APPEND);
+
+        $subscription_id = $data['resource']['id'];
+        $plan = $data['resource']['plan_id'];
+        error_log('end' . $subscription_id);
+        $plan_alias = array_search($plan, $this->plans);
+
+        $stmtUpdate = $this->connection->prepare("UPDATE `subscriptions` SET `plan` = :plan WHERE `subscription_id` = :subscription_id");
+        $stmtUpdate->execute([
+            ':subscription_id' => $subscription_id,
+            ':plan' => $plan,
+        ]);
+        $stmt = $this->connection->prepare("UPDATE `licensekey` SET `plan` = :plan, `plan_alias` = :plan_alias  WHERE `subscription_id` = :subscription_id");
+        $stmt->execute([
+            ':subscription_id' => $subscription_id,
+            ':plan' => $plan,
+            ':plan_alias' => $plan_alias,
+         
+
+        ]);
+
+       
     }
     function handlePaymentPending($data)
     {
         $logContent = "Webhook event received:\n" . print_r($data, true) . "\n\n";
         file_put_contents('log/handlePaymentPending.log', $logContent, FILE_APPEND);
     }
-    function handleSubscriptionUpdate($data)
+
+    function handleSubscriptionRenewed($data): void
     {
-        $logContent = "Webhook event received:\n" . print_r($data, true) . "\n\n";
-        file_put_contents('log/handleSubscriptionUpdate.log', $logContent, FILE_APPEND);
-
-
-        
-    }
-    function handleSubscriptionRenewed($data){
         $subscription_id = $data['resource']['id']; // ID của subscription
         $nextBillingTime = $data['resource']['billing_info']['next_billing_time']; // Ngày gia hạn tiếp theo
         $dateTime = new DateTime($nextBillingTime);
@@ -340,68 +582,15 @@ class PaypalApiFunction
             ':bank_name' => 'PayPal'
         ]);
     }
-    function handleSubscriptionActivated($data)
+
+
+    function handleSubscriptionReActivated($data)
     {
-        $logContent = "Webhook event received:\n" . print_r($data, true) . "\n\n";
-        file_put_contents('log/handleSubscriptionActivated.log', $logContent, FILE_APPEND);
-        $status = $data['resource']['status'];
-        if ($status == 'ACTIVE') {
-            $status = 'active';
-        }
-        $current_period_end_iso = $data['resource']['billing_info']['next_billing_time'];
-        $dateTime = new DateTime($current_period_end_iso);
-        $current_period_end = $dateTime->format('Y-m-d H:i:s');
-        $logContent = "current_period_end:\n" . print_r($current_period_end, true) . "\n\n";
-        file_put_contents('log/handleSubscriptionActivated.log', $logContent, FILE_APPEND);
-        $customer_email = $data['resource']['subscriber']['email_address'];
-        $customer_name = $data['resource']['subscriber']['email_address'];
-
-        $subscription_id = $data['resource']['id'];
-
-
-        $stmt = $this->connection->prepare("UPDATE `subscriptions` SET `status` = :status, `current_period_end` = :current_period_end, `customer_email` = :customer_email WHERE `subscription_id` = :subscription_id");
-        $stmt->execute([
-            ':subscription_id' => $subscription_id,
-            ':status' => $status,
-            ':current_period_end' => $current_period_end,
-            ':customer_email' => $customer_email
-        ]);
-        $stmt = $this->connection->prepare("UPDATE `invoice` SET  `customer_email` = :customer_email WHERE `subscription_id` = :subscription_id");
-        $stmt->execute([
-            ':subscription_id' => $subscription_id,
-            ':customer_email' => $customer_email
-        ]);
-        $stmt = $this->connection->prepare("SELECT `license_key`, `send` FROM `licensekey` WHERE `subscription_id` = :subscription_id");
-        $stmt->execute([':subscription_id' => $subscription_id]);
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($result && isset($result['license_key']) && $result['send'] === 'not') {
-            $licenseKey = $result['license_key'];
-
-            error_log("EMAIL: $customer_email");
-            error_log("licensekey: $licenseKey");
-
-            //Gửi licenseKey qua email
-            $send_status = Common::sendLicenseKeyEmail($customer_email, $customer_name, $licenseKey);
-
-            if ($send_status) {
-                $licensekey_stmt = $this->connection->prepare("UPDATE `licensekey` SET `send` = :send WHERE `subscription_id` = :subscription_id");
-                $licensekey_stmt->execute([
-                    ':send' => 'ok',
-                    ':subscription_id' => $subscription_id
-                ]);
-            }
-        } else {
-            error_log("No license key found for subscription ID: $subscription_id");
-        }
-        error_log('subactivie');
-    }
-
-    function handleSubscriptionReActivated($data){
         $logContent = "handleSubscriptionReActivated:\n" . print_r($data, true) . "\n\n";
         file_put_contents('log/handleSubscriptionReActivated.log', $logContent, FILE_APPEND);
         $subscription_id = $data['resource']['id'];
         $current_period_end_iso = $data['resource']['agreement_details']['next_billing_date'];
-        if($data['resource']['state'] == 'Active'){
+        if ($data['resource']['state'] == 'Active') {
             $status = 'active';
         }
         $dateTime = new DateTime($current_period_end_iso);
@@ -417,8 +606,6 @@ class PaypalApiFunction
             ':subscription_id' => $subscription_id,
             ':current_period_end' => $current_period_end,
         ]);
-
-
     }
     function handleSubscriptionCancelled($data)
     {
@@ -442,7 +629,8 @@ class PaypalApiFunction
 
 
 
-    function upSubscription($accessToken){
+    function upSubscription($accessToken)
+    {
         $body = file_get_contents('php://input');
         parse_str($body, result: $data);
         $subscription_id = $data['subscription_id'];
@@ -456,21 +644,21 @@ class PaypalApiFunction
         $data = [
             "plan_id" => $planId,  // The new plan ID you want to update to
         ];
-    
+
         // Step 4: Initialize cURL
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PATCH');
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-    
+
         // Execute the request
         $response = curl_exec($ch);
         curl_close($ch);
-    
+
         // Handle the response
         $result = json_decode($response, true);
-        
+
         var_dump($result);
         // Check for success or failure
         // if (isset($result['id'])) {
@@ -893,8 +1081,8 @@ class PaypalApiFunction
                 'locale' => 'en-US',
                 'shipping_preference' => 'SET_PROVIDED_ADDRESS', // Or 'NO_SHIPPING' if you don’t need shipping info
                 'user_action' => 'SUBSCRIBE_NOW', // You can set this to 'CONTINUE' for subscription renewal
-                'return_url' => $this->web_domain .'paypal/return.php', // Redirect URL after payment success
-                'cancel_url' => $this->web_domain .'paypal/cancel.php', // Redirect URL if payment is cancelled
+                'return_url' => $this->web_domain . 'paypal/success', // Redirect URL after payment success
+                'cancel_url' => $this->web_domain, // Redirect URL if payment is cancelled
             ]
         ];
 
@@ -1028,6 +1216,7 @@ class PaypalApiFunction
         parse_str($body, result: $data);
         $licenseKey = isset($data['license_key']) ? $data['license_key'] : '';
         $subscriptionId = $this->findSubscriptionIdByLicenseKey($licenseKey);
+
         $planId = $data['planId'];
         $url = "https://api-m.sandbox.paypal.com/v1/billing/subscriptions/{$subscriptionId}/revise";
 
@@ -1059,7 +1248,11 @@ class PaypalApiFunction
 
         // Xử lý phản hồi
         $responseArray = json_decode($response, true);
-        var_dump($responseArray);
+        return json_encode([
+            "success" => true,
+            "message" => "Subscription revised successfully.",
+            "data" => $responseArray,
+        ]);
     }
 
 

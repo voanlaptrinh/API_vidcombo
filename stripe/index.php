@@ -9,7 +9,30 @@ use PHPMailer\PHPMailer\Exception;
 // Kiểm tra URL và gọi hàm tương ứng
 $func = isset($_GET['func']) ? trim($_GET['func']) : '';
 
+$body = file_get_contents('php://input');
+$data = json_decode($body, true);
+$appName = isset($data['app_name']) ? $data['app_name'] : null;
+
+
 $stripe_funtion = new StripeApiFunction();
+
+
+
+$paypalSecret = Common::getPaypalSecrets();
+$client_id = $paypalSecret['client_id'];
+$clientSecret = $paypalSecret['client_secret'];
+
+$apiContext = new \PayPal\Rest\ApiContext(
+    new \PayPal\Auth\OAuthTokenCredential(
+        $paypalSecret['client_id'],     // Replace with your PayPal Client ID
+        $paypalSecret['client_secret']  // Replace with your PayPal Client Secret
+    )
+);
+$apiContext->setConfig(['mode' => 'sandbox']);
+
+
+
+
 switch ($func) {
     case 'create-checkout-session':
         $stripe_funtion->createCheckoutSession();
@@ -35,7 +58,13 @@ class StripeApiFunction
 {
     private $connection;
     private $apiKey;
+
+    private $client_id;
+    private $clientSecret;
     private $endpointSecret;
+    private $access_token;
+    private $plans_paypal;
+
     private $plans;
     public $web_domain = 'https://www.vidcombo.com/';
     // Hàm khởi tạo
@@ -45,6 +74,19 @@ class StripeApiFunction
     }
     function init()
     {
+        // Lấy body của yêu cầu
+        $body = file_get_contents('php://input');
+        $data = json_decode($body, true);
+        $appName = isset($data['app_name']) ? $data['app_name'] : null;
+
+        $paypalSecret = Common::getPaypalSecrets($appName);
+        if ($paypalSecret) {
+            $this->client_id = $paypalSecret['client_id'];
+            $this->clientSecret = $paypalSecret['client_secret'];
+            $this->plans_paypal = json_decode($paypalSecret['plans'], true);
+        } else {
+            throw new Exception('No active Stripe secrets found.');
+        }
         $stripeSecrets = Common::getStripeSecrets();
         if ($stripeSecrets) {
             $this->apiKey = $stripeSecrets['apiKey'];
@@ -59,8 +101,141 @@ class StripeApiFunction
         if (!$this->connection) {
             throw new Exception('Database connection could not be established.');
         }
+        $this->access_token = $this->get_paypal_access_token($this->client_id, $this->clientSecret);
     }
 
+
+    function createCheckoutSession()
+    {
+        $body = file_get_contents('php://input');
+        parse_str($body, $data);
+
+        $licenseKey = isset($data['license_key']) ? $data['license_key'] : '';
+        $plan = isset($data['plan']) ? $data['plan'] : 'plan1';
+
+        $planKey = isset($this->plans[$plan]) ? $this->plans[$plan] : '';
+        $planKeyPaypal = isset($this->plans_paypal[$plan]) ? $this->plans_paypal[$plan] : '';
+        $appName = isset($data['app_name']) ? $data['app_name'] : 'vidcombo';
+        if (empty($licenseKey)) {
+            // Nếu không có licenseKey, tạo URL chuyển trang
+            $encodedPlanKey = base64_encode($planKey);
+            $encodedPlan = base64_encode($plan);
+            $encodedLicenseKey = base64_encode($licenseKey);
+            $url = "http://localhost:8080/pay?planKey=" . urlencode($encodedPlanKey) . "&licenseKey=" . urlencode($encodedLicenseKey) . "&planName=" . urlencode($encodedPlan) ."&appName=" . urlencode($appName);
+
+            // Trả về URL chuyển trang
+            $response = [
+                'session' => [
+                    'url' => $url
+                ]
+            ];
+            header('Content-Type: application/json');
+            echo json_encode($response);
+            exit();
+        } else {
+            $bank_name =  $this->getBackNameByLicenseKey($licenseKey);
+
+            if ($bank_name == 'Stripe') {
+                // Nếu có licenseKey, tìm subscriptionId và nâng cấp subscription
+                $subscriptionId = $this->findSubscriptionIdByLicenseKey($licenseKey);
+
+                if ($subscriptionId) {
+                    // Nếu có subscriptionId, nâng cấp subscription hiện tại
+                    $subscription = \Stripe\Subscription::retrieve($subscriptionId);
+
+                    $updatedSubscription = \Stripe\Subscription::update($subscriptionId, [
+                        'items' => [
+                            [
+                                'id' => $subscription->items->data[0]->id,
+                                'price' => $planKey,
+                            ],
+                        ],
+                        'proration_behavior' => 'create_prorations',
+                    ]);
+
+                    // Trả về thông tin subscription đã được cập nhật
+                    header('Content-Type: application/json');
+                    echo json_encode(['subscription' => $updatedSubscription]);
+                    exit();
+                } else {
+                    // Nếu không tìm thấy subscriptionId, trả về lỗi hoặc thông báo
+                    header('Content-Type: application/json');
+                    echo json_encode(['error' => 'No subscription found for the provided license key.']);
+                    exit();
+                }
+            } else {
+                $body = file_get_contents('php://input');
+                parse_str($body, result: $data);
+                $licenseKey = isset($data['license_key']) ? $data['license_key'] : '';
+                $subscriptionId = $this->findSubscriptionIdByLicenseKey($licenseKey);
+                var_dump($this->access_token);
+                $url = "https://api-m.sandbox.paypal.com/v1/billing/subscriptions/{$subscriptionId}/revise";
+
+                // Dữ liệu để cập nhật gói
+                $reviseData = [
+                    "plan_id" => $planKeyPaypal,
+                    "application_context" => [
+                        "brand_name" => "RIVERNET",
+                        "locale" => "en-US",
+                        "shipping_preference" => "NO_SHIPPING",
+                        "user_action" => "SUBSCRIBE_NOW",
+                        "return_url" =>  $this->web_domain . "paypal/success",
+                        "cancel_url" =>  $this->web_domain
+                    ]
+                ];
+
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                    "Content-Type: application/json",
+                    "Authorization: Bearer {$this->access_token}"
+                ]);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($reviseData));
+
+                $response = curl_exec($ch);
+                curl_close($ch);
+
+                $responseArray = json_decode($response, true);
+
+                // Log the response for debugging purposes
+                // Kiểm tra xem 'links' có tồn tại và có chứa URL cần thiết không
+                if (!empty($responseArray)) {
+                    $response = [
+                        'session' => [
+                            'url' => $responseArray['links'][0]['href']
+                        ]
+                    ];
+                    header('Content-Type: application/json');
+                    echo json_encode($response);
+                } else {
+                    error_log($responseArray);
+                }
+            }
+        }
+    }
+
+    private function get_paypal_access_token($client_id, $clientSecret)
+    {
+        $url = "https://api.sandbox.paypal.com/v1/oauth2/token";
+        $headers = [
+            "Authorization: Basic " . base64_encode("$client_id:$clientSecret"),
+            "Content-Type: application/x-www-form-urlencoded"
+        ];
+        $data = "grant_type=client_credentials";
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        $result = json_decode($response);
+        return $result->access_token;
+    }
     function findSubscriptionIdByLicenseKey($licenseKey)
     {
         if (!$licenseKey || strlen($licenseKey) != 32)
@@ -106,76 +281,10 @@ class StripeApiFunction
         }
     }
 
-    function createCheckoutSession(): void
-    {
-        $body = file_get_contents('php://input');
-        parse_str($body, $data);
-
-        $licenseKey = isset($data['license_key']) ? $data['license_key'] : '';
-        $plan = isset($data['plan']) ? $data['plan'] : 'plan1';
-
-        $planKey = isset($this->plans[$plan]) ? $this->plans[$plan] : '';
-
-        if (empty($licenseKey)) {
-            // Nếu không có licenseKey, tạo URL chuyển trang
-            $encodedPlanKey = base64_encode($planKey);
-            $encodedPlan = base64_encode($plan);
-            $encodedLicenseKey = base64_encode($licenseKey);
-            $url = "http://localhost:8080/pay?planKey=" . urlencode($encodedPlanKey) . "&licenseKey=" . urlencode($encodedLicenseKey) . "&planName=" . urlencode($encodedPlan);
-
-            // Trả về URL chuyển trang
-            $response = [
-                'session' => [
-                    'url' => $url
-                ]
-            ];
-            header('Content-Type: application/json');
-            echo json_encode($response);
-            exit();
-        } else {
-            $bank_name =  $this->getBackNameByLicenseKey($licenseKey);
-            var_dump($bank_name);
-            die();
-            // if ($bank_name == 'Stripe') {
-            //     // Nếu có licenseKey, tìm subscriptionId và nâng cấp subscription
-            //     $subscriptionId = $this->findSubscriptionIdByLicenseKey($licenseKey);
-
-            //     if ($subscriptionId) {
-            //         // Nếu có subscriptionId, nâng cấp subscription hiện tại
-            //         $subscription = \Stripe\Subscription::retrieve($subscriptionId);
-
-            //         $updatedSubscription = \Stripe\Subscription::update($subscriptionId, [
-            //             'items' => [
-            //                 [
-            //                     'id' => $subscription->items->data[0]->id,
-            //                     'price' => $planKey,
-            //                 ],
-            //             ],
-            //             'proration_behavior' => 'create_prorations',
-            //         ]);
-
-            //         // Trả về thông tin subscription đã được cập nhật
-            //         header('Content-Type: application/json');
-            //         echo json_encode(['subscription' => $updatedSubscription]);
-            //         exit();
-            //     } else {
-            //         // Nếu không tìm thấy subscriptionId, trả về lỗi hoặc thông báo
-            //         header('Content-Type: application/json');
-            //         echo json_encode(['error' => 'No subscription found for the provided license key.']);
-            //         exit();
-            //     }
-            // } else {
-            //    error_log('paypal');
-            // }
-        }
-    }
-
-
-
 
     function createPaySessionStripe()
     {
-        $body = file_get_contents('php://input');
+        $body = file_get_contents(filename: 'php://input');
         parse_str($body, result: $data);
         $licenseKey = isset($data['license_key']) ? $data['license_key'] : '';
         $plan = isset($data['plan']) ? $data['plan'] : 'plan1';

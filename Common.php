@@ -53,7 +53,7 @@ class Common
 
         return null;
     }
-    static function getPaypalSecrets()
+    static function getPaypalSecrets($appName)
     {
     //     $redis = new RedisCache('stripe_secrets');
     //     $cache = $redis->getCache();
@@ -61,7 +61,7 @@ class Common
     //         $result = json_decode($cache, true);
     //     } else {
             $connection = self::getDatabaseConnection();
-            $query = $connection->prepare("SELECT `client_id`, `webhook_id`, `client_secret`, `plan_jsonId` FROM `paypal_secrets` WHERE `status` = 'active'");
+            $query = $connection->prepare("SELECT `client_id`, `webhook_id`, `client_secret`, `plan_jsonId` FROM `paypal_secrets` WHERE `status` = 'active' ");
             $query->execute();
             $result = $query->fetch(PDO::FETCH_ASSOC);
 
