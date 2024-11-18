@@ -1,14 +1,23 @@
 <?php
-// require './';
 require_once '../common.php';
 require_once '../vendor/autoload.php';
 
-$paypalSecret = Common::getPaypalSecrets();
+$body = file_get_contents('php://input');
+parse_str($body,  $data);
+// Kiểm tra và lấy app_name từ dữ liệu, nếu không có thì mặc định là 'vidcombo'
+// $appName = isset($data['app_name']) ? $data['app_name'] : 'vidcombo';
 
+$appName = $_SESSION['app_name'] ?? 'vidcombo';  // Giá trị mặc định nếu không có session và cookie
+
+// Ghi log để kiểm tra
+file_put_contents('log/webhook_debug.log', "App Name: $appName\n", FILE_APPEND);
+
+$paypalSecret = Common::getPaypalSecrets($appName);
 
 $client_id = $paypalSecret['client_id'];
 $clientSecret = $paypalSecret['client_secret'];
 $webhookId = $paypalSecret['webhook_id'];
+
 // Kiểm tra URL và gọi hàm xử lý tương ứng
 $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $method = $_SERVER['REQUEST_METHOD'];
@@ -19,7 +28,6 @@ $apiContext = new \PayPal\Rest\ApiContext(
     )
 );
 $apiContext->setConfig(['mode' => 'sandbox']);
-
 
 
 $func = isset($_GET['func']) ? trim($_GET['func']) : '';
@@ -46,11 +54,11 @@ function get_paypal_access_token($client_id, $clientSecret)
 }
 $access_token = get_paypal_access_token($client_id, $clientSecret);
 
-$paypal_funtion = new PaypalApiFunction();
+$paypal_funtion = new PaypalApiFunction($appName);
 switch ($func) {
 
     case 'create-checkout-session':
-        $paypal_funtion->createSubscription($access_token);
+        $paypal_funtion->createSubscription($access_token );
         break;
     case 'revise-subscription':
         $paypal_funtion->reviseSubscription($access_token);
@@ -108,22 +116,23 @@ class PaypalApiFunction
     private $clientSecret;
     private $access_token;
     private $plans;
+    private $appName;
     public $web_domain = 'http://localhost:8080/';
-    function __construct()
-    {
 
+    function __construct($appName)
+    {
+        $this->appName = $appName;
         $this->init();
     }
     function init()
     {
-
-        $paypalSecret = Common::getPaypalSecrets();
+        $paypalSecret = Common::getPaypalSecrets($this->appName);
         if ($paypalSecret) {
             $this->client_id = $paypalSecret['client_id'];
             $this->clientSecret = $paypalSecret['client_secret'];
             $this->plans = json_decode($paypalSecret['plans'], true);
         } else {
-            throw new Exception('No active Stripe secrets found.');
+            throw new Exception('No active Paypal secrets found.');
         }
         $this->connection = Common::getDatabaseConnection();
         if (!$this->connection) {
@@ -141,7 +150,7 @@ class PaypalApiFunction
         $data = "grant_type=client_credentials";
 
         $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, value: $headers);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -177,7 +186,7 @@ class PaypalApiFunction
                         $this->handlePaymentPending($data);
                         break;
                     case 'BILLING.SUBSCRIPTION.CREATED': //Xảy ra bất cứ khi nào nỗ lực thanh toán hóa đơn thành công.
-                        $this->handleSubscriptionCreated($data);
+                        $this->handleSubscriptionCreated($data,$this->appName);
                         break;
                     case 'BILLING.SUBSCRIPTION.UPDATED': //Xảy ra bất cứ khi nào nỗ lực thanh toán hóa đơn thành công.
                         $this->handleSubscriptionUpdate($data, $this->access_token);
@@ -356,6 +365,40 @@ class PaypalApiFunction
 
 
     //--------- Start funtion webhook --------------/
+
+
+    function handleSubscriptionCreated($data, $appName)
+    {
+        $subscription = $data['resource'];
+       
+        $logContent = "Webhook event received:\n" . print_r($subscription, true) . "\n\n" . print_r($appName, true) . "\n\n";
+        file_put_contents('log/handleSubscriptionCreated.log', $logContent, FILE_APPEND);
+        $subscription_id = $data['resource']['id'];
+        $logContent = "Subscription_id:\n" . print_r($subscription_id, true) . "\n\n";
+        file_put_contents('log/handleSubscriptionCreated.log', $logContent, FILE_APPEND);
+        $status = $data['resource']['status'];
+        $current_period_start_iso = $data['resource']['start_time'];
+        $dateTime = new DateTime($current_period_start_iso);
+        $current_period_start = $dateTime->format('Y-m-d H:i:s');
+        $create_time = $data['create_time'];
+        $plan = $data['resource']['plan_id'];
+        $subcrscription_json = json_encode($data);
+
+
+
+        $stmt = $this->connection->prepare("INSERT INTO `subscriptions` (`subscription_id`, `app_name` , `status`, `current_period_start`, `create_time`, `plan`, `subscription_json`, `bank_name`) VALUES (:subscription_id, :app_name, :status, :current_period_start, :create_time, :plan, :subscription_json,  :bank_name)");
+        $stmt->execute([
+            ':subscription_id' => $subscription_id,
+            ':app_name' => $appName,
+            ':status' => $status,
+            ':current_period_start' => $current_period_start,
+            ':create_time' => $create_time,
+            ':plan' => $plan,
+            ':subscription_json' => $subcrscription_json,
+            ':bank_name' => 'PayPal',
+
+        ]);
+    }
     function handlePaymentCompleted($data, $access_token)
     {
         $logContent = "Webhook event received:\n" . print_r($data, true) . "\n\n";
@@ -370,6 +413,11 @@ class PaypalApiFunction
         $customer_email = $subscription['customer_email'];
         $customer_name = $subscription['customer_email'];
         $current_period_end = $subscription['current_period_end'];
+
+
+
+
+
 
         $plan = $subscription['plan'];
         $plan_alias = array_search($plan, $this->plans);
@@ -504,7 +552,7 @@ class PaypalApiFunction
     }
     function handleSubscriptionUpdate($data, $access_token)
     {
-        $logContent = "Webhook event received:\n" . print_r( $data, true) . "\n\n";
+        $logContent = "Webhook event received:\n" . print_r($data, true) . "\n\n";
         file_put_contents('log/handleSubscriptionUpdate.log', $logContent, FILE_APPEND);
 
         $subscription_id = $data['resource']['id'];
@@ -522,11 +570,9 @@ class PaypalApiFunction
             ':subscription_id' => $subscription_id,
             ':plan' => $plan,
             ':plan_alias' => $plan_alias,
-         
+
 
         ]);
-
-       
     }
     function handlePaymentPending($data)
     {
@@ -551,37 +597,7 @@ class PaypalApiFunction
             ':current_period_end' => $current_period_end,
         ]);
     }
-    function handleSubscriptionCreated($data)
-    {
-        $subscription = $data['resource'];
-        $logContent = "Webhook event received:\n" . print_r($subscription, true) . "\n\n";
-        file_put_contents('log/handleSubscriptionCreated.log', $logContent, FILE_APPEND);
 
-
-        $subscription_id = $data['resource']['id'];
-        $logContent = "Subscription_id:\n" . print_r($subscription_id, true) . "\n\n";
-        file_put_contents('log/handleSubscriptionCreated.log', $logContent, FILE_APPEND);
-        $status = $data['resource']['status'];
-        $current_period_start_iso = $data['resource']['start_time'];
-        $dateTime = new DateTime($current_period_start_iso);
-        $current_period_start = $dateTime->format('Y-m-d H:i:s');
-        $create_time = $data['create_time'];
-        $plan = $data['resource']['plan_id'];
-        $subcrscription_json = json_encode($data);
-
-
-
-        $stmt = $this->connection->prepare("INSERT INTO `subscriptions` (`subscription_id`, `status`, `current_period_start`, `create_time`, `plan`, `subscription_json`, `bank_name`) VALUES (:subscription_id, :status, :current_period_start, :create_time, :plan, :subscription_json,  :bank_name)");
-        $stmt->execute([
-            ':subscription_id' => $subscription_id,
-            ':status' => $status,
-            ':current_period_start' => $current_period_start,
-            ':create_time' => $create_time,
-            ':plan' => $plan,
-            ':subscription_json' => $subcrscription_json,
-            ':bank_name' => 'PayPal'
-        ]);
-    }
 
 
     function handleSubscriptionReActivated($data)
@@ -1070,7 +1086,7 @@ class PaypalApiFunction
     function createSubscription($accessToken)
     {
         $body = file_get_contents('php://input');
-        parse_str($body, result: $data);
+        parse_str($body,  $data);
         $plan = isset($data['plan']) ? $data['plan'] : 'plan1';
         $planKey = isset($this->plans[$plan]) ? $this->plans[$plan] : '';
         $subscriptionData = [

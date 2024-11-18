@@ -18711,3 +18711,531 @@ Total Amount: 66.00
 Subtotal: 66.00
 Invoice Date Time: 2024-11-16 03:12:17
 
+Webhook event received:
+Array
+(
+    [id] => WH-66854076B8307182C-5UF725672D3681121
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T02:23:31.787Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 66.0 USD
+    [resource] => Array
+        (
+            [billing_agreement_id] => I-58NWMT3XGM8J
+            [amount] => Array
+                (
+                    [total] => 66.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 66.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [update_time] => 2024-11-18T02:23:28Z
+            [create_time] => 2024-11-18T02:23:28Z
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 2.79
+                )
+
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/84S339395K9277243
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/84S339395K9277243/refund
+                        )
+
+                )
+
+            [id] => 84S339395K9277243
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-66854076B8307182C-5UF725672D3681121
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-66854076B8307182C-5UF725672D3681121/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Invoice insertion complete:
+Invoice ID: WH-66854076B8307182C-5UF725672D3681121
+Customer Email: 
+Payment Intent: 84S339395K9277243
+Currency: USD
+Total Amount: 66.00
+Subtotal: 66.00
+Invoice Date Time: 2024-11-18 02:23:31
+
+Webhook event received:
+Array
+(
+    [id] => WH-5HE8904781845483K-8NH14354U9377064F
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T02:45:29.896Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 66.0 USD
+    [resource] => Array
+        (
+            [billing_agreement_id] => I-BWW0AJ64B7EA
+            [amount] => Array
+                (
+                    [total] => 66.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 66.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [update_time] => 2024-11-18T02:45:26Z
+            [create_time] => 2024-11-18T02:45:26Z
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 2.79
+                )
+
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/0FD66437TP5629911
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/0FD66437TP5629911/refund
+                        )
+
+                )
+
+            [id] => 0FD66437TP5629911
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-5HE8904781845483K-8NH14354U9377064F
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-5HE8904781845483K-8NH14354U9377064F/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Invoice insertion complete:
+Invoice ID: WH-5HE8904781845483K-8NH14354U9377064F
+Customer Email: 
+Payment Intent: 0FD66437TP5629911
+Currency: USD
+Total Amount: 66.00
+Subtotal: 66.00
+Invoice Date Time: 2024-11-18 02:45:29
+
+Webhook event received:
+Array
+(
+    [id] => WH-5T734953BN3359614-5G2370013T0789538
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T03:03:34.020Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 33.0 USD
+    [resource] => Array
+        (
+            [billing_agreement_id] => I-EBLC9ES7WWCX
+            [amount] => Array
+                (
+                    [total] => 33.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 33.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [update_time] => 2024-11-18T03:03:30Z
+            [create_time] => 2024-11-18T03:03:30Z
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 1.64
+                )
+
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/0JM56961YR781473V
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/0JM56961YR781473V/refund
+                        )
+
+                )
+
+            [id] => 0JM56961YR781473V
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-5T734953BN3359614-5G2370013T0789538
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-5T734953BN3359614-5G2370013T0789538/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Invoice insertion complete:
+Invoice ID: WH-5T734953BN3359614-5G2370013T0789538
+Customer Email: 
+Payment Intent: 0JM56961YR781473V
+Currency: USD
+Total Amount: 33.00
+Subtotal: 33.00
+Invoice Date Time: 2024-11-18 03:03:34
+
+Webhook event received:
+Array
+(
+    [id] => WH-4US62438VH8512156-0LA15503448878519
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T03:35:41.846Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 66.0 USD
+    [resource] => Array
+        (
+            [billing_agreement_id] => I-74L1MBLBX5W0
+            [amount] => Array
+                (
+                    [total] => 66.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 66.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [update_time] => 2024-11-18T03:35:38Z
+            [create_time] => 2024-11-18T03:35:38Z
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 2.79
+                )
+
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/1KB80412TD5796846
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/1KB80412TD5796846/refund
+                        )
+
+                )
+
+            [id] => 1KB80412TD5796846
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-4US62438VH8512156-0LA15503448878519
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-4US62438VH8512156-0LA15503448878519/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Invoice insertion complete:
+Invoice ID: WH-4US62438VH8512156-0LA15503448878519
+Customer Email: 
+Payment Intent: 1KB80412TD5796846
+Currency: USD
+Total Amount: 66.00
+Subtotal: 66.00
+Invoice Date Time: 2024-11-18 03:35:41
+
+Webhook event received:
+Array
+(
+    [id] => WH-22H194521L331262F-8HE46495D1182794U
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T10:12:38.991Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 11.0 USD
+    [resource] => Array
+        (
+            [amount] => Array
+                (
+                    [total] => 11.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 11.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [create_time] => 2024-11-18T10:12:34Z
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 0.87
+                )
+
+            [billing_agreement_id] => I-LTSSDKL2E7CR
+            [update_time] => 2024-11-18T10:12:34Z
+            [soft_descriptor] => PAYPAL *TEST STORE
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/5JJ53344502415236
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/5JJ53344502415236/refund
+                        )
+
+                )
+
+            [id] => 5JJ53344502415236
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-22H194521L331262F-8HE46495D1182794U
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-22H194521L331262F-8HE46495D1182794U/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+planDetails:
+Invoice ID: Array
+(
+    [id] => P-2N046189W34174607M4ZR6PA
+    [product_id] => PROD-56L15867X6215711R
+    [name] => Gói 1 ngày
+    [status] => ACTIVE
+    [description] => A monthly subscription to our service.
+    [usage_type] => LICENSED
+    [billing_cycles] => Array
+        (
+            [0] => Array
+                (
+                    [pricing_scheme] => Array
+                        (
+                            [version] => 1
+                            [fixed_price] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 10.0
+                                )
+
+                            [create_time] => 2024-11-12T09:26:20Z
+                            [update_time] => 2024-11-12T09:26:20Z
+                        )
+
+                    [frequency] => Array
+                        (
+                            [interval_unit] => DAY
+                            [interval_count] => 1
+                        )
+
+                    [tenure_type] => REGULAR
+                    [sequence] => 1
+                    [total_cycles] => 0
+                )
+
+        )
+
+    [payment_preferences] => Array
+        (
+            [service_type] => PREPAID
+            [auto_bill_outstanding] => 1
+            [setup_fee] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [setup_fee_failure_action] => CANCEL
+            [payment_failure_threshold] => 3
+        )
+
+    [taxes] => Array
+        (
+            [percentage] => 10.0
+            [inclusive] => 
+        )
+
+    [quantity_supported] => 
+    [create_time] => 2024-11-12T09:26:20Z
+    [update_time] => 2024-11-12T09:26:20Z
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-2N046189W34174607M4ZR6PA
+                    [rel] => self
+                    [method] => GET
+                    [encType] => application/json
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-2N046189W34174607M4ZR6PA
+                    [rel] => edit
+                    [method] => PATCH
+                    [encType] => application/json
+                )
+
+            [2] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-2N046189W34174607M4ZR6PA/deactivate
+                    [rel] => self
+                    [method] => POST
+                    [encType] => application/json
+                )
+
+        )
+
+)
+
+Invoice insertion complete:
+Invoice ID: WH-22H194521L331262F-8HE46495D1182794U
+Customer Email: sb-gnfvg33961218@personal.example.com
+Payment Intent: 5JJ53344502415236
+Currency: USD
+Total Amount: 11.00
+Subtotal: 11.00
+Invoice Date Time: 2024-11-18 10:12:38
+

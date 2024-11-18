@@ -10,15 +10,15 @@ use PHPMailer\PHPMailer\Exception;
 $func = isset($_GET['func']) ? trim($_GET['func']) : '';
 
 $body = file_get_contents('php://input');
-$data = json_decode($body, true);
-$appName = isset($data['app_name']) ? $data['app_name'] : null;
+parse_str($body,  $data);
+// Log and check the parsed data
+error_log('Parsed data: ' . print_r($data, true));
+$appName = isset($data['app_name']) ? $data['app_name'] : 'vidcombo';
 
+error_log($appName);
+$stripe_funtion = new StripeApiFunction($appName);
+$paypalSecret = Common::getPaypalSecrets($appName);
 
-$stripe_funtion = new StripeApiFunction();
-
-
-
-$paypalSecret = Common::getPaypalSecrets();
 $client_id = $paypalSecret['client_id'];
 $clientSecret = $paypalSecret['client_secret'];
 
@@ -58,28 +58,26 @@ class StripeApiFunction
 {
     private $connection;
     private $apiKey;
-
     private $client_id;
     private $clientSecret;
     private $endpointSecret;
     private $access_token;
     private $plans_paypal;
-
+    private $appName;
     private $plans;
     public $web_domain = 'https://www.vidcombo.com/';
     // Hàm khởi tạo
-    public function __construct()
+    function __construct($appName)
     {
+        $this->appName = $appName;
         $this->init();
     }
     function init()
     {
-        // Lấy body của yêu cầu
-        $body = file_get_contents('php://input');
-        $data = json_decode($body, true);
-        $appName = isset($data['app_name']) ? $data['app_name'] : null;
 
-        $paypalSecret = Common::getPaypalSecrets($appName);
+     
+
+        $paypalSecret = Common::getPaypalSecrets($this->appName);
         if ($paypalSecret) {
             $this->client_id = $paypalSecret['client_id'];
             $this->clientSecret = $paypalSecret['client_secret'];
@@ -87,7 +85,7 @@ class StripeApiFunction
         } else {
             throw new Exception('No active Stripe secrets found.');
         }
-        $stripeSecrets = Common::getStripeSecrets();
+        $stripeSecrets = Common::getStripeSecrets($this->appName);
         if ($stripeSecrets) {
             $this->apiKey = $stripeSecrets['apiKey'];
             $this->endpointSecret = $stripeSecrets['endpointSecret'];
@@ -104,6 +102,26 @@ class StripeApiFunction
         $this->access_token = $this->get_paypal_access_token($this->client_id, $this->clientSecret);
     }
 
+    private function get_paypal_access_token($client_id, $clientSecret)
+    {
+        $url = "https://api.sandbox.paypal.com/v1/oauth2/token";
+        $headers = [
+            "Authorization: Basic " . base64_encode("$client_id:$clientSecret"),
+            "Content-Type: application/x-www-form-urlencoded"
+        ];
+        $data = "grant_type=client_credentials";
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        $result = json_decode($response);
+        return $result->access_token;
+    }
 
     function createCheckoutSession()
     {
@@ -114,6 +132,7 @@ class StripeApiFunction
         $plan = isset($data['plan']) ? $data['plan'] : 'plan1';
 
         $planKey = isset($this->plans[$plan]) ? $this->plans[$plan] : '';
+        
         $planKeyPaypal = isset($this->plans_paypal[$plan]) ? $this->plans_paypal[$plan] : '';
         $appName = isset($data['app_name']) ? $data['app_name'] : 'vidcombo';
         if (empty($licenseKey)) {
@@ -121,7 +140,8 @@ class StripeApiFunction
             $encodedPlanKey = base64_encode($planKey);
             $encodedPlan = base64_encode($plan);
             $encodedLicenseKey = base64_encode($licenseKey);
-            $url = "http://localhost:8080/pay?planKey=" . urlencode($encodedPlanKey) . "&licenseKey=" . urlencode($encodedLicenseKey) . "&planName=" . urlencode($encodedPlan) ."&appName=" . urlencode($appName);
+            $encodedappName = base64_encode($appName);
+            $url = "http://localhost:8080/pay?planKey=" . urlencode($encodedPlanKey) . "&licenseKey=" . urlencode($encodedLicenseKey) . "&planName=" . urlencode($encodedPlan) ."&appName=" . urlencode($encodedappName);
 
             // Trả về URL chuyển trang
             $response = [
@@ -216,27 +236,7 @@ class StripeApiFunction
         }
     }
 
-    private function get_paypal_access_token($client_id, $clientSecret)
-    {
-        $url = "https://api.sandbox.paypal.com/v1/oauth2/token";
-        $headers = [
-            "Authorization: Basic " . base64_encode("$client_id:$clientSecret"),
-            "Content-Type: application/x-www-form-urlencoded"
-        ];
-        $data = "grant_type=client_credentials";
-
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        $response = curl_exec($ch);
-        curl_close($ch);
-
-        $result = json_decode($response);
-        return $result->access_token;
-    }
-    function findSubscriptionIdByLicenseKey($licenseKey)
+       function findSubscriptionIdByLicenseKey($licenseKey)
     {
         if (!$licenseKey || strlen($licenseKey) != 32)
             return null;

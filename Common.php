@@ -28,20 +28,25 @@ class Common
     }
 
 
-    static function getStripeSecrets()
+    static function getStripeSecrets($appName)
     {
-        $redis = new RedisCache('stripe_secrets');
-        $cache = $redis->getCache();
-        if ($cache) {
-            $result = json_decode($cache, true);
-        } else {
-            $connection = self::getDatabaseConnection();
-            $query = $connection->prepare("SELECT `apiKey`, `endpointSecret`, `plan_jsonId` FROM `stripe_secrets` WHERE `status` = 'active'");
-            $query->execute();
-            $result = $query->fetch(PDO::FETCH_ASSOC);
+        // $redis = new RedisCache('stripe_secrets');
+        // $cache = $redis->getCache();
+        // if ($cache) {
+        // $result = json_decode($cache, true);
+        // } else {
+        $connection = self::getDatabaseConnection();
+        $query = $connection->prepare("SELECT `apiKey`, `endpointSecret`, `plan_jsonId`
+                                             FROM `stripe_secrets` 
+                                            WHERE `status` = :status AND `app_name` = :app_name");
+        $query->execute([
+            ':status' => 'active',
+            ':app_name' => $appName
+        ]);
+        $result = $query->fetch(PDO::FETCH_ASSOC);
 
-            $redis->setCache(json_encode($result), 3600*24); // Cache for 1day
-        }
+        //     $redis->setCache(json_encode($result), 3600*24); // Cache for 1day
+        // }
 
         if ($result) {
             return [
@@ -55,17 +60,24 @@ class Common
     }
     static function getPaypalSecrets($appName)
     {
-    //     $redis = new RedisCache('stripe_secrets');
-    //     $cache = $redis->getCache();
-    //     if ($cache) {
-    //         $result = json_decode($cache, true);
-    //     } else {
-            $connection = self::getDatabaseConnection();
-            $query = $connection->prepare("SELECT `client_id`, `webhook_id`, `client_secret`, `plan_jsonId` FROM `paypal_secrets` WHERE `status` = 'active' ");
-            $query->execute();
-            $result = $query->fetch(PDO::FETCH_ASSOC);
+        // Uncomment and configure RedisCache if needed
+        // $redis = new RedisCache('stripe_secrets');
+        // $cache = $redis->getCache();
+        // if ($cache) {
+        //     $result = json_decode($cache, true);
+        // } else {
+        $connection = self::getDatabaseConnection();
+        $query = $connection->prepare("SELECT `client_id`, `webhook_id`, `client_secret`, `plan_jsonId` 
+                                        FROM `paypal_secrets` 
+                                        WHERE `status` = :status AND `app_name` = :app_name");
+        $query->execute([
+            ':status' => 'active',
+            ':app_name' => $appName
+        ]);
+        $result = $query->fetch(PDO::FETCH_ASSOC);
 
-            // $redis->setCache(json_encode($result), 3600*24); // Cache for 1day
+        // Uncomment and configure caching if needed
+        // $redis->setCache(json_encode($result), 3600 * 24); // Cache for 1 day
         // }
 
         if ($result) {
@@ -79,6 +91,7 @@ class Common
 
         return null;
     }
+
 
     // public static $apiKey = 'sk_test_51OeDsPIXbeKO1uxjfGZLmBaoVYMdmbThMwRHSrNa6Zigu0FnQYuAatgfPEodv9suuRFROdNRHux5vUhDp7jC6nca00GbHqdk1Y';
     // public static $endpointSecret = 'whsec_5f17c8c4ada7dddedac39a07084388d087b1743d38e16af8bd996bb97a21c910';
@@ -184,38 +197,38 @@ class Common
             return false;
         }
     }
-    public static function getInt($param, $defaultValue=0)
+    public static function getInt($param, $defaultValue = 0)
     {
-        return isset($_GET[$param])? intval($_GET[$param]) : $defaultValue;
+        return isset($_GET[$param]) ? intval($_GET[$param]) : $defaultValue;
     }
 
-    public static function getString($param, $defaultValue="")
+    public static function getString($param, $defaultValue = "")
     {
-        return isset($_GET[$param])? self::cleanQuery($_GET[$param]) : $defaultValue;
+        return isset($_GET[$param]) ? self::cleanQuery($_GET[$param]) : $defaultValue;
     }
 
-    public static function getIntPOST($param, $defaultValue=0)
+    public static function getIntPOST($param, $defaultValue = 0)
     {
-        return isset($_POST[$param])? intval($_POST[$param]) : $defaultValue;
+        return isset($_POST[$param]) ? intval($_POST[$param]) : $defaultValue;
     }
 
-    public static function getStringPOST($param, $defaultValue="")
+    public static function getStringPOST($param, $defaultValue = "")
     {
-        return isset($_POST[$param])? self::cleanQuery($_POST[$param]) : $defaultValue;
+        return isset($_POST[$param]) ? self::cleanQuery($_POST[$param]) : $defaultValue;
     }
 
     static function cleanQuery($string)
     {
-        if(empty($string)) return $string;
+        if (empty($string)) return $string;
         $string = trim($string);
 
         $badWords = array(
-            "/Select(.*)From/i"
-        , "/Union(.*)Select/i"
-        , "/Update(.*)Set/i"
-        , "/Delete(.*)From/i"
-        , "/Drop(.*)Table/i"
-        , "/Insert(.*)Into/i"
+            "/Select(.*)From/i",
+            "/Union(.*)Select/i",
+            "/Update(.*)Set/i",
+            "/Delete(.*)From/i",
+            "/Drop(.*)Table/i",
+            "/Insert(.*)Into/i"
         );
 
         $string = preg_replace($badWords, "", $string);
@@ -225,11 +238,11 @@ class Common
 
     static function getErrorMessage($lang_code, $error_key)
     {
-        $lang_file = __DIR__.'/lang/' . $lang_code . '.json';
-        if(!file_exists($lang_file))
-            $lang_file = __DIR__.'/lang/en.json';
+        $lang_file = __DIR__ . '/lang/' . $lang_code . '.json';
+        if (!file_exists($lang_file))
+            $lang_file = __DIR__ . '/lang/en.json';
 
         $lang_data = json_decode(file_get_contents($lang_file), true);
-        return isset($lang_data[$error_key])?$lang_data[$error_key]:'';
+        return isset($lang_data[$error_key]) ? $lang_data[$error_key] : '';
     }
 }

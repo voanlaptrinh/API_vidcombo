@@ -29561,3 +29561,4377 @@ Array
 )
 
 
+Webhook event received:
+Array
+(
+    [id] => WH-6TF09652NX111392Y-5VJ77679D0478872E
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T02:22:37.645Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CREATED
+    [summary] => Subscription created
+    [resource] => Array
+        (
+            [start_time] => 2024-11-18T02:22:37Z
+            [quantity] => 1
+            [create_time] => 2024-11-18T02:22:37Z
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-7GX070597J787253R
+                            [rel] => approve
+                            [method] => GET
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-58NWMT3XGM8J
+                            [rel] => edit
+                            [method] => PATCH
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-58NWMT3XGM8J
+                            [rel] => self
+                            [method] => GET
+                        )
+
+                )
+
+            [id] => I-58NWMT3XGM8J
+            [plan_overridden] => 
+            [plan_id] => P-63F91990FB938624MM4ZR6WQ
+            [status] => APPROVAL_PENDING
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-6TF09652NX111392Y-5VJ77679D0478872E
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-6TF09652NX111392Y-5VJ77679D0478872E/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-66854076B8307182C-5UF725672D3681121
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T02:23:31.787Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 66.0 USD
+    [resource] => Array
+        (
+            [billing_agreement_id] => I-58NWMT3XGM8J
+            [amount] => Array
+                (
+                    [total] => 66.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 66.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [update_time] => 2024-11-18T02:23:28Z
+            [create_time] => 2024-11-18T02:23:28Z
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 2.79
+                )
+
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/84S339395K9277243
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/84S339395K9277243/refund
+                        )
+
+                )
+
+            [id] => 84S339395K9277243
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-66854076B8307182C-5UF725672D3681121
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-66854076B8307182C-5UF725672D3681121/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-3FC946483A8796334-80561716BM9528052
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T02:23:33.764Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.ACTIVATED
+    [summary] => Subscription activated
+    [resource] => Array
+        (
+            [quantity] => 1
+            [subscriber] => Array
+                (
+                    [email_address] => sb-gnfvg33961218@personal.example.com
+                    [payer_id] => 8FLSJRKCKH8LG
+                    [name] => Array
+                        (
+                            [given_name] => John
+                            [surname] => Doe
+                        )
+
+                    [shipping_address] => Array
+                        (
+                            [address] => Array
+                                (
+                                    [address_line_1] => 1 Main St
+                                    [admin_area_2] => San Jose
+                                    [admin_area_1] => CA
+                                    [postal_code] => 95131
+                                    [country_code] => US
+                                )
+
+                        )
+
+                )
+
+            [create_time] => 2024-11-18T02:23:27Z
+            [plan_overridden] => 
+            [shipping_amount] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [start_time] => 2024-11-18T02:22:37Z
+            [update_time] => 2024-11-18T02:23:28Z
+            [billing_info] => Array
+                (
+                    [outstanding_balance] => Array
+                        (
+                            [currency_code] => USD
+                            [value] => 0.0
+                        )
+
+                    [cycle_executions] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [tenure_type] => REGULAR
+                                    [sequence] => 1
+                                    [cycles_completed] => 1
+                                    [cycles_remaining] => 0
+                                    [current_pricing_scheme_version] => 1
+                                    [total_cycles] => 0
+                                )
+
+                        )
+
+                    [last_payment] => Array
+                        (
+                            [amount] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 66.0
+                                )
+
+                            [time] => 2024-11-18T02:23:28Z
+                        )
+
+                    [next_billing_time] => 2024-11-23T10:00:00Z
+                    [failed_payments_count] => 0
+                )
+
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-58NWMT3XGM8J/cancel
+                            [rel] => cancel
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-58NWMT3XGM8J
+                            [rel] => edit
+                            [method] => PATCH
+                            [encType] => application/json
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-58NWMT3XGM8J
+                            [rel] => self
+                            [method] => GET
+                            [encType] => application/json
+                        )
+
+                    [3] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-58NWMT3XGM8J/suspend
+                            [rel] => suspend
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [4] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-58NWMT3XGM8J/capture
+                            [rel] => capture
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                )
+
+            [id] => I-58NWMT3XGM8J
+            [plan_id] => P-63F91990FB938624MM4ZR6WQ
+            [status] => ACTIVE
+            [status_update_time] => 2024-11-18T02:23:28Z
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-3FC946483A8796334-80561716BM9528052
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-3FC946483A8796334-80561716BM9528052/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-53514166XG203111L-8812876446451281L
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T02:44:10.074Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CREATED
+    [summary] => Subscription created
+    [resource] => Array
+        (
+            [start_time] => 2024-11-18T02:44:09Z
+            [quantity] => 1
+            [create_time] => 2024-11-18T02:44:09Z
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-5HC387634N626834G
+                            [rel] => approve
+                            [method] => GET
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-SSAC0C9JS91A
+                            [rel] => edit
+                            [method] => PATCH
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-SSAC0C9JS91A
+                            [rel] => self
+                            [method] => GET
+                        )
+
+                )
+
+            [id] => I-SSAC0C9JS91A
+            [plan_overridden] => 
+            [plan_id] => P-63F91990FB938624MM4ZR6WQ
+            [status] => APPROVAL_PENDING
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-53514166XG203111L-8812876446451281L
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-53514166XG203111L-8812876446451281L/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-82A94052AK653535P-0G006930KG410351P
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T02:45:04.878Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CREATED
+    [summary] => Subscription created
+    [resource] => Array
+        (
+            [start_time] => 2024-11-18T02:45:04Z
+            [quantity] => 1
+            [create_time] => 2024-11-18T02:45:04Z
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-5C88796178004903K
+                            [rel] => approve
+                            [method] => GET
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-BWW0AJ64B7EA
+                            [rel] => edit
+                            [method] => PATCH
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-BWW0AJ64B7EA
+                            [rel] => self
+                            [method] => GET
+                        )
+
+                )
+
+            [id] => I-BWW0AJ64B7EA
+            [plan_overridden] => 
+            [plan_id] => P-63F91990FB938624MM4ZR6WQ
+            [status] => APPROVAL_PENDING
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-82A94052AK653535P-0G006930KG410351P
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-82A94052AK653535P-0G006930KG410351P/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-5HE8904781845483K-8NH14354U9377064F
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T02:45:29.896Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 66.0 USD
+    [resource] => Array
+        (
+            [billing_agreement_id] => I-BWW0AJ64B7EA
+            [amount] => Array
+                (
+                    [total] => 66.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 66.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [update_time] => 2024-11-18T02:45:26Z
+            [create_time] => 2024-11-18T02:45:26Z
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 2.79
+                )
+
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/0FD66437TP5629911
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/0FD66437TP5629911/refund
+                        )
+
+                )
+
+            [id] => 0FD66437TP5629911
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-5HE8904781845483K-8NH14354U9377064F
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-5HE8904781845483K-8NH14354U9377064F/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-5H446302AY221643N-2C789185NP2849224
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T02:45:30.642Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.ACTIVATED
+    [summary] => Subscription activated
+    [resource] => Array
+        (
+            [quantity] => 1
+            [subscriber] => Array
+                (
+                    [email_address] => sb-gnfvg33961218@personal.example.com
+                    [payer_id] => 8FLSJRKCKH8LG
+                    [name] => Array
+                        (
+                            [given_name] => John
+                            [surname] => Doe
+                        )
+
+                    [shipping_address] => Array
+                        (
+                            [address] => Array
+                                (
+                                    [address_line_1] => 1 Main St
+                                    [admin_area_2] => San Jose
+                                    [admin_area_1] => CA
+                                    [postal_code] => 95131
+                                    [country_code] => US
+                                )
+
+                        )
+
+                )
+
+            [create_time] => 2024-11-18T02:45:25Z
+            [plan_overridden] => 
+            [shipping_amount] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [start_time] => 2024-11-18T02:45:04Z
+            [update_time] => 2024-11-18T02:45:26Z
+            [billing_info] => Array
+                (
+                    [outstanding_balance] => Array
+                        (
+                            [currency_code] => USD
+                            [value] => 0.0
+                        )
+
+                    [cycle_executions] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [tenure_type] => REGULAR
+                                    [sequence] => 1
+                                    [cycles_completed] => 1
+                                    [cycles_remaining] => 0
+                                    [current_pricing_scheme_version] => 1
+                                    [total_cycles] => 0
+                                )
+
+                        )
+
+                    [last_payment] => Array
+                        (
+                            [amount] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 66.0
+                                )
+
+                            [time] => 2024-11-18T02:45:26Z
+                        )
+
+                    [next_billing_time] => 2024-11-23T10:00:00Z
+                    [failed_payments_count] => 0
+                )
+
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-BWW0AJ64B7EA/cancel
+                            [rel] => cancel
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-BWW0AJ64B7EA
+                            [rel] => edit
+                            [method] => PATCH
+                            [encType] => application/json
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-BWW0AJ64B7EA
+                            [rel] => self
+                            [method] => GET
+                            [encType] => application/json
+                        )
+
+                    [3] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-BWW0AJ64B7EA/suspend
+                            [rel] => suspend
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [4] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-BWW0AJ64B7EA/capture
+                            [rel] => capture
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                )
+
+            [id] => I-BWW0AJ64B7EA
+            [plan_id] => P-63F91990FB938624MM4ZR6WQ
+            [status] => ACTIVE
+            [status_update_time] => 2024-11-18T02:45:26Z
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-5H446302AY221643N-2C789185NP2849224
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-5H446302AY221643N-2C789185NP2849224/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-05G93494VX349683A-3V027507855836334
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T02:57:33.273Z
+    [resource_type] => plan
+    [resource_version] => 2.0
+    [event_type] => BILLING.PLAN.CREATED
+    [summary] => Plan created
+    [resource] => Array
+        (
+            [quantity_supported] => 
+            [create_time] => 2024-11-18T02:57:29Z
+            [payment_preferences] => Array
+                (
+                    [service_type] => PREPAID
+                    [auto_bill_outstanding] => 1
+                    [setup_fee] => Array
+                        (
+                            [currency_code] => USD
+                            [value] => 0.0
+                        )
+
+                    [setup_fee_failure_action] => CANCEL
+                    [payment_failure_threshold] => 3
+                )
+
+            [description] => A monthly subscription to our service.
+            [taxes] => Array
+                (
+                    [percentage] => 10.0
+                    [inclusive] => 
+                )
+
+            [version] => 1
+            [payee] => Array
+                (
+                    [merchant_id] => 7NS6VD2D2X37C
+                    [display_data] => Array
+                        (
+                            [business_email] => cs-sb-o0imm29578601@business.example.com
+                        )
+
+                )
+
+            [update_time] => 2024-11-18T02:57:29Z
+            [usage_type] => LICENSED
+            [product_id] => PROD-3NU20513MV994860G
+            [name] => Gói 6 ngày
+            [billing_cycles] => Array
+                (
+                    [0] => Array
+                        (
+                            [pricing_scheme] => Array
+                                (
+                                    [version] => 1
+                                    [fixed_price] => Array
+                                        (
+                                            [currency_code] => USD
+                                            [value] => 60.0
+                                        )
+
+                                    [create_time] => 2024-11-18T02:57:29Z
+                                    [update_time] => 2024-11-18T02:57:29Z
+                                )
+
+                            [frequency] => Array
+                                (
+                                    [interval_unit] => DAY
+                                    [interval_count] => 6
+                                )
+
+                            [tenure_type] => REGULAR
+                            [sequence] => 1
+                            [total_cycles] => 0
+                        )
+
+                )
+
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-7XJ005338R139094VM45K2GI
+                            [rel] => self
+                            [method] => GET
+                            [encType] => application/json
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-7XJ005338R139094VM45K2GI
+                            [rel] => edit
+                            [method] => PATCH
+                            [encType] => application/json
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-7XJ005338R139094VM45K2GI/deactivate
+                            [rel] => self
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                )
+
+            [id] => P-7XJ005338R139094VM45K2GI
+            [status] => ACTIVE
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-05G93494VX349683A-3V027507855836334
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-05G93494VX349683A-3V027507855836334/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-0E120862K37272017-9N934226XD361152Y
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T02:57:33.394Z
+    [resource_type] => plan
+    [resource_version] => 2.0
+    [event_type] => BILLING.PLAN.CREATED
+    [summary] => Plan created
+    [resource] => Array
+        (
+            [quantity_supported] => 
+            [create_time] => 2024-11-18T02:57:09Z
+            [payment_preferences] => Array
+                (
+                    [service_type] => PREPAID
+                    [auto_bill_outstanding] => 1
+                    [setup_fee] => Array
+                        (
+                            [currency_code] => USD
+                            [value] => 0.0
+                        )
+
+                    [setup_fee_failure_action] => CANCEL
+                    [payment_failure_threshold] => 3
+                )
+
+            [description] => A monthly subscription to our service.
+            [taxes] => Array
+                (
+                    [percentage] => 10.0
+                    [inclusive] => 
+                )
+
+            [version] => 1
+            [payee] => Array
+                (
+                    [merchant_id] => 7NS6VD2D2X37C
+                    [display_data] => Array
+                        (
+                            [business_email] => cs-sb-o0imm29578601@business.example.com
+                        )
+
+                )
+
+            [update_time] => 2024-11-18T02:57:09Z
+            [usage_type] => LICENSED
+            [product_id] => PROD-3NU20513MV994860G
+            [name] => Gói 1 ngày
+            [billing_cycles] => Array
+                (
+                    [0] => Array
+                        (
+                            [pricing_scheme] => Array
+                                (
+                                    [version] => 1
+                                    [fixed_price] => Array
+                                        (
+                                            [currency_code] => USD
+                                            [value] => 10.0
+                                        )
+
+                                    [create_time] => 2024-11-18T02:57:09Z
+                                    [update_time] => 2024-11-18T02:57:09Z
+                                )
+
+                            [frequency] => Array
+                                (
+                                    [interval_unit] => DAY
+                                    [interval_count] => 1
+                                )
+
+                            [tenure_type] => REGULAR
+                            [sequence] => 1
+                            [total_cycles] => 0
+                        )
+
+                )
+
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-7YX0695736801381GM45K2BI
+                            [rel] => self
+                            [method] => GET
+                            [encType] => application/json
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-7YX0695736801381GM45K2BI
+                            [rel] => edit
+                            [method] => PATCH
+                            [encType] => application/json
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-7YX0695736801381GM45K2BI/deactivate
+                            [rel] => self
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                )
+
+            [id] => P-7YX0695736801381GM45K2BI
+            [status] => ACTIVE
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-0E120862K37272017-9N934226XD361152Y
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-0E120862K37272017-9N934226XD361152Y/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-42V22281XK529173S-3EV30913NC490225H
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T02:58:03.284Z
+    [resource_type] => plan
+    [resource_version] => 2.0
+    [event_type] => BILLING.PLAN.CREATED
+    [summary] => Plan created
+    [resource] => Array
+        (
+            [quantity_supported] => 
+            [create_time] => 2024-11-18T02:57:58Z
+            [payment_preferences] => Array
+                (
+                    [service_type] => PREPAID
+                    [auto_bill_outstanding] => 1
+                    [setup_fee] => Array
+                        (
+                            [currency_code] => USD
+                            [value] => 0.0
+                        )
+
+                    [setup_fee_failure_action] => CANCEL
+                    [payment_failure_threshold] => 3
+                )
+
+            [description] => A monthly subscription to our service.
+            [taxes] => Array
+                (
+                    [percentage] => 10.0
+                    [inclusive] => 
+                )
+
+            [version] => 1
+            [payee] => Array
+                (
+                    [merchant_id] => 7NS6VD2D2X37C
+                    [display_data] => Array
+                        (
+                            [business_email] => cs-sb-o0imm29578601@business.example.com
+                        )
+
+                )
+
+            [update_time] => 2024-11-18T02:57:58Z
+            [usage_type] => LICENSED
+            [product_id] => PROD-3NU20513MV994860G
+            [name] => Gói 9 ngày
+            [billing_cycles] => Array
+                (
+                    [0] => Array
+                        (
+                            [pricing_scheme] => Array
+                                (
+                                    [version] => 1
+                                    [fixed_price] => Array
+                                        (
+                                            [currency_code] => USD
+                                            [value] => 90.0
+                                        )
+
+                                    [create_time] => 2024-11-18T02:57:58Z
+                                    [update_time] => 2024-11-18T02:57:58Z
+                                )
+
+                            [frequency] => Array
+                                (
+                                    [interval_unit] => DAY
+                                    [interval_count] => 9
+                                )
+
+                            [tenure_type] => REGULAR
+                            [sequence] => 1
+                            [total_cycles] => 0
+                        )
+
+                )
+
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-93K89385870045805M45K2NQ
+                            [rel] => self
+                            [method] => GET
+                            [encType] => application/json
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-93K89385870045805M45K2NQ
+                            [rel] => edit
+                            [method] => PATCH
+                            [encType] => application/json
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-93K89385870045805M45K2NQ/deactivate
+                            [rel] => self
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                )
+
+            [id] => P-93K89385870045805M45K2NQ
+            [status] => ACTIVE
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-42V22281XK529173S-3EV30913NC490225H
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-42V22281XK529173S-3EV30913NC490225H/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-0BP07788FG179103M-6PR083482X272422P
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T03:01:13.509Z
+    [resource_type] => plan
+    [resource_version] => 2.0
+    [event_type] => BILLING.PLAN.CREATED
+    [summary] => Plan created
+    [resource] => Array
+        (
+            [quantity_supported] => 
+            [create_time] => 2024-11-18T03:01:09Z
+            [payment_preferences] => Array
+                (
+                    [service_type] => PREPAID
+                    [auto_bill_outstanding] => 1
+                    [setup_fee] => Array
+                        (
+                            [currency_code] => USD
+                            [value] => 0.0
+                        )
+
+                    [setup_fee_failure_action] => CANCEL
+                    [payment_failure_threshold] => 3
+                )
+
+            [description] => A monthly subscription to our service.
+            [taxes] => Array
+                (
+                    [percentage] => 10.0
+                    [inclusive] => 
+                )
+
+            [version] => 1
+            [payee] => Array
+                (
+                    [merchant_id] => 7NS6VD2D2X37C
+                    [display_data] => Array
+                        (
+                            [business_email] => cs-sb-o0imm29578601@business.example.com
+                        )
+
+                )
+
+            [update_time] => 2024-11-18T03:01:09Z
+            [usage_type] => LICENSED
+            [product_id] => PROD-3NU20513MV994860G
+            [name] => Gói 6 ngày
+            [billing_cycles] => Array
+                (
+                    [0] => Array
+                        (
+                            [pricing_scheme] => Array
+                                (
+                                    [version] => 1
+                                    [fixed_price] => Array
+                                        (
+                                            [currency_code] => USD
+                                            [value] => 60.0
+                                        )
+
+                                    [create_time] => 2024-11-18T03:01:09Z
+                                    [update_time] => 2024-11-18T03:01:09Z
+                                )
+
+                            [frequency] => Array
+                                (
+                                    [interval_unit] => DAY
+                                    [interval_count] => 6
+                                )
+
+                            [tenure_type] => REGULAR
+                            [sequence] => 1
+                            [total_cycles] => 0
+                        )
+
+                )
+
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-49F52473KR9692531M45K35I
+                            [rel] => self
+                            [method] => GET
+                            [encType] => application/json
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-49F52473KR9692531M45K35I
+                            [rel] => edit
+                            [method] => PATCH
+                            [encType] => application/json
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-49F52473KR9692531M45K35I/deactivate
+                            [rel] => self
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                )
+
+            [id] => P-49F52473KR9692531M45K35I
+            [status] => ACTIVE
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-0BP07788FG179103M-6PR083482X272422P
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-0BP07788FG179103M-6PR083482X272422P/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-652822474D9073449-1RU726744H739571R
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T03:01:57.786Z
+    [resource_type] => plan
+    [resource_version] => 2.0
+    [event_type] => BILLING.PLAN.CREATED
+    [summary] => Plan created
+    [resource] => Array
+        (
+            [quantity_supported] => 
+            [create_time] => 2024-11-18T03:01:54Z
+            [payment_preferences] => Array
+                (
+                    [service_type] => PREPAID
+                    [auto_bill_outstanding] => 1
+                    [setup_fee] => Array
+                        (
+                            [currency_code] => USD
+                            [value] => 0.0
+                        )
+
+                    [setup_fee_failure_action] => CANCEL
+                    [payment_failure_threshold] => 3
+                )
+
+            [description] => A monthly subscription to our service.
+            [taxes] => Array
+                (
+                    [percentage] => 10.0
+                    [inclusive] => 
+                )
+
+            [version] => 1
+            [payee] => Array
+                (
+                    [merchant_id] => 7NS6VD2D2X37C
+                    [display_data] => Array
+                        (
+                            [business_email] => cs-sb-o0imm29578601@business.example.com
+                        )
+
+                )
+
+            [update_time] => 2024-11-18T03:01:54Z
+            [usage_type] => LICENSED
+            [product_id] => PROD-3NU20513MV994860G
+            [name] => Gói 3 ngày
+            [billing_cycles] => Array
+                (
+                    [0] => Array
+                        (
+                            [pricing_scheme] => Array
+                                (
+                                    [version] => 1
+                                    [fixed_price] => Array
+                                        (
+                                            [currency_code] => USD
+                                            [value] => 30.0
+                                        )
+
+                                    [create_time] => 2024-11-18T03:01:54Z
+                                    [update_time] => 2024-11-18T03:01:54Z
+                                )
+
+                            [frequency] => Array
+                                (
+                                    [interval_unit] => DAY
+                                    [interval_count] => 3
+                                )
+
+                            [tenure_type] => REGULAR
+                            [sequence] => 1
+                            [total_cycles] => 0
+                        )
+
+                )
+
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-2G114147RC878780TM45K4IQ
+                            [rel] => self
+                            [method] => GET
+                            [encType] => application/json
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-2G114147RC878780TM45K4IQ
+                            [rel] => edit
+                            [method] => PATCH
+                            [encType] => application/json
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/plans/P-2G114147RC878780TM45K4IQ/deactivate
+                            [rel] => self
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                )
+
+            [id] => P-2G114147RC878780TM45K4IQ
+            [status] => ACTIVE
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-652822474D9073449-1RU726744H739571R
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-652822474D9073449-1RU726744H739571R/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-9YN36144NL221512J-0LF535965F501470F
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T03:02:30.237Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CREATED
+    [summary] => Subscription created
+    [resource] => Array
+        (
+            [start_time] => 2024-11-18T03:02:30Z
+            [quantity] => 1
+            [create_time] => 2024-11-18T03:02:30Z
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-865290101H867251R
+                            [rel] => approve
+                            [method] => GET
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-EBLC9ES7WWCX
+                            [rel] => edit
+                            [method] => PATCH
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-EBLC9ES7WWCX
+                            [rel] => self
+                            [method] => GET
+                        )
+
+                )
+
+            [id] => I-EBLC9ES7WWCX
+            [plan_overridden] => 
+            [plan_id] => P-2G114147RC878780TM45K4IQ
+            [status] => APPROVAL_PENDING
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-9YN36144NL221512J-0LF535965F501470F
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-9YN36144NL221512J-0LF535965F501470F/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-5T734953BN3359614-5G2370013T0789538
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T03:03:34.020Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 33.0 USD
+    [resource] => Array
+        (
+            [billing_agreement_id] => I-EBLC9ES7WWCX
+            [amount] => Array
+                (
+                    [total] => 33.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 33.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [update_time] => 2024-11-18T03:03:30Z
+            [create_time] => 2024-11-18T03:03:30Z
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 1.64
+                )
+
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/0JM56961YR781473V
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/0JM56961YR781473V/refund
+                        )
+
+                )
+
+            [id] => 0JM56961YR781473V
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-5T734953BN3359614-5G2370013T0789538
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-5T734953BN3359614-5G2370013T0789538/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-4UG498690A206373V-5WE95390J3682622B
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T03:04:03.364Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.ACTIVATED
+    [summary] => Subscription activated
+    [resource] => Array
+        (
+            [quantity] => 1
+            [subscriber] => Array
+                (
+                    [email_address] => sb-ptuoe29578642@personal.example.com
+                    [payer_id] => 7SZMWCENSSR6J
+                    [name] => Array
+                        (
+                            [given_name] => John
+                            [surname] => Doe
+                        )
+
+                    [shipping_address] => Array
+                        (
+                            [address] => Array
+                                (
+                                    [address_line_1] => 1 Main St
+                                    [admin_area_2] => San Jose
+                                    [admin_area_1] => CA
+                                    [postal_code] => 95131
+                                    [country_code] => US
+                                )
+
+                        )
+
+                )
+
+            [create_time] => 2024-11-18T03:03:29Z
+            [plan_overridden] => 
+            [shipping_amount] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [start_time] => 2024-11-18T03:02:30Z
+            [update_time] => 2024-11-18T03:03:30Z
+            [billing_info] => Array
+                (
+                    [outstanding_balance] => Array
+                        (
+                            [currency_code] => USD
+                            [value] => 0.0
+                        )
+
+                    [cycle_executions] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [tenure_type] => REGULAR
+                                    [sequence] => 1
+                                    [cycles_completed] => 1
+                                    [cycles_remaining] => 0
+                                    [current_pricing_scheme_version] => 1
+                                    [total_cycles] => 0
+                                )
+
+                        )
+
+                    [last_payment] => Array
+                        (
+                            [amount] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 33.0
+                                )
+
+                            [time] => 2024-11-18T03:03:30Z
+                        )
+
+                    [next_billing_time] => 2024-11-20T10:00:00Z
+                    [failed_payments_count] => 0
+                )
+
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-EBLC9ES7WWCX/cancel
+                            [rel] => cancel
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-EBLC9ES7WWCX
+                            [rel] => edit
+                            [method] => PATCH
+                            [encType] => application/json
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-EBLC9ES7WWCX
+                            [rel] => self
+                            [method] => GET
+                            [encType] => application/json
+                        )
+
+                    [3] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-EBLC9ES7WWCX/suspend
+                            [rel] => suspend
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [4] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-EBLC9ES7WWCX/capture
+                            [rel] => capture
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                )
+
+            [id] => I-EBLC9ES7WWCX
+            [plan_id] => P-2G114147RC878780TM45K4IQ
+            [status] => ACTIVE
+            [status_update_time] => 2024-11-18T03:03:30Z
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-4UG498690A206373V-5WE95390J3682622B
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-4UG498690A206373V-5WE95390J3682622B/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-79K18973AC560013B-96E65018SW0676340
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T03:21:25.774Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CREATED
+    [summary] => Subscription created
+    [resource] => Array
+        (
+            [start_time] => 2024-11-18T03:21:25Z
+            [quantity] => 1
+            [create_time] => 2024-11-18T03:21:25Z
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-8K671862G8055671L
+                            [rel] => approve
+                            [method] => GET
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-7J3VV97YV4DB
+                            [rel] => edit
+                            [method] => PATCH
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-7J3VV97YV4DB
+                            [rel] => self
+                            [method] => GET
+                        )
+
+                )
+
+            [id] => I-7J3VV97YV4DB
+            [plan_overridden] => 
+            [plan_id] => P-2G114147RC878780TM45K4IQ
+            [status] => APPROVAL_PENDING
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-79K18973AC560013B-96E65018SW0676340
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-79K18973AC560013B-96E65018SW0676340/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-7D458313GP1098512-4SU33933UW265850B
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T03:30:02.905Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CREATED
+    [summary] => Subscription created
+    [resource] => Array
+        (
+            [start_time] => 2024-11-18T03:30:02Z
+            [quantity] => 1
+            [create_time] => 2024-11-18T03:30:02Z
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-64W56026JX6385451
+                            [rel] => approve
+                            [method] => GET
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-VJ0FCD0376NN
+                            [rel] => edit
+                            [method] => PATCH
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-VJ0FCD0376NN
+                            [rel] => self
+                            [method] => GET
+                        )
+
+                )
+
+            [id] => I-VJ0FCD0376NN
+            [plan_overridden] => 
+            [plan_id] => P-2G114147RC878780TM45K4IQ
+            [status] => APPROVAL_PENDING
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-7D458313GP1098512-4SU33933UW265850B
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-7D458313GP1098512-4SU33933UW265850B/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-34Y74729UA570082P-8XE94362HL5354702
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T03:34:45.664Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CREATED
+    [summary] => Subscription created
+    [resource] => Array
+        (
+            [start_time] => 2024-11-18T03:34:45Z
+            [quantity] => 1
+            [create_time] => 2024-11-18T03:34:45Z
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-36E69692X60209644
+                            [rel] => approve
+                            [method] => GET
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-74L1MBLBX5W0
+                            [rel] => edit
+                            [method] => PATCH
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-74L1MBLBX5W0
+                            [rel] => self
+                            [method] => GET
+                        )
+
+                )
+
+            [id] => I-74L1MBLBX5W0
+            [plan_overridden] => 
+            [plan_id] => P-49F52473KR9692531M45K35I
+            [status] => APPROVAL_PENDING
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-34Y74729UA570082P-8XE94362HL5354702
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-34Y74729UA570082P-8XE94362HL5354702/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-4US62438VH8512156-0LA15503448878519
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T03:35:41.846Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 66.0 USD
+    [resource] => Array
+        (
+            [billing_agreement_id] => I-74L1MBLBX5W0
+            [amount] => Array
+                (
+                    [total] => 66.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 66.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [update_time] => 2024-11-18T03:35:38Z
+            [create_time] => 2024-11-18T03:35:38Z
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 2.79
+                )
+
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/1KB80412TD5796846
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/1KB80412TD5796846/refund
+                        )
+
+                )
+
+            [id] => 1KB80412TD5796846
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-4US62438VH8512156-0LA15503448878519
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-4US62438VH8512156-0LA15503448878519/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-9RM5200915139374U-3YL38092AR979570W
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T03:36:03.415Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.ACTIVATED
+    [summary] => Subscription activated
+    [resource] => Array
+        (
+            [quantity] => 1
+            [subscriber] => Array
+                (
+                    [email_address] => sb-gnfvg33961218@personal.example.com
+                    [payer_id] => 8FLSJRKCKH8LG
+                    [name] => Array
+                        (
+                            [given_name] => John
+                            [surname] => Doe
+                        )
+
+                    [shipping_address] => Array
+                        (
+                            [address] => Array
+                                (
+                                    [address_line_1] => 1 Main St
+                                    [admin_area_2] => San Jose
+                                    [admin_area_1] => CA
+                                    [postal_code] => 95131
+                                    [country_code] => US
+                                )
+
+                        )
+
+                )
+
+            [create_time] => 2024-11-18T03:35:37Z
+            [plan_overridden] => 
+            [shipping_amount] => Array
+                (
+                    [currency_code] => USD
+                    [value] => 0.0
+                )
+
+            [start_time] => 2024-11-18T03:34:45Z
+            [update_time] => 2024-11-18T03:35:38Z
+            [billing_info] => Array
+                (
+                    [outstanding_balance] => Array
+                        (
+                            [currency_code] => USD
+                            [value] => 0.0
+                        )
+
+                    [cycle_executions] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [tenure_type] => REGULAR
+                                    [sequence] => 1
+                                    [cycles_completed] => 1
+                                    [cycles_remaining] => 0
+                                    [current_pricing_scheme_version] => 1
+                                    [total_cycles] => 0
+                                )
+
+                        )
+
+                    [last_payment] => Array
+                        (
+                            [amount] => Array
+                                (
+                                    [currency_code] => USD
+                                    [value] => 66.0
+                                )
+
+                            [time] => 2024-11-18T03:35:38Z
+                        )
+
+                    [next_billing_time] => 2024-11-23T10:00:00Z
+                    [failed_payments_count] => 0
+                )
+
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-74L1MBLBX5W0/cancel
+                            [rel] => cancel
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-74L1MBLBX5W0
+                            [rel] => edit
+                            [method] => PATCH
+                            [encType] => application/json
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-74L1MBLBX5W0
+                            [rel] => self
+                            [method] => GET
+                            [encType] => application/json
+                        )
+
+                    [3] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-74L1MBLBX5W0/suspend
+                            [rel] => suspend
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                    [4] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-74L1MBLBX5W0/capture
+                            [rel] => capture
+                            [method] => POST
+                            [encType] => application/json
+                        )
+
+                )
+
+            [id] => I-74L1MBLBX5W0
+            [plan_id] => P-49F52473KR9692531M45K35I
+            [status] => ACTIVE
+            [status_update_time] => 2024-11-18T03:35:38Z
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-9RM5200915139374U-3YL38092AR979570W
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-9RM5200915139374U-3YL38092AR979570W/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-56215650696839440-0HR45308AN267531W
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T03:38:09.891Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CREATED
+    [summary] => Subscription created
+    [resource] => Array
+        (
+            [start_time] => 2024-11-18T03:38:09Z
+            [quantity] => 1
+            [create_time] => 2024-11-18T03:38:09Z
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-0W817293JL0081609
+                            [rel] => approve
+                            [method] => GET
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-CKHDTWT3D3JP
+                            [rel] => edit
+                            [method] => PATCH
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-CKHDTWT3D3JP
+                            [rel] => self
+                            [method] => GET
+                        )
+
+                )
+
+            [id] => I-CKHDTWT3D3JP
+            [plan_overridden] => 
+            [plan_id] => P-2G114147RC878780TM45K4IQ
+            [status] => APPROVAL_PENDING
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-56215650696839440-0HR45308AN267531W
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-56215650696839440-0HR45308AN267531W/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-5TN86529K1728840W-16F94364F80103807
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T03:38:53.426Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CREATED
+    [summary] => Subscription created
+    [resource] => Array
+        (
+            [start_time] => 2024-11-18T03:38:53Z
+            [quantity] => 1
+            [create_time] => 2024-11-18T03:38:53Z
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-8FA341511Y6269407
+                            [rel] => approve
+                            [method] => GET
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-NDM792WVRMF7
+                            [rel] => edit
+                            [method] => PATCH
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-NDM792WVRMF7
+                            [rel] => self
+                            [method] => GET
+                        )
+
+                )
+
+            [id] => I-NDM792WVRMF7
+            [plan_overridden] => 
+            [plan_id] => P-2G114147RC878780TM45K4IQ
+            [status] => APPROVAL_PENDING
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-5TN86529K1728840W-16F94364F80103807
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-5TN86529K1728840W-16F94364F80103807/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-83J90483JJ1543110-5PJ313394X792662J
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T03:42:02.666Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CREATED
+    [summary] => Subscription created
+    [resource] => Array
+        (
+            [start_time] => 2024-11-18T03:42:02Z
+            [quantity] => 1
+            [create_time] => 2024-11-18T03:42:02Z
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-19G67669TU053782P
+                            [rel] => approve
+                            [method] => GET
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-KM7BLSHC6DD2
+                            [rel] => edit
+                            [method] => PATCH
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-KM7BLSHC6DD2
+                            [rel] => self
+                            [method] => GET
+                        )
+
+                )
+
+            [id] => I-KM7BLSHC6DD2
+            [plan_overridden] => 
+            [plan_id] => P-2G114147RC878780TM45K4IQ
+            [status] => APPROVAL_PENDING
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-83J90483JJ1543110-5PJ313394X792662J
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-83J90483JJ1543110-5PJ313394X792662J/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-62183655P9786301W-8TC36524JM983933F
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T03:44:37.236Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CREATED
+    [summary] => Subscription created
+    [resource] => Array
+        (
+            [start_time] => 2024-11-18T03:44:36Z
+            [quantity] => 1
+            [create_time] => 2024-11-18T03:44:36Z
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-0SM78471UH862354B
+                            [rel] => approve
+                            [method] => GET
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-08GARLVSJTKR
+                            [rel] => edit
+                            [method] => PATCH
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-08GARLVSJTKR
+                            [rel] => self
+                            [method] => GET
+                        )
+
+                )
+
+            [id] => I-08GARLVSJTKR
+            [plan_overridden] => 
+            [plan_id] => P-2G114147RC878780TM45K4IQ
+            [status] => APPROVAL_PENDING
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-62183655P9786301W-8TC36524JM983933F
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-62183655P9786301W-8TC36524JM983933F/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-3CV779760V603283T-0PJ0050615739191P
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T03:46:05.295Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CREATED
+    [summary] => Subscription created
+    [resource] => Array
+        (
+            [start_time] => 2024-11-18T03:46:05Z
+            [quantity] => 1
+            [create_time] => 2024-11-18T03:46:05Z
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-5CS35583Y50125341
+                            [rel] => approve
+                            [method] => GET
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-BUP1FMG4HNNK
+                            [rel] => edit
+                            [method] => PATCH
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-BUP1FMG4HNNK
+                            [rel] => self
+                            [method] => GET
+                        )
+
+                )
+
+            [id] => I-BUP1FMG4HNNK
+            [plan_overridden] => 
+            [plan_id] => P-2G114147RC878780TM45K4IQ
+            [status] => APPROVAL_PENDING
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-3CV779760V603283T-0PJ0050615739191P
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-3CV779760V603283T-0PJ0050615739191P/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-7DY683076A697350E-4SW38607BN827102S
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T03:48:10.757Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CREATED
+    [summary] => Subscription created
+    [resource] => Array
+        (
+            [start_time] => 2024-11-18T03:48:10Z
+            [quantity] => 1
+            [create_time] => 2024-11-18T03:48:10Z
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-5FV78057AU3543302
+                            [rel] => approve
+                            [method] => GET
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-CRE3CN454J8X
+                            [rel] => edit
+                            [method] => PATCH
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-CRE3CN454J8X
+                            [rel] => self
+                            [method] => GET
+                        )
+
+                )
+
+            [id] => I-CRE3CN454J8X
+            [plan_overridden] => 
+            [plan_id] => P-2G114147RC878780TM45K4IQ
+            [status] => APPROVAL_PENDING
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-7DY683076A697350E-4SW38607BN827102S
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-7DY683076A697350E-4SW38607BN827102S/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-3LV6923594181180J-71X94614U9442941U
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T04:09:47.331Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CREATED
+    [summary] => Subscription created
+    [resource] => Array
+        (
+            [start_time] => 2024-11-18T04:09:47Z
+            [quantity] => 1
+            [create_time] => 2024-11-18T04:09:47Z
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-4BA85508BX6992941
+                            [rel] => approve
+                            [method] => GET
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-PC7TUKWWVGFJ
+                            [rel] => edit
+                            [method] => PATCH
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-PC7TUKWWVGFJ
+                            [rel] => self
+                            [method] => GET
+                        )
+
+                )
+
+            [id] => I-PC7TUKWWVGFJ
+            [plan_overridden] => 
+            [plan_id] => P-2G114147RC878780TM45K4IQ
+            [status] => APPROVAL_PENDING
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-3LV6923594181180J-71X94614U9442941U
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-3LV6923594181180J-71X94614U9442941U/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-74496572420875726-29437785PY798840S
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T04:13:07.977Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CREATED
+    [summary] => Subscription created
+    [resource] => Array
+        (
+            [start_time] => 2024-11-18T04:13:07Z
+            [quantity] => 1
+            [create_time] => 2024-11-18T04:13:07Z
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-53Y446560S983922W
+                            [rel] => approve
+                            [method] => GET
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-XWEC45V3R1XJ
+                            [rel] => edit
+                            [method] => PATCH
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-XWEC45V3R1XJ
+                            [rel] => self
+                            [method] => GET
+                        )
+
+                )
+
+            [id] => I-XWEC45V3R1XJ
+            [plan_overridden] => 
+            [plan_id] => P-2G114147RC878780TM45K4IQ
+            [status] => APPROVAL_PENDING
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-74496572420875726-29437785PY798840S
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-74496572420875726-29437785PY798840S/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-1GP77011994894246-7YS41343D7580545G
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T04:16:32.538Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CREATED
+    [summary] => Subscription created
+    [resource] => Array
+        (
+            [start_time] => 2024-11-18T04:16:32Z
+            [quantity] => 1
+            [create_time] => 2024-11-18T04:16:32Z
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-9UA16997BS466963Y
+                            [rel] => approve
+                            [method] => GET
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-6793PMPEWJN3
+                            [rel] => edit
+                            [method] => PATCH
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-6793PMPEWJN3
+                            [rel] => self
+                            [method] => GET
+                        )
+
+                )
+
+            [id] => I-6793PMPEWJN3
+            [plan_overridden] => 
+            [plan_id] => P-2G114147RC878780TM45K4IQ
+            [status] => APPROVAL_PENDING
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-1GP77011994894246-7YS41343D7580545G
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-1GP77011994894246-7YS41343D7580545G/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-42D77257FL8754222-61312672NJ1405415
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T04:26:13.866Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CREATED
+    [summary] => Subscription created
+    [resource] => Array
+        (
+            [start_time] => 2024-11-18T04:26:13Z
+            [quantity] => 1
+            [create_time] => 2024-11-18T04:26:13Z
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-39E75884VH027440L
+                            [rel] => approve
+                            [method] => GET
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-9B5GUJDNY3JY
+                            [rel] => edit
+                            [method] => PATCH
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-9B5GUJDNY3JY
+                            [rel] => self
+                            [method] => GET
+                        )
+
+                )
+
+            [id] => I-9B5GUJDNY3JY
+            [plan_overridden] => 
+            [plan_id] => P-2G114147RC878780TM45K4IQ
+            [status] => APPROVAL_PENDING
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-42D77257FL8754222-61312672NJ1405415
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-42D77257FL8754222-61312672NJ1405415/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-0CR55968FA9195627-2R3849725V218361D
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T06:50:30.161Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CREATED
+    [summary] => Subscription created
+    [resource] => Array
+        (
+            [start_time] => 2024-11-18T06:50:29Z
+            [quantity] => 1
+            [create_time] => 2024-11-18T06:50:29Z
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-73213385U1728035L
+                            [rel] => approve
+                            [method] => GET
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-TJ03HAH1E4EE
+                            [rel] => edit
+                            [method] => PATCH
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-TJ03HAH1E4EE
+                            [rel] => self
+                            [method] => GET
+                        )
+
+                )
+
+            [id] => I-TJ03HAH1E4EE
+            [plan_overridden] => 
+            [plan_id] => P-2G114147RC878780TM45K4IQ
+            [status] => APPROVAL_PENDING
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-0CR55968FA9195627-2R3849725V218361D
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-0CR55968FA9195627-2R3849725V218361D/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-7EW56585DL046262A-3GM82669DK302223R
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T06:53:15.436Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CREATED
+    [summary] => Subscription created
+    [resource] => Array
+        (
+            [start_time] => 2024-11-18T06:53:15Z
+            [quantity] => 1
+            [create_time] => 2024-11-18T06:53:15Z
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-6XG70159U2547845T
+                            [rel] => approve
+                            [method] => GET
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-HLKRXR4D0JBT
+                            [rel] => edit
+                            [method] => PATCH
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-HLKRXR4D0JBT
+                            [rel] => self
+                            [method] => GET
+                        )
+
+                )
+
+            [id] => I-HLKRXR4D0JBT
+            [plan_overridden] => 
+            [plan_id] => P-2G114147RC878780TM45K4IQ
+            [status] => APPROVAL_PENDING
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-7EW56585DL046262A-3GM82669DK302223R
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-7EW56585DL046262A-3GM82669DK302223R/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-2SH797110R9854706-2TY67369X2657300Y
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T06:53:58.775Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CREATED
+    [summary] => Subscription created
+    [resource] => Array
+        (
+            [start_time] => 2024-11-18T06:53:58Z
+            [quantity] => 1
+            [create_time] => 2024-11-18T06:53:58Z
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-7DM36337WH460240A
+                            [rel] => approve
+                            [method] => GET
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-GAB4CE41WG4A
+                            [rel] => edit
+                            [method] => PATCH
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-GAB4CE41WG4A
+                            [rel] => self
+                            [method] => GET
+                        )
+
+                )
+
+            [id] => I-GAB4CE41WG4A
+            [plan_overridden] => 
+            [plan_id] => P-2G114147RC878780TM45K4IQ
+            [status] => APPROVAL_PENDING
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-2SH797110R9854706-2TY67369X2657300Y
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-2SH797110R9854706-2TY67369X2657300Y/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-2FD24456L9773722M-3EC60078TT001803E
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T06:55:57.721Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CREATED
+    [summary] => Subscription created
+    [resource] => Array
+        (
+            [start_time] => 2024-11-18T06:55:57Z
+            [quantity] => 1
+            [create_time] => 2024-11-18T06:55:57Z
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-99S16269BU013771S
+                            [rel] => approve
+                            [method] => GET
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-LTWLGTD2R1M0
+                            [rel] => edit
+                            [method] => PATCH
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-LTWLGTD2R1M0
+                            [rel] => self
+                            [method] => GET
+                        )
+
+                )
+
+            [id] => I-LTWLGTD2R1M0
+            [plan_overridden] => 
+            [plan_id] => P-2G114147RC878780TM45K4IQ
+            [status] => APPROVAL_PENDING
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-2FD24456L9773722M-3EC60078TT001803E
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-2FD24456L9773722M-3EC60078TT001803E/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+App Name: default_app_name
+Webhook event received:
+Array
+(
+    [id] => WH-8HW088788D705010J-2FX48168PR277073R
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T08:32:28.298Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CREATED
+    [summary] => Subscription created
+    [resource] => Array
+        (
+            [start_time] => 2024-11-18T08:32:28Z
+            [quantity] => 1
+            [create_time] => 2024-11-18T08:32:28Z
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-20N8057570376993T
+                            [rel] => approve
+                            [method] => GET
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-8UA9SGCC0C91
+                            [rel] => edit
+                            [method] => PATCH
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-8UA9SGCC0C91
+                            [rel] => self
+                            [method] => GET
+                        )
+
+                )
+
+            [id] => I-8UA9SGCC0C91
+            [plan_overridden] => 
+            [plan_id] => P-2G114147RC878780TM45K4IQ
+            [status] => APPROVAL_PENDING
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-8HW088788D705010J-2FX48168PR277073R
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-8HW088788D705010J-2FX48168PR277073R/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+App Name: vidcombo
+Webhook event received:
+Array
+(
+    [id] => WH-4V024155KB352072J-3DM21394WX829893N
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T08:42:51.216Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CREATED
+    [summary] => Subscription created
+    [resource] => Array
+        (
+            [start_time] => 2024-11-18T08:42:50Z
+            [quantity] => 1
+            [create_time] => 2024-11-18T08:42:50Z
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-2L0752569G413922U
+                            [rel] => approve
+                            [method] => GET
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-4KG95LV4TF6F
+                            [rel] => edit
+                            [method] => PATCH
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-4KG95LV4TF6F
+                            [rel] => self
+                            [method] => GET
+                        )
+
+                )
+
+            [id] => I-4KG95LV4TF6F
+            [plan_overridden] => 
+            [plan_id] => P-2G114147RC878780TM45K4IQ
+            [status] => APPROVAL_PENDING
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-4V024155KB352072J-3DM21394WX829893N
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-4V024155KB352072J-3DM21394WX829893N/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+App Name: vidcombo
+Webhook event received:
+Array
+(
+    [id] => WH-4PP42572NR742631T-3D4568258N978325P
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T08:44:56.015Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CREATED
+    [summary] => Subscription created
+    [resource] => Array
+        (
+            [start_time] => 2024-11-18T08:44:55Z
+            [quantity] => 1
+            [create_time] => 2024-11-18T08:44:55Z
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-92K46382PG6155724
+                            [rel] => approve
+                            [method] => GET
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-7CM0E85JXFKN
+                            [rel] => edit
+                            [method] => PATCH
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-7CM0E85JXFKN
+                            [rel] => self
+                            [method] => GET
+                        )
+
+                )
+
+            [id] => I-7CM0E85JXFKN
+            [plan_overridden] => 
+            [plan_id] => P-2G114147RC878780TM45K4IQ
+            [status] => APPROVAL_PENDING
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-4PP42572NR742631T-3D4568258N978325P
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-4PP42572NR742631T-3D4568258N978325P/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook Payload: Array
+(
+    [id] => WH-4YU90155BA818053H-0M511133AU016290X
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T08:49:14.176Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CREATED
+    [summary] => Subscription created
+    [resource] => Array
+        (
+            [start_time] => 2024-11-18T08:49:13Z
+            [quantity] => 1
+            [create_time] => 2024-11-18T08:49:13Z
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-8SM96059GM985174D
+                            [rel] => approve
+                            [method] => GET
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-RNF77402ND9R
+                            [rel] => edit
+                            [method] => PATCH
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-RNF77402ND9R
+                            [rel] => self
+                            [method] => GET
+                        )
+
+                )
+
+            [id] => I-RNF77402ND9R
+            [plan_overridden] => 
+            [plan_id] => P-2G114147RC878780TM45K4IQ
+            [status] => APPROVAL_PENDING
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-4YU90155BA818053H-0M511133AU016290X
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-4YU90155BA818053H-0M511133AU016290X/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+App Name after processing: vidcombo
+Webhook event received:
+Array
+(
+    [id] => WH-4YU90155BA818053H-0M511133AU016290X
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T08:49:14.176Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CREATED
+    [summary] => Subscription created
+    [resource] => Array
+        (
+            [start_time] => 2024-11-18T08:49:13Z
+            [quantity] => 1
+            [create_time] => 2024-11-18T08:49:13Z
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-8SM96059GM985174D
+                            [rel] => approve
+                            [method] => GET
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-RNF77402ND9R
+                            [rel] => edit
+                            [method] => PATCH
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-RNF77402ND9R
+                            [rel] => self
+                            [method] => GET
+                        )
+
+                )
+
+            [id] => I-RNF77402ND9R
+            [plan_overridden] => 
+            [plan_id] => P-2G114147RC878780TM45K4IQ
+            [status] => APPROVAL_PENDING
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-4YU90155BA818053H-0M511133AU016290X
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-4YU90155BA818053H-0M511133AU016290X/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook Payload: Array
+(
+    [id] => WH-94E5676302856532Y-5CW34907MF4381927
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T08:52:29.559Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CREATED
+    [summary] => Subscription created
+    [resource] => Array
+        (
+            [start_time] => 2024-11-18T08:52:29Z
+            [quantity] => 1
+            [create_time] => 2024-11-18T08:52:29Z
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-4L650939UK962733C
+                            [rel] => approve
+                            [method] => GET
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-4GT4045UC420
+                            [rel] => edit
+                            [method] => PATCH
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-4GT4045UC420
+                            [rel] => self
+                            [method] => GET
+                        )
+
+                )
+
+            [id] => I-4GT4045UC420
+            [plan_overridden] => 
+            [plan_id] => P-2G114147RC878780TM45K4IQ
+            [status] => APPROVAL_PENDING
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-94E5676302856532Y-5CW34907MF4381927
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-94E5676302856532Y-5CW34907MF4381927/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+App Name after processing: vidcombo
+Webhook event received:
+Array
+(
+    [id] => WH-94E5676302856532Y-5CW34907MF4381927
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T08:52:29.559Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CREATED
+    [summary] => Subscription created
+    [resource] => Array
+        (
+            [start_time] => 2024-11-18T08:52:29Z
+            [quantity] => 1
+            [create_time] => 2024-11-18T08:52:29Z
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-4L650939UK962733C
+                            [rel] => approve
+                            [method] => GET
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-4GT4045UC420
+                            [rel] => edit
+                            [method] => PATCH
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-4GT4045UC420
+                            [rel] => self
+                            [method] => GET
+                        )
+
+                )
+
+            [id] => I-4GT4045UC420
+            [plan_overridden] => 
+            [plan_id] => P-2G114147RC878780TM45K4IQ
+            [status] => APPROVAL_PENDING
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-94E5676302856532Y-5CW34907MF4381927
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-94E5676302856532Y-5CW34907MF4381927/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook Payload: Array
+(
+    [id] => WH-5F288540XL8768246-9VY238521D735101V
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T08:52:32.442Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CREATED
+    [summary] => Subscription created
+    [resource] => Array
+        (
+            [start_time] => 2024-11-18T08:52:32Z
+            [quantity] => 1
+            [create_time] => 2024-11-18T08:52:32Z
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-8WB98055R3119141X
+                            [rel] => approve
+                            [method] => GET
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-HHTFT6N12PRU
+                            [rel] => edit
+                            [method] => PATCH
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-HHTFT6N12PRU
+                            [rel] => self
+                            [method] => GET
+                        )
+
+                )
+
+            [id] => I-HHTFT6N12PRU
+            [plan_overridden] => 
+            [plan_id] => P-2G114147RC878780TM45K4IQ
+            [status] => APPROVAL_PENDING
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-5F288540XL8768246-9VY238521D735101V
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-5F288540XL8768246-9VY238521D735101V/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+App Name after processing: vidcombo
+Webhook event received:
+Array
+(
+    [id] => WH-5F288540XL8768246-9VY238521D735101V
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T08:52:32.442Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CREATED
+    [summary] => Subscription created
+    [resource] => Array
+        (
+            [start_time] => 2024-11-18T08:52:32Z
+            [quantity] => 1
+            [create_time] => 2024-11-18T08:52:32Z
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-8WB98055R3119141X
+                            [rel] => approve
+                            [method] => GET
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-HHTFT6N12PRU
+                            [rel] => edit
+                            [method] => PATCH
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-HHTFT6N12PRU
+                            [rel] => self
+                            [method] => GET
+                        )
+
+                )
+
+            [id] => I-HHTFT6N12PRU
+            [plan_overridden] => 
+            [plan_id] => P-2G114147RC878780TM45K4IQ
+            [status] => APPROVAL_PENDING
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-5F288540XL8768246-9VY238521D735101V
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-5F288540XL8768246-9VY238521D735101V/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook Payload: Array
+(
+    [id] => WH-0PC60286U6943015T-14P515774E785715L
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T08:55:53.614Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CREATED
+    [summary] => Subscription created
+    [resource] => Array
+        (
+            [start_time] => 2024-11-18T08:55:53Z
+            [quantity] => 1
+            [create_time] => 2024-11-18T08:55:53Z
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-1KB33480BM593301G
+                            [rel] => approve
+                            [method] => GET
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-GU8EC1SJNATB
+                            [rel] => edit
+                            [method] => PATCH
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-GU8EC1SJNATB
+                            [rel] => self
+                            [method] => GET
+                        )
+
+                )
+
+            [id] => I-GU8EC1SJNATB
+            [plan_overridden] => 
+            [plan_id] => P-2G114147RC878780TM45K4IQ
+            [status] => APPROVAL_PENDING
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-0PC60286U6943015T-14P515774E785715L
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-0PC60286U6943015T-14P515774E785715L/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+App Name: vidcombo
+Webhook event received:
+Array
+(
+    [id] => WH-0PC60286U6943015T-14P515774E785715L
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T08:55:53.614Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CREATED
+    [summary] => Subscription created
+    [resource] => Array
+        (
+            [start_time] => 2024-11-18T08:55:53Z
+            [quantity] => 1
+            [create_time] => 2024-11-18T08:55:53Z
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-1KB33480BM593301G
+                            [rel] => approve
+                            [method] => GET
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-GU8EC1SJNATB
+                            [rel] => edit
+                            [method] => PATCH
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-GU8EC1SJNATB
+                            [rel] => self
+                            [method] => GET
+                        )
+
+                )
+
+            [id] => I-GU8EC1SJNATB
+            [plan_overridden] => 
+            [plan_id] => P-2G114147RC878780TM45K4IQ
+            [status] => APPROVAL_PENDING
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-0PC60286U6943015T-14P515774E785715L
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-0PC60286U6943015T-14P515774E785715L/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook Payload: 
+App Name: vidcombo
+Webhook Payload: 
+App Name: vidcombo
+Webhook Payload: 
+App Name: vidcombo
+Webhook Payload: 
+App Name: vidcombo
+Webhook Payload: Array
+(
+    [id] => WH-3GH878597T6121927-5XK49365C68986746
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T09:10:27.660Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CREATED
+    [summary] => Subscription created
+    [resource] => Array
+        (
+            [start_time] => 2024-11-18T09:10:27Z
+            [quantity] => 1
+            [create_time] => 2024-11-18T09:10:27Z
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-715605865U672441W
+                            [rel] => approve
+                            [method] => GET
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-2C2E28Y1JEUD
+                            [rel] => edit
+                            [method] => PATCH
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-2C2E28Y1JEUD
+                            [rel] => self
+                            [method] => GET
+                        )
+
+                )
+
+            [id] => I-2C2E28Y1JEUD
+            [plan_overridden] => 
+            [plan_id] => P-2N046189W34174607M4ZR6PA
+            [status] => APPROVAL_PENDING
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-3GH878597T6121927-5XK49365C68986746
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-3GH878597T6121927-5XK49365C68986746/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+App Name: vidcombo
+Webhook event received:
+Array
+(
+    [id] => WH-3GH878597T6121927-5XK49365C68986746
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T09:10:27.660Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CREATED
+    [summary] => Subscription created
+    [resource] => Array
+        (
+            [start_time] => 2024-11-18T09:10:27Z
+            [quantity] => 1
+            [create_time] => 2024-11-18T09:10:27Z
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-715605865U672441W
+                            [rel] => approve
+                            [method] => GET
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-2C2E28Y1JEUD
+                            [rel] => edit
+                            [method] => PATCH
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-2C2E28Y1JEUD
+                            [rel] => self
+                            [method] => GET
+                        )
+
+                )
+
+            [id] => I-2C2E28Y1JEUD
+            [plan_overridden] => 
+            [plan_id] => P-2N046189W34174607M4ZR6PA
+            [status] => APPROVAL_PENDING
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-3GH878597T6121927-5XK49365C68986746
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-3GH878597T6121927-5XK49365C68986746/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+Webhook event received:
+Array
+(
+    [id] => WH-832882762D148350R-0CK99159MB7865413
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T09:50:41.429Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CREATED
+    [summary] => Subscription created
+    [resource] => Array
+        (
+            [start_time] => 2024-11-18T09:50:41Z
+            [quantity] => 1
+            [create_time] => 2024-11-18T09:50:41Z
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-3N588557EG256091K
+                            [rel] => approve
+                            [method] => GET
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-P24S890XG5FX
+                            [rel] => edit
+                            [method] => PATCH
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-P24S890XG5FX
+                            [rel] => self
+                            [method] => GET
+                        )
+
+                )
+
+            [id] => I-P24S890XG5FX
+            [plan_overridden] => 
+            [plan_id] => P-2G114147RC878780TM45K4IQ
+            [status] => APPROVAL_PENDING
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-832882762D148350R-0CK99159MB7865413
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-832882762D148350R-0CK99159MB7865413/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+App Name: vidobo
+App Name: vidobo
+App Name: 
+Webhook event received:
+Array
+(
+    [id] => WH-15J95530GP848325H-0B300830J7279194X
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T09:57:25.350Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CREATED
+    [summary] => Subscription created
+    [resource] => Array
+        (
+            [start_time] => 2024-11-18T09:57:25Z
+            [quantity] => 1
+            [create_time] => 2024-11-18T09:57:25Z
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-1L841103UA824530S
+                            [rel] => approve
+                            [method] => GET
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-0JLU38EMBATG
+                            [rel] => edit
+                            [method] => PATCH
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-0JLU38EMBATG
+                            [rel] => self
+                            [method] => GET
+                        )
+
+                )
+
+            [id] => I-0JLU38EMBATG
+            [plan_overridden] => 
+            [plan_id] => P-2N046189W34174607M4ZR6PA
+            [status] => APPROVAL_PENDING
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-15J95530GP848325H-0B300830J7279194X
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-15J95530GP848325H-0B300830J7279194X/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+App Name: vidcombo
+Webhook event received:
+Array
+(
+    [id] => WH-19T948712J231700Y-77R764235D627260U
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T09:59:57.066Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CREATED
+    [summary] => Subscription created
+    [resource] => Array
+        (
+            [start_time] => 2024-11-18T09:59:56Z
+            [quantity] => 1
+            [create_time] => 2024-11-18T09:59:56Z
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-7YJ21138HM061492G
+                            [rel] => approve
+                            [method] => GET
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-LHEYMDDK6N5Y
+                            [rel] => edit
+                            [method] => PATCH
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-LHEYMDDK6N5Y
+                            [rel] => self
+                            [method] => GET
+                        )
+
+                )
+
+            [id] => I-LHEYMDDK6N5Y
+            [plan_overridden] => 
+            [plan_id] => P-2N046189W34174607M4ZR6PA
+            [status] => APPROVAL_PENDING
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-19T948712J231700Y-77R764235D627260U
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-19T948712J231700Y-77R764235D627260U/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+App Name: vidcombo
+Webhook event received:
+Array
+(
+    [id] => WH-4C8920791H695325A-75X777875X0622708
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T10:06:30.383Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CREATED
+    [summary] => Subscription created
+    [resource] => Array
+        (
+            [start_time] => 2024-11-18T10:06:30Z
+            [quantity] => 1
+            [create_time] => 2024-11-18T10:06:30Z
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-5SW67556F0913060M
+                            [rel] => approve
+                            [method] => GET
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-25GTK9T5Y2MT
+                            [rel] => edit
+                            [method] => PATCH
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-25GTK9T5Y2MT
+                            [rel] => self
+                            [method] => GET
+                        )
+
+                )
+
+            [id] => I-25GTK9T5Y2MT
+            [plan_overridden] => 
+            [plan_id] => P-2G114147RC878780TM45K4IQ
+            [status] => APPROVAL_PENDING
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-4C8920791H695325A-75X777875X0622708
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-4C8920791H695325A-75X777875X0622708/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+App Name: Array
+Webhook event received:
+Array
+(
+    [id] => WH-7L6676589C486283K-4TH939767W695703G
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T10:08:01.309Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CREATED
+    [summary] => Subscription created
+    [resource] => Array
+        (
+            [start_time] => 2024-11-18T10:08:01Z
+            [quantity] => 1
+            [create_time] => 2024-11-18T10:08:01Z
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-1EU274491P412305D
+                            [rel] => approve
+                            [method] => GET
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-SK0LGHW25W7T
+                            [rel] => edit
+                            [method] => PATCH
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-SK0LGHW25W7T
+                            [rel] => self
+                            [method] => GET
+                        )
+
+                )
+
+            [id] => I-SK0LGHW25W7T
+            [plan_overridden] => 
+            [plan_id] => P-2G114147RC878780TM45K4IQ
+            [status] => APPROVAL_PENDING
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-7L6676589C486283K-4TH939767W695703G
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-7L6676589C486283K-4TH939767W695703G/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+App Name: 
+Webhook event received:
+Array
+(
+    [id] => WH-8LW460363W914960H-67326806PC5897840
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T10:09:13.542Z
+    [resource_type] => subscription
+    [resource_version] => 2.0
+    [event_type] => BILLING.SUBSCRIPTION.CREATED
+    [summary] => Subscription created
+    [resource] => Array
+        (
+            [start_time] => 2024-11-18T10:09:13Z
+            [quantity] => 1
+            [create_time] => 2024-11-18T10:09:13Z
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [href] => https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=BA-1F043688JP6364934
+                            [rel] => approve
+                            [method] => GET
+                        )
+
+                    [1] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-HUW09C3KN7UG
+                            [rel] => edit
+                            [method] => PATCH
+                        )
+
+                    [2] => Array
+                        (
+                            [href] => https://api.sandbox.paypal.com/v1/billing/subscriptions/I-HUW09C3KN7UG
+                            [rel] => self
+                            [method] => GET
+                        )
+
+                )
+
+            [id] => I-HUW09C3KN7UG
+            [plan_overridden] => 
+            [plan_id] => P-2G114147RC878780TM45K4IQ
+            [status] => APPROVAL_PENDING
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-8LW460363W914960H-67326806PC5897840
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-8LW460363W914960H-67326806PC5897840/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
+App Name: vidcombo
+Webhook event received:
+Array
+(
+    [id] => WH-22H194521L331262F-8HE46495D1182794U
+    [event_version] => 1.0
+    [create_time] => 2024-11-18T10:12:38.991Z
+    [resource_type] => sale
+    [event_type] => PAYMENT.SALE.COMPLETED
+    [summary] => Payment completed for $ 11.0 USD
+    [resource] => Array
+        (
+            [amount] => Array
+                (
+                    [total] => 11.00
+                    [currency] => USD
+                    [details] => Array
+                        (
+                            [subtotal] => 11.00
+                        )
+
+                )
+
+            [payment_mode] => INSTANT_TRANSFER
+            [create_time] => 2024-11-18T10:12:34Z
+            [transaction_fee] => Array
+                (
+                    [currency] => USD
+                    [value] => 0.87
+                )
+
+            [billing_agreement_id] => I-LTSSDKL2E7CR
+            [update_time] => 2024-11-18T10:12:34Z
+            [soft_descriptor] => PAYPAL *TEST STORE
+            [protection_eligibility_type] => ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE
+            [protection_eligibility] => ELIGIBLE
+            [links] => Array
+                (
+                    [0] => Array
+                        (
+                            [method] => GET
+                            [rel] => self
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/5JJ53344502415236
+                        )
+
+                    [1] => Array
+                        (
+                            [method] => POST
+                            [rel] => refund
+                            [href] => https://api.sandbox.paypal.com/v1/payments/sale/5JJ53344502415236/refund
+                        )
+
+                )
+
+            [id] => 5JJ53344502415236
+            [state] => completed
+            [invoice_number] => 
+        )
+
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-22H194521L331262F-8HE46495D1182794U
+                    [rel] => self
+                    [method] => GET
+                )
+
+            [1] => Array
+                (
+                    [href] => https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-22H194521L331262F-8HE46495D1182794U/resend
+                    [rel] => resend
+                    [method] => POST
+                )
+
+        )
+
+)
+
+
