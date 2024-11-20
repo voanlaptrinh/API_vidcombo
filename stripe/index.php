@@ -7,36 +7,87 @@ use Stripe\Stripe;
 use PHPMailer\PHPMailer\Exception;
 
 // Kiểm tra URL và gọi hàm tương ứng
-$func = isset($_GET['func']) ? trim($_GET['func']) : '';
+
+
+// // Log and check the parsed data
+// $appName = isset($data['app_name']) ? $data['app_name'] : 'vidcombo';
+
+// $name = isset($_GET['name']) ? trim($_GET['name']) : '';
+
+
+
+
+
+// $paypalSecret = Common::getPaypalSecrets($appName, $name);
+// if ($paypalSecret) {
+//     $client_id = $paypalSecret['client_id'];
+//     $clientSecret = $paypalSecret['client_secret'];
+//     $webhookId = $paypalSecret['webhook_id'];
+
+
+//     $apiContext = new \PayPal\Rest\ApiContext(
+//         new \PayPal\Auth\OAuthTokenCredential(
+//             $paypalSecret['client_id'],     // Replace with your PayPal Client ID
+//             $paypalSecret['client_secret']  // Replace with your PayPal Client Secret
+//         )
+//     );
+//     $apiContext->setConfig(['mode' => 'live']);
+// }
+
+
 
 $body = file_get_contents('php://input');
 parse_str($body,  $data);
-// Log and check the parsed data
 $appName = isset($data['app_name']) ? $data['app_name'] : 'vidcombo';
+$bankName = isset($data['bank_name']) ? $data['bank_name'] : '';
 
-$name = isset($_GET['name']) ? trim($_GET['name']) : '';
-
-
-
-
-$stripe_funtion = new StripeApiFunction($name, $appName);
-$paypalSecret = Common::getPaypalSecrets($appName, $name);
-if ($paypalSecret) {
-    $client_id = $paypalSecret['client_id'];
-    $clientSecret = $paypalSecret['client_secret'];
-    $webhookId = $paypalSecret['webhook_id'];
+$name = isset($_GET['name']) ? trim($_GET['name']) : ''; // Default to 'stripe'
 
 
-    $apiContext = new \PayPal\Rest\ApiContext(
-        new \PayPal\Auth\OAuthTokenCredential(
-            $paypalSecret['client_id'],     // Replace with your PayPal Client ID
-            $paypalSecret['client_secret']  // Replace with your PayPal Client Secret
-        )
-    );
-    $apiContext->setConfig(['mode' => 'live']);
+
+error_log('app NAme ' . $appName);
+// Check if the appName exists in the configuration
+if (!empty($name)) {
+    if (!isset($banks[$name])) {
+        throw new Exception("Invalid bank name: {$name}");
+    }
+
+    $bankConfig = $banks[$name];
+    error_log("Using bank configuration for name: {$name}");
+    error_log(print_r($bankConfig, true));
+
+    $client_id = $bankConfig['client_id'] ?? null;
+    $clientSecret = $bankConfig['client_secret'] ?? null;
+
+} else {
+    // Nếu `name` không tồn tại, dùng `appName` và `bankName`
+    if (!empty($appName)) {
+        if (!isset($apps[$appName])) {
+            throw new Exception('Invalid app name.');
+        }
+
+        $bankKey = $apps[$appName][$bankName] ?? null;
+
+        if (!isset($banks[$bankKey])) {
+            throw new Exception("Invalid bank key for app: {$appName} and bank: {$bankName}");
+        }
+
+        $bankConfig = $banks[$bankKey];
+        error_log("Using bank configuration for appName: {$appName}, bankName: {$bankName}");
+        error_log(print_r($bankConfig, true));
+
+        $client_id = $bankConfig['client_id'] ?? null;
+        $clientSecret = $bankConfig['client_secret'] ?? null;
+    } else {
+        throw new Exception('Both appName and name are empty.');
+    }
 }
 
+$func = isset($_GET['func']) ? trim($_GET['func']) : '';
 
+
+
+$stripe_funtion = new StripeApiFunction($name, $banks, $appName, $bankName, $apps);
 switch ($func) {
     case 'create-checkout-session':
         $stripe_funtion->createCheckoutSession();
@@ -67,15 +118,21 @@ class StripeApiFunction
     private $access_token;
     private $plans_paypal;
     private $appName;
-    private $app_name;
     private $name;
+    private $banks;
+    private $bankName;
+    private $apps;
+    private $app_name;
     private $plans;
     public $web_domain = 'https://www.vidcombo.com/';
     // Hàm khởi tạo
-    function __construct($name, $appName)
+    function __construct($name, $banks, $appName, $bankName, $apps)
     {
-        $this->name = $name;
+        $this->banks = $banks;
         $this->appName = $appName;
+        $this->bankName = $bankName;
+        $this->name = $name;
+        $this->apps = $apps;
         $this->init();
     }
     function init()
@@ -150,7 +207,7 @@ class StripeApiFunction
             $encodedPlan = base64_encode($plan);
             $encodedLicenseKey = base64_encode($licenseKey);
             $encodedappName = base64_encode($appName);
-            $url = "https://www.vidcombo.com/pay?planKey=" . urlencode($encodedPlanKey) . "&licenseKey=" . urlencode($encodedLicenseKey) . "&planName=" . urlencode($encodedPlan) . "&appName=" . urlencode($encodedappName);
+            $url = "http://localhost:8080/pay?planKey=" . urlencode($encodedPlanKey) . "&licenseKey=" . urlencode($encodedLicenseKey) . "&planName=" . urlencode($encodedPlan) . "&appName=" . urlencode($encodedappName);
 
             // Trả về URL chuyển trang
             $response = [
