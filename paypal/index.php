@@ -5,18 +5,16 @@ require_once '../vendor/autoload.php';
 $body = file_get_contents('php://input');
 parse_str($body,  $data);
 // Kiểm tra và lấy app_name từ dữ liệu, nếu không có thì mặc định là 'vidcombo'
-// $appName = isset($data['app_name']) ? $data['app_name'] : 'vidcombo';
+$appName = isset($data['app_name']) ? $data['app_name'] : 'vidcombo';
+$name = isset($_GET['name']) ? trim($_GET['name']) : '';
 
-$appName = $_SESSION['app_name'] ?? 'vidcombo';  // Giá trị mặc định nếu không có session và cookie
 
-// Ghi log để kiểm tra
-file_put_contents('log/webhook_debug.log', "App Name: $appName\n", FILE_APPEND);
-
-$paypalSecret = Common::getPaypalSecrets($appName);
+$paypalSecret = Common::getPaypalSecrets($appName, $name);
 
 $client_id = $paypalSecret['client_id'];
 $clientSecret = $paypalSecret['client_secret'];
 $webhookId = $paypalSecret['webhook_id'];
+$app_name = $paypalSecret['app_name'];
 
 // Kiểm tra URL và gọi hàm xử lý tương ứng
 $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -27,14 +25,15 @@ $apiContext = new \PayPal\Rest\ApiContext(
         $paypalSecret['client_secret']  // Replace with your PayPal Client Secret
     )
 );
-$apiContext->setConfig(['mode' => 'sandbox']);
+$apiContext->setConfig(['mode' => 'live']);
 
 
 $func = isset($_GET['func']) ? trim($_GET['func']) : '';
 
+
 function get_paypal_access_token($client_id, $clientSecret)
 {
-    $url = "https://api.sandbox.paypal.com/v1/oauth2/token";
+    $url = "https://api.paypal.com/v1/oauth2/token";
     $headers = [
         "Authorization: Basic " . base64_encode("$client_id:$clientSecret"),
         "Content-Type: application/x-www-form-urlencoded"
@@ -54,11 +53,11 @@ function get_paypal_access_token($client_id, $clientSecret)
 }
 $access_token = get_paypal_access_token($client_id, $clientSecret);
 
-$paypal_funtion = new PaypalApiFunction($appName);
+$paypal_funtion = new PaypalApiFunction($name, $appName);
 switch ($func) {
 
     case 'create-checkout-session':
-        $paypal_funtion->createSubscription($access_token );
+        $paypal_funtion->createSubscription($access_token);
         break;
     case 'revise-subscription':
         $paypal_funtion->reviseSubscription($access_token);
@@ -97,7 +96,7 @@ switch ($func) {
         $paypal_funtion->deleteAllPlans($access_token);
         break;
     case 'webhook':
-        $paypal_funtion->handlePaypalWebhook();
+        $paypal_funtion->handlePaypalWebhook($name);
         break;
     default:
         header("HTTP/1.1 404 Not Found");
@@ -116,20 +115,26 @@ class PaypalApiFunction
     private $clientSecret;
     private $access_token;
     private $plans;
+    private $name;
     private $appName;
-    public $web_domain = 'http://localhost:8080/';
+    private $app_name;
+    public $web_domain = 'https://www.vidcombo.com/';
 
-    function __construct($appName)
+    function __construct($name, $appName)
     {
+        $this->name = $name;
         $this->appName = $appName;
         $this->init();
     }
     function init()
     {
-        $paypalSecret = Common::getPaypalSecrets($this->appName);
+
+        $paypalSecret = Common::getPaypalSecrets($this->appName, $this->name);
+
         if ($paypalSecret) {
             $this->client_id = $paypalSecret['client_id'];
             $this->clientSecret = $paypalSecret['client_secret'];
+            $this->app_name = $paypalSecret['app_name'];
             $this->plans = json_decode($paypalSecret['plans'], true);
         } else {
             throw new Exception('No active Paypal secrets found.');
@@ -142,7 +147,7 @@ class PaypalApiFunction
     }
     private function get_paypal_access_token($client_id, $clientSecret)
     {
-        $url = "https://api.sandbox.paypal.com/v1/oauth2/token";
+        $url = "https://api.paypal.com/v1/oauth2/token";
         $headers = [
             "Authorization: Basic " . base64_encode("$client_id:$clientSecret"),
             "Content-Type: application/x-www-form-urlencoded"
@@ -162,17 +167,13 @@ class PaypalApiFunction
     }
     // Hàm xử lý webhook từ PayPal
 
-    function handlePaypalWebhook()
+    function handlePaypalWebhook($name)
     {
-
-        // Get the raw POST data from PayPal's webhook
 
         // Kiểm tra nếu phương thức là POST
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Lấy nội dung của payload từ webhook
             $payload = file_get_contents('php://input');
 
-            // Chuyển đổi payload từ JSON sang mảng PHP để dễ xử lý
             $data = json_decode($payload, true);
 
             $event = $data['event_type'];
@@ -186,7 +187,7 @@ class PaypalApiFunction
                         $this->handlePaymentPending($data);
                         break;
                     case 'BILLING.SUBSCRIPTION.CREATED': //Xảy ra bất cứ khi nào nỗ lực thanh toán hóa đơn thành công.
-                        $this->handleSubscriptionCreated($data,$this->appName);
+                        $this->handleSubscriptionCreated($data, $this->app_name);
                         break;
                     case 'BILLING.SUBSCRIPTION.UPDATED': //Xảy ra bất cứ khi nào nỗ lực thanh toán hóa đơn thành công.
                         $this->handleSubscriptionUpdate($data, $this->access_token);
@@ -211,15 +212,7 @@ class PaypalApiFunction
             }
 
 
-            // Kiểm tra nếu có dữ liệu nhận được
-            if (!empty($data)) {
-                // Ghi tất cả các sự kiện vào log
-                $logContent = "Webhook event received:\n" . print_r($data, true) . "\n\n";
-                file_put_contents('log/webhook_debug.log', $logContent, FILE_APPEND);
-            } else {
-                // Nếu không có dữ liệu trong payload
-                file_put_contents('log/webhook_debug.log', "Payload is empty.\n\n", FILE_APPEND);
-            }
+           
         } else {
             // Nếu không phải là yêu cầu POST
             file_put_contents('log/webhook_debug.log', "Request method is not POST.\n\n", FILE_APPEND);
@@ -229,9 +222,7 @@ class PaypalApiFunction
     function handleSubscriptionActivated($data, $accessToken)
     {
         // Ghi log sự kiện nhận webhook
-        $logContent = "Webhook event received:\n" . print_r($data, true) . "\n\n";
-        file_put_contents('log/handleSubscriptionActivated.log', $logContent, FILE_APPEND);
-
+       
         // Kiểm tra trạng thái và chuẩn bị thông tin từ webhook
         $status = $data['resource']['status'] == 'ACTIVE' ? 'active' : $data['resource']['status'];
         $subscription_id = $data['resource']['id'];
@@ -251,7 +242,7 @@ class PaypalApiFunction
 
         // Ghi log thời gian hết hạn
         $formatted_period_end = $current_period_end->format('Y-m-d H:i:s');
-        file_put_contents('log/handleSubscriptionActivated.log', "current_period_end: $formatted_period_end\n\n", FILE_APPEND);
+      
 
         // Cập nhật subscription trong cơ sở dữ liệu
         $this->updateSubscription($subscription_id, $status, $formatted_period_end, $customer_email);
@@ -266,7 +257,7 @@ class PaypalApiFunction
     // Lấy chi tiết plan từ PayPal API
     private function getPlanDetailsFromPayPal($plan_id, $accessToken)
     {
-        $url = "https://api.sandbox.paypal.com/v1/billing/plans/{$plan_id}";
+        $url = "https://api.paypal.com/v1/billing/plans/{$plan_id}";
         $headers = [
             "Authorization: Bearer $accessToken",
             "Content-Type: application/json"
@@ -347,7 +338,6 @@ class PaypalApiFunction
         }
     }
 
-    // Cập nhật trạng thái gửi license key
     private function updateLicenseKeySendStatus($subscription_id, $formatted_period_end)
     {
         $stmt = $this->connection->prepare("UPDATE `licensekey` SET `send` = :send , `current_period_end` = :current_period_end WHERE `subscription_id` = :subscription_id");
@@ -370,12 +360,10 @@ class PaypalApiFunction
     function handleSubscriptionCreated($data, $appName)
     {
         $subscription = $data['resource'];
-       
-        $logContent = "Webhook event received:\n" . print_r($subscription, true) . "\n\n" . print_r($appName, true) . "\n\n";
-        file_put_contents('log/handleSubscriptionCreated.log', $logContent, FILE_APPEND);
+
+      
         $subscription_id = $data['resource']['id'];
-        $logContent = "Subscription_id:\n" . print_r($subscription_id, true) . "\n\n";
-        file_put_contents('log/handleSubscriptionCreated.log', $logContent, FILE_APPEND);
+        
         $status = $data['resource']['status'];
         $current_period_start_iso = $data['resource']['start_time'];
         $dateTime = new DateTime($current_period_start_iso);
@@ -401,8 +389,7 @@ class PaypalApiFunction
     }
     function handlePaymentCompleted($data, $access_token)
     {
-        $logContent = "Webhook event received:\n" . print_r($data, true) . "\n\n";
-        file_put_contents('log/handlePaymentCompleted.log', $logContent, FILE_APPEND);
+       
         $subscription_id = $data['resource']['billing_agreement_id'];
         $create_time = $data['create_time'];
 
@@ -413,11 +400,6 @@ class PaypalApiFunction
         $customer_email = $subscription['customer_email'];
         $customer_name = $subscription['customer_email'];
         $current_period_end = $subscription['current_period_end'];
-
-
-
-
-
 
         $plan = $subscription['plan'];
         $plan_alias = array_search($plan, $this->plans);
@@ -449,7 +431,7 @@ class PaypalApiFunction
 
 
             error_log($plan);
-            $url = "https://api.sandbox.paypal.com/v1/billing/plans/{$plan}";
+            $url = "https://api.paypal.com/v1/billing/plans/{$plan}";
             $headers = [
                 "Authorization: Bearer $access_token",
                 "Content-Type: application/json"
@@ -516,6 +498,8 @@ class PaypalApiFunction
             ':amount_paid' => $data['resource']['amount']['details']['subtotal'],
             ':invoice_datetime' => $formattedDateCreate_time,
         ]);
+        $amount_due = $data['resource']['amount']['total'];
+        $invoiced_date =  strtotime($data['create_time']);
         $logContent = "Invoice insertion complete:\n"
             . "Invoice ID: " . print_r($data['id'], true) . "\n"
             . "Customer Email: " . print_r($customer_email, true) . "\n"
@@ -525,17 +509,28 @@ class PaypalApiFunction
             . "Subtotal: " . print_r($data['resource']['amount']['details']['subtotal'], true) . "\n"
             . "Invoice Date Time: " . print_r($formattedDateCreate_time, true) . "\n\n";
 
-        file_put_contents('log/handlePaymentCompleted.log', $logContent, FILE_APPEND);
+    
         $stmt = $this->connection->prepare("SELECT `license_key`, `send` FROM `licensekey` WHERE `subscription_id` = :subscription_id");
         $stmt->execute([':subscription_id' => $subscription_id]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
+        if ($this->app_name == 'vidcombo') {
+            Common::sendSuccessEmail($customer_email, $customer_name, $amount_due, $invoiced_date);
+        } else {
+            Common::sendSuccessEmailVidobo($customer_email, $customer_name, $amount_due, $invoiced_date);
+        }
+        
+        // Common::sendSuccessEmail($customer_email, $customer_name, $amount_due, $invoiced_date);
         if ($result && isset($result['license_key']) && $result['send'] === 'not') {
             $licenseKey = $result['license_key'];
             error_log("Sending license key to: $customer_email");
 
             // Gửi license key qua email
-            $send_status = Common::sendLicenseKeyEmail($customer_email, $customer_name, $licenseKey);
+            if ($this->app_name == 'vidcombo') {
+                $send_status = Common::sendLicenseKeyEmail($customer_email, $customer_name, $licenseKey);
+            } else {
+                $send_status = Common::sendLicenseKeyEmailVidobo($customer_email, $customer_name, $licenseKey);
+            }
+            // $send_status = Common::sendLicenseKeyEmail($customer_email, $customer_name, $licenseKey);
 
             if ($send_status) {
                 $stmt = $this->connection->prepare("UPDATE `licensekey` SET `send` = :send  WHERE `subscription_id` = :subscription_id");
@@ -602,8 +597,7 @@ class PaypalApiFunction
 
     function handleSubscriptionReActivated($data)
     {
-        $logContent = "handleSubscriptionReActivated:\n" . print_r($data, true) . "\n\n";
-        file_put_contents('log/handleSubscriptionReActivated.log', $logContent, FILE_APPEND);
+       
         $subscription_id = $data['resource']['id'];
         $current_period_end_iso = $data['resource']['agreement_details']['next_billing_date'];
         if ($data['resource']['state'] == 'Active') {
@@ -617,8 +611,9 @@ class PaypalApiFunction
             ':subscription_id' => $subscription_id,
             ':current_period_end' => $current_period_end,
         ]);
-        $stmt = $this->connection->prepare("UPDATE `licensekey` SET `current_period_end` = :current_period_end WHERE `subscription_id` = :subscription_id");
+        $stmt = $this->connection->prepare("UPDATE `licensekey` SET `status` =:status, `current_period_end` = :current_period_end WHERE `subscription_id` = :subscription_id");
         $stmt->execute([
+            ':status' => $status,
             ':subscription_id' => $subscription_id,
             ':current_period_end' => $current_period_end,
         ]);
@@ -1142,7 +1137,6 @@ class PaypalApiFunction
         }
     }
 
-
     function cancelSubscription($accessToken)
     {
         // Get the data from the input
@@ -1156,7 +1150,7 @@ class PaypalApiFunction
         }
 
         // Set the cancellation URL with the correct subscription ID
-        $url = "https://api.sandbox.paypal.com/v1/billing/subscriptions/{$subscriptionId}/cancel";
+        $url = "https://api.paypal.com/v1/billing/subscriptions/{$subscriptionId}/cancel";
 
         // Headers for the API request
         $headers = [
@@ -1207,7 +1201,7 @@ class PaypalApiFunction
     function listSubscriptions($accessToken): void
     {
 
-        $url = "https://api.sandbox.paypal.com/v1/billing/subscriptions";
+        $url = "https://api.paypal.com/v1/billing/subscriptions";
         $headers = [
             "Authorization: Bearer $accessToken",
             "Content-Type: application/json"

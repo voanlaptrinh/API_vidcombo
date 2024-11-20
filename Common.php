@@ -28,23 +28,36 @@ class Common
     }
 
 
-    static function getStripeSecrets($appName)
+    static function getStripeSecrets($appName = null, $name = null)
     {
         // $redis = new RedisCache('stripe_secrets');
         // $cache = $redis->getCache();
         // if ($cache) {
         // $result = json_decode($cache, true);
         // } else {
-        $connection = self::getDatabaseConnection();
-        $query = $connection->prepare("SELECT `apiKey`, `endpointSecret`, `plan_jsonId`
+        if ($appName != null) {
+            $connection = self::getDatabaseConnection();
+            $query = $connection->prepare("SELECT `apiKey`, `endpointSecret`, `plan_jsonId`, `app_name`
                                              FROM `stripe_secrets` 
                                             WHERE `status` = :status AND `app_name` = :app_name");
-        $query->execute([
-            ':status' => 'active',
-            ':app_name' => $appName
-        ]);
-        $result = $query->fetch(PDO::FETCH_ASSOC);
+            $query->execute([
+                ':status' => 'active',
+                ':app_name' => $appName
+            ]);
+            $result = $query->fetch(PDO::FETCH_ASSOC);
+        }
 
+        if ($name != null) {
+            $connection = self::getDatabaseConnection();
+            $query = $connection->prepare("SELECT `apiKey`, `endpointSecret`, `plan_jsonId`, `app_name`
+                                             FROM `stripe_secrets` 
+                                            WHERE `status` = :status AND `name` = :name");
+            $query->execute([
+                ':status' => 'active',
+                ':name' => $name
+            ]);
+            $result = $query->fetch(PDO::FETCH_ASSOC);
+        }
         //     $redis->setCache(json_encode($result), 3600*24); // Cache for 1day
         // }
 
@@ -52,13 +65,14 @@ class Common
             return [
                 'apiKey' => $result['apiKey'],
                 'endpointSecret' => $result['endpointSecret'],
+                'app_name' => $result['app_name'],
                 'plans' => json_decode($result['plan_jsonId'], true),
             ];
         }
 
         return null;
     }
-    static function getPaypalSecrets($appName)
+    static function getPaypalSecrets($appName = null, $name = null)
     {
         // Uncomment and configure RedisCache if needed
         // $redis = new RedisCache('stripe_secrets');
@@ -66,15 +80,30 @@ class Common
         // if ($cache) {
         //     $result = json_decode($cache, true);
         // } else {
-        $connection = self::getDatabaseConnection();
-        $query = $connection->prepare("SELECT `client_id`, `webhook_id`, `client_secret`, `plan_jsonId` 
-                                        FROM `paypal_secrets` 
-                                        WHERE `status` = :status AND `app_name` = :app_name");
-        $query->execute([
-            ':status' => 'active',
-            ':app_name' => $appName
-        ]);
-        $result = $query->fetch(PDO::FETCH_ASSOC);
+        if ($appName != null) {
+            $connection = self::getDatabaseConnection();
+            $query = $connection->prepare("SELECT `client_id`, `webhook_id`, `client_secret`, `plan_jsonId` , `app_name`
+                                            FROM `paypal_secrets` 
+                                            WHERE `status` = :status AND `app_name` = :app_name");
+            $query->execute([
+                ':status' => 'active',
+                ':app_name' => $appName
+            ]);
+            $result = $query->fetch(PDO::FETCH_ASSOC);
+        }
+
+        if ($name != null) {
+            $connection = self::getDatabaseConnection();
+            $query = $connection->prepare("SELECT `client_id`, `webhook_id`, `client_secret`, `plan_jsonId` , `app_name`
+                                            FROM `paypal_secrets` 
+                                            WHERE `status` = :status AND `name` = :name");
+            $query->execute([
+                ':status' => 'active',
+                ':name' => $name
+            ]);
+            $result = $query->fetch(PDO::FETCH_ASSOC);
+        }
+
 
         // Uncomment and configure caching if needed
         // $redis->setCache(json_encode($result), 3600 * 24); // Cache for 1 day
@@ -85,6 +114,7 @@ class Common
                 'client_id' => $result['client_id'],
                 'client_secret' => $result['client_secret'],
                 'webhook_id' => $result['webhook_id'],
+                'app_name' => $result['app_name'],
                 'plans' => json_decode($result['plan_jsonId'], true),
             ];
         }
@@ -180,6 +210,84 @@ class Common
         $mail->Subject = 'Payment Successful';
         // Define the email body
         $template = file_get_contents(__DIR__ . '/tem_mail/send_success.html');
+
+        $template = str_replace('{{ $customer_name }}', htmlspecialchars($customer_name), $template);
+        $template = str_replace('{{ $amount_due }}', htmlspecialchars($amount_due), $template);
+        $template = str_replace('{{ $invoiced_date }}', htmlspecialchars($invoiced_date), $template);
+
+        // Assign the email body
+        $mail->Body = $template;
+
+        // Send the email
+        try {
+            $mail->send();
+            return true;
+        } catch (Exception $e) {
+            // Handle errors
+            return false;
+        }
+    }
+
+
+
+    //vidobo
+    public static function sendLicenseKeyEmailVidobo($customer_email, $customer_name, $licenseKey)
+    {
+        $mail = new PHPMailer(true);
+        // Server settings
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.gmail.com';  // Use the correct SMTP server
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'vidobo.com@gmail.com';  // Your Gmail address
+        $mail->Password   = 'lwfaeqipjiwgycuu';  // Your Gmail password or app-specific password
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = 587;  // TCP port to connect to
+
+        // Recipients
+        $mail->setFrom('vidobo.com@gmail.com', 'Vidobo');
+        $mail->addAddress($customer_email);
+
+        // Content
+        $mail->isHTML(true);
+        $mail->Subject = 'Your License Key';
+
+        // Load the HTML template
+        $template = file_get_contents(__DIR__ . '/tem_mail/send_key_vidobo.html');
+        // error_log('teamplate' . $template);
+        $template = str_replace('{{ $customer_name }}', htmlspecialchars($customer_name), $template);
+        $template = str_replace('{{ $licenseKey }}', htmlspecialchars($licenseKey), $template);
+
+        $mail->Body = $template;
+
+        // Send the email
+        try {
+            return $mail->send();
+        } catch (Exception $e) {
+            // Handle errors
+            return false;
+        }
+    }    public static function sendSuccessEmailVidobo($customer_email, $customer_name, $amount_due, $invoiced_date)
+    {
+
+        $mail = new PHPMailer(true);
+        // Server settings
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.gmail.com';  // Use the correct SMTP server
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'vidobo.com@gmail.com';  // Your Gmail address
+        $mail->Password   = 'lwfaeqipjiwgycuu';  // Your Gmail password or app-specific password
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = 587;  // TCP port to connect to
+
+        // Recipients
+        $mail->setFrom('vidobo.com@gmail.com', 'Vidobo');
+        $mail->addAddress($customer_email);
+
+        // Content
+        $mail->isHTML(true);
+        $mail->Subject = 'Payment Successful';
+        // Define the email body
+        $template = file_get_contents(__DIR__ . '/tem_mail/send_success_vidobo.html');
 
         $template = str_replace('{{ $customer_name }}', htmlspecialchars($customer_name), $template);
         $template = str_replace('{{ $amount_due }}', htmlspecialchars($amount_due), $template);
