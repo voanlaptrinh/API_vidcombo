@@ -7,34 +7,6 @@ require_once '../config.php';
 use Stripe\Stripe;
 use PHPMailer\PHPMailer\Exception;
 
-// Kiểm tra URL và gọi hàm tương ứng
-
-
-// // Log and check the parsed data
-// $appName = isset($data['app_name']) ? $data['app_name'] : 'vidcombo';
-
-// $name = isset($_GET['name']) ? trim($_GET['name']) : '';
-
-
-
-
-
-// $paypalSecret = Common::getPaypalSecrets($appName, $name);
-// if ($paypalSecret) {
-//     $client_id = $paypalSecret['client_id'];
-//     $clientSecret = $paypalSecret['client_secret'];
-//     $webhookId = $paypalSecret['webhook_id'];
-
-
-//     $apiContext = new \PayPal\Rest\ApiContext(
-//         new \PayPal\Auth\OAuthTokenCredential(
-//             $paypalSecret['client_id'],     // Replace with your PayPal Client ID
-//             $paypalSecret['client_secret']  // Replace with your PayPal Client Secret
-//         )
-//     );
-//     $apiContext->setConfig(['mode' => 'live']);
-// }
-
 
 
 $body = file_get_contents('php://input');
@@ -81,9 +53,8 @@ if (!empty($name)) {
                 $clientSecret  // Replace with your PayPal Client Secret
             )
         );
-        $apiContext->setConfig(['mode' => 'sanbox']);
+        $apiContext->setConfig(['mode' => 'live']);
     } else {
-        var_dump($appName);
         $bankKey = $apps[$appName][$bankName] ?? null;
         if ($bankKey != null) {
             $bankConfig = $banks[$bankKey];
@@ -150,7 +121,7 @@ class StripeApiFunction
     function init()
     {
 
-    
+
         if (!empty($this->name)) {
             if (!isset($this->banks[$this->name])) {
                 error_log("Invalid name: {$this->name}");
@@ -191,7 +162,7 @@ class StripeApiFunction
                     $this->clientSecret  // Replace with your PayPal Client Secret
                 )
             );
-            $apiContext->setConfig(['mode' => 'sanbox']);
+            $apiContext->setConfig(['mode' => 'live']);
 
 
             if (!$this->connection) {
@@ -204,7 +175,7 @@ class StripeApiFunction
             $this->clientSecret = $bankConfig['client_secret'] ?? null;
             $this->apiKey = $bankConfig['api_key'] ?? null;
             $this->endpointSecret = $bankConfig['secret_key'] ?? null;
-            error_log($this->apiKey . ' . ' . $this->endpointSecret);
+       
             Stripe::setApiKey($this->apiKey);
 
             $this->connection = Common::getDatabaseConnection();
@@ -220,7 +191,7 @@ class StripeApiFunction
 
     private function get_paypal_access_token($client_id, $clientSecret)
     {
-        $url = "https://api.sandbox.paypal.com/v1/oauth2/token";
+        $url = "https://api.paypal.com/v1/oauth2/token";
         $headers = [
             "Authorization: Basic " . base64_encode("$client_id:$clientSecret"),
             "Content-Type: application/x-www-form-urlencoded"
@@ -286,7 +257,7 @@ class StripeApiFunction
                     $appNameupdateSup = $this->findAppNametoSubcritpion($subscriptionId);
                     $nameBankApp = $this->apps[$appNameupdateSup][$convertname];
                     $planKey = $this->banks[$nameBankApp]['product_ids'][$appNameupdateSup][$plan];
-                    error_log('bank_stripe updatye' . $appNameupdateSup);
+                 
 
                     $updatedSubscription = \Stripe\Subscription::update($subscriptionId, [
                         'items' => [
@@ -316,7 +287,7 @@ class StripeApiFunction
                 $appNameupdateSup = $this->findAppNametoSubcritpion($subscriptionId);
                 $nameBankApp = $this->apps[$appNameupdateSup][$convertname];
                 $planKey = $this->banks[$nameBankApp]['product_ids'][$appNameupdateSup][$plan];
-                error_log('blankeytasd' . $planKey);
+            
                 $url = "https://api-m.sandbox.paypal.com/v1/billing/subscriptions/{$subscriptionId}/revise";
 
                 // Dữ liệu để cập nhật gói
@@ -425,10 +396,12 @@ class StripeApiFunction
     {
         $body = file_get_contents(filename: 'php://input');
         parse_str($body, result: $data);
-        $licenseKey = isset($data['license_key']) ? $data['license_key'] : '';
+
         $plan = isset($data['plan']) ? $data['plan'] : 'plan1';
+        
         $appPaypal = $this->apps[$this->appName][$this->bankName];
         $planKey = $this->banks[$appPaypal]['product_ids'][$this->appName][$plan];
+        error_log($planKey . ' ' . $this->bankName . ' ' . $plan . ' ' . $this->appName);
         // $planKey = isset($this->plans[$plan]) ? $this->plans[$plan] : '';
         if (!$planKey) {
             header('Content-Type: application/json');
@@ -437,40 +410,22 @@ class StripeApiFunction
         }
 
         try {
-            $subscriptionId = $this->findSubscriptionIdByLicenseKey($licenseKey);
 
-            if ($subscriptionId) {
-                // Nếu có subscriptionId, nâng cấp subscription hiện tại
-                $subscription = \Stripe\Subscription::retrieve($subscriptionId);
-
-                $updatedSubscription = \Stripe\Subscription::update($subscriptionId, [
-                    'items' => [
-                        [
-                            'id' => $subscription->items->data[0]->id,
-                            'price' => $planKey,
-                        ],
-                    ],
-                    'proration_behavior' => 'create_prorations',
-                ]);
-
-                header('Content-Type: application/json');
-                echo json_encode(['subscription' => $updatedSubscription]);
-            } else {
-                // Nếu không có subscriptionId, tạo một phiên Stripe Checkout mới
-                $session = \Stripe\Checkout\Session::create([
-                    'payment_method_types' => ['card'],
-                    'line_items' => [[
-                        'price' => $planKey,
-                        'quantity' => 1,
-                    ]],
-                    'mode' => 'subscription',
-                    'success_url' => $this->web_domain . "success?session_id={CHECKOUT_SESSION_ID}",
-                    'cancel_url' => $this->web_domain,
-                ]);
-
-                header('Content-Type: application/json');
-                echo json_encode(['session' => $session]);
-            }
+            // Nếu không có subscriptionId, tạo một phiên Stripe Checkout mới
+            $session = \Stripe\Checkout\Session::create([
+                'payment_method_types' => ['card'],
+                'line_items' => [[
+                    'price' => $planKey,
+                    'quantity' => 1,
+                ]],
+                'mode' => 'subscription',
+                'success_url' => $this->web_domain . "success?session_id={CHECKOUT_SESSION_ID}",
+                'cancel_url' => $this->web_domain,
+            ]);
+            $logContent = "Webhook event received:\n" . print_r($session, true) . "\n\n";
+            file_put_contents('log/subscription_detail.log', $logContent, FILE_APPEND);
+            header('Content-Type: application/json');
+            echo json_encode(['session' => $session]);
         } catch (Exception $e) {
             header('Content-Type: application/json');
             echo json_encode(['error' => $e->getMessage()]);
@@ -662,13 +617,14 @@ class StripeApiFunction
 
             // Chỉ cập nhật bảng licensekey nếu trạng thái là 'paid'
             if ($status == 'paid') {
-
+                error_log('invoice update' . $appNameEmail . 'status' . $status);
                 $amount_in_dollars = $amount_due / 100;
                 $amount_due =  number_format($amount_in_dollars, 2);
                 // Gửi email thông báo
                 // Create an instance of PHPMailer
                 if ($appNameEmail == 'vidcombo') {
-                    Common::sendSuccessEmail($customer_email, $customer_name, $amount_due, $invoiced_date);
+
+                    Common::sendSuccessEmailVidcombo($customer_email, $customer_name, $amount_due, $invoiced_date);
                 } else {
                     Common::sendSuccessEmailVidobo($customer_email, $customer_name, $amount_due, $invoiced_date);
                 }
@@ -775,14 +731,14 @@ class StripeApiFunction
             $redis = new RedisCache('DETAIL_' . $license_key);
             $redis->setCache('', 300);
             $app_name = $this->getCustomerAppNameBySubscriptionId($subscription_id);
-
+            error_log('appName invoi' . $app_name);
             // Gửi email nếu license_key tồn tại và chưa được gửi
             if ($result['send'] === 'not') {
 
                 // Lấy email khách hàng
                 $customer_email = $this->getCustomerEmailBySubscriptionId($subscription_id);
                 if ($app_name === 'vidcombo') {
-                    $resu = Common::sendLicenseKeyEmail($customer_email, $customer_name, $license_key);
+                    $resu = Common::sendLicenseKey($customer_email, $customer_name, $license_key);
                 } else {
                     $resu = Common::sendLicenseKeyEmailVidobo($customer_email, $customer_name, $license_key);
                 }
@@ -872,14 +828,14 @@ class StripeApiFunction
             $redis = new RedisCache('DETAIL_' . $license_key);
             $redis->setCache('', 300);
             $app_name = $this->getCustomerAppNameBySubscriptionId($subscription_id);
-
+ 
             // Gửi email nếu license_key tồn tại và chưa được gửi
             if ($result['send'] === 'not') {
 
                 // Lấy email khách hàng
                 $customer_email = $this->getCustomerEmailBySubscriptionId($subscription_id);
                 if ($app_name === 'vidcombo') {
-                    $resu = Common::sendLicenseKeyEmail($customer_email, $customer_name, $license_key);
+                    $resu = Common::sendLicenseKey($customer_email, $customer_name, $license_key);
                 } else {
                     $resu = Common::sendLicenseKeyEmailVidobo($customer_email, $customer_name, $license_key);
                 }
@@ -1054,9 +1010,9 @@ class StripeApiFunction
         $stmt->execute([':subscription_id' => $subscription_id]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $stmt = $this->connection->prepare("SELECT `app_name` FROM `subscriptions` WHERE `subscription_id` = :subscription_id");
-        $stmt->execute([':subscription_id' => $subscription_id]);
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        // $stmt = $this->connection->prepare("SELECT `app_name` FROM `subscriptions` WHERE `subscription_id` = :subscription_id");
+        // $stmt->execute([':subscription_id' => $subscription_id]);
+        // $result = $stmt->fetch(PDO::FETCH_ASSOC);
         // Kiểm tra và gửi email chỉ khi licenseKey tồn tại
         $app_name = $this->getCustomerAppNameBySubscriptionId($subscription_id);
         error_log('invoicefanalized' . $app_name);
@@ -1068,7 +1024,7 @@ class StripeApiFunction
 
             //Gửi licenseKey qua email
             if ($app_name == 'vidcombo') {
-                $send_status = Common::sendLicenseKeyEmail($customer_email, $customer_name, $licenseKey);
+                $send_status = Common::sendLicenseKey($customer_email, $customer_name, $licenseKey);
             } else {
                 $send_status = Common::sendLicenseKeyEmailVidobo($customer_email, $customer_name, $licenseKey);
             }
@@ -1089,14 +1045,15 @@ class StripeApiFunction
         $amount_in_dollars = $amount_due / 100;
         $amount_due =  number_format($amount_in_dollars, 2);
         $appNameEmail = $this->getCustomerAppNameBySubscriptionId($subscription_id);
+        error_log('invoicefanalized invoice' . $app_name . 'status ' . $status);
         if ($status == 'paid') {
 
+
             if ($appNameEmail == 'vidcombo') {
-                Common::sendSuccessEmail($customer_email, $customer_name, $amount_due, $invoiced_date);
+                Common::sendSuccessEmailVidcombo($customer_email, $customer_name, $amount_due, $invoiced_date);
             } else {
                 Common::sendSuccessEmailVidobo($customer_email, $customer_name, $amount_due, $invoiced_date);
             }
-            // Common::sendSuccessEmail($customer_email, $customer_name, $amount_due, $invoiced_date);
         }
     }
 

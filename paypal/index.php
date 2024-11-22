@@ -14,7 +14,7 @@ parse_str($body,  $data);
 $appName = isset($data['app_name']) ? $data['app_name'] : 'vidcombo';
 $bankName = isset($data['bank_name']) ? $data['bank_name'] : '';
 
-$name = isset($_GET['name']) ? trim($_GET['name']) : ''; // Default to 'stripe'
+$name = isset($_GET['name']) ? trim(string: $_GET['name']) : ''; // Default to 'stripe'
 
 
 
@@ -26,7 +26,6 @@ if (!empty($name)) {
 
     $bankConfig = $banks[$name];
     error_log("Using bank configuration for name: {$name}");
-    error_log(print_r($bankConfig, true));
 
     $client_id = $bankConfig['client_id'] ?? null;
     $clientSecret = $bankConfig['client_secret'] ?? null;
@@ -76,7 +75,7 @@ $apiContext = new \PayPal\Rest\ApiContext(
         $bankConfig['client_secret']  // Replace with your PayPal Client Secret
     )
 );
-$apiContext->setConfig(['mode' => 'sanbox']);
+   $apiContext->setConfig(['mode' => 'live']);
 
 
 $func = isset($_GET['func']) ? trim($_GET['func']) : '';
@@ -84,7 +83,7 @@ $func = isset($_GET['func']) ? trim($_GET['func']) : '';
 
 function get_paypal_access_token($client_id, $clientSecret)
 {
-    $url = "https://api.sandbox.paypal.com/v1/oauth2/token";
+    $url = "https://api.paypal.com/v1/oauth2/token";
     $headers = [
         "Authorization: Basic " . base64_encode("$client_id:$clientSecret"),
         "Content-Type: application/x-www-form-urlencoded"
@@ -240,7 +239,7 @@ class PaypalApiFunction
     }
     private function get_paypal_access_token($client_id, $clientSecret)
     {
-        $url = "https://api.sandbox.paypal.com/v1/oauth2/token";
+        $url = "https://api.paypal.com/v1/oauth2/token";
         $headers = [
             "Authorization: Basic " . base64_encode("$client_id:$clientSecret"),
             "Content-Type: application/x-www-form-urlencoded"
@@ -347,7 +346,7 @@ class PaypalApiFunction
     // Lấy chi tiết plan từ PayPal API
     private function getPlanDetailsFromPayPal($plan_id, $accessToken)
     {
-        $url = "https://api.sandbox.paypal.com/v1/billing/plans/{$plan_id}";
+        $url = "https://api.paypal.com/v1/billing/plans/{$plan_id}";
         $headers = [
             "Authorization: Bearer $accessToken",
             "Content-Type: application/json"
@@ -463,16 +462,35 @@ class PaypalApiFunction
         $subcrscription_json = json_encode($data);
 
 
+        $banks_alis = $this->banks[$this->name] ?? null;
+        if (!$banks_alis) {
+            error_log("[ERROR] Bank configuration not found for: " . $this->name);
+            return;
+        }
+        $app_product = null;
+        $plan_alias = null;
+
+        foreach ($banks_alis['product_ids'] as $app => $plans) {
+            foreach ($plans as $alias => $planId) {
+                if ($planId === $plan) {
+                    $plan_alias = $alias;
+                    $app_product = $app;
+                    error_log("[INFO] Found Plan Alias: $plan_alias, App Product: $app_product");
+                    break 2;
+                }
+            }
+        }
+
         $stmt = $this->connection->prepare("INSERT INTO `subscriptions` (`subscription_id`, `app_name` , `status`, `current_period_start`, `create_time`, `plan`, `subscription_json`, `bank_name`) VALUES (:subscription_id, :app_name, :status, :current_period_start, :create_time, :plan, :subscription_json, :bank_name)");
         $stmt->execute([
             ':subscription_id' => $subscription_id,
-            ':app_name' => $appName,
+            ':app_name' => $app_product,
             ':status' => $status,
             ':current_period_start' => $current_period_start,
             ':create_time' => $create_time,
             ':plan' => $plan,
             ':subscription_json' => $subcrscription_json,
-            ':bank_name' => $bankName,
+            ':bank_name' => 'Paypal',
 
         ]);
     }
@@ -489,9 +507,38 @@ class PaypalApiFunction
         $customer_email = $subscription['customer_email'];
         $customer_name = $subscription['customer_email'];
         $current_period_end = $subscription['current_period_end'];
+        error_log('BankConfig for name: ' . print_r($data, true));
 
         $plan = $subscription['plan'];
-        $plan_alias = array_search($plan, $this->plans);
+
+        $banks_alis = $this->banks[$this->name] ?? null;
+        if (!$banks_alis) {
+            error_log("[ERROR] Bank configuration not found for: " . $this->name);
+            return;
+        }
+
+        $plan_alias = null;
+        $app_product = null;
+
+
+        foreach ($banks_alis['product_ids'] as $app => $plans) {
+            foreach ($plans as $alias => $planId) {
+                if ($planId === $plan) {
+                    $plan_alias = $alias;
+                    $app_product = $app;
+                    error_log("[INFO] Found Plan Alias: $plan_alias, App Product: $app_product");
+                    break 2;
+                }
+            }
+        }
+
+
+        if (!$plan_alias || !$app_product) {
+            error_log("[ERROR] Plan alias or App Product not found for Plan ID: $plan");
+        }
+
+
+    
         $sk_key = $this->client_id;
         $sign_key = $this->clientSecret;
         $date = DateTime::createFromFormat('Y-m-d\TH:i:s.u\Z', $create_time);
@@ -501,26 +548,9 @@ class PaypalApiFunction
         $stmtCheck->execute([':subscription_id' => $subscription_id]);
         $exists = $stmtCheck->fetchColumn();
         if ($exists == 0) {
-            $stmt2 = $this->connection->prepare("INSERT INTO `licensekey` (`status`, `subscription_id`, `license_key`, `send`, `plan`, `plan_alias`, `sk_key`, `sign_key`, `created_at`, `current_period_end`) VALUES ( :status, :subscription_id, :license_key, :send, :plan, :plan_alias, :sk_key, :sign_key, :created_at, :current_period_end)");
-            $stmt2->execute([
-                ':subscription_id' => $subscription_id,
-                ':license_key' => $licenseKey,
-                ':status' => 'active',
-                ':send' => 'not',
-                ':plan' => $plan,
-                ':plan_alias' => $plan_alias,
-                ':sk_key' => $sk_key,
-                ':sign_key' => $sign_key,
-                ':created_at' => $formattedDateCreate_time,
-                ':current_period_end' => $current_period_end,
-            ]);
-        } else {
-            // Gia hạn
             $current_period_end_date = new DateTime($current_period_end); // Ngày kết thúc hiện tại
-
-
             error_log($plan);
-            $url = "https://api.sandbox.paypal.com/v1/billing/plans/{$plan}";
+            $url = "https://api.paypal.com/v1/billing/plans/{$plan}";
             $headers = [
                 "Authorization: Bearer $access_token",
                 "Content-Type: application/json"
@@ -540,10 +570,59 @@ class PaypalApiFunction
 
             curl_close($ch);
             $planDetails = json_decode($response, true);
-            $logContent = "planDetails:\n"
-                . "Invoice ID: " . print_r($planDetails, true) . "\n";
+           
 
-            file_put_contents('log/handlePaymentCompleted.log', $logContent, FILE_APPEND);
+            $frequency = $planDetails['billing_cycles'][0]['frequency'];
+
+            if (isset($frequency['interval_unit']) && $frequency['interval_unit'] == 'MONTH') {
+                $current_period_end_date->modify('+' . $frequency['interval_count'] . ' month');
+            } elseif (isset($frequency['interval_unit']) && $frequency['interval_unit'] == 'DAY') {
+                $current_period_end_date->modify('+' . $frequency['interval_count'] . ' day');
+            }
+
+
+
+            $new_period_end = $current_period_end_date->format('Y-m-d H:i:s');
+            $stmt2 = $this->connection->prepare("INSERT INTO `licensekey` (`status`, `subscription_id`, `license_key`, `send`, `plan`, `plan_alias`, `sk_key`, `sign_key`, `created_at`, `current_period_end`) VALUES ( :status, :subscription_id, :license_key, :send, :plan, :plan_alias, :sk_key, :sign_key, :created_at, :current_period_end)");
+            $stmt2->execute([
+                ':subscription_id' => $subscription_id,
+                ':license_key' => $licenseKey,
+                ':status' => 'active',
+                ':send' => 'not',
+                ':plan' => $plan,
+                ':plan_alias' => $plan_alias,
+                ':sk_key' => $sk_key,
+                ':sign_key' => $sign_key,
+                ':created_at' => $formattedDateCreate_time,
+                ':current_period_end' => $new_period_end,
+            ]);
+        } else {
+            // Gia hạn
+            $current_period_end_date = new DateTime($current_period_end); // Ngày kết thúc hiện tại
+
+
+            error_log($plan);
+            $url = "https://api.paypal.com/v1/billing/plans/{$plan}";
+            $headers = [
+                "Authorization: Bearer $access_token",
+                "Content-Type: application/json"
+            ];
+
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $response = curl_exec($ch);
+
+            if ($response === false) {
+                $error = curl_error($ch);
+                error_log("Error fetching plan details: $error");
+                curl_close($ch);
+                return;
+            }
+
+            curl_close($ch);
+            $planDetails = json_decode($response, true);
+            
             $frequency = $planDetails['billing_cycles'][0]['frequency'];
 
             if (isset($frequency['interval_unit']) && $frequency['interval_unit'] == 'MONTH') {
@@ -603,7 +682,7 @@ class PaypalApiFunction
         $stmt->execute([':subscription_id' => $subscription_id]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($this->app_name == 'vidcombo') {
-            Common::sendSuccessEmail($customer_email, $customer_name, $amount_due, $invoiced_date);
+            Common::sendSuccessEmailVidcombo($customer_email, $customer_name, $amount_due, $invoiced_date);
         } else {
             Common::sendSuccessEmailVidobo($customer_email, $customer_name, $amount_due, $invoiced_date);
         }
@@ -636,13 +715,36 @@ class PaypalApiFunction
     }
     function handleSubscriptionUpdate($data, $access_token)
     {
-        $logContent = "Webhook event received:\n" . print_r($data, true) . "\n\n";
-        file_put_contents('log/handleSubscriptionUpdate.log', $logContent, FILE_APPEND);
 
         $subscription_id = $data['resource']['id'];
         $plan = $data['resource']['plan_id'];
-        error_log('end' . $subscription_id);
-        $plan_alias = array_search($plan, $this->plans);
+        
+        
+        $banks_alis = $this->banks[$this->name] ?? null;
+        if (!$banks_alis) {
+            error_log("[ERROR] Bank configuration not found for: " . $this->name);
+            return;
+        }
+
+        $plan_alias = null;
+        $app_product = null;
+
+
+        foreach ($banks_alis['product_ids'] as $app => $plans) {
+            foreach ($plans as $alias => $planId) {
+                if ($planId === $plan) {
+                    $plan_alias = $alias;
+                    $app_product = $app;
+                    error_log("[INFO] Found Plan Alias: $plan_alias, App Product: $app_product");
+                    break 2;
+                }
+            }
+        }
+
+
+        if (!$plan_alias || !$app_product) {
+            error_log("[ERROR] Plan alias or App Product not found for Plan ID: $plan");
+        }
 
         $stmtUpdate = $this->connection->prepare("UPDATE `subscriptions` SET `plan` = :plan WHERE `subscription_id` = :subscription_id");
         $stmtUpdate->execute([
@@ -1243,7 +1345,7 @@ class PaypalApiFunction
         }
 
         // Set the cancellation URL with the correct subscription ID
-        $url = "https://api.sandbox.paypal.com/v1/billing/subscriptions/{$subscriptionId}/cancel";
+        $url = "https://api.paypal.com/v1/billing/subscriptions/{$subscriptionId}/cancel";
 
         // Headers for the API request
         $headers = [
@@ -1294,7 +1396,7 @@ class PaypalApiFunction
     function listSubscriptions($accessToken): void
     {
 
-        $url = "https://api.sandbox.paypal.com/v1/billing/subscriptions";
+        $url = "https://api.paypal.com/v1/billing/subscriptions";
         $headers = [
             "Authorization: Bearer $accessToken",
             "Content-Type: application/json"

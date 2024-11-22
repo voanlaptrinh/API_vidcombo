@@ -152,20 +152,20 @@ class Common
     }
     //Gửi license key
 
-    public static function sendLicenseKeyEmail($customer_email, $customer_name, $licenseKey)
+    public static function sendLicenseKey($customer_email, $customer_name, $licenseKey)
     {
         $mail = new PHPMailer(true);
         // Server settings
         $mail->isSMTP();
         $mail->Host       = 'smtp.gmail.com';  // Use the correct SMTP server
         $mail->SMTPAuth   = true;
-        $mail->Username   = 'vidcombo.com@gmail.com';  // Your Gmail address
-        $mail->Password   = 'fyebyrtcnehwravx';  // Your Gmail password or app-specific password
+        $mail->Username   = 'thanbatbai3092002@gmail.com';  // Your Gmail address
+        $mail->Password   = 'etejnwheciweprdo';  // Your Gmail password or app-specific password
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port       = 587;  // TCP port to connect to
 
         // Recipients
-        $mail->setFrom('vidcombo.com@gmail.com', 'Vidcombo');
+        $mail->setFrom('thanbatbai3092002@gmail.com', 'Vidcombo');
         $mail->addAddress($customer_email);
 
         // Content
@@ -187,8 +187,8 @@ class Common
             // Handle errors
             return false;
         }
-    }
-    public static function sendSuccessEmail($customer_email, $customer_name, $amount_due, $invoiced_date)
+    } 
+    public static function sendSuccessEmailVidcombo($customer_email, $customer_name, $amount_due, $invoiced_date)
     {
 
         $mail = new PHPMailer(true);
@@ -196,13 +196,13 @@ class Common
         $mail->isSMTP();
         $mail->Host       = 'smtp.gmail.com';  // Use the correct SMTP server
         $mail->SMTPAuth   = true;
-        $mail->Username   = 'vidcombo.com@gmail.com';  // Your Gmail address
-        $mail->Password   = 'fyebyrtcnehwravx';  // Your Gmail password or app-specific password
+        $mail->Username   = 'thanbatbai3092002@gmail.com';  // Your Gmail address
+        $mail->Password   = 'etejnwheciweprdo';  // Your Gmail password or app-specific password
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port       = 587;  // TCP port to connect to
 
         // Recipients
-        $mail->setFrom('vidcombo.com@gmail.com', 'Vidcombo');
+        $mail->setFrom('thanbatbai3092002@gmail.com', 'Vidcombo');
         $mail->addAddress($customer_email);
 
         // Content
@@ -238,13 +238,13 @@ class Common
         $mail->isSMTP();
         $mail->Host       = 'smtp.gmail.com';  // Use the correct SMTP server
         $mail->SMTPAuth   = true;
-        $mail->Username   = 'vidobo.com@gmail.com';  // Your Gmail address
-        $mail->Password   = 'lwfaeqipjiwgycuu';  // Your Gmail password or app-specific password
+        $mail->Username   = 'thanbatbai3092002@gmail.com';  // Your Gmail address
+        $mail->Password   = 'etejnwheciweprdo';  // Your Gmail password or app-specific password
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port       = 587;  // TCP port to connect to
 
         // Recipients
-        $mail->setFrom('vidobo.com@gmail.com', 'Vidobo');
+        $mail->setFrom('thanbatbai3092002@gmail.com', 'Vidobo');
         $mail->addAddress($customer_email);
 
         // Content
@@ -266,7 +266,8 @@ class Common
             // Handle errors
             return false;
         }
-    }    public static function sendSuccessEmailVidobo($customer_email, $customer_name, $amount_due, $invoiced_date)
+    }   
+     public static function sendSuccessEmailVidobo($customer_email, $customer_name, $amount_due, $invoiced_date)
     {
 
         $mail = new PHPMailer(true);
@@ -274,13 +275,13 @@ class Common
         $mail->isSMTP();
         $mail->Host       = 'smtp.gmail.com';  // Use the correct SMTP server
         $mail->SMTPAuth   = true;
-        $mail->Username   = 'vidobo.com@gmail.com';  // Your Gmail address
-        $mail->Password   = 'lwfaeqipjiwgycuu';  // Your Gmail password or app-specific password
+        $mail->Username   = 'thanbatbai3092002@gmail.com';  // Your Gmail address
+        $mail->Password   = 'etejnwheciweprdo';  // Your Gmail password or app-specific password
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port       = 587;  // TCP port to connect to
 
         // Recipients
-        $mail->setFrom('vidobo.com@gmail.com', 'Vidobo');
+        $mail->setFrom('thanbatbai3092002@gmail.com', 'Vidobo');
         $mail->addAddress($customer_email);
 
         // Content

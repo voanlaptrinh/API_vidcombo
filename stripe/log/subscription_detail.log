@@ -1,0 +1,784 @@
+Webhook event received:
+Stripe\Checkout\Session Object
+(
+    [id] => cs_test_a195pByCHFyB7EAtRjdpfvixO5nYBdbrU6ZZOS2wHUinVBZ6HIi17VJ2C0
+    [object] => checkout.session
+    [adaptive_pricing] => 
+    [after_expiration] => 
+    [allow_promotion_codes] => 
+    [amount_subtotal] => 2934
+    [amount_total] => 2934
+    [automatic_tax] => Stripe\StripeObject Object
+        (
+            [enabled] => 
+            [liability] => 
+            [status] => 
+        )
+
+    [billing_address_collection] => 
+    [cancel_url] => https://www.vidcombo.com/
+    [client_reference_id] => 
+    [client_secret] => 
+    [consent] => 
+    [consent_collection] => 
+    [created] => 1732249791
+    [currency] => usd
+    [currency_conversion] => 
+    [custom_fields] => Array
+        (
+        )
+
+    [custom_text] => Stripe\StripeObject Object
+        (
+            [after_submit] => 
+            [shipping_address] => 
+            [submit] => 
+            [terms_of_service_acceptance] => 
+        )
+
+    [customer] => 
+    [customer_creation] => always
+    [customer_details] => 
+    [customer_email] => 
+    [expires_at] => 1732336190
+    [invoice] => 
+    [invoice_creation] => 
+    [livemode] => 
+    [locale] => 
+    [metadata] => Stripe\StripeObject Object
+        (
+        )
+
+    [mode] => subscription
+    [payment_intent] => 
+    [payment_link] => 
+    [payment_method_collection] => always
+    [payment_method_configuration_details] => 
+    [payment_method_options] => Stripe\StripeObject Object
+        (
+            [card] => Stripe\StripeObject Object
+                (
+                    [request_three_d_secure] => automatic
+                )
+
+        )
+
+    [payment_method_types] => Array
+        (
+            [0] => card
+        )
+
+    [payment_status] => unpaid
+    [phone_number_collection] => Stripe\StripeObject Object
+        (
+            [enabled] => 
+        )
+
+    [recovered_from] => 
+    [saved_payment_method_options] => Stripe\StripeObject Object
+        (
+            [allow_redisplay_filters] => Array
+                (
+                    [0] => always
+                )
+
+            [payment_method_remove] => 
+            [payment_method_save] => 
+        )
+
+    [setup_intent] => 
+    [shipping_address_collection] => 
+    [shipping_cost] => 
+    [shipping_details] => 
+    [shipping_options] => Array
+        (
+        )
+
+    [status] => open
+    [submit_type] => 
+    [subscription] => 
+    [success_url] => https://www.vidcombo.com/success?session_id={CHECKOUT_SESSION_ID}
+    [total_details] => Stripe\StripeObject Object
+        (
+            [amount_discount] => 0
+            [amount_shipping] => 0
+            [amount_tax] => 0
+        )
+
+    [ui_mode] => hosted
+    [url] => https://checkout.stripe.com/c/pay/cs_test_a195pByCHFyB7EAtRjdpfvixO5nYBdbrU6ZZOS2wHUinVBZ6HIi17VJ2C0#fidkdWxOYHwnPyd1blpxYHZxWjA0VEtVRDdOU2RGQXB3UENhNzA3NUQya308RENAX31IaWhDb11LTU9Hb2tDXWB3N0RSQEtUa2tTSX9pSzZrYEdyaEl1SUw0Tzx0ajJENm9sQj1LZ29iYE0yNTVsT2tGclI8VScpJ2N3amhWYHdzYHcnP3F3cGApJ2lkfGpwcVF8dWAnPyd2bGtiaWBabHFgaCcpJ2BrZGdpYFVpZGZgbWppYWB3dic%2FcXdwYHgl
+)
+
+
+Webhook event received:
+Stripe\Checkout\Session Object
+(
+    [id] => cs_test_a1zecjV9STvWBpKKxFjJLy0985pkEhwz4zWewWnqMJG4lr3cUXdcPgoMZo
+    [object] => checkout.session
+    [adaptive_pricing] => 
+    [after_expiration] => 
+    [allow_promotion_codes] => 
+    [amount_subtotal] => 2934
+    [amount_total] => 2934
+    [automatic_tax] => Stripe\StripeObject Object
+        (
+            [enabled] => 
+            [liability] => 
+            [status] => 
+        )
+
+    [billing_address_collection] => 
+    [cancel_url] => https://www.vidcombo.com/
+    [client_reference_id] => 
+    [client_secret] => 
+    [consent] => 
+    [consent_collection] => 
+    [created] => 1732249928
+    [currency] => usd
+    [currency_conversion] => 
+    [custom_fields] => Array
+        (
+        )
+
+    [custom_text] => Stripe\StripeObject Object
+        (
+            [after_submit] => 
+            [shipping_address] => 
+            [submit] => 
+            [terms_of_service_acceptance] => 
+        )
+
+    [customer] => 
+    [customer_creation] => always
+    [customer_details] => 
+    [customer_email] => 
+    [expires_at] => 1732336328
+    [invoice] => 
+    [invoice_creation] => 
+    [livemode] => 
+    [locale] => 
+    [metadata] => Stripe\StripeObject Object
+        (
+        )
+
+    [mode] => subscription
+    [payment_intent] => 
+    [payment_link] => 
+    [payment_method_collection] => always
+    [payment_method_configuration_details] => 
+    [payment_method_options] => Stripe\StripeObject Object
+        (
+            [card] => Stripe\StripeObject Object
+                (
+                    [request_three_d_secure] => automatic
+                )
+
+        )
+
+    [payment_method_types] => Array
+        (
+            [0] => card
+        )
+
+    [payment_status] => unpaid
+    [phone_number_collection] => Stripe\StripeObject Object
+        (
+            [enabled] => 
+        )
+
+    [recovered_from] => 
+    [saved_payment_method_options] => Stripe\StripeObject Object
+        (
+            [allow_redisplay_filters] => Array
+                (
+                    [0] => always
+                )
+
+            [payment_method_remove] => 
+            [payment_method_save] => 
+        )
+
+    [setup_intent] => 
+    [shipping_address_collection] => 
+    [shipping_cost] => 
+    [shipping_details] => 
+    [shipping_options] => Array
+        (
+        )
+
+    [status] => open
+    [submit_type] => 
+    [subscription] => 
+    [success_url] => https://www.vidcombo.com/success?session_id={CHECKOUT_SESSION_ID}
+    [total_details] => Stripe\StripeObject Object
+        (
+            [amount_discount] => 0
+            [amount_shipping] => 0
+            [amount_tax] => 0
+        )
+
+    [ui_mode] => hosted
+    [url] => https://checkout.stripe.com/c/pay/cs_test_a1zecjV9STvWBpKKxFjJLy0985pkEhwz4zWewWnqMJG4lr3cUXdcPgoMZo#fidkdWxOYHwnPyd1blpxYHZxWjA0VEtVRDdOU2RGQXB3UENhNzA3NUQya308RENAX31IaWhDb11LTU9Hb2tDXWB3N0RSQEtUa2tTSX9pSzZrYEdyaEl1SUw0Tzx0ajJENm9sQj1LZ29iYE0yNTVsT2tGclI8VScpJ2N3amhWYHdzYHcnP3F3cGApJ2lkfGpwcVF8dWAnPyd2bGtiaWBabHFgaCcpJ2BrZGdpYFVpZGZgbWppYWB3dic%2FcXdwYHgl
+)
+
+
+Webhook event received:
+Stripe\Checkout\Session Object
+(
+    [id] => cs_test_a1fioHjnTNtf3ARlCSBlIEQBwO2BmDGyOSU9x9NYK7Nq1AOghHLdMzYSKY
+    [object] => checkout.session
+    [adaptive_pricing] => 
+    [after_expiration] => 
+    [allow_promotion_codes] => 
+    [amount_subtotal] => 2934
+    [amount_total] => 2934
+    [automatic_tax] => Stripe\StripeObject Object
+        (
+            [enabled] => 
+            [liability] => 
+            [status] => 
+        )
+
+    [billing_address_collection] => 
+    [cancel_url] => https://www.vidcombo.com/
+    [client_reference_id] => 
+    [client_secret] => 
+    [consent] => 
+    [consent_collection] => 
+    [created] => 1732249983
+    [currency] => usd
+    [currency_conversion] => 
+    [custom_fields] => Array
+        (
+        )
+
+    [custom_text] => Stripe\StripeObject Object
+        (
+            [after_submit] => 
+            [shipping_address] => 
+            [submit] => 
+            [terms_of_service_acceptance] => 
+        )
+
+    [customer] => 
+    [customer_creation] => always
+    [customer_details] => 
+    [customer_email] => 
+    [expires_at] => 1732336383
+    [invoice] => 
+    [invoice_creation] => 
+    [livemode] => 
+    [locale] => 
+    [metadata] => Stripe\StripeObject Object
+        (
+        )
+
+    [mode] => subscription
+    [payment_intent] => 
+    [payment_link] => 
+    [payment_method_collection] => always
+    [payment_method_configuration_details] => 
+    [payment_method_options] => Stripe\StripeObject Object
+        (
+            [card] => Stripe\StripeObject Object
+                (
+                    [request_three_d_secure] => automatic
+                )
+
+        )
+
+    [payment_method_types] => Array
+        (
+            [0] => card
+        )
+
+    [payment_status] => unpaid
+    [phone_number_collection] => Stripe\StripeObject Object
+        (
+            [enabled] => 
+        )
+
+    [recovered_from] => 
+    [saved_payment_method_options] => Stripe\StripeObject Object
+        (
+            [allow_redisplay_filters] => Array
+                (
+                    [0] => always
+                )
+
+            [payment_method_remove] => 
+            [payment_method_save] => 
+        )
+
+    [setup_intent] => 
+    [shipping_address_collection] => 
+    [shipping_cost] => 
+    [shipping_details] => 
+    [shipping_options] => Array
+        (
+        )
+
+    [status] => open
+    [submit_type] => 
+    [subscription] => 
+    [success_url] => https://www.vidcombo.com/success?session_id={CHECKOUT_SESSION_ID}
+    [total_details] => Stripe\StripeObject Object
+        (
+            [amount_discount] => 0
+            [amount_shipping] => 0
+            [amount_tax] => 0
+        )
+
+    [ui_mode] => hosted
+    [url] => https://checkout.stripe.com/c/pay/cs_test_a1fioHjnTNtf3ARlCSBlIEQBwO2BmDGyOSU9x9NYK7Nq1AOghHLdMzYSKY#fidkdWxOYHwnPyd1blpxYHZxWjA0VEtVRDdOU2RGQXB3UENhNzA3NUQya308RENAX31IaWhDb11LTU9Hb2tDXWB3N0RSQEtUa2tTSX9pSzZrYEdyaEl1SUw0Tzx0ajJENm9sQj1LZ29iYE0yNTVsT2tGclI8VScpJ2N3amhWYHdzYHcnP3F3cGApJ2lkfGpwcVF8dWAnPyd2bGtiaWBabHFgaCcpJ2BrZGdpYFVpZGZgbWppYWB3dic%2FcXdwYHgl
+)
+
+
+Webhook event received:
+Stripe\Checkout\Session Object
+(
+    [id] => cs_test_a1VrDgDhHl7rFQ4M97IO4K77PvRLQtB8tPu6rkDSoPJxqkON2YaARhwTWa
+    [object] => checkout.session
+    [adaptive_pricing] => 
+    [after_expiration] => 
+    [allow_promotion_codes] => 
+    [amount_subtotal] => 2934
+    [amount_total] => 2934
+    [automatic_tax] => Stripe\StripeObject Object
+        (
+            [enabled] => 
+            [liability] => 
+            [status] => 
+        )
+
+    [billing_address_collection] => 
+    [cancel_url] => https://www.vidcombo.com/
+    [client_reference_id] => 
+    [client_secret] => 
+    [consent] => 
+    [consent_collection] => 
+    [created] => 1732250006
+    [currency] => usd
+    [currency_conversion] => 
+    [custom_fields] => Array
+        (
+        )
+
+    [custom_text] => Stripe\StripeObject Object
+        (
+            [after_submit] => 
+            [shipping_address] => 
+            [submit] => 
+            [terms_of_service_acceptance] => 
+        )
+
+    [customer] => 
+    [customer_creation] => always
+    [customer_details] => 
+    [customer_email] => 
+    [expires_at] => 1732336406
+    [invoice] => 
+    [invoice_creation] => 
+    [livemode] => 
+    [locale] => 
+    [metadata] => Stripe\StripeObject Object
+        (
+        )
+
+    [mode] => subscription
+    [payment_intent] => 
+    [payment_link] => 
+    [payment_method_collection] => always
+    [payment_method_configuration_details] => 
+    [payment_method_options] => Stripe\StripeObject Object
+        (
+            [card] => Stripe\StripeObject Object
+                (
+                    [request_three_d_secure] => automatic
+                )
+
+        )
+
+    [payment_method_types] => Array
+        (
+            [0] => card
+        )
+
+    [payment_status] => unpaid
+    [phone_number_collection] => Stripe\StripeObject Object
+        (
+            [enabled] => 
+        )
+
+    [recovered_from] => 
+    [saved_payment_method_options] => Stripe\StripeObject Object
+        (
+            [allow_redisplay_filters] => Array
+                (
+                    [0] => always
+                )
+
+            [payment_method_remove] => 
+            [payment_method_save] => 
+        )
+
+    [setup_intent] => 
+    [shipping_address_collection] => 
+    [shipping_cost] => 
+    [shipping_details] => 
+    [shipping_options] => Array
+        (
+        )
+
+    [status] => open
+    [submit_type] => 
+    [subscription] => 
+    [success_url] => https://www.vidcombo.com/success?session_id={CHECKOUT_SESSION_ID}
+    [total_details] => Stripe\StripeObject Object
+        (
+            [amount_discount] => 0
+            [amount_shipping] => 0
+            [amount_tax] => 0
+        )
+
+    [ui_mode] => hosted
+    [url] => https://checkout.stripe.com/c/pay/cs_test_a1VrDgDhHl7rFQ4M97IO4K77PvRLQtB8tPu6rkDSoPJxqkON2YaARhwTWa#fidkdWxOYHwnPyd1blpxYHZxWjA0VEtVRDdOU2RGQXB3UENhNzA3NUQya308RENAX31IaWhDb11LTU9Hb2tDXWB3N0RSQEtUa2tTSX9pSzZrYEdyaEl1SUw0Tzx0ajJENm9sQj1LZ29iYE0yNTVsT2tGclI8VScpJ2N3amhWYHdzYHcnP3F3cGApJ2lkfGpwcVF8dWAnPyd2bGtiaWBabHFgaCcpJ2BrZGdpYFVpZGZgbWppYWB3dic%2FcXdwYHgl
+)
+
+
+Webhook event received:
+Stripe\Checkout\Session Object
+(
+    [id] => cs_test_a12sU8uLZBJNZaew1X11d0IZ2NcSvCUBTtojXIvlM3vB8KzaG0xmGf2sZS
+    [object] => checkout.session
+    [adaptive_pricing] => 
+    [after_expiration] => 
+    [allow_promotion_codes] => 
+    [amount_subtotal] => 2934
+    [amount_total] => 2934
+    [automatic_tax] => Stripe\StripeObject Object
+        (
+            [enabled] => 
+            [liability] => 
+            [status] => 
+        )
+
+    [billing_address_collection] => 
+    [cancel_url] => https://www.vidcombo.com/
+    [client_reference_id] => 
+    [client_secret] => 
+    [consent] => 
+    [consent_collection] => 
+    [created] => 1732250064
+    [currency] => usd
+    [currency_conversion] => 
+    [custom_fields] => Array
+        (
+        )
+
+    [custom_text] => Stripe\StripeObject Object
+        (
+            [after_submit] => 
+            [shipping_address] => 
+            [submit] => 
+            [terms_of_service_acceptance] => 
+        )
+
+    [customer] => 
+    [customer_creation] => always
+    [customer_details] => 
+    [customer_email] => 
+    [expires_at] => 1732336464
+    [invoice] => 
+    [invoice_creation] => 
+    [livemode] => 
+    [locale] => 
+    [metadata] => Stripe\StripeObject Object
+        (
+        )
+
+    [mode] => subscription
+    [payment_intent] => 
+    [payment_link] => 
+    [payment_method_collection] => always
+    [payment_method_configuration_details] => 
+    [payment_method_options] => Stripe\StripeObject Object
+        (
+            [card] => Stripe\StripeObject Object
+                (
+                    [request_three_d_secure] => automatic
+                )
+
+        )
+
+    [payment_method_types] => Array
+        (
+            [0] => card
+        )
+
+    [payment_status] => unpaid
+    [phone_number_collection] => Stripe\StripeObject Object
+        (
+            [enabled] => 
+        )
+
+    [recovered_from] => 
+    [saved_payment_method_options] => Stripe\StripeObject Object
+        (
+            [allow_redisplay_filters] => Array
+                (
+                    [0] => always
+                )
+
+            [payment_method_remove] => 
+            [payment_method_save] => 
+        )
+
+    [setup_intent] => 
+    [shipping_address_collection] => 
+    [shipping_cost] => 
+    [shipping_details] => 
+    [shipping_options] => Array
+        (
+        )
+
+    [status] => open
+    [submit_type] => 
+    [subscription] => 
+    [success_url] => https://www.vidcombo.com/success?session_id={CHECKOUT_SESSION_ID}
+    [total_details] => Stripe\StripeObject Object
+        (
+            [amount_discount] => 0
+            [amount_shipping] => 0
+            [amount_tax] => 0
+        )
+
+    [ui_mode] => hosted
+    [url] => https://checkout.stripe.com/c/pay/cs_test_a12sU8uLZBJNZaew1X11d0IZ2NcSvCUBTtojXIvlM3vB8KzaG0xmGf2sZS#fidkdWxOYHwnPyd1blpxYHZxWjA0VEtVRDdOU2RGQXB3UENhNzA3NUQya308RENAX31IaWhDb11LTU9Hb2tDXWB3N0RSQEtUa2tTSX9pSzZrYEdyaEl1SUw0Tzx0ajJENm9sQj1LZ29iYE0yNTVsT2tGclI8VScpJ2N3amhWYHdzYHcnP3F3cGApJ2lkfGpwcVF8dWAnPyd2bGtiaWBabHFgaCcpJ2BrZGdpYFVpZGZgbWppYWB3dic%2FcXdwYHgl
+)
+
+
+Webhook event received:
+Stripe\Checkout\Session Object
+(
+    [id] => cs_test_a1qewX6mEPCqehSgebfmBPr1hmm2Pp1E8hMbzKRDayQUSpwXNtdTAiSZVv
+    [object] => checkout.session
+    [adaptive_pricing] => 
+    [after_expiration] => 
+    [allow_promotion_codes] => 
+    [amount_subtotal] => 2934
+    [amount_total] => 2934
+    [automatic_tax] => Stripe\StripeObject Object
+        (
+            [enabled] => 
+            [liability] => 
+            [status] => 
+        )
+
+    [billing_address_collection] => 
+    [cancel_url] => https://www.vidcombo.com/
+    [client_reference_id] => 
+    [client_secret] => 
+    [consent] => 
+    [consent_collection] => 
+    [created] => 1732250110
+    [currency] => usd
+    [currency_conversion] => 
+    [custom_fields] => Array
+        (
+        )
+
+    [custom_text] => Stripe\StripeObject Object
+        (
+            [after_submit] => 
+            [shipping_address] => 
+            [submit] => 
+            [terms_of_service_acceptance] => 
+        )
+
+    [customer] => 
+    [customer_creation] => always
+    [customer_details] => 
+    [customer_email] => 
+    [expires_at] => 1732336509
+    [invoice] => 
+    [invoice_creation] => 
+    [livemode] => 
+    [locale] => 
+    [metadata] => Stripe\StripeObject Object
+        (
+        )
+
+    [mode] => subscription
+    [payment_intent] => 
+    [payment_link] => 
+    [payment_method_collection] => always
+    [payment_method_configuration_details] => 
+    [payment_method_options] => Stripe\StripeObject Object
+        (
+            [card] => Stripe\StripeObject Object
+                (
+                    [request_three_d_secure] => automatic
+                )
+
+        )
+
+    [payment_method_types] => Array
+        (
+            [0] => card
+        )
+
+    [payment_status] => unpaid
+    [phone_number_collection] => Stripe\StripeObject Object
+        (
+            [enabled] => 
+        )
+
+    [recovered_from] => 
+    [saved_payment_method_options] => Stripe\StripeObject Object
+        (
+            [allow_redisplay_filters] => Array
+                (
+                    [0] => always
+                )
+
+            [payment_method_remove] => 
+            [payment_method_save] => 
+        )
+
+    [setup_intent] => 
+    [shipping_address_collection] => 
+    [shipping_cost] => 
+    [shipping_details] => 
+    [shipping_options] => Array
+        (
+        )
+
+    [status] => open
+    [submit_type] => 
+    [subscription] => 
+    [success_url] => https://www.vidcombo.com/success?session_id={CHECKOUT_SESSION_ID}
+    [total_details] => Stripe\StripeObject Object
+        (
+            [amount_discount] => 0
+            [amount_shipping] => 0
+            [amount_tax] => 0
+        )
+
+    [ui_mode] => hosted
+    [url] => https://checkout.stripe.com/c/pay/cs_test_a1qewX6mEPCqehSgebfmBPr1hmm2Pp1E8hMbzKRDayQUSpwXNtdTAiSZVv#fidkdWxOYHwnPyd1blpxYHZxWjA0VEtVRDdOU2RGQXB3UENhNzA3NUQya308RENAX31IaWhDb11LTU9Hb2tDXWB3N0RSQEtUa2tTSX9pSzZrYEdyaEl1SUw0Tzx0ajJENm9sQj1LZ29iYE0yNTVsT2tGclI8VScpJ2N3amhWYHdzYHcnP3F3cGApJ2lkfGpwcVF8dWAnPyd2bGtiaWBabHFgaCcpJ2BrZGdpYFVpZGZgbWppYWB3dic%2FcXdwYHgl
+)
+
+
+Webhook event received:
+Stripe\Checkout\Session Object
+(
+    [id] => cs_test_a16sJZiKpB6j64nwHa5yyLPls7MOK5yEjDGJBa1LKe9cfzhuomZBGs7fYF
+    [object] => checkout.session
+    [adaptive_pricing] => 
+    [after_expiration] => 
+    [allow_promotion_codes] => 
+    [amount_subtotal] => 2934
+    [amount_total] => 2934
+    [automatic_tax] => Stripe\StripeObject Object
+        (
+            [enabled] => 
+            [liability] => 
+            [status] => 
+        )
+
+    [billing_address_collection] => 
+    [cancel_url] => https://www.vidcombo.com/
+    [client_reference_id] => 
+    [client_secret] => 
+    [consent] => 
+    [consent_collection] => 
+    [created] => 1732250478
+    [currency] => usd
+    [currency_conversion] => 
+    [custom_fields] => Array
+        (
+        )
+
+    [custom_text] => Stripe\StripeObject Object
+        (
+            [after_submit] => 
+            [shipping_address] => 
+            [submit] => 
+            [terms_of_service_acceptance] => 
+        )
+
+    [customer] => 
+    [customer_creation] => always
+    [customer_details] => 
+    [customer_email] => 
+    [expires_at] => 1732336877
+    [invoice] => 
+    [invoice_creation] => 
+    [livemode] => 
+    [locale] => 
+    [metadata] => Stripe\StripeObject Object
+        (
+        )
+
+    [mode] => subscription
+    [payment_intent] => 
+    [payment_link] => 
+    [payment_method_collection] => always
+    [payment_method_configuration_details] => 
+    [payment_method_options] => Stripe\StripeObject Object
+        (
+            [card] => Stripe\StripeObject Object
+                (
+                    [request_three_d_secure] => automatic
+                )
+
+        )
+
+    [payment_method_types] => Array
+        (
+            [0] => card
+        )
+
+    [payment_status] => unpaid
+    [phone_number_collection] => Stripe\StripeObject Object
+        (
+            [enabled] => 
+        )
+
+    [recovered_from] => 
+    [saved_payment_method_options] => Stripe\StripeObject Object
+        (
+            [allow_redisplay_filters] => Array
+                (
+                    [0] => always
+                )
+
+            [payment_method_remove] => 
+            [payment_method_save] => 
+        )
+
+    [setup_intent] => 
+    [shipping_address_collection] => 
+    [shipping_cost] => 
+    [shipping_details] => 
+    [shipping_options] => Array
+        (
+        )
+
+    [status] => open
+    [submit_type] => 
+    [subscription] => 
+    [success_url] => https://www.vidcombo.com/success?session_id={CHECKOUT_SESSION_ID}
+    [total_details] => Stripe\StripeObject Object
+        (
+            [amount_discount] => 0
+            [amount_shipping] => 0
+            [amount_tax] => 0
+        )
+
+    [ui_mode] => hosted
+    [url] => https://checkout.stripe.com/c/pay/cs_test_a16sJZiKpB6j64nwHa5yyLPls7MOK5yEjDGJBa1LKe9cfzhuomZBGs7fYF#fidkdWxOYHwnPyd1blpxYHZxWjA0VEtVRDdOU2RGQXB3UENhNzA3NUQya308RENAX31IaWhDb11LTU9Hb2tDXWB3N0RSQEtUa2tTSX9pSzZrYEdyaEl1SUw0Tzx0ajJENm9sQj1LZ29iYE0yNTVsT2tGclI8VScpJ2N3amhWYHdzYHcnP3F3cGApJ2lkfGpwcVF8dWAnPyd2bGtiaWBabHFgaCcpJ2BrZGdpYFVpZGZgbWppYWB3dic%2FcXdwYHgl
+)
+
+
