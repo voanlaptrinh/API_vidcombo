@@ -29,7 +29,6 @@ if (!empty($name)) {
 
     $client_id = $bankConfig['client_id'] ?? null;
     $clientSecret = $bankConfig['client_secret'] ?? null;
-
 } else {
     // Nếu `name` không tồn tại, dùng `appName` và `bankName`
     if (!empty($appName)) {
@@ -75,7 +74,7 @@ $apiContext = new \PayPal\Rest\ApiContext(
         $bankConfig['client_secret']  // Replace with your PayPal Client Secret
     )
 );
-   $apiContext->setConfig(['mode' => 'live']);
+$apiContext->setConfig(['mode' => 'sanbox']);
 
 
 $func = isset($_GET['func']) ? trim($_GET['func']) : '';
@@ -203,7 +202,6 @@ class PaypalApiFunction
 
             $bankConfig = $this->banks[$this->name];
             error_log('BankConfig for name: ' . print_r($bankConfig, true));
-           
         } else {
             $appPaypal = $this->apps[$this->appName][$this->bankName];
             $bankConfig = $this->banks[$appPaypal];
@@ -415,10 +413,13 @@ class PaypalApiFunction
         if ($result && isset($result['license_key']) && $result['send'] === 'not') {
             $licenseKey = $result['license_key'];
             error_log("Sending license key to: $customer_email");
-
-            // Gửi license key qua email
-            $send_status = Common::sendLicenseKeyEmail($customer_email, $customer_name, $licenseKey);
-
+            $appNameEmail = $this->getCustomerAppNameBySubscriptionId($subscription_id);
+            if ($appNameEmail == 'vidcombo') {
+                // Gửi license key qua email
+                $send_status = Common::sendLicenseKey($customer_email, $customer_name, $licenseKey);
+            } else {
+                $send_status =  Common::sendLicenseKeyEmailVidobo($customer_email, $customer_name, $licenseKey);
+            }
             if ($send_status) {
                 $this->updateLicenseKeySendStatus($subscription_id, $formatted_period_end);
             }
@@ -446,7 +447,7 @@ class PaypalApiFunction
     //--------- Start funtion webhook --------------/
 
 
-    function handleSubscriptionCreated($data,$bankName, $appName)
+    function handleSubscriptionCreated($data, $bankName, $appName)
     {
         $subscription = $data['resource'];
 
@@ -538,7 +539,7 @@ class PaypalApiFunction
         }
 
 
-    
+
         $sk_key = $this->client_id;
         $sign_key = $this->clientSecret;
         $date = DateTime::createFromFormat('Y-m-d\TH:i:s.u\Z', $create_time);
@@ -570,7 +571,7 @@ class PaypalApiFunction
 
             curl_close($ch);
             $planDetails = json_decode($response, true);
-           
+
 
             $frequency = $planDetails['billing_cycles'][0]['frequency'];
 
@@ -622,7 +623,7 @@ class PaypalApiFunction
 
             curl_close($ch);
             $planDetails = json_decode($response, true);
-            
+
             $frequency = $planDetails['billing_cycles'][0]['frequency'];
 
             if (isset($frequency['interval_unit']) && $frequency['interval_unit'] == 'MONTH') {
@@ -718,8 +719,8 @@ class PaypalApiFunction
 
         $subscription_id = $data['resource']['id'];
         $plan = $data['resource']['plan_id'];
-        
-        
+
+
         $banks_alis = $this->banks[$this->name] ?? null;
         if (!$banks_alis) {
             error_log("[ERROR] Bank configuration not found for: " . $this->name);
@@ -1491,5 +1492,17 @@ class PaypalApiFunction
             'Accept: application/json',
             'Accept-Language: en_US',
         ]);
+    }
+    function getCustomerAppNameBySubscriptionId($subscription_id)
+    {
+        try {
+            $stmt = $this->connection->prepare("SELECT `app_name` FROM `subscriptions` WHERE `subscription_id` = :subscription_id");
+            $stmt->execute([':subscription_id' => $subscription_id]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return isset($result['app_name']) ? $result['app_name'] : null;
+        } catch (PDOException $e) {
+            error_log("Error occurred in getCustomerEmailBySubscriptionId: " . $e->getMessage());
+            return null;
+        }
     }
 }
