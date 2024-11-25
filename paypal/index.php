@@ -4,12 +4,8 @@ require_once '../vendor/autoload.php';
 require_once '../config.php';
 $body = file_get_contents('php://input');
 parse_str($body,  $data);
-// Kiểm tra và lấy app_name từ dữ liệu, nếu không có thì mặc định là 'vidcombo'
-// $appName = isset($data['app_name']) ? $data['app_name'] : 'vidcombo';
-// $name = isset($_GET['name']) ? trim($_GET['name']) : '';
 
-
-
+$config = new Config();
 
 $appName = isset($data['app_name']) ? $data['app_name'] : 'vidcombo';
 $bankName = isset($data['bank_name']) ? $data['bank_name'] : '';
@@ -20,11 +16,11 @@ $name = isset($_GET['name']) ? trim(string: $_GET['name']) : ''; // Default to '
 
 
 if (!empty($name)) {
-    if (!isset($banks[$name])) {
+    if (!isset($config->banks[$name])) {
         throw new Exception("Invalid bank name: {$name}");
     }
 
-    $bankConfig = $banks[$name];
+    $bankConfig = $config->banks[$name];
     error_log("Using bank configuration for name: {$name}");
 
     $client_id = $bankConfig['client_id'] ?? null;
@@ -32,17 +28,17 @@ if (!empty($name)) {
 } else {
     // Nếu `name` không tồn tại, dùng `appName` và `bankName`
     if (!empty($appName)) {
-        if (!isset($apps[$appName])) {
+        if (!isset($config->apps[$appName])) {
             throw new Exception('Invalid app name.');
         }
 
-        $bankKey = $apps[$appName][$bankName] ?? null;
+        $bankKey = $config->apps[$appName][$bankName] ?? null;
 
-        if (!isset($banks[$bankKey])) {
+        if (!isset($config->banks[$bankKey])) {
             throw new Exception("Invalid bank key for app: {$appName} and bank: {$bankName}");
         }
 
-        $bankConfig = $banks[$bankKey];
+        $bankConfig = $config->banks[$bankKey];
         error_log("Using bank configuration for appName: {$appName}, bankName: {$bankName}");
         error_log(print_r($bankConfig, true));
 
@@ -58,13 +54,6 @@ error_log('client_id' . $client_id . '\n' . $clientSecret);
 
 
 
-// $paypalSecret = Common::getPaypalSecrets($appName, $name);
-
-// $client_id = $paypalSecret['client_id'];
-// $clientSecret = $paypalSecret['client_secret'];
-// $webhookId = $paypalSecret['webhook_id'];
-// $app_name = $paypalSecret['app_name'];
-
 // Kiểm tra URL và gọi hàm xử lý tương ứng
 $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $method = $_SERVER['REQUEST_METHOD'];
@@ -74,7 +63,7 @@ $apiContext = new \PayPal\Rest\ApiContext(
         $bankConfig['client_secret']  // Replace with your PayPal Client Secret
     )
 );
-$apiContext->setConfig(['mode' => 'sanbox']);
+$apiContext->setConfig(['mode' => 'live']);
 
 
 $func = isset($_GET['func']) ? trim($_GET['func']) : '';
@@ -102,7 +91,7 @@ function get_paypal_access_token($client_id, $clientSecret)
 }
 $access_token = get_paypal_access_token($client_id, $clientSecret);
 
-$paypal_funtion = new PaypalApiFunction($name, $banks, $appName, $bankName, $apps);
+$paypal_funtion = new PaypalApiFunction($name, $config->banks, $appName, $bankName, $config->apps);
 switch ($func) {
 
     case 'create-checkout-session':
@@ -185,14 +174,7 @@ class PaypalApiFunction
     function init()
     {
 
-        // $paypalSecret = Common::getPaypalSecrets($this->appName, $this->name);
-
         error_log($this->appName);
-
-
-
-        // $this->client_id = $bankConfig['client_id'];
-        // $this->clientSecret = $bankConfig['client_secret'];
 
         if (!empty($this->name)) {
             if (!isset($this->banks[$this->name])) {

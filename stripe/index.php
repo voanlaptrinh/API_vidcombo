@@ -11,19 +11,20 @@ use PHPMailer\PHPMailer\Exception;
 
 $body = file_get_contents('php://input');
 parse_str($body,  $data);
+
 $appName = isset($data['app_name']) ? $data['app_name'] : 'vidcombo';
 $bankName = isset($data['bank_name']) ? $data['bank_name'] : '';
 $license_key = isset($data['license_key']) ? $data['license_key'] : '';
 $name = isset($_GET['name']) ? trim($_GET['name']) : ''; // Default to 'stripe'
 
+$config = new Config();
 
-// Check if the appName exists in the configuration
 if (!empty($name)) {
-    if (!isset($banks[$name])) {
+    if (!isset($config->banks[$name])) {
         throw new Exception("Invalid bank name: {$name}");
     }
 
-    $bankConfig = $banks[$name];
+    $bankConfig = $config->banks[$name];
     error_log("Using bank configuration for name: {$name}");
 
     $client_id = $bankConfig['client_id'] ?? null;
@@ -55,9 +56,9 @@ if (!empty($name)) {
         );
         $apiContext->setConfig(['mode' => 'live']);
     } else {
-        $bankKey = $apps[$appName][$bankName] ?? null;
+        $bankKey = $config->apps[$appName][$bankName] ?? null;
         if ($bankKey != null) {
-            $bankConfig = $banks[$bankKey];
+            $bankConfig = $config->banks[$bankKey];
             $client_id = $bankConfig['client_id'] ?? null;
             $clientSecret = $bankConfig['client_secret'] ?? null;
         }
@@ -68,7 +69,7 @@ $func = isset($_GET['func']) ? trim($_GET['func']) : '';
 
 
 
-$stripe_funtion = new StripeApiFunction($name, $banks, $appName, $bankName, $apps, $license_key);
+$stripe_funtion = new StripeApiFunction($name, $config->banks, $appName, $bankName, $config->apps, $license_key);
 switch ($func) {
     case 'create-checkout-session':
         $stripe_funtion->createCheckoutSession();
