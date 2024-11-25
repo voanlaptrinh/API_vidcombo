@@ -74,12 +74,12 @@ class Config {
     
     public $apps = array(
         'vidcombo' => array(
-            'stripe' => 'stripe2',
+            'stripe' => 'stripe1',
             'paypal' => 'paypal2',
         ),
         'vidobo' => array(
             'stripe' => 'stripe2',
-            'paypal' => 'paypal1',
+            'paypal' => 'paypal2',
         ),
     );
     
