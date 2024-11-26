@@ -1,9 +1,7 @@
 <?php
-require_once 'redis.php';
-ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
-error_reporting(E_ALL);
-date_default_timezone_set('UTC');
+
+namespace App;
+require_once '../vendor/autoload.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 
@@ -14,114 +12,6 @@ class Common
     // // 'plan1' => 'price_1PiultJykwD5LYvpJyb57WJ9',
     // 'plan2' => 'price_1Piun4JykwD5LYvpVkpiWzuR',
     // 'plan3' => 'price_1PiunkJykwD5LYvp0IGdnFUt',
-    static function getDatabaseConnection()
-    {
-        try {
-            $connection = new PDO("mysql:host=localhost; dbname=admin_vidcombo; charset=utf8;", "root", "");
-            // $connection = new PDO("mysql:host=localhost; dbname=vidcombo_db; charset=utf8;", "vidcombo_db_user", "vidcombo_db_pass");
-            $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            return $connection;
-        } catch (PDOException $e) {
-            error_log('Connection failed: ' . $e->getMessage());
-            die('Database connection failed.');
-        }
-    }
-
-
-    static function getStripeSecrets($appName = null, $name = null)
-    {
-        // $redis = new RedisCache('stripe_secrets');
-        // $cache = $redis->getCache();
-        // if ($cache) {
-        // $result = json_decode($cache, true);
-        // } else {
-        if ($appName != null) {
-            $connection = self::getDatabaseConnection();
-            $query = $connection->prepare("SELECT `apiKey`, `endpointSecret`, `plan_jsonId`, `app_name`
-                                             FROM `stripe_secrets` 
-                                            WHERE `status` = :status AND `app_name` = :app_name");
-            $query->execute([
-                ':status' => 'active',
-                ':app_name' => $appName
-            ]);
-            $result = $query->fetch(PDO::FETCH_ASSOC);
-        }
-
-        if ($name != null) {
-            $connection = self::getDatabaseConnection();
-            $query = $connection->prepare("SELECT `apiKey`, `endpointSecret`, `plan_jsonId`, `app_name`
-                                             FROM `stripe_secrets` 
-                                            WHERE `status` = :status AND `name` = :name");
-            $query->execute([
-                ':status' => 'active',
-                ':name' => $name
-            ]);
-            $result = $query->fetch(PDO::FETCH_ASSOC);
-        }
-        //     $redis->setCache(json_encode($result), 3600*24); // Cache for 1day
-        // }
-
-        if ($result) {
-            return [
-                'apiKey' => $result['apiKey'],
-                'endpointSecret' => $result['endpointSecret'],
-                'app_name' => $result['app_name'],
-                'plans' => json_decode($result['plan_jsonId'], true),
-            ];
-        }
-
-        return null;
-    }
-    static function getPaypalSecrets($appName = null, $name = null)
-    {
-        // Uncomment and configure RedisCache if needed
-        // $redis = new RedisCache('stripe_secrets');
-        // $cache = $redis->getCache();
-        // if ($cache) {
-        //     $result = json_decode($cache, true);
-        // } else {
-        if ($appName != null) {
-            $connection = self::getDatabaseConnection();
-            $query = $connection->prepare("SELECT `client_id`, `webhook_id`, `client_secret`, `plan_jsonId` , `app_name`
-                                            FROM `paypal_secrets` 
-                                            WHERE `status` = :status AND `app_name` = :app_name");
-            $query->execute([
-                ':status' => 'active',
-                ':app_name' => $appName
-            ]);
-            $result = $query->fetch(PDO::FETCH_ASSOC);
-        }
-
-        if ($name != null) {
-            $connection = self::getDatabaseConnection();
-            $query = $connection->prepare("SELECT `client_id`, `webhook_id`, `client_secret`, `plan_jsonId` , `app_name`
-                                            FROM `paypal_secrets` 
-                                            WHERE `status` = :status AND `name` = :name");
-            $query->execute([
-                ':status' => 'active',
-                ':name' => $name
-            ]);
-            $result = $query->fetch(PDO::FETCH_ASSOC);
-        }
-
-
-        // Uncomment and configure caching if needed
-        // $redis->setCache(json_encode($result), 3600 * 24); // Cache for 1 day
-        // }
-
-        if ($result) {
-            return [
-                'client_id' => $result['client_id'],
-                'client_secret' => $result['client_secret'],
-                'webhook_id' => $result['webhook_id'],
-                'app_name' => $result['app_name'],
-                'plans' => json_decode($result['plan_jsonId'], true),
-            ];
-        }
-
-        return null;
-    }
-
 
     // public static $apiKey = 'sk_test_51OeDsPIXbeKO1uxjfGZLmBaoVYMdmbThMwRHSrNa6Zigu0FnQYuAatgfPEodv9suuRFROdNRHux5vUhDp7jC6nca00GbHqdk1Y';
     // public static $endpointSecret = 'whsec_5f17c8c4ada7dddedac39a07084388d087b1743d38e16af8bd996bb97a21c910';

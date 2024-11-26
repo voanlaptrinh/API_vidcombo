@@ -1,79 +1,77 @@
 <?php
+require_once '../redis.php';
+require_once '../common.php';
+require_once '../vendor/autoload.php';
+require_once '../config.php';
+require_once '../models/DB.php';
+
 class PaypalWebhook
 {
-    private $connection;
-    private $client_id;
-    private $clientSecret;
-    private $access_token;
-    private $plans;
-    private $name;
-    private $appName;
-    private $banks;
-    private $bankName;
-    private $apps;
+    private $apiKey;
+    private $endpointSecret;
+    private $bank_name;
     private $app_name;
-    private $license_key;
-    public $web_domain = 'https://www.vidcombo.com/';
+    private $plan_id;
+    private $access_token;
 
-    function __construct($name, $banks, $appName, $bankName, $apps, $license_key)
+    /**
+     * @param mixed $bank_name
+     */
+    public function setBankName($bank_name)
     {
-        $this->banks = $banks;
-        $this->appName = $appName;
-        $this->bankName = $bankName;
-        $this->name = $name;
-        $this->apps = $apps;
-        $this->license_key = $license_key;
-
-        $this->init();
+        $this->bank_name = $bank_name;
     }
-    function init()
+
+    /**
+     * @param mixed $app_name
+     */
+    public function setAppName($app_name)
     {
+        $this->app_name = $app_name;
+    }
 
-        error_log($this->appName);
+    /**
+     * @param mixed $plan_id
+     */
+    public function setPlanId($plan_id)
+    {
+        $this->plan_id = $plan_id;
+    }
 
-        if (!empty($this->name)) {
-            if (!isset($this->banks[$this->name])) {
-                error_log("Invalid name: {$this->name}");
-                throw new Exception("Configuration for name '{$this->name}' not found.");
-            }
+    function initByBankName($bank_name)
+    {
+        $this->bank_name = $bank_name;
 
-            $bankConfig = $this->banks[$this->name];
-            error_log('BankConfig for name: ' . print_r($bankConfig, true));
-        } else {
-            $appPaypal = $this->apps[$this->appName][$this->bankName];
-            $bankConfig = $this->banks[$appPaypal];
+        $bankConfig = Config::$banks[$bank_name];
+        if (!isset($bankConfig['api_key']) || !isset($bankConfig['secret_key'])) {
+            die("Invalid config: {$bank_name}");
         }
 
-        // Set the client_id and clientSecret from the retrieved configuration
-        $this->client_id = $bankConfig['client_id'] ?? null;
-        $this->clientSecret = $bankConfig['client_secret'] ?? null;
-
-        // Debug: Log client ID and secret
-        error_log("Client ID: {$this->client_id}");
-        error_log("Client Secret: {$this->clientSecret}");
-
-
-
-
-
-
-
-        // if ($paypalSecret) {
-        //     $this->client_id = $paypalSecret['client_id'];
-        //     $this->clientSecret = $paypalSecret['client_secret'];
-        //     $this->app_name = $paypalSecret['app_name'];
-        //     $this->plans = json_decode($paypalSecret['plans'], true);
-        // } else {
-        //     throw new Exception('No active Paypal secrets found.');
-        // }
-        $this->connection = Common::getDatabaseConnection();
-        if (!$this->connection) {
-            throw new Exception('Database connection could not be established.');
-        }
-        $this->access_token = $this->get_paypal_access_token($this->client_id, $this->clientSecret);
+        $this->apiKey = $bankConfig['api_key'];
+        $this->endpointSecret = $bankConfig['secret_key'];
+        $this->get_paypal_access_token();
     }
-    private function get_paypal_access_token($client_id, $clientSecret)
+
+    function initByAppName($app_name)
     {
+        if(!isset(Config::$apps[$app_name]['paypal'])){
+            die('Paypal config not found');
+        }
+        $this->app_name = $app_name;
+        $this->bank_name = Config::$apps[$app_name]['paypal'];
+
+        $bankConfig = Config::$banks[$this->bank_name];
+        $this->apiKey = $bankConfig['api_key'];
+        $this->endpointSecret = $bankConfig['secret_key'];
+
+        $this->get_paypal_access_token();
+    }
+
+    private function get_paypal_access_token()
+    {
+        $client_id = $this->apiKey;
+        $clientSecret = $this->endpointSecret;
+
         $url = "https://api.paypal.com/v1/oauth2/token";
         $headers = [
             "Authorization: Basic " . base64_encode("$client_id:$clientSecret"),
@@ -82,21 +80,84 @@ class PaypalWebhook
         $data = "grant_type=client_credentials";
 
         $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, value: $headers);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, value: $data);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $response = curl_exec($ch);
         curl_close($ch);
 
-        $result = json_decode($response);
-        return $result->access_token;
+        $result = json_decode($response, true);
+        $this->access_token = isset($result['access_token'])?$result['access_token']:'';
     }
-    // Hàm xử lý webhook từ PayPal
 
+    function createPaySessionPaypal($plan_alias)
+    {
+        $this->plan_id = @Config::$banks[$this->bank_name]['product_ids'][$this->app_name][$plan_alias];
+        error_log($this->plan_id . ' ' . $this->bank_name . ' ' . $plan_alias . ' ' . $this->app_name);
+        if (!$this->plan_id || $this->access_token) {
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'New plan and customer are required']);
+            return;
+        }
+
+        $subscriptionData = [
+            'plan_id' => $this->plan_id, // Plan ID from PayPal
+            'auto_renewal' => true, // Auto renewal for the subscription
+            'application_context' => [
+                'brand_name' => 'RIVERNET',
+                'locale' => 'en-US',
+                'shipping_preference' => 'SET_PROVIDED_ADDRESS', // Or 'NO_SHIPPING' if you don’t need shipping info
+                'user_action' => 'SUBSCRIBE_NOW', // You can set this to 'CONTINUE' for subscription renewal
+                'return_url' => Config::$web_domain . 'paypal/success', // Redirect URL after payment success
+                'cancel_url' => Config::$web_domain, // Redirect URL if payment is cancelled
+            ]
+        ];
+
+        $url = "https://api.paypal.com/v1/billing/subscriptions";
+
+        $headers = [
+            "Authorization: Bearer ".$this->access_token,
+            "Content-Type: application/json"
+        ];
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($subscriptionData));
+        $response = curl_exec($ch);
+
+        if (!$response) {
+            $error = curl_error($ch);
+            echo json_encode(["error" => "cURL Error while creating subscription", "message" => $error]);
+            curl_close($ch);
+            return;
+        }
+        curl_close($ch);
+
+        $subscriptionResponse = json_decode($response, true);
+        if (isset($subscriptionResponse['id'])) {
+            echo json_encode([
+                'subscription_id' => $subscriptionResponse['id'],
+                'status' => $subscriptionResponse['status'],
+                'approval_url' => $subscriptionResponse['links'][0]['href'] ?? null
+            ]);
+        } else {
+            echo json_encode([
+                'error' => 'Error creating subscription',
+                'message' => $subscriptionResponse['message'] ?? 'Unknown error'
+            ]);
+        }
+    }
+
+    // Hàm xử lý webhook từ PayPal
     function handlePaypalWebhook()
     {
-
         // Kiểm tra nếu phương thức là POST
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $payload = file_get_contents('php://input');
@@ -1050,7 +1111,7 @@ class PaypalWebhook
     function getSubscriptionStatus($accessToken)
     {
         $body = file_get_contents('php://input');
-        parse_str($body, result: $data);
+        parse_str($body, $data);
         $subscriptionId = $data['subscriptionId'];
         $url = "https:///api.paypal.com/v1/billing/subscriptions/$subscriptionId"; // Replace with live API endpoint for production
 
@@ -1102,71 +1163,6 @@ class PaypalWebhook
             echo json_encode([
                 'error' => 'Error retrieving subscription details',
                 'message' => $subscriptionData['message'] ?? 'Unknown error'
-            ]);
-        }
-    }
-
-
-    function createPaySessionPaypal()
-    {
-        $accessToken  = $this->get_paypal_access_token($this->client_id, $this->clientSecret);
-        $body = file_get_contents(filename: 'php://input');
-        parse_str($body,  $data);
-        $plan = isset($data['plan']) ? $data['plan'] : 'plan1';
-        $appPaypal = $this->apps[$this->appName][$this->bankName];
-        $planKey = $this->banks[$appPaypal]['product_ids'][$this->appName][$plan];
-        error_log($planKey);
-        error_log($this->bankName);
-
-        $subscriptionData = [
-            'plan_id' => $planKey, // Plan ID from PayPal
-            'auto_renewal' => true, // Auto renewal for the subscription
-            'application_context' => [
-                'brand_name' => 'RIVERNET',
-                'locale' => 'en-US',
-                'shipping_preference' => 'SET_PROVIDED_ADDRESS', // Or 'NO_SHIPPING' if you don’t need shipping info
-                'user_action' => 'SUBSCRIBE_NOW', // You can set this to 'CONTINUE' for subscription renewal
-                'return_url' => $this->web_domain . 'paypal/success', // Redirect URL after payment success
-                'cancel_url' => $this->web_domain, // Redirect URL if payment is cancelled
-            ]
-        ];
-
-        $url = "https:///api.paypal.com/v1/billing/subscriptions";
-
-        $headers = [
-            "Authorization: Bearer $accessToken",
-            "Content-Type: application/json"
-        ];
-
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($subscriptionData));
-
-        $response = curl_exec($ch);
-
-        if ($response === false) {
-            $error = curl_error($ch);
-            echo json_encode(["error" => "cURL Error while creating subscription", "message" => $error]);
-            curl_close($ch);
-            return;
-        }
-
-        curl_close($ch);
-
-        $subscriptionResponse = json_decode($response, true);
-        if (isset($subscriptionResponse['id'])) {
-
-            echo json_encode([
-                'subscription_id' => $subscriptionResponse['id'],
-                'status' => $subscriptionResponse['status'],
-                'approval_url' => $subscriptionResponse['links'][0]['href'] ?? null
-            ]);
-        } else {
-            echo json_encode([
-                'error' => 'Error creating subscription',
-                'message' => $subscriptionResponse['message'] ?? 'Unknown error'
             ]);
         }
     }
