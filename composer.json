@@ -7,5 +7,11 @@
         "predis/predis": "^2.2",
         "paypal/rest-api-sdk-php": "^1.6"
     
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "",
+            "Models\\": ""
+        }
     }
 }
