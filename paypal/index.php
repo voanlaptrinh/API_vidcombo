@@ -14,8 +14,6 @@ $bankName = isset($data['bank_name']) ? $data['bank_name'] : '';
 $name = isset($_GET['name']) ? trim(string: $_GET['name']) : ''; // Default to 'stripe'
 
 
-
-
 if (!empty($name)) {
     if (!isset($config->banks[$name])) {
         throw new Exception("Invalid bank name: {$name}");
@@ -92,7 +90,7 @@ function get_paypal_access_token($client_id, $clientSecret)
 }
 $access_token = get_paypal_access_token($client_id, $clientSecret);
 
-$paypal_funtion = new PaypalWebhook($name, $config->banks, $appName, $bankName, $config->apps, $license_key);
+$paypal_funtion = new PaypalWebhook();
 switch ($func) {
 
     // case 'create-checkout-session':
@@ -110,7 +108,7 @@ switch ($func) {
     case 'list-subscription':
         $paypal_funtion->listSubscriptions($access_token);
         break;
-    case 'create-product':
+    case 'create-product': 
         $paypal_funtion->createProduct($access_token);
         break;
     case 'list-products':

@@ -1,7 +1,9 @@
 <?php
-require_once 'redis.php';
-require_once 'common.php';
-
+// require_once 'redis.php';
+// require_once 'common.php';
+use App\Common;
+use App\Models\RedisCache;
+use App\Models\DB;
 class checkKey
 {
     public $connection;
@@ -25,13 +27,21 @@ class checkKey
             exit;
         }
 
-        $this->connection = Common::getDatabaseConnection();
-        if (!$this->connection) {
-            throw new Exception('Database connection could not be established.');
-        }
+        // $this->connection = Common::getDatabaseConnection();
+        // if (!$this->connection) {
+        //     throw new Exception('Database connection could not be established.');
+        // }
         // Insert or update device information
+        $connections = new DB();
+        
         $stmt_device_check = $this->connection->prepare("SELECT `id`, `download_count`, `last_updated`, `license_key` FROM `device` WHERE `device_id` = :device_id");
         $stmt_device_check->execute([':device_id' => $device_id]);
+
+
+
+
+
+
         $device_info = $stmt_device_check->fetch(PDO::FETCH_ASSOC);
 
         if (!@$device_info['id']) {

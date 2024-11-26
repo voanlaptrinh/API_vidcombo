@@ -1,5 +1,5 @@
 <?php
-namespace App\Utilities;
+namespace App\Models;
 class RedisCache
 {
     public $keyCache;

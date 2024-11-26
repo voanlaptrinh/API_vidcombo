@@ -1,6 +1,11 @@
 <?php
-namespace Models;
-require_once '../Common.php';
+
+namespace App\Models;
+
+use Exception;
+use PDO;
+use PDOException;
+
 class DB
 {
     private $connection;
@@ -13,10 +18,12 @@ class DB
     {
         $this->table = $table;
     }
-    function __construct(){
+    function __construct()
+    {
         $this->connectDB();
     }
-    function connectDB(){
+    function connectDB()
+    {
         try {
             $this->connection = new PDO("mysql:host=localhost; dbname=admin_vidcombo; charset=utf8;", "root", "");
             // $connection = new PDO("mysql:host=localhost; dbname=vidcombo_db; charset=utf8;", "vidcombo_db_user", "vidcombo_db_pass");
@@ -38,18 +45,43 @@ class DB
         }
         return $this->connection;
     }
-
-    public function selectRow($fields, $conditionDatas){
+    public function selectAll($fields = [], $conditionDatas = [])
+    {
+        $execData = array();
+        $conditionStr = '';
+        if (!empty($conditionDatas)) {
+            $conditions = [];
+            foreach ($conditionDatas as $condField => $condData) {
+                $conditions[] = '`' . $condField . '` = :' . $condField;
+                $execData[':' . $condField] = $condData;
+            }
+            $conditionStr = 'WHERE ' . implode(' AND ', $conditions);
+        }
+    
+        if (empty($fields)) {
+            $fields = '*';
+        } else {
+            $fields = implode(',', $fields);
+        }
+    
+        $stmt = $this->getConnection()->prepare("SELECT $fields FROM `" . $this->table . "` $conditionStr");
+        $stmt->execute($execData);
+    
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    
+    public function selectRow($fields, $conditionDatas)
+    {
         $execData = array();
         $conditionStr = array();
         foreach ($conditionDatas as $condField => $condData) {
-            $conditionStr[] = '`'.$condField.'` = :'.$condField.'';
-            $execData[':'.$condField] = $condData;
+            $conditionStr[] = '`' . $condField . '` = :' . $condField . '';
+            $execData[':' . $condField] = $condData;
         }
         $conditionStr = implode(' AND ', $conditionStr);
         $fields = implode(',', $fields);
 
-        $stmt = $this->getConnection()->prepare("SELECT $fields FROM `".$this->table."` WHERE ".$conditionStr);
+        $stmt = $this->getConnection()->prepare("SELECT $fields FROM `" . $this->table . "` WHERE " . $conditionStr);
         $stmt->execute($execData);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
@@ -58,32 +90,58 @@ class DB
         $execData = array();
         $setStr = array();
         foreach ($setDatas as $setField => $setData) {
-            $setStr[] = '`'.$setField.'` = :'.$setField.'';
-            $execData[':'.$setField] = $setData;
+            $setStr[] = '`' . $setField . '` = :' . $setField . '';
+            $execData[':' . $setField] = $setData;
         }
         $setStr = implode(', ', $setStr);
 
         $conditionStr = array();
         foreach ($conditionDatas as $condField => $condData) {
-            $conditionStr[] = '`'.$condField.'` = :'.$condField.'';
-            $execData[':'.$condField] = $condData;
+            $conditionStr[] = '`' . $condField . '` = :' . $condField . '';
+            $execData[':' . $condField] = $condData;
         }
         $conditionStr = implode(' AND ', $conditionStr);
 
-        $stmt = $this->getConnection()->prepare("UPDATE `".$this->table."` SET $setStr WHERE ".$conditionStr);
+        $stmt = $this->getConnection()->prepare("UPDATE `" . $this->table . "` SET $setStr WHERE " . $conditionStr);
         if (!$stmt) {
             throw new Exception('Query preparation failed');
         }
         return $stmt->execute($execData);
     }
 
-    
-    
-    
-    
-    
-    
-    
+
+    function insertFields($setDatas)
+    {
+        $execData = array();
+        $columns = array();
+        $placeholders = array();
+
+
+        foreach ($setDatas as $setField => $setData) {
+            $columns[] = '`' . $setField . '`';
+            $placeholders[] = ':' . $setField;
+            $execData[':' . $setField] = $setData;
+        }
+
+        $columnsStr = implode(', ', $columns);
+        $placeholdersStr = implode(', ', $placeholders);
+
+
+        $stmt = $this->getConnection()->prepare("INSERT INTO `" . $this->table . "` ($columnsStr) VALUES ($placeholdersStr)");
+
+        if (!$stmt) {
+            throw new Exception('Query preparation failed');
+        }
+
+
+        return $stmt->execute($execData);
+    }
+
+
+
+
+
+
     function getStripeSecrets($appName = null, $name = null)
     {
         // $redis = new RedisCache('stripe_secrets');
@@ -214,5 +272,4 @@ class DB
             return "Database error: " . $e->getMessage();
         }
     }
-
 }

@@ -1,16 +1,15 @@
 <?php
-namespace Models;
+namespace App\Models;
 
 use App\Common;
+use App\Models\DB;
+
 require_once 'DB.php';
-class Subscription
+class Subscription extends DB
 {
     public $table = 'subscriptions';
-    public function test(){
-        $cm = new Common();
-        echo App\Common::getRealIpAddr();
+    public function insert_subscription($dataInsert){
+        $this->insertFields($dataInsert);
+        
     }
 }
-
-$sub = new Subscription();
-$sub->test();
