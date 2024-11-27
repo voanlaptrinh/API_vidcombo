@@ -1,7 +1,10 @@
 <?php
-class Config {
+namespace App;
+
+class Config
+{
     public static $web_domain = 'https://www.vidcombo.com/';
-     public static $banks = array(
+    public static $banks = array(
         //Taif khoanr stripe: khanh3092002@gmail.com /// khanh30920023092002
         'Stripe' => array(
             'api_key' => 'sk_test_51QNPA2KVaCDurUFdekFsGsZ2f0KKSVSBlt1dSRAAV1GbcdQvDzHf31i1X70GUbFF7l5N2xbr5JO13CYWdd9UB53E0082G7hZky',
@@ -19,7 +22,7 @@ class Config {
                 )
             ),
         ),
-    
+
         'paypal1' => array(
             'api_key' => 'AS60eEYQCjGcGoDxA-qlsg3Zn16NC1xeeoCMLh6oITy7mySUJPNAvtcpu-vgxPn9T7ONYq0CBagdVp8u',
             'secret_key' => 'EKPI6LSey0sNF5baWqtDZHGxEiGY-nrPZhup6f7xGQmtbDl_m2jezwfRGUFpkwT2wbl8mHyByIEwocDA',
@@ -37,7 +40,7 @@ class Config {
             ),
         ),
     );
-    
+
     public static $apps = array(
         'vidcombo' => array(
             'stripe' => 'Stripe',
@@ -54,22 +57,22 @@ class Config {
         foreach (self::$banks as $bank_name => $bank_info) {
             foreach ($bank_info['product_ids'] as $app_name => $plans) {
                 foreach ($plans as $plan_alias => $plan_id) {
-                    if($prodID == $plan_id)
+                    if ($prodID == $plan_id)
                         return array(
                             'api_key' => $bank_info['api_key'],
                             'secret_key' => $bank_info['secret_key'],
                         );
-
                 }
             }
         }
         return array();
     }
-    public static function getAppNamePlanAliasByPlanID($planID){
+    public static function getAppNamePlanAliasByPlanID($planID)
+    {
         foreach (self::$banks as $bank_name => $bank_info) {
             foreach ($bank_info['product_ids'] as $app_name => $plans) {
                 foreach ($plans as $plan_alias => $plan_id) {
-                    if($planID == $plan_id)
+                    if ($planID == $plan_id)
                         return array($app_name, $plan_alias);
                 }
             }

@@ -1,10 +1,11 @@
 <?php
 require_once '../vendor/autoload.php';
 require_once '../redis.php';
-require_once '../config.php';
+// require_once '../config.php';
 // require_once '../common.php';
 // require_once '../models/DB.php';
 use App\Common;
+use App\Config;
 use App\Models\DB;
 use App\Models\Subscription;
 

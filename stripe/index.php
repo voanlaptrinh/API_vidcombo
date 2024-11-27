@@ -1,9 +1,10 @@
 <?php
 // require_once '../common.php';
-require_once '../config.php';
+// require_once '../config.php';
 require_once 'stripe.php';
 require_once 'paypal.php';
 use App\Common;
+use App\Config;
 use App\Models\DB;
 
 $body = file_get_contents('php://input');
@@ -60,6 +61,7 @@ if ($bank_name && $func=='webhook') {
     }
     if(strpos(strtolower($bank_name),'stripe')!==false)
     {
+        error_log('stripe webhook' . $bank_name);
         $stripeWebhook = new StripeWebhook();
         $stripeWebhook->initByBankName($bank_name);
         $stripeWebhook->handleWebhook();
