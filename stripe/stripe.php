@@ -11,7 +11,7 @@ use PHPMailer\PHPMailer\Exception;
 use Stripe\Stripe;
 use App\Models\DB;
 use App\Config;
-use App\Models\RedisCache;
+// use App\Models\RedisCache;
 use App\Models\Licensekey;
 use App\Common;
 
@@ -59,7 +59,7 @@ class StripeWebhook
 
         $this->apiKey = $bankConfig['api_key'];
         $this->endpointSecret = $bankConfig['secret_key'];
- 
+
         Stripe::setApiKey($this->apiKey);
     }
 
@@ -71,7 +71,7 @@ class StripeWebhook
         $this->app_name = $app_name;
         $this->bank_name = Config::$apps[$app_name]['stripe'];
 
-        $bankConfig = Config::$banks[$this->bank_name];
+        $bankConfig = @Config::$banks[$this->bank_name];
         $this->apiKey = $bankConfig['api_key'];
         $this->endpointSecret = $bankConfig['secret_key'];
         Stripe::setApiKey($this->apiKey);
@@ -100,8 +100,7 @@ class StripeWebhook
                 'success_url' => Config::$web_domain . "success?session_id={CHECKOUT_SESSION_ID}",
                 'cancel_url' => Config::$web_domain,
             ]);
-            //            $logContent = "Webhook event received:\n" . print_r($session, true) . "\n\n";
-            //            file_put_contents('log/subscription_detail.log', $logContent, FILE_APPEND);
+           
             header('Content-Type: application/json');
             //$session['url']
             echo json_encode(['session' => $session]);
@@ -119,14 +118,14 @@ class StripeWebhook
     // Hàm xử lý webhook
     function handleWebhook()
     {
-      
+
         $sig = @$_SERVER['HTTP_STRIPE_SIGNATURE'];
         $payload = @file_get_contents('php://input');
 
         if (!$sig || !$payload || !$this->endpointSecret) die("Invalid input values");
 
         $event = \Stripe\Webhook::constructEvent($payload, $sig, $this->endpointSecret);
-      
+       
         try {
             switch ($event->type) {
                 case 'invoice.payment_succeeded': //Xảy ra bất cứ khi nào nỗ lực thanh toán hóa đơn thành công.
@@ -146,9 +145,9 @@ class StripeWebhook
                 case 'invoice.payment_failed': // Khi thanh toán hóa đơn không thành công
                     $this->handleSubscriptionExpired($event->data->object);
                     break;
-                // case 'invoiceitem.created': // invoice created
-                //     $this->handleinvoiceitem($event->data->object);
-                //     break;
+                    // case 'invoiceitem.created': // invoice created
+                    //     $this->handleinvoiceitem($event->data->object);
+                    //     break;
                 case 'customer.subscription.created': // Khi một đăng ký mới được tạo
                     $this->handleSubscriptionCreated($event->data->object);
                     break;
@@ -247,7 +246,6 @@ class StripeWebhook
         $udateKey->setTable('licensekey');
         $dataInsetRefund = [
             'status' => "inactive",
-
         ];
         $udateKey->updateFields($dataInsetRefund, ['customer_id' => $customer_id]);
     }
@@ -363,10 +361,6 @@ class StripeWebhook
     // Hàm để xử lý khi thanh toán invoice thành công
     function handleInvoicePaymentSucceeded($invoice)
     {
-        if (empty($invoice) || empty($invoice->subscription)) {
-            error_log('Invalid invoice data');
-            return;
-        }
 
         // Lấy thông tin cần thiết từ invoice
         $subscription_id = $invoice->subscription;
@@ -379,11 +373,10 @@ class StripeWebhook
         $invoice_datetime = date('Y-m-d H:i:s', $invoice->created);
         $invoiced_date = date('Y-m-d', $invoice->created);
 
+       
         // Lấy thông tin chi tiết của subscription
         $subscription = \Stripe\Subscription::retrieve($subscription_id);
-        if (!$subscription || !isset($subscription->plan->id) || $invoice_id)
-            die('Invalid sub data.');
-
+      
         $status = $subscription->status;
         $current_period_end = $subscription->current_period_end;
         $this->plan_id = $subscription->plan->id;
@@ -399,19 +392,32 @@ class StripeWebhook
         // Chuyển đổi thời gian Unix timestamp sang định dạng ngày giờ
         $current_period_end_date = date('Y-m-d H:i:s', $current_period_end);
 
+
+
+        //Update lại key khi thanh toán thành công
+        $dblicenseKey = new DB();
+        $dblicenseKey->setTable('licensekey');
+        $updateDataKey = [
+            'current_period_end' => $current_period_end_date,
+            'plan' => $this->plan_id,
+            'plan_alias' => $plan_alias,
+            'status' => 'active',
+        ];
+        $dblicenseKey->updateFields($updateDataKey, ['subscription_id' => $subscription_id]);
+
+
         // Cập nhật invoice trong cơ sở dữ liệu
         $db_model = new DB();
         $db_model->setTable('invoice');
         $updateData = array(
-            'status_invoice' => $status_invoice,
-            'subtotal_invoice' => $subtotal_invoice,
+            'status' => $status_invoice,
         );
         $conditionData = array('invoice_id' => $invoice_id);
         $db_model->updateFields($updateData, $conditionData);
 
         // Cập nhật trạng thái đăng ký trong cơ sở dữ liệu của bạn
         $dbSubcription = new DB();
-        $dbSubcription->setTable('invoice');
+        $dbSubcription->setTable('subscriptions');
         $updateDataSub = array(
             'status' => $status,
             'current_period_end' => $current_period_end_date,
@@ -419,41 +425,34 @@ class StripeWebhook
         $conditionDataSub = array('subscription_id' => $subscription_id);
         $stmt = $dbSubcription->updateFields($updateDataSub, $conditionDataSub);
         if (!$stmt) {
-            throw new Exception('Query preparation failed');
+            throw new Exception('Query preparation faild ');
         }
 
-        /*Cập nhật status của key*/
-        $dblicenseKey = new DB();
-        $dblicenseKey->setTable('licensekey');
-        $updateDataKey = array(
-            'current_period_end' => $current_period_end_date,
-            'plan' => $this->plan_id,
-            'plan_alias' => $plan_alias,
-            'status' => 'active',
-        );
-        $conditionDataKey = array('subscription_id' => $subscription_id);
-        $dblicenseKey->updateFields($updateDataKey, $conditionDataKey);
 
         /*Nếu chưa gửi key -> gửi*/
-        $result = $db_model->selectRow('*', $conditionData);
+        $dblicenseKey = new DB();
+        $dblicenseKey->setTable('licensekey');
+        $result = $dblicenseKey->selectRow('*', ['subscription_id' => $subscription_id]);
         $license_key = $result['license_key'];
         if ($license_key) {
-            $redis = new RedisCache('DETAIL_' . $license_key);
-            $redis->setCache('', 300);
+            // $redis = new RedisCache('DETAIL_' . $license_key);
+            // $redis->setCache('', 300);
 
             // Gửi email nếu license_key tồn tại và chưa được gửi
             if ($result['send'] == 'not') {
+                error_log('send Email');
                 // Lấy email khách hàng
                 if ($this->app_name == 'vidcombo') {
                     $resu = Common::sendLicenseKey($customer_email, $customer_name, $license_key);
+                  
                 } else {
-                    $resu = Common::sendLicenseKeyEmailVidobo($customer_email, $customer_name, $license_key);
+                   $resu = Common::sendLicenseKeyEmailVidobo($customer_email, $customer_name, $license_key);
+                   
                 }
-
-                if ($resu) {
-                    $updateDataKey = array('send' => 'ok');
-                    $dblicenseKey->updateFields($updateDataKey, $conditionData);
+                if($resu){
+                    $dblicenseKey->updateFields(['send' => 'ok'], ['subscription_id' => $subscription_id]);
                 }
+               
             } else {
                 error_log("No license key found for subscription ID: $subscription_id");
             }
@@ -469,7 +468,6 @@ class StripeWebhook
         } else {
             Common::sendSuccessEmailVidobo($customer_email, $customer_name, $amount_due, $invoiced_date);
         }
-
     }
 
     // Hàm để xử lý khi một subscription mới được tạo
@@ -487,7 +485,7 @@ class StripeWebhook
 
             list($this->app_name, $plan_alias) = Config::getAppNamePlanAliasByPlanID($this->plan_id);
             if (!$plan_alias || !$this->app_name) {
-                error_log("[ERROR] Plan alias or App Product not found for Plan ID: ".$this->plan_id);
+                error_log("[ERROR] Plan alias or App Product not found for Plan ID: " . $this->plan_id);
             }
             $db = new DB();
             $db->setTable('subscriptions');
@@ -609,48 +607,7 @@ class StripeWebhook
             'customer_email' => $customer_email,
         );
         $dbSub->updateFields($dataUpsub, ['subscription_id' => $subscription_id]);
-
-
-        $dbselectKey = new DB();
-        $dbselectKey->setTable('licensekey');
-        $dataselectKey = array(
-            'license_key',
-            'send'
-        );
-        $result = $dbselectKey->selectRow($dataUpsub, ['subscription_id' => $subscription_id]);
-
-
-        // $stmt = $this->getConnection()->prepare("SELECT `app_name` FROM `subscriptions` WHERE `subscription_id` = :subscription_id");
-        // $stmt->execute([':subscription_id' => $subscription_id]);
-        // $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        // Kiểm tra và gửi email chỉ khi licenseKey tồn tại
-        $app_name = $this->getCustomerAppNameBySubscriptionId($subscription_id);
-        error_log('invoicefanalized' . $app_name);
-        if ($result && isset($result['license_key']) && $result['send'] === 'not') {
-            $licenseKey = $result['license_key'];
-
-            error_log("EMAIL: $customer_email");
-            error_log("licensekey: $licenseKey");
-
-            //Gửi licenseKey qua email
-            if ($app_name == 'vidcombo') {
-                $send_status = Common::sendLicenseKey($customer_email, $customer_name, $licenseKey);
-            } else {
-                $send_status = Common::sendLicenseKeyEmailVidobo($customer_email, $customer_name, $licenseKey);
-            }
-            // $send_status = Common::sendLicenseKeyEmail($customer_email, $customer_name, $licenseKey);
-
-            if ($send_status) {
-                $dbUpdatesenKey = new DB();
-                $dbUpdatesenKey->setTable('subscriptions');
-                $datasendKey = array(
-                    'send' => 'ok',
-                );
-                $dbUpdatesenKey->updateFields($datasendKey, ['subscription_id' => $subscription_id]);
-            }
-        } else {
-            error_log("No license key found for subscription ID: $subscription_id");
-        }
+  
     }
 
     function handleSubscriptionUpdated($subscription)
@@ -671,7 +628,6 @@ class StripeWebhook
             'current_period_end' => $current_period_end_date,
         );
         $dbSubcription->updateFields($dataKey, ['subscription_id' => $subscription_id]);
-
     }
 
     // Hàm để xử lý khi một subscription bị xóa
@@ -692,21 +648,6 @@ class StripeWebhook
             'current_period_end' => $period_end_subscription
         );
         $dbSubcription->updateFields($dataKey, ['subscription_id' => $subscription_id]);
-
-        // Lấy period_end từ licensekey
-        // $licensekey_stmt = $this->getConnection()->prepare("SELECT `current_period_end` FROM `licensekey` WHERE `subscription_id` = :subscription_id");
-        // $licensekey_stmt->execute([':subscription_id' => $subscription_id]);
-        // $licensekey = $licensekey_stmt->fetch(PDO::FETCH_ASSOC);
-        // $period_end_licensekey = $licensekey['current_period_end'];
-
-        // // So sánh period_end và cập nhật trạng thái nếu cần
-        // if ($period_end_subscription <= $period_end_licensekey) {
-        //     $update_stmt = $this->getConnection()->prepare("UPDATE `licensekey` SET `status` = :status WHERE `subscription_id` = :subscription_id");
-        //     $update_stmt->execute([
-        //         ':status' => 'inactive',
-        //         ':subscription_id' => $subscription_id
-        //     ]);
-        // }
 
         error_log("Subscription deleted for customer: $customer, subscription ID: $subscription_id");
     }
@@ -733,7 +674,7 @@ class StripeWebhook
     {
         $selectSub = new DB();
         $selectSub->setTable('licensekey');
-        $result = $selectSub->selectRow(['*'], ['subscription_id' => $subscription_id]);
+        $result = $selectSub->selectRow('*', ['subscription_id' => $subscription_id]);
 
         // $license_key = isset($result['license_key']) ? $result['license_key'] : '';
         return $result;

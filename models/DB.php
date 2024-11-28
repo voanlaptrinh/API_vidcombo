@@ -79,7 +79,7 @@ class DB
             $execData[':' . $condField] = $condData;
         }
         $conditionStr = implode(' AND ', $conditionStr);
-        $fields = implode(',', $fields);
+        $fields = is_array($fields)?implode(',', $fields):$fields;
 
         $stmt = $this->getConnection()->prepare("SELECT $fields FROM `" . $this->table . "` WHERE " . $conditionStr);
         $stmt->execute($execData);
@@ -115,8 +115,6 @@ class DB
         $execData = array();
         $columns = array();
         $placeholders = array();
-
-
         foreach ($setDatas as $setField => $setData) {
             $columns[] = '`' . $setField . '`';
             $placeholders[] = ':' . $setField;
@@ -125,19 +123,39 @@ class DB
 
         $columnsStr = implode(', ', $columns);
         $placeholdersStr = implode(', ', $placeholders);
-
-
         $stmt = $this->getConnection()->prepare("INSERT INTO `" . $this->table . "` ($columnsStr) VALUES ($placeholdersStr)");
 
         if (!$stmt) {
             throw new Exception('Query preparation failed');
         }
-
-
         return $stmt->execute($execData);
     }
 
+    function countRecords($conditions = [])
+    {
+        $execData = [];
+        $whereClause = '';
+        if (!empty($conditions)) {
+            $whereParts = [];
+            foreach ($conditions as $field => $value) {
+                $whereParts[] = "`$field` = :$field";
+                $execData[":$field"] = $value;
+            }
+            $whereClause = 'WHERE ' . implode(' AND ', $whereParts);
+        }
 
+        $query = "SELECT COUNT(*) AS count FROM `" . $this->table . "` $whereClause";
+        $stmt = $this->getConnection()->prepare($query);
+    
+        if (!$stmt) {
+            throw new Exception('Query preparation failed');
+        }
+        $stmt->execute($execData);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+        return $result['count'];
+    }
+    
 
 
 

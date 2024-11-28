@@ -7,7 +7,7 @@ require_once '../redis.php';
 use App\Common;
 use App\Config;
 use App\Models\DB;
-use App\Models\Subscription;
+
 
 class PaypalWebhook
 {
@@ -67,7 +67,7 @@ class PaypalWebhook
         $bankConfig = Config::$banks[$this->bank_name];
         $this->apiKey = $bankConfig['api_key'];
         $this->endpointSecret = $bankConfig['secret_key'];
-
+        error_log('key ' . $this->apiKey . 'endpoint secret ' . $this->endpointSecret);
         $this->get_paypal_access_token();
     }
 
@@ -76,50 +76,88 @@ class PaypalWebhook
         $client_id = $this->apiKey;
         $clientSecret = $this->endpointSecret;
 
-        $url = "https://api.paypal.com/v1/oauth2/token";
+        $url = "https://api-m.paypal.com/v1/oauth2/token";
         $headers = [
             "Authorization: Basic " . base64_encode("$client_id:$clientSecret"),
             "Content-Type: application/x-www-form-urlencoded"
         ];
-        $dataPost = array( 'header'=> $headers, 'body'=> array('grant_type'=>'client_credentials'), );
-        $response = $this->CallAPI($url,'POST', $dataPost);
+        // $data = array(
+        //     'headers' => $headers,
+        //     'body' => 'grant_type=client_credentials'
+        // );
+        $data =  "grant_type=client_credentials";
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $response = curl_exec($ch);
+        curl_close($ch);
 
-        $result = json_decode($response, true);
-        $this->access_token = isset($result['access_token']) ? $result['access_token'] : '';
+        // $response = $this->CallAPI($url,'POST', $data);
+
+
+        $result = json_decode($response);
+
+
+        $this->access_token = isset($result->access_token) ? $result->access_token : '';
     }
 
     function createPaySessionPaypal($plan_alias)
     {
-        $this->plan_id = @Config::$banks[$this->bank_name]['product_ids'][$this->app_name][$plan_alias];
-        error_log($this->plan_id . ' ' . $this->bank_name . ' ' . $plan_alias . ' ' . $this->app_name);
-        if (!$this->plan_id || $this->access_token) {
-            header('Content-Type: application/json');
-            echo json_encode(['error' => 'New plan and customer are required']);
-            return;
-        }
 
+        // Kiểm tra các thông tin cần thiết
+        $this->plan_id = @Config::$banks[$this->bank_name]['product_ids'][$this->app_name][$plan_alias];
+
+
+        // Chuẩn bị dữ liệu cho Subscription
         $subscriptionData = [
-            'plan_id' => $this->plan_id, // Plan ID from PayPal
-            'auto_renewal' => true, // Auto renewal for the subscription
+            'plan_id' => $this->plan_id, // ID của gói đăng ký
+            'auto_renewal' => true, // Tự động gia hạn
             'application_context' => [
-                'brand_name' => 'RIVERNET',
-                'locale' => 'en-US',
-                'shipping_preference' => 'SET_PROVIDED_ADDRESS', // Or 'NO_SHIPPING' if you don’t need shipping info
-                'user_action' => 'SUBSCRIBE_NOW', // You can set this to 'CONTINUE' for subscription renewal
-                'return_url' => Config::$web_domain . 'paypal/success', // Redirect URL after payment success
-                'cancel_url' => Config::$web_domain, // Redirect URL if payment is cancelled
+                'brand_name' => 'RIVERNET', // Tên thương hiệu hiển thị
+                'locale' => 'en-US', // Ngôn ngữ giao diện
+                'shipping_preference' => 'SET_PROVIDED_ADDRESS', // Hoặc 'NO_SHIPPING' nếu không yêu cầu địa chỉ giao hàng
+                'user_action' => 'SUBSCRIBE_NOW', // Hành động mặc định
+                'return_url' => Config::$web_domain . 'paypal/success', // URL khi thanh toán thành công
+                'cancel_url' => Config::$web_domain, // URL khi thanh toán bị hủy
             ]
         ];
 
-        $url = "https://api.paypal.com/v1/billing/subscriptions";
-        $dataPost = array( 'header'=> array(), 'body'=> $subscriptionData, );
-        $response = $this->CallAPI($url,'POST', $dataPost);
+        // Endpoint PayPal cho Sandbox
+        $url = "https://api-m.paypal.com/v1/billing/subscriptions";
+
+        // Gửi yêu cầu API đến PayPal
+        $headers = [
+            "Authorization: Bearer " . $this->access_token,
+            "Content-Type: application/json"
+        ];
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($subscriptionData));
+
+        $response = curl_exec($ch);
+
+        if ($response === false) {
+            $error = curl_error($ch);
+            echo json_encode(["error" => "cURL Error while creating subscription", "message" => $error]);
+            curl_close($ch);
+            return;
+        }
+
+        curl_close($ch);
+
         $subscriptionResponse = json_decode($response, true);
+
+
         if (isset($subscriptionResponse['id'])) {
             echo json_encode([
-                'subscription_id' => $subscriptionResponse['id'],
-                'status' => $subscriptionResponse['status'],
-                'approval_url' => $subscriptionResponse['links'][0]['href'] ?? null
+                'subscription_id' => $subscriptionResponse['id'], // ID của subscription
+                'status' => $subscriptionResponse['status'], // Trạng thái đăng ký
+                'approval_url' => $subscriptionResponse['links'][0]['href'] ?? null // URL để khách hàng chấp nhận
             ]);
         } else {
             echo json_encode([
@@ -129,13 +167,14 @@ class PaypalWebhook
         }
     }
 
-    function CallAPI( $url, $method, $args) {
+    function CallAPI($url, $method, $args)
+    {
         $curl = curl_init($url);
 
-        $headers = isset($args['header'])?$args['header']:array();
-        $data = isset($args['body'])?$args['body']:array();
+        $headers = isset($args['header']) ? $args['header'] : array();
+        $data = isset($args['body']) ? $args['body'] : array();
 
-        $headers = $headers?:array('Content-Type: application/json', 'Authorization: Bearer '. $this->access_token) ;
+        $headers = $headers ?: array('Content-Type: application/json', 'Authorization: Bearer ' . $this->access_token);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
@@ -159,29 +198,33 @@ class PaypalWebhook
                 break;
         }
         $response = curl_exec($curl);
-        $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-        switch ($httpCode) {
-            case 200:
-                curl_close($curl);
-                return ($response);
-            case 404:
-                $error_status = "404: API Not found";
-                break;
-            case 500:
-                $error_status = "500: servers replied with an error.";
-                break;
-            case 502:
-                $error_status = "502: servers may be down or being upgraded. Hopefully they'll be OK soon!";
-                break;
-            case 503:
-                $error_status = "503: service unavailable. Hopefully they'll be OK soon!";
-                break;
-            default:
-                $error_status = "Undocumented error: " . $httpCode . " : " . curl_error($curl);
-                break;
-        }
+        // $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+        // switch ($httpCode) {
+        //     case 200:
+        //     case 201:
+        //         curl_close($curl);
+        //         return ($response);
+        //     case 404:
+        //         $error_status = "404: API Not found";
+        //         break;
+        //     case 500:
+        //         $error_status = "500: servers replied with an error.";
+        //         break;
+        //     case 502:
+        //         $error_status = "502: servers may be down or being upgraded. Hopefully they'll be OK soon!";
+        //         break;
+        //     case 503:
+        //         $error_status = "503: service unavailable. Hopefully they'll be OK soon!";
+        //         break;
+        //     default:
+        //         $error_status = "Undocumented error: " . $httpCode . " : " . curl_error($curl);
+        //         break;
+        // }
         curl_close($curl);
-        echo '<pre>'; print_r($error_status); echo '</pre>'; die;
+        return $response;
+        // echo '<pre>'; print_r($error_status); echo '</pre>'; die;
+
     }
 
     // Hàm xử lý webhook từ PayPal
@@ -194,6 +237,7 @@ class PaypalWebhook
             $data = json_decode($payload, true);
 
             $event = $data['event_type'];
+       
 
             try {
                 switch ($event) {
@@ -203,6 +247,7 @@ class PaypalWebhook
                     case 'PAYMENT.SALE.PENDING': //Xảy ra bất cứ khi nào nỗ lực thanh toán hóa đơn thành công.
                         $this->handlePaymentPending($data);
                         break;
+
                     case 'BILLING.SUBSCRIPTION.CREATED': //Xảy ra bất cứ khi nào nỗ lực thanh toán hóa đơn thành công.
                         $this->handleSubscriptionCreated($data);
                         break;
@@ -271,7 +316,7 @@ class PaypalWebhook
     // Lấy chi tiết plan từ PayPal API
     private function getPlanDetailsFromPayPal($plan_id, $accessToken)
     {
-        $url = "https://api.paypal.com/v1/billing/plans/{$plan_id}";
+        $url = "https://api-m.paypal.com/v1/billing/plans/{$plan_id}";
         $response = $this->CallAPI($url, 'GET', array());
         return json_decode($response, true);
     }
@@ -362,10 +407,7 @@ class PaypalWebhook
     function handleSubscriptionCreated($data)
     {
         $subscription = $data['resource'];
-
-
         $subscription_id = $data['resource']['id'];
-
         $status = $data['resource']['status'];
         $current_period_start_iso = $data['resource']['start_time'];
         $dateTime = new DateTime($current_period_start_iso);
@@ -391,56 +433,56 @@ class PaypalWebhook
         $db->insertFields($dataInsert);
     }
     private $db;
-    function getDB(){
-        if($this->db) return $this->db;
+    function getDB()
+    {
+        if ($this->db) return $this->db;
         $this->db = new DB();
         return $this->db;
     }
     function handlePaymentCompleted($data)
     {
 
+       
         $subscription_id = $data['resource']['billing_agreement_id'];
         $create_time = $data['create_time'];
         $dbSub = $this->getDB();
         $dbSub->setTable('subscriptions');
-        $dataSelectSub = array(
-            'customer_email',
-            'customer_email',
-            'current_period_end',
-            'plan'
-        );
-        $subscription = $dbSub->selectRow($dataSelectSub, ['subscription_id' => $subscription_id]);
+        $subscription = $dbSub->selectRow('*', ['subscription_id' => $subscription_id]);
 
 
         $customer_email = $subscription['customer_email'];
         $customer_name = $subscription['customer_email'];
         $current_period_end = $subscription['current_period_end'];
-        error_log('BankConfig for name: ' . print_r($data, true));
+        $this->app_name = $subscription['app_name'];
+        $plan_alias = $subscription['plan'];
 
-        $plan = $subscription['plan'];
 
-        list($this->app_name, $plan_alias) = Config::getAppNamePlanAliasByPlanID($this->plan_id);
-
-        if (!$plan_alias || !$this->app_name) {
-            error_log("[ERROR] Plan alias or App Product not found for Plan ID: $plan");
-        }
+        $this->plan_id = Config::$banks[$this->bank_name]['product_ids'][$this->app_name][$plan_alias];
 
         $date = DateTime::createFromFormat('Y-m-d\TH:i:s.u\Z', $create_time);
         $formattedDateCreate_time = $date->format('Y-m-d H:i:s');
         $licenseKey = $this->generateLicenseKey();
 
-        // $stmtCheck = $this->connection->prepare("SELECT COUNT(*) FROM `licensekey` WHERE `subscription_id` = :subscription_id");
-        // $stmtCheck->execute([':subscription_id' => $subscription_id]);
+
         $dbkey = $this->getDB();
         $dbkey->setTable('licensekey');
-        $row = $dbkey->selectRow('licensekey', ['subscription_id' => $subscription_id]);
+        $row = $dbkey->countRecords(['subscription_id' => $subscription_id]);
 
-        if ($row) {
+        if ($row == 0) {
             $current_period_end_date = new DateTime($current_period_end);
-            error_log($plan);
-            $url = "https://api.paypal.com/v1/billing/plans/{$plan}";
-            $dataPost = array( 'header'=> array(), 'body'=> '');
-            $response = $this->CallAPI($url,'GET', $dataPost);
+
+            $url = "https://api.sandbox.paypal.com/v1/billing/plans/" . $this->plan_id;
+            error_log('urrl completed' . $url);
+            $headers = [
+                "Authorization: Bearer " . $this->access_token,
+                "Content-Type: application/json"
+            ];
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $response = curl_exec($ch);
+            curl_close($ch);
+
             $planDetails = json_decode($response, true);
 
             $frequency = $planDetails['billing_cycles'][0]['frequency'];
@@ -459,7 +501,7 @@ class PaypalWebhook
                 'license_key' => $licenseKey,
                 'status' => 'active',
                 'send' => 'not',
-                'plan' => $plan,
+                'plan' => $this->plan_id,
                 'plan_alias' => $plan_alias,
                 'sk_key' => $this->apiKey,
                 'sign_key' => $this->endpointSecret,
@@ -472,9 +514,9 @@ class PaypalWebhook
             $current_period_end_date = new DateTime($current_period_end); // Ngày kết thúc hiện tại
 
 
-            $url = "https://api.paypal.com/v1/billing/plans/{$plan}";
-            $dataPost = array( 'header'=> array(), 'body'=> '');
-            $response = $this->CallAPI($url,'GET', $dataPost);
+            $url = "https://api-m.paypal.com/v1/billing/plans/" . $this->plan_id;
+            $dataPost = array('header' => array(), 'body' => '');
+            $response = $this->CallAPI($url, 'GET', $dataPost);
             $planDetails = json_decode($response, true);
 
             $frequency = $planDetails['billing_cycles'][0]['frequency'];
@@ -530,11 +572,7 @@ class PaypalWebhook
 
         $selectLiKey = new DB();
         $selectLiKey->setTable('licensekey');
-        $dataLiKey = [
-            'license_key',
-            'send'
-        ];
-        $result =  $selectLiKey->selectRow($dataLiKey, ['subscription_id' => $subscription_id]);
+        $result =  $selectLiKey->selectRow('*', ['subscription_id' => $subscription_id]);
 
         if ($this->app_name == 'vidcombo') {
             Common::sendSuccessEmailVidcombo($customer_email, $customer_name, $amount_due, $invoiced_date);
@@ -582,37 +620,20 @@ class PaypalWebhook
             return;
         }
 
-        $plan_alias = null;
-        $app_product = null;
+        list($this->app_name, $plan_alias) = Config::getAppNamePlanAliasByPlanID($plan);
 
 
-        foreach ($banks_alis['product_ids'] as $app => $plans) {
-            foreach ($plans as $alias => $planId) {
-                if ($planId === $plan) {
-                    $plan_alias = $alias;
-                    $app_product = $app;
-                    error_log("[INFO] Found Plan Alias: $plan_alias, App Product: $app_product");
-                    break 2;
-                }
-            }
-        }
-
-
-        if (!$plan_alias || !$app_product) {
-            error_log("[ERROR] Plan alias or App Product not found for Plan ID: $plan");
+        if (!$plan_alias || !$this->app_name) {
+            error_log("[ERROR] Plan alias or App Product not found for Plan ID: $plan . " . $this->app_name);
         }
         $updateSub = new DB();
         $updateSub->setTable('subscriptions');
         $dataSubupdate = [
-            'plan' => $plan,
+            'plan' => $plan_alias,
         ];
         $updateSub->updateFields($dataSubupdate, ['subscription_id' => $subscription_id]);
 
-        // $stmtUpdate = $this->connection->prepare("UPDATE `subscriptions` SET `plan` = :plan WHERE `subscription_id` = :subscription_id");
-        // $stmtUpdate->execute([
-        //     ':subscription_id' => $subscription_id,
-        //     ':plan' => $plan,
-        // ]);
+
         $updateKey = new DB();
         $updateKey->setTable('licensekey');
         $dataKeyupdate = [
@@ -633,7 +654,6 @@ class PaypalWebhook
         $nextBillingTime = $data['resource']['billing_info']['next_billing_time']; // Ngày gia hạn tiếp theo
         $dateTime = new DateTime($nextBillingTime);
         $current_period_end = $dateTime->format('Y-m-d H:i:s');
-
         $updateSub = new DB();
         $updateSub->setTable('subscriptions');
         $dataSubupdate = [
@@ -682,8 +702,7 @@ class PaypalWebhook
     }
     function handleSubscriptionCancelled($data)
     {
-        $logContent = "Webhook event received:\n" . print_r($data, true) . "\n\n";
-        file_put_contents('log/handleSubscriptionCancelled.log', $logContent, FILE_APPEND);
+        
         $subscription_id = $data['resource']['id'];
         $status = $data['resource']['status'];
         if ($status === 'CANCELLED') {
@@ -710,7 +729,7 @@ class PaypalWebhook
         parse_str($body, $data);
         $subscription_id = $data['subscription_id'];
         $planId = $data['planId'];
-        $url = "https:///api.paypal.com/v1/billing/subscriptions/{$subscription_id}";
+        $url = "https:///api-m.paypal.com/v1/billing/subscriptions/{$subscription_id}";
 
         $headers = [
             "Authorization: Bearer $accessToken",
@@ -745,380 +764,267 @@ class PaypalWebhook
         // }
     }
 
-    function listProducts($accessToken)
+    function listProducts()
     {
-        $url = "https:///api.paypal.com/v1/catalogs/products";
+        $url = "https://api-m.paypal.com/v1/catalogs/products";
 
-        $headers = [
-            "Authorization: Bearer $accessToken",
-            "Content-Type: application/json"
+        $args = [
+            'header' => [
+                "Authorization: Bearer " . $this->access_token,
+                "Content-Type: application/json"
+            ]
         ];
 
-        $ch = curl_init($url);
+        try {
+            $response = $this->CallAPI($url, "GET", $args);
+            $json = json_encode($response);
+            echo json_decode($json, true);
+        } catch (Exception $e) {
+            echo json_encode(["error" => $e->getMessage()]);
+        }
+    }
 
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        $response = curl_exec($ch);
 
-        if ($response === false) {
-            $error = curl_error($ch);
-            echo "cURL Error: $error";
-            curl_close($ch);
+
+    function createProduct()
+    {
+        $url = "https://api-m.paypal.com/v1/catalogs/products";
+
+        $args = [
+            'header' => [
+                "Authorization: Bearer " . $this->access_token,
+                "Content-Type: application/json"
+            ],
+            'body' => [
+                "name" => "Gói đăng ký Premium ",
+                "description" => "Gói đăng ký dịch vụ hàng tháng",
+                "type" => "SERVICE"
+            ]
+        ];
+
+        try {
+            // Gọi API thông qua hàm CallAPI
+            $response = $this->CallAPI($url, "POST", $args);
+
+            // Kiểm tra và trả về phản hồi
+            $result = json_decode($response, true);
+            if (isset($result['id'])) {
+                echo json_encode(["message" => "Product created successfully!", "product" => $result], JSON_PRETTY_PRINT);
+            } else {
+                echo json_encode(["message" => "Failed to create product.", "error" => $result], JSON_PRETTY_PRINT);
+            }
+        } catch (Exception $e) {
+            // Xử lý lỗi nếu xảy ra ngoại lệ
+            echo json_encode(["error" => $e->getMessage()]);
+        }
+    }
+
+
+
+    function createPlans()
+    {
+        $body = file_get_contents('php://input');
+        parse_str($body, $data);
+
+        if (!isset($data['product_id'], $data['plan_name'], $data['number_month'], $data['value_price'])) {
+            echo json_encode(["error" => "Missing required fields."]);
             return;
         }
 
-        curl_close($ch);
-
-        $products = json_decode($response, true);
-
-
-        if (isset($products['products']) && count($products['products']) > 0) {
-            echo json_encode($products['products'], JSON_PRETTY_PRINT);
-        } else {
-            echo json_encode(["message" => "No products found."]);
-        }
-    }
-
-
-    function createProduct($accessToken)
-    {
-        $url = "https:///api.paypal.com/v1/catalogs/products";
-        $headers = [
-            "Authorization: Bearer $accessToken",
-            "Content-Type: application/json"
-        ];
-
-        $data = [
-            "name" => "Gói đăng ký Premium Của khánh", // Tên sản phẩm
-            "description" => "Gói đăng ký dịch vụ hàng tháng", // Mô tả sản phẩm
-            "type" => "SERVICE", // Loại sản phẩm, có thể là SERVICE hoặc PHYSICAL
-        ];
-
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        $response = curl_exec($ch);
-        curl_close($ch);
-        return json_decode($response, true);
-    }
-
-    function deleteProducts($accessToken)
-    {
-
-        $body = file_get_contents('php://input');
-        parse_str($body, result: $data);
-        $product_id = $data['product_id'];
-
-        // URL to delete the product
-        $deleteUrl = "https:///api.paypal.com/v1/catalogs/products/{$product_id}";
-        $headers = [
-            "Authorization: Bearer $accessToken",
-            "Content-Type: application/json"
-        ];
-
-        // Perform the DELETE request
-        $chDelete = curl_init($deleteUrl);
-        curl_setopt($chDelete, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($chDelete, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($chDelete, CURLOPT_CUSTOMREQUEST, "DELETE");
-
-        $deleteResponse = curl_exec($chDelete);
-
-        var_dump($deleteResponse);
-        if ($deleteResponse === false) {
-            $error = curl_error($chDelete);
-            echo "cURL Error while deleting product {$product_id}: $error<br>";
-        } else {
-            echo "Successfully deleted product with ID: {$product_id}<br>";
-        }
-
-        curl_close($chDelete);
-    }
-
-
-    function createPlans($accessToken)
-    {
-        $url = "https:///api.paypal.com/v1/billing/plans";
-        $body = file_get_contents('php://input');
-        parse_str($body, result: $data);
         $product_id = $data['product_id'];
         $plan_name = $data['plan_name'];
         $number_month = $data['number_month'];
         $value_price = $data['value_price'];
 
-        // Plan details - customize this as needed
+        $url = "https://api-m.paypal.com/v1/billing/plans";
+
         $planData = [
-            "product_id" => $product_id,  // The product ID that you obtained from listProducts
-            "name" => $plan_name,  // Plan name
-            "description" => "A monthly subscription to our service.",  // Plan description
+            "product_id" => $product_id,
+            "name" => $plan_name,
+            "description" => "A monthly subscription to our service.",
             "billing_cycles" => [
                 [
                     "frequency" => [
-                        "interval_unit" => "DAY",  // Frequency unit: MONTH, DAY, etc.
-                        "interval_count" => $number_month,  // How often the plan is billed
+                        "interval_unit" => "DAY",
+                        "interval_count" => (int)$number_month,
                     ],
                     "tenure_type" => "REGULAR",
                     "sequence" => 1,
-                    "total_cycles" => 0,  // 0 means no end to the cycle (indefinite)
+                    "total_cycles" => 0,
                     "pricing_scheme" => [
                         "fixed_price" => [
-                            "value" => $value_price,  // Price for the plan
-                            "currency_code" => "USD"  // Currency code
+                            "value" => $value_price,
+                            "currency_code" => "USD"
                         ]
                     ]
                 ]
             ],
             "payment_preferences" => [
-                "auto_bill_outstanding" => true,  // Auto-bill for outstanding invoices
-                "payment_failure_threshold" => 3  // Number of failed payments before cancellation
+                "auto_bill_outstanding" => true,
+                "payment_failure_threshold" => 3
             ],
             "taxes" => [
-                "percentage" => "10",  // Tax percentage
-                "inclusive" => false  // Whether tax is inclusive or exclusive
+                "percentage" => "10",
+                "inclusive" => false
             ]
         ];
 
-        $headers = [
-            "Authorization: Bearer $accessToken",
-            "Content-Type: application/json"
+        $args = [
+            'header' => [
+                "Authorization: Bearer " . $this->access_token,
+                "Content-Type: application/json"
+            ],
+            'body' => $planData
         ];
 
-        $ch = curl_init($url);
+        try {
 
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($planData));
+            $response = $this->CallAPI($url, "POST", $args);
+            $responseData = json_decode($response, true);
 
-        $response = curl_exec($ch);
 
-        if ($response === false) {
-            $error = curl_error($ch);
-            echo "cURL Error: $error";
-            curl_close($ch);
-            return;
-        }
+            if (isset($responseData['id'])) {
+                echo json_encode(["message" => "Plan Created Successfully.", "plan_id" => $responseData['id']]);
+            } else {
+                echo json_encode(["error" => "Failed to create plan.", "details" => $responseData]);
+            }
+        } catch (Exception $e) {
 
-        curl_close($ch);
-
-        $responseData = json_decode($response, true);
-
-        if (isset($responseData['id'])) {
-            echo "Plan Created Successfully. Plan ID: " . $responseData['id'];
-        } else {
-            echo "Failed to create plan.";
+            echo json_encode(["error" => $e->getMessage()]);
         }
     }
 
-    function listPlans($accessToken)
+
+    function listPlans()
     {
-        $url = "https:///api.paypal.com/v1/billing/plans";
+        $url = "https://api-m.paypal.com/v1/billing/plans";
 
-        $headers = [
-            "Authorization: Bearer $accessToken",
-            "Content-Type: application/json"
+        $args = [
+            'header' => [
+                "Authorization: Bearer " . $this->access_token,
+                "Content-Type: application/json"
+            ]
         ];
 
-        $ch = curl_init($url);
+        try {
+            $response = $this->CallAPI($url, "GET", $args);
+            $plans = json_decode($response, true);
 
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        $response = curl_exec($ch);
-
-        if ($response === false) {
-            $error = curl_error($ch);
-            echo json_encode(["error" => "cURL Error: $error"]);
-            curl_close($ch);
-            return;
-        }
-
-        curl_close($ch);
-
-        $plans = json_decode($response, true);
-        if (isset($plans['plans']) && count($plans['plans']) > 0) {
-            // Return the list of plans as JSON
-            echo json_encode($plans['plans'], JSON_PRETTY_PRINT);
-        } else {
-            // Return a JSON message when no plans are found
-            echo json_encode(["message" => "No plans found."]);
+            if (isset($plans['plans']) && count($plans['plans']) > 0) {
+                echo json_encode($plans['plans'], JSON_PRETTY_PRINT);
+            } else {
+                echo json_encode(["message" => "No plans found."]);
+            }
+        } catch (Exception $e) {
+            echo json_encode(["error" => $e->getMessage()]);
         }
     }
 
 
-    function getPlanDetails($accessToken)
+
+    function getPlanDetails()
     {
         $body = file_get_contents('php://input');
         parse_str($body, $data);
-        $planId = $data['planId'];
-        $url = "https:///api.paypal.com/v1/billing/plans/{$planId}";
 
-        $headers = [
-            "Authorization: Bearer $accessToken",
-            "Content-Type: application/json"
-        ];
-
-        $ch = curl_init($url);
-
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        $response = curl_exec($ch);
-
-        if ($response === false) {
-            $error = curl_error($ch);
-            echo json_encode(["error" => "cURL Error: $error"]);
-            curl_close($ch);
+        if (empty($data['planId'])) {
+            echo json_encode(["error" => "Plan ID is required."]);
             return;
         }
 
-        curl_close($ch);
+        $planId = $data['planId'];
+        $url = "https://api-m.paypal.com/v1/billing/plans/{$planId}";
 
-        $planDetails = json_decode($response, true);
+        $args = [
+            'header' => [
+                "Authorization: Bearer " . $this->access_token,
+                "Content-Type: application/json"
+            ]
+        ];
 
-        if (isset($planDetails['id'])) {
-            $responseData = [
-                "Plan ID" => $planDetails['id'],
-                "Name" => $planDetails['name'],
-                "Description" => $planDetails['description'],
-                "Status" => $planDetails['status'],
-            ];
+        try {
+            // Gửi yêu cầu GET để lấy chi tiết Plan
+            $response = $this->CallAPI($url, "GET", $args);
+            $planDetails = json_decode($response, true);
 
-            // Billing cycle details
-            if (isset($planDetails['billing_cycles']) && count($planDetails['billing_cycles']) > 0) {
-                $billingCycles = [];
-                foreach ($planDetails['billing_cycles'] as $cycle) {
-                    $billingCycles[] = [
-                        "Billing Cycle Frequency" => $cycle['frequency']['interval_count'] . " " . $cycle['frequency']['interval_unit'],
-                        "Total Cycles" => $cycle['total_cycles'],
-                        "Pricing" => $cycle['pricing_scheme']['fixed_price']['value'] . " " . $cycle['pricing_scheme']['fixed_price']['currency_code']
+            if (isset($planDetails['id'])) {
+                $responseData = [
+                    "Plan ID" => $planDetails['id'],
+                    "Name" => $planDetails['name'],
+                    "Description" => $planDetails['description'],
+                    "Status" => $planDetails['status'],
+                ];
+
+                // Thêm thông tin Billing Cycles
+                if (!empty($planDetails['billing_cycles'])) {
+                    $billingCycles = [];
+                    foreach ($planDetails['billing_cycles'] as $cycle) {
+                        $billingCycles[] = [
+                            "Billing Cycle Frequency" => $cycle['frequency']['interval_count'] . " " . $cycle['frequency']['interval_unit'],
+                            "Total Cycles" => $cycle['total_cycles'] ?? 'N/A',
+                            "Pricing" => $cycle['pricing_scheme']['fixed_price']['value'] . " " . $cycle['pricing_scheme']['fixed_price']['currency_code']
+                        ];
+                    }
+                    $responseData['Billing Cycles'] = $billingCycles;
+                }
+
+                // Thêm thông tin Payment Preferences
+                if (!empty($planDetails['payment_preferences'])) {
+                    $responseData['Payment Preferences'] = [
+                        "Auto Bill Outstanding" => $planDetails['payment_preferences']['auto_bill_outstanding'] ? 'Yes' : 'No',
+                        "Payment Failure Threshold" => $planDetails['payment_preferences']['payment_failure_threshold']
                     ];
                 }
-                $responseData['Billing Cycles'] = $billingCycles;
-            }
 
-            // Payment Preferences
-            if (isset($planDetails['payment_preferences'])) {
-                $responseData['Payment Preferences'] = [
-                    "Auto Bill Outstanding" => $planDetails['payment_preferences']['auto_bill_outstanding'] ? 'Yes' : 'No',
-                    "Payment Failure Threshold" => $planDetails['payment_preferences']['payment_failure_threshold']
-                ];
-            }
-
-            // Taxes
-            if (isset($planDetails['taxes'])) {
-                $responseData['Taxes'] = [
-                    "Tax Percentage" => $planDetails['taxes']['percentage'] . "%",
-                    "Tax Inclusive" => $planDetails['taxes']['inclusive'] ? 'Yes' : 'No'
-                ];
-            }
-
-            // Return the plan details as JSON
-            echo json_encode($responseData, JSON_PRETTY_PRINT);
-        } else {
-            echo json_encode(["message" => "Plan not found or error retrieving plan details."]);
-        }
-    }
-
-
-    function deleteAllPlans($accessToken)
-    {
-        // Step 1: List all plans
-        $url = "https:///api.paypal.com/v1/billing/plans";
-
-        $headers = [
-            "Authorization: Bearer $accessToken",
-            "Content-Type: application/json"
-        ];
-
-        // Initialize cURL for the list request
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        $response = curl_exec($ch);
-
-        if ($response === false) {
-            $error = curl_error($ch);
-            echo "cURL Error while fetching plans: $error";
-            curl_close($ch);
-            return;
-        }
-
-        curl_close($ch);
-
-        // Decode the response to get the plan list
-        $plans = json_decode($response, true);
-
-        if (isset($plans['plans']) && count($plans['plans']) > 0) {
-            // Step 2: Loop through each plan and delete it
-            foreach ($plans['plans'] as $plan) {
-                $planId = $plan['id'];
-
-                // URL to delete the plan
-                $deleteUrl = "https:///api.paypal.com/v1/billing/plans/{$planId}";
-
-                // Perform the DELETE request
-                $chDelete = curl_init($deleteUrl);
-                curl_setopt($chDelete, CURLOPT_HTTPHEADER, $headers);
-                curl_setopt($chDelete, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($chDelete, CURLOPT_CUSTOMREQUEST, "DELETE");
-
-                $deleteResponse = curl_exec($chDelete);
-
-                if ($deleteResponse === false) {
-                    $error = curl_error($chDelete);
-                    echo "cURL Error while deleting plan {$planId}: $error<br>";
-                } else {
-                    echo "Successfully deleted plan with ID: {$planId}<br>";
+                // Thêm thông tin Taxes
+                if (!empty($planDetails['taxes'])) {
+                    $responseData['Taxes'] = [
+                        "Tax Percentage" => $planDetails['taxes']['percentage'] . "%",
+                        "Tax Inclusive" => $planDetails['taxes']['inclusive'] ? 'Yes' : 'No'
+                    ];
                 }
 
-                curl_close($chDelete);
+                // Trả về thông tin Plan dưới dạng JSON
+                echo json_encode($responseData, JSON_PRETTY_PRINT);
+            } else {
+                echo json_encode(["message" => "Plan not found or error retrieving plan details."]);
             }
-        } else {
-            echo "No plans found to delete.";
+        } catch (Exception $e) {
+            // Trả về lỗi khi có ngoại lệ
+            echo json_encode(["error" => $e->getMessage()]);
         }
     }
-    function getSubscriptionStatus($accessToken)
+
+
+
+       function getSubscriptionStatus()
     {
         $body = file_get_contents('php://input');
         parse_str($body, $data);
-        $subscriptionId = $data['subscriptionId'];
-        $url = "https:///api.paypal.com/v1/billing/subscriptions/$subscriptionId"; // Replace with live API endpoint for production
 
-        // Set up the headers
-        $headers = [
-            "Authorization: Bearer $accessToken",
-            "Content-Type: application/json"
-        ];
-
-        // Initialize cURL session
-        $ch = curl_init($url);
-
-        // Set the cURL options
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);  // Get response as string
-        curl_setopt($ch, CURLOPT_HTTPGET, true);  // Use GET method to retrieve subscription info
-
-        // Execute the cURL session and capture the response
-        $response = curl_exec($ch);
-
-        // Check for cURL errors
-        if ($response === false) {
-            $error = curl_error($ch);
-            echo json_encode(["error" => "cURL Error", "message" => $error]);
-            curl_close($ch);
+        if (empty($data['subscriptionId'])) {
+            echo json_encode(["error" => true, "message" => "subscriptionId is required"]);
             return;
         }
 
-        // Close the cURL session
-        curl_close($ch);
+        $subscriptionId = $data['subscriptionId'];
+        $url = "https://api-m.paypal.com/v1/billing/subscriptions/$subscriptionId";
 
-        // Decode the JSON response
+        $headers = [
+            "Authorization: Bearer " . $this->access_token,
+            "Content-Type: application/json"
+        ];
+
+        $response = $this->CallAPI($url, "GET", [
+            'header' => $headers
+        ]);
         $subscriptionData = json_decode($response, true);
+
+        if (isset($subscriptionData['error'])) {
+            echo json_encode(["error" => true, "message" => $subscriptionData['message'] ?? 'Unknown error']);
+            return;
+        }
+
         if (isset($subscriptionData['id'])) {
             echo json_encode([
                 'subscription_id' => $subscriptionData['id'],
@@ -1127,23 +1033,23 @@ class PaypalWebhook
                 'plan_id' => $subscriptionData['plan_id'],
                 'subscriber_email' => $subscriptionData['subscriber']['email_address'] ?? 'N/A',
                 'create_time' => $subscriptionData['create_time'],
-                'links' => $subscriptionData['links'] ?? [], // Links for further actions like cancel or view
-                'billing_info' => $subscriptionData['billing_info'] ?? [], // Billing details
-                'shipping_address' => $subscriptionData['shipping_address'] ?? [], // If shipping is provided
-                'agreement_details' => $subscriptionData['agreement_details'] ?? [], // Agreement details
-                'plan' => $subscriptionData['plan'] ?? [], // Plan details
+                'links' => $subscriptionData['links'] ?? [],
+                'billing_info' => $subscriptionData['billing_info'] ?? [],
+                'shipping_address' => $subscriptionData['shipping_address'] ?? [],
+                'plan' => $subscriptionData['plan'] ?? [],
             ]);
         } else {
             echo json_encode([
-                'error' => 'Error retrieving subscription details',
-                'message' => $subscriptionData['message'] ?? 'Unknown error'
+                'error' => true,
+                'message' => $subscriptionData['message'] ?? 'Unknown error retrieving subscription details'
             ]);
         }
     }
 
-    function cancelSubscription($accessToken): void
+
+    function cancelSubscription(): void
     {
-        // Get the data from the input
+
         $body = file_get_contents('php://input');
         parse_str($body, $data);
         $subscriptionId = $data['subscriptionId'] ?? null;
@@ -1153,90 +1059,48 @@ class PaypalWebhook
             return;
         }
 
-        // Set the cancellation URL with the correct subscription ID
-        $url = "https://api.paypal.com/v1/billing/subscriptions/{$subscriptionId}/cancel";
+        $url = "https://api-m.paypal.com/v1/billing/subscriptions/{$subscriptionId}/cancel";
 
-        // Headers for the API request
         $headers = [
-            "Authorization: Bearer $accessToken",
+            "Authorization: Bearer " . $this->access_token,
             "Content-Type: application/json"
         ];
 
-        // Data for the cancellation request
         $data = [
-            'reason' => 'User requested cancellation' // Reason for cancellation
+            'reason' => 'User requested cancellation'
         ];
 
-        // Initialize cURL session
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST'); // POST method
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        $response = $this->CallAPI($url, "POST", [
+            'header' => $headers,
+            'body' => $data
+        ]);
 
-        // Execute cURL session and capture the response
-        $response = curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE); // Get HTTP status code
 
-        if ($response === false) {
-            $error = curl_error($ch);
-            echo json_encode(["error" => "cURL Error while canceling subscription", "message" => $error]);
-            curl_close($ch);
-            return;
-        }
-
-        curl_close($ch);
-
-        // Check for a successful response (usually 204 No Content on success)
-        if ($httpCode === 204) {
-            echo json_encode([
-                'status' => 'success',
-                'message' => 'Subscription has been canceled successfully.'
-            ]);
-        } else {
-            echo json_encode([
-                'error' => 'Error canceling subscription',
-                'httpCode' => $httpCode,
-                'response' => $response
-            ]);
-        }
-    }
-
-    function listSubscriptions($accessToken): void
-    {
-
-        $url = "https://api.paypal.com/v1/billing/subscriptions";
-        $headers = [
-            "Authorization: Bearer $accessToken",
-            "Content-Type: application/json"
-        ];
-
-        // Khởi tạo curl
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        $response = curl_exec($ch);
-        curl_close($ch);
-
-        $subscriptions = json_decode($response, true);
-        var_dump($subscriptions);
+        echo json_encode([
+            'status' => 'success',
+            'message' => 'Subscription has been canceled successfully.'
+        ]);
     }
 
 
-    function reviseSubscription($accessToken)
-    {
-        $body = file_get_contents('php://input');
-        parse_str($body, result: $data);
-        $licenseKey = isset($data['license_key']) ? $data['license_key'] : '';
-        $subscriptionId = $this->findSubscriptionIdByLicenseKey($licenseKey);
 
-        $planId = $data['planId'];
-        $url = "https:///api.paypal.com/v1/billing/subscriptions/{$subscriptionId}/revise";
+
+
+
+    function reviseSubscription($licenseKey, $convertname, $plan)
+    {
+
+        $subscriptionId = $this->findSubscriptionIdByLicenseKey($licenseKey); //Lấy ra subid từ bảng licensekey
+        $appNameupdateSup = $this->findAppNametoSubcritpion($subscriptionId); //lấy ra app_name "vidcombo,vidobo"
+        $nameBankApp = Config::$apps[$appNameupdateSup][$convertname]; //lấy ra được thuộc name nào trong bankConfig
+        $planKey = Config::$banks[$nameBankApp]['product_ids'][$appNameupdateSup][$plan];
+
+
+        $url = "https:///api-m.paypal.com/v1/billing/subscriptions/{$subscriptionId}/revise";
 
         // Dữ liệu để cập nhật gói
         $reviseData = [
-            "plan_id" => $planId,
+            "plan_id" => $planKey,
             "application_context" => [
                 "brand_name" => "RIVERNET",
                 "locale" => "en-US",
@@ -1251,7 +1115,7 @@ class PaypalWebhook
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             "Content-Type: application/json",
-            "Authorization: Bearer {$accessToken}"
+            "Authorization: Bearer {$this->access_token}"
         ]);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
@@ -1262,7 +1126,7 @@ class PaypalWebhook
 
         // Xử lý phản hồi
         $responseArray = json_decode($response, true);
-        return json_encode([
+        echo json_encode([
             "success" => true,
             "message" => "Subscription revised successfully.",
             "data" => $responseArray,
@@ -1282,7 +1146,7 @@ class PaypalWebhook
 
         // Chuẩn bị và thực hiện truy vấn
         $selectSub = new DB();
-        $selectSub->setTable('subscriptions');
+        $selectSub->setTable('licensekey');
         $dataSubupdate = [
             'subscription_id'
         ];
@@ -1328,12 +1192,18 @@ class PaypalWebhook
     function updateSubPaypal($licenseKey, $convertname, $plan)
     {
 
-        $subscriptionId = $this->findSubscriptionIdByLicenseKey($licenseKey);
-        $appNameupdateSup = $this->findAppNametoSubcritpion($subscriptionId);
-        $nameBankApp = Config::$banks[$appNameupdateSup][$convertname];
+        $subscriptionId = $this->findSubscriptionIdByLicenseKey($licenseKey); //Lấy ra subid từ bảng licensekey
+        $appNameupdateSup = $this->findAppNametoSubcritpion($subscriptionId); //lấy ra app_name "vidcombo,vidobo"
+        $nameBankApp = Config::$apps[$appNameupdateSup][$convertname]; //lấy ra được thuộc name nào trong bankConfig
         $planKey = Config::$banks[$nameBankApp]['product_ids'][$appNameupdateSup][$plan];
 
-        $url = "https:///api.paypal.com/v1/billing/subscriptions/{$subscriptionId}/revise";
+
+        var_dump($planKey . $subscriptionId);
+
+        // $nameBankApp = Config::$banks[$appNameupdateSup][$convertname];
+        // $planKey = Config::$banks[$nameBankApp]['product_ids'][$appNameupdateSup][$plan];
+
+        $url = "https:///api-m.paypal.com/v1/billing/subscriptions/{$subscriptionId}/revise";
 
         // Dữ liệu để cập nhật gói
         $reviseData = [
@@ -1351,8 +1221,9 @@ class PaypalWebhook
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             "Content-Type: application/json",
-            "Authorization: Bearer {$this->access_token}"
+            "Authorization: Bearer " . $this->access_token
         ]);
+
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($reviseData));
@@ -1361,6 +1232,7 @@ class PaypalWebhook
         curl_close($ch);
 
         $responseArray = json_decode($response, true);
+        var_dump($responseArray);
 
         // Log the response for debugging purposes
         // Kiểm tra xem 'links' có tồn tại và có chứa URL cần thiết không

@@ -35,7 +35,7 @@ class Config
                 'vidobo' => array(
                     'plan1' =>  'P-88V598096T5182056M47NQNY',
                     'plan2' => 'P-6D86645935592440AM47NQWA',
-                    'plan3' => 'P-3VM89144TK032961PM47NQ4Q',
+                    'plan3' => 'P-98B8660527321020SM5D7Q3A',
                 )
             ),
         ),
@@ -79,4 +79,17 @@ class Config
         }
         return array();
     }
+    public static function getPlanIdByAppNamePlanAlias($app_name, $plan_alias)
+{
+    foreach (self::$banks as $bank_name => $bank_info) {
+        if (isset($bank_info['product_ids'][$app_name])) {
+            $plans = $bank_info['product_ids'][$app_name];
+            if (isset($plans[$plan_alias])) {
+                return $plans[$plan_alias];
+            }
+        }
+    }
+    return null;
+}
+
 }

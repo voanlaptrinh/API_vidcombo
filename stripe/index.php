@@ -17,6 +17,7 @@ $plan_alias = isset($data['plan']) ? Common::cleanQuery($data['plan']) : '';
 $bank_name = Common::getString('bank_name', 'Stripe');
 $func = Common::getString('func');
 
+
 //0. Nếu không có licenseKey, tạo URL chuyển trang
 if ($func == 'create-checkout-session' && empty($license_key)) {
     $encodedPlan = base64_encode($plan_alias);
@@ -47,6 +48,7 @@ if($plan_alias && $appName && $payGate && !$license_key){
         return $stripeWebhook->createPaySessionStripe($plan_alias);
     }
     elseif (strtolower($payGate) == 'paypal'){
+
         $paypalWebhook = new PaypalWebhook();
         $paypalWebhook->initByAppName($appName);
         return $paypalWebhook->createPaySessionPaypal($plan_alias);
@@ -66,7 +68,10 @@ if ($bank_name && $func=='webhook') {
         $stripeWebhook->initByBankName($bank_name);
         $stripeWebhook->handleWebhook();
     }
-    elseif (strpos(strtolower($bank_name),'paypal')!==false){
+    
+    elseif (strpos(strtolower($bank_name), 'paypal')!==false){
+        
+        error_log('paypal webhook' . $bank_name);
         $paypalWebhook = new PaypalWebhook();
         $paypalWebhook->initByBankName($bank_name);
         $paypalWebhook->handlePaypalWebhook();
@@ -91,6 +96,7 @@ if ($license_key) {
     // Initialize sk_key and sign_key
     $client_id = $row_licensekey['sk_key'] ?? '';
     $clientSecret = $row_licensekey['sign_key'] ?? '';
+    error_log($client_id . ': ' . $clientSecret);
 
     // Step 2: Retrieve bank_name from subscriptions table using subscription_id
     if ($subscriptionsId) {
@@ -103,15 +109,17 @@ if ($license_key) {
         $bank_name = $row_subscription['bank_name'] ?? '';
         $app_name = $row_subscription['app_name'] ?? '';
     } else {
-        $bank_name = ''; // Default value if subscription_id is not found
+        $bank_name = ''; 
     }
     $convertname = strtolower($bank_name);
     if ($bank_name == 'Stripe') {
         $stripeWebhook = new StripeWebhook();
+        $stripeWebhook->initByAppName($appName);
         $stripeWebhook->updateSubStripe($license_key, $plan_alias, $convertname);
     } else {
         $paypalWebhook = new PaypalWebhook();
-        $paypalWebhook->updateSubPaypal($license_key, $convertname, $plan_alias);
+        $paypalWebhook->initByAppName($appName);
+        $paypalWebhook->reviseSubscription($license_key, $convertname, $plan_alias);
     }
     
 
