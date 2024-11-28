@@ -81,17 +81,8 @@ class PaypalWebhook
             "Authorization: Basic " . base64_encode("$client_id:$clientSecret"),
             "Content-Type: application/x-www-form-urlencoded"
         ];
-        $data = "grant_type=client_credentials";
-
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        $response = curl_exec($ch);
-        curl_close($ch);
+        $dataPost = array( 'header'=> $headers, 'body'=> array('grant_type'=>'client_credentials'), );
+        $response = $this->CallAPI($url,'POST', $dataPost);
 
         $result = json_decode($response, true);
         $this->access_token = isset($result['access_token']) ? $result['access_token'] : '';
@@ -121,29 +112,8 @@ class PaypalWebhook
         ];
 
         $url = "https://api.paypal.com/v1/billing/subscriptions";
-
-        $headers = [
-            "Authorization: Bearer " . $this->access_token,
-            "Content-Type: application/json"
-        ];
-
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($subscriptionData));
-        $response = curl_exec($ch);
-
-        if (!$response) {
-            $error = curl_error($ch);
-            echo json_encode(["error" => "cURL Error while creating subscription", "message" => $error]);
-            curl_close($ch);
-            return;
-        }
-        curl_close($ch);
-
+        $dataPost = array( 'header'=> array(), 'body'=> $subscriptionData, );
+        $response = $this->CallAPI($url,'POST', $dataPost);
         $subscriptionResponse = json_decode($response, true);
         if (isset($subscriptionResponse['id'])) {
             echo json_encode([
@@ -157,6 +127,61 @@ class PaypalWebhook
                 'message' => $subscriptionResponse['message'] ?? 'Unknown error'
             ]);
         }
+    }
+
+    function CallAPI( $url, $method, $args) {
+        $curl = curl_init($url);
+
+        $headers = isset($args['header'])?$args['header']:array();
+        $data = isset($args['body'])?$args['body']:array();
+
+        $headers = $headers?:array('Content-Type: application/json', 'Authorization: Bearer '. $this->access_token) ;
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
+        switch ($method) {
+            case "GET":
+                curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
+                curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "GET");
+                break;
+            case "POST":
+                curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
+                curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
+                break;
+            case "PUT":
+                curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
+                curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
+                break;
+            case "DELETE":
+                curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
+                curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
+                break;
+        }
+        $response = curl_exec($curl);
+        $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        switch ($httpCode) {
+            case 200:
+                curl_close($curl);
+                return ($response);
+            case 404:
+                $error_status = "404: API Not found";
+                break;
+            case 500:
+                $error_status = "500: servers replied with an error.";
+                break;
+            case 502:
+                $error_status = "502: servers may be down or being upgraded. Hopefully they'll be OK soon!";
+                break;
+            case 503:
+                $error_status = "503: service unavailable. Hopefully they'll be OK soon!";
+                break;
+            default:
+                $error_status = "Undocumented error: " . $httpCode . " : " . curl_error($curl);
+                break;
+        }
+        curl_close($curl);
+        echo '<pre>'; print_r($error_status); echo '</pre>'; die;
     }
 
     // Hàm xử lý webhook từ PayPal
@@ -238,7 +263,7 @@ class PaypalWebhook
         $this->updateInvoiceEmail($subscription_id, $customer_email);
 
         // Kiểm tra và gửi license key nếu chưa gửi
-        $this->checkAndSendLicenseKey($subscription_id, $customer_email, $customer_name, $formatted_period_end,);
+        $this->checkAndSendLicenseKey($subscription_id, $customer_email, $customer_name, $formatted_period_end);
 
         error_log('Subscription activated successfully');
     }
@@ -247,23 +272,7 @@ class PaypalWebhook
     private function getPlanDetailsFromPayPal($plan_id, $accessToken)
     {
         $url = "https://api.paypal.com/v1/billing/plans/{$plan_id}";
-        $headers = [
-            "Authorization: Bearer $accessToken",
-            "Content-Type: application/json"
-        ];
-
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $response = curl_exec($ch);
-
-        if ($response === false) {
-            error_log("Error fetching plan details: " . curl_error($ch));
-            curl_close($ch);
-            return null;
-        }
-
-        curl_close($ch);
+        $response = $this->CallAPI($url, 'GET', array());
         return json_decode($response, true);
     }
 
@@ -359,50 +368,40 @@ class PaypalWebhook
 
         $status = $data['resource']['status'];
         $current_period_start_iso = $data['resource']['start_time'];
-        $dateTime = new DateTime(datetime: $current_period_start_iso);
+        $dateTime = new DateTime($current_period_start_iso);
         $current_period_start = $dateTime->format('Y-m-d H:i:s');
         $create_time = $data['create_time'];
-        $plan = $data['resource']['plan_id'];
+        $plan_id = $data['resource']['plan_id'];
         $subcrscription_json = json_encode($data);
 
-
-        $banks_alis = Config::$banks[$this->bank_name] ?? null;
-
-        $app_product = null;
-        $plan_alias = null;
-
-        foreach ($banks_alis['product_ids'] as $app => $plans) {
-            foreach ($plans as $alias => $planId) {
-                if ($planId === $plan) {
-                    $plan_alias = $alias;
-                    $app_product = $app;
-                    error_log("[INFO] Found Plan Alias: $plan_alias, App Product: $app_product");
-                    break 2;
-                }
-            }
-        }
-
+        list($this->app_name, $plan_alias) = Config::getAppNamePlanAliasByPlanID($plan_id);
 
         $db = new DB();
         $db->setTable('subscriptions');
         $dataInsert = array(
             'subscription_id' => $subscription_id,
-            'app_name' => $app_product,
+            'app_name' => $this->app_name,
             'status' => $status,
             'current_period_start' => $current_period_start,
             'create_time' => $create_time,
-            'plan' => $plan,
+            'plan' => $plan_alias,
             'subscription_json' => $subcrscription_json,
             'bank_name' => 'Paypal',
         );
         $db->insertFields($dataInsert);
+    }
+    private $db;
+    function getDB(){
+        if($this->db) return $this->db;
+        $this->db = new DB();
+        return $this->db;
     }
     function handlePaymentCompleted($data)
     {
 
         $subscription_id = $data['resource']['billing_agreement_id'];
         $create_time = $data['create_time'];
-        $dbSub = new DB();
+        $dbSub = $this->getDB();
         $dbSub->setTable('subscriptions');
         $dataSelectSub = array(
             'customer_email',
@@ -420,28 +419,9 @@ class PaypalWebhook
 
         $plan = $subscription['plan'];
 
-        $banks_alis = Config::$banks[$this->bank_name] ?? null;
-        if (!$banks_alis) {
-            error_log("[ERROR] Bank configuration not found for: " . $this->bank_name);
-            return;
-        }
+        list($this->app_name, $plan_alias) = Config::getAppNamePlanAliasByPlanID($this->plan_id);
 
-        $plan_alias = null;
-        $app_product = null;
-
-
-        foreach ($banks_alis['product_ids'] as $app => $plans) {
-            foreach ($plans as $alias => $planId) {
-                if ($planId === $plan) {
-                    $plan_alias = $alias;
-                    $app_product = $app;
-                    error_log("[INFO] Found Plan Alias: $plan_alias, App Product: $app_product");
-                    break 2;
-                }
-            }
-        }
-
-        if (!$plan_alias || !$app_product) {
+        if (!$plan_alias || !$this->app_name) {
             error_log("[ERROR] Plan alias or App Product not found for Plan ID: $plan");
         }
 
@@ -451,37 +431,17 @@ class PaypalWebhook
 
         // $stmtCheck = $this->connection->prepare("SELECT COUNT(*) FROM `licensekey` WHERE `subscription_id` = :subscription_id");
         // $stmtCheck->execute([':subscription_id' => $subscription_id]);
-        $dbkey = new DB();
+        $dbkey = $this->getDB();
         $dbkey->setTable('licensekey');
-        $dataSelectSub = array(
-            'licensekey',
-        );
-        $row = $dbkey->selectRow($dataSelectSub, ['subscription_id' => $subscription_id]);
+        $row = $dbkey->selectRow('licensekey', ['subscription_id' => $subscription_id]);
 
         if ($row) {
             $current_period_end_date = new DateTime($current_period_end);
             error_log($plan);
             $url = "https://api.paypal.com/v1/billing/plans/{$plan}";
-            $headers = [
-                "Authorization: Bearer " . $this->access_token,
-                "Content-Type: application/json"
-            ];
-
-            $ch = curl_init($url);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            $response = curl_exec($ch);
-
-            if ($response === false) {
-                $error = curl_error($ch);
-                error_log("Error fetching plan details: $error");
-                curl_close($ch);
-                return;
-            }
-
-            curl_close($ch);
+            $dataPost = array( 'header'=> array(), 'body'=> '');
+            $response = $this->CallAPI($url,'GET', $dataPost);
             $planDetails = json_decode($response, true);
-
 
             $frequency = $planDetails['billing_cycles'][0]['frequency'];
 
@@ -490,8 +450,6 @@ class PaypalWebhook
             } elseif (isset($frequency['interval_unit']) && $frequency['interval_unit'] == 'DAY') {
                 $current_period_end_date->modify('+' . $frequency['interval_count'] . ' day');
             }
-
-
 
             $new_period_end = $current_period_end_date->format('Y-m-d H:i:s');
             $dbInsetkey = new DB();
@@ -515,24 +473,8 @@ class PaypalWebhook
 
 
             $url = "https://api.paypal.com/v1/billing/plans/{$plan}";
-            $headers = [
-                "Authorization: Bearer " . $this->access_token,
-                "Content-Type: application/json"
-            ];
-
-            $ch = curl_init($url);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            $response = curl_exec($ch);
-
-            if ($response === false) {
-                $error = curl_error($ch);
-                error_log("Error fetching plan details: $error");
-                curl_close($ch);
-                return;
-            }
-
-            curl_close($ch);
+            $dataPost = array( 'header'=> array(), 'body'=> '');
+            $response = $this->CallAPI($url,'GET', $dataPost);
             $planDetails = json_decode($response, true);
 
             $frequency = $planDetails['billing_cycles'][0]['frequency'];
@@ -765,7 +707,7 @@ class PaypalWebhook
     function upSubscription($accessToken)
     {
         $body = file_get_contents('php://input');
-        parse_str($body, result: $data);
+        parse_str($body, $data);
         $subscription_id = $data['subscription_id'];
         $planId = $data['planId'];
         $url = "https:///api.paypal.com/v1/billing/subscriptions/{$subscription_id}";
