@@ -1,5 +1,6 @@
 <?php
-namespace App\Models;
+// namespace App;
+// require_once 'vendor/autoload.php';
 class RedisCache
 {
     public $keyCache;

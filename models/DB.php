@@ -79,7 +79,7 @@ class DB
             $execData[':' . $condField] = $condData;
         }
         $conditionStr = implode(' AND ', $conditionStr);
-        $fields = is_array($fields)?implode(',', $fields):$fields;
+        $fields = is_array($fields)?implode(',', $fields) : $fields;
 
         $stmt = $this->getConnection()->prepare("SELECT $fields FROM `" . $this->table . "` WHERE " . $conditionStr);
         $stmt->execute($execData);
@@ -290,4 +290,37 @@ class DB
             return "Database error: " . $e->getMessage();
         }
     }
+    public function countRecordsDistict($distinctField, $conditions = [])
+    {
+        $execData = [];
+        $whereClause = '';
+        
+        if (!empty($conditions)) {
+            $whereParts = [];
+            foreach ($conditions as $field => $value) {
+                $whereParts[] = "`$field` = :$field";
+                $execData[":$field"] = $value;
+            }
+            $whereClause = 'WHERE ' . implode(' AND ', $whereParts);
+        }
+    
+        if (empty($distinctField)) {
+            throw new Exception('Distinct field must be provided');
+        }
+    
+        $selectPart = "COUNT(DISTINCT `$distinctField`) AS count";
+    
+        $query = "SELECT $selectPart FROM `" . $this->table . "` $whereClause";
+        $stmt = $this->getConnection()->prepare($query);
+        
+        if (!$stmt) {
+            throw new Exception('Query preparation failed');
+        }
+    
+        $stmt->execute($execData);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+        return $result['count'];
+    }
+    
 }

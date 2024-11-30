@@ -1,6 +1,6 @@
 <?php
 require_once '../vendor/autoload.php';
-require_once '../redis.php';
+require_once '../redisCache.php';
 // require_once '../config.php';
 // require_once '../common.php';
 // require_once '../models/DB.php';
@@ -76,7 +76,7 @@ class PaypalWebhook
         $client_id = $this->apiKey;
         $clientSecret = $this->endpointSecret;
 
-        $url = "https://api-m.paypal.com/v1/oauth2/token";
+        $url = "https://https://api-m.paypal.com/v1/oauth2/token";
         $headers = [
             "Authorization: Basic " . base64_encode("$client_id:$clientSecret"),
             "Content-Type: application/x-www-form-urlencoded"
@@ -125,7 +125,7 @@ class PaypalWebhook
         ];
 
         // Endpoint PayPal cho Sandbox
-        $url = "https://api-m.paypal.com/v1/billing/subscriptions";
+        $url = "https://https://api-m.paypal.com/v1/billing/subscriptions";
 
         // Gửi yêu cầu API đến PayPal
         $headers = [
@@ -237,7 +237,7 @@ class PaypalWebhook
             $data = json_decode($payload, true);
 
             $event = $data['event_type'];
-       
+
 
             try {
                 switch ($event) {
@@ -316,7 +316,7 @@ class PaypalWebhook
     // Lấy chi tiết plan từ PayPal API
     private function getPlanDetailsFromPayPal($plan_id, $accessToken)
     {
-        $url = "https://api-m.paypal.com/v1/billing/plans/{$plan_id}";
+        $url = "https://https://api-m.paypal.com/v1/billing/plans/{$plan_id}";
         $response = $this->CallAPI($url, 'GET', array());
         return json_decode($response, true);
     }
@@ -442,7 +442,7 @@ class PaypalWebhook
     function handlePaymentCompleted($data)
     {
 
-       
+
         $subscription_id = $data['resource']['billing_agreement_id'];
         $create_time = $data['create_time'];
         $dbSub = $this->getDB();
@@ -462,6 +462,16 @@ class PaypalWebhook
         $date = DateTime::createFromFormat('Y-m-d\TH:i:s.u\Z', $create_time);
         $formattedDateCreate_time = $date->format('Y-m-d H:i:s');
         $licenseKey = $this->generateLicenseKey();
+
+        $invoice_id = $data['id'];
+        $payment_intent =  $data['resource']['id'];
+        $period_end = strtotime($current_period_end);
+        $period_start = strtotime($data['create_time']);
+        $currency = $data['resource']['amount']['currency'];
+        $amount_due = $data['resource']['amount']['total'];
+        $created = $data['create_time'];
+        $amount_paid = $data['resource']['amount']['details']['subtotal'];
+     
 
 
         $dbkey = $this->getDB();
@@ -509,12 +519,13 @@ class PaypalWebhook
                 'current_period_end' => $new_period_end,
             );
             $dbInsetkey->insertFields($dataInsertKey);
+            $this->insertInvoices($invoice_id, $customer_email, $payment_intent, $period_end, $period_start, $subscription_id, $currency, $amount_due, $created, $amount_paid, $formattedDateCreate_time);
         } else {
             // Gia hạn
             $current_period_end_date = new DateTime($current_period_end); // Ngày kết thúc hiện tại
 
 
-            $url = "https://api-m.paypal.com/v1/billing/plans/" . $this->plan_id;
+            $url = "https://https://api-m.paypal.com/v1/billing/plans/" . $this->plan_id;
             $dataPost = array('header' => array(), 'body' => '');
             $response = $this->CallAPI($url, 'GET', $dataPost);
             $planDetails = json_decode($response, true);
@@ -546,26 +557,27 @@ class PaypalWebhook
                 'current_period_end' => $new_period_end,
             ];
             $updateKey->updateFields($updateKeydata, ['subscription_id' => $subscription_id]);
+            $this->insertInvoices($invoice_id, $customer_email, $payment_intent, $period_end, $period_start, $subscription_id, $currency, $amount_due, $created, $amount_paid, $formattedDateCreate_time);
         }
 
 
-        $insetInvoice = new DB();
-        $insetInvoice->setTable('invoice');
-        $invoiceData = [
-            'invoice_id' => $data['id'],
-            'status' => 'paid',
-            'customer_email' => $customer_email,
-            'payment_intent' => $data['resource']['id'],
-            'period_end' => strtotime($current_period_end),
-            'period_start' => strtotime($data['create_time']),
-            'subscription_id' => $subscription_id,
-            'currency' => $data['resource']['amount']['currency'],
-            'amount_due' => $data['resource']['amount']['total'],
-            'created' => strtotime($data['create_time']),
-            'amount_paid' => $data['resource']['amount']['details']['subtotal'],
-            'invoice_datetime' => $formattedDateCreate_time,
-        ];
-        $insetInvoice->insertFields($invoiceData);
+        // $insetInvoice = new DB();
+        // $insetInvoice->setTable('invoice');
+        // $invoiceData = [
+        //     'invoice_id' => $data['id'],
+        //     'status' => 'paid',
+        //     'customer_email' => $customer_email,
+        //     'payment_intent' => $data['resource']['id'],
+        //     'period_end' => strtotime($current_period_end),
+        //     'period_start' => strtotime($data['create_time']),
+        //     'subscription_id' => $subscription_id,
+        //     'currency' => $data['resource']['amount']['currency'],
+        //     'amount_due' => $data['resource']['amount']['total'],
+        //     'created' => strtotime($data['create_time']),
+        //     'amount_paid' => $data['resource']['amount']['details']['subtotal'],
+        //     'invoice_datetime' => $formattedDateCreate_time,
+        // ];
+        // $insetInvoice->insertFields($invoiceData);
 
         $amount_due = $data['resource']['amount']['total'];
         $invoiced_date =  strtotime($data['create_time']);
@@ -702,7 +714,7 @@ class PaypalWebhook
     }
     function handleSubscriptionCancelled($data)
     {
-        
+
         $subscription_id = $data['resource']['id'];
         $status = $data['resource']['status'];
         if ($status === 'CANCELLED') {
@@ -766,7 +778,7 @@ class PaypalWebhook
 
     function listProducts()
     {
-        $url = "https://api-m.paypal.com/v1/catalogs/products";
+        $url = "https://https://api-m.paypal.com/v1/catalogs/products";
 
         $args = [
             'header' => [
@@ -788,7 +800,7 @@ class PaypalWebhook
 
     function createProduct()
     {
-        $url = "https://api-m.paypal.com/v1/catalogs/products";
+        $url = "https://https://api-m.paypal.com/v1/catalogs/products";
 
         $args = [
             'header' => [
@@ -836,7 +848,7 @@ class PaypalWebhook
         $number_month = $data['number_month'];
         $value_price = $data['value_price'];
 
-        $url = "https://api-m.paypal.com/v1/billing/plans";
+        $url = "https://https://api-m.paypal.com/v1/billing/plans";
 
         $planData = [
             "product_id" => $product_id,
@@ -845,7 +857,7 @@ class PaypalWebhook
             "billing_cycles" => [
                 [
                     "frequency" => [
-                        "interval_unit" => "DAY",
+                        "interval_unit" => "MONTH",
                         "interval_count" => (int)$number_month,
                     ],
                     "tenure_type" => "REGULAR",
@@ -897,7 +909,7 @@ class PaypalWebhook
 
     function listPlans()
     {
-        $url = "https://api-m.paypal.com/v1/billing/plans";
+        $url = "https://https://api-m.paypal.com/v1/billing/plans";
 
         $args = [
             'header' => [
@@ -933,7 +945,7 @@ class PaypalWebhook
         }
 
         $planId = $data['planId'];
-        $url = "https://api-m.paypal.com/v1/billing/plans/{$planId}";
+        $url = "https://https://api-m.paypal.com/v1/billing/plans/{$planId}";
 
         $args = [
             'header' => [
@@ -997,7 +1009,7 @@ class PaypalWebhook
 
 
 
-       function getSubscriptionStatus()
+    function getSubscriptionStatus()
     {
         $body = file_get_contents('php://input');
         parse_str($body, $data);
@@ -1008,7 +1020,7 @@ class PaypalWebhook
         }
 
         $subscriptionId = $data['subscriptionId'];
-        $url = "https://api-m.paypal.com/v1/billing/subscriptions/$subscriptionId";
+        $url = "https://https://api-m.paypal.com/v1/billing/subscriptions/$subscriptionId";
 
         $headers = [
             "Authorization: Bearer " . $this->access_token,
@@ -1059,7 +1071,7 @@ class PaypalWebhook
             return;
         }
 
-        $url = "https://api-m.paypal.com/v1/billing/subscriptions/{$subscriptionId}/cancel";
+        $url = "https://https://api-m.paypal.com/v1/billing/subscriptions/{$subscriptionId}/cancel";
 
         $headers = [
             "Authorization: Bearer " . $this->access_token,
@@ -1089,16 +1101,19 @@ class PaypalWebhook
 
     function reviseSubscription($licenseKey, $convertname, $plan)
     {
+        // Fetch Subscription ID based on License Key
+        $subscriptionId = $this->findSubscriptionIdByLicenseKey($licenseKey);
+        $appNameupdateSup = $this->findAppNametoSubcritpion($subscriptionId); // Get app_name
+        $nameBankApp = Config::$apps[$appNameupdateSup][$convertname]; // Get name from bankConfig
+        $planKey = Config::$banks[$nameBankApp]['product_ids'][$appNameupdateSup][$plan]; // Get planKey
 
-        $subscriptionId = $this->findSubscriptionIdByLicenseKey($licenseKey); //Lấy ra subid từ bảng licensekey
-        $appNameupdateSup = $this->findAppNametoSubcritpion($subscriptionId); //lấy ra app_name "vidcombo,vidobo"
-        $nameBankApp = Config::$apps[$appNameupdateSup][$convertname]; //lấy ra được thuộc name nào trong bankConfig
-        $planKey = Config::$banks[$nameBankApp]['product_ids'][$appNameupdateSup][$plan];
+        // Log app name (for debugging purposes)
+        error_log($appNameupdateSup);
 
+        // URL for PayPal sandbox environment
+        $url = "https://https://api-m.paypal.com/v1/billing/subscriptions/{$subscriptionId}/revise";
 
-        $url = "https:///api-m.paypal.com/v1/billing/subscriptions/{$subscriptionId}/revise";
-
-        // Dữ liệu để cập nhật gói
+        // Data for revising the subscription
         $reviseData = [
             "plan_id" => $planKey,
             "application_context" => [
@@ -1106,31 +1121,48 @@ class PaypalWebhook
                 "locale" => "en-US",
                 "shipping_preference" => "NO_SHIPPING",
                 "user_action" => "SUBSCRIBE_NOW",
-                "return_url" =>   Config::$web_domain . "paypal/success",
-                "cancel_url" =>   Config::$web_domain
+                "return_url" => Config::$web_domain . "paypal/success",
+                "cancel_url" => Config::$web_domain
             ]
         ];
 
+        // Initialize cURL
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             "Content-Type: application/json",
-            "Authorization: Bearer {$this->access_token}"
+            "Authorization: Bearer " . $this->access_token // Ensure access token is valid
         ]);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($reviseData));
 
+
         $response = curl_exec($ch);
+        if (curl_errno($ch)) {
+            error_log('cURL error: ' . curl_error($ch));
+        }
         curl_close($ch);
 
-        // Xử lý phản hồi
         $responseArray = json_decode($response, true);
-        echo json_encode([
-            "success" => true,
-            "message" => "Subscription revised successfully.",
-            "data" => $responseArray,
-        ]);
+
+        if (isset($responseArray['error']) && $responseArray['error'] == 'invalid_token') {
+            // Handle invalid token error
+            error_log('Error revising subscription: Invalid Token');
+            echo json_encode([
+                "success" => false,
+                "message" => "Invalid access token. Please refresh the token.",
+                "data" => $responseArray
+            ]);
+        } else {
+            // Success response
+            echo json_encode([
+                "session" => [
+                    "url" => $responseArray['links'][0]['href'],
+                ]
+
+            ]);
+        }
     }
 
 
@@ -1261,5 +1293,25 @@ class PaypalWebhook
         if (isset($device['app_name']) && $device['app_name'])
             return $device['app_name'];
         return null;
+    }
+    function insertInvoices($invoiceId, $custommer_email, $payment_intent, $period_end, $period_start, $subscription_id, $currency, $amount_due, $created, $amount_paid, $invoice_dateme)
+    {
+        $insetInvoice = new DB();
+        $insetInvoice->setTable('invoice');
+        $invoiceData = [
+            'invoice_id' => $invoiceId,
+            'status' => 'paid',
+            'customer_email' => $custommer_email,
+            'payment_intent' => $payment_intent,
+            'period_end' => $period_end,
+            'period_start' => $period_start,
+            'subscription_id' => $subscription_id,
+            'currency' => $currency,
+            'amount_due' => $amount_due,
+            'created' => strtotime($created),
+            'amount_paid' => $amount_paid,
+            'invoice_datetime' => $invoice_dateme,
+        ];
+        $insetInvoice->insertFields($invoiceData);
     }
 }

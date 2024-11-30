@@ -41,7 +41,7 @@ $apiContext = new \PayPal\Rest\ApiContext(
         $bankConfig['secret_key']  // Replace with your PayPal Client Secret
     )
 );
-$apiContext->setConfig(['mode' => 'sanbox']);
+$apiContext->setConfig(['mode' => 'live']);
 
 
 $func = isset($_GET['func']) ? trim($_GET['func']) : '';

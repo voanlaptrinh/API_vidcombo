@@ -1,8 +1,9 @@
 <?php
-// require_once 'redis.php';
+require_once 'redisCache.php';
 // require_once 'common.php';
+// use App\Common;
+require_once 'vendor/autoload.php';
 use App\Common;
-use App\Models\RedisCache;
 use App\Models\DB;
 class checkKey
 {
@@ -27,41 +28,31 @@ class checkKey
             exit;
         }
 
-        // $this->connection = Common::getDatabaseConnection();
-        // if (!$this->connection) {
-        //     throw new Exception('Database connection could not be established.');
-        // }
-        // Insert or update device information
-        $connections = new DB();
-        
-        $stmt_device_check = $this->connection->prepare("SELECT `id`, `download_count`, `last_updated`, `license_key` FROM `device` WHERE `device_id` = :device_id");
-        $stmt_device_check->execute([':device_id' => $device_id]);
 
+        $dbSelectKey = new DB();
+        $dbSelectKey->setTable('device');
+       
+        $device_info =  $dbSelectKey->selectAll(['*'], ['device_id' => $device_id]);
 
-
-
-
-
-        $device_info = $stmt_device_check->fetch(PDO::FETCH_ASSOC);
 
         if (!@$device_info['id']) {
-            $sql_insert_device = "INSERT INTO `device` (`client_ip`,`license_key`, `geo`, `device_id`, `os_name`, `os_version`, `download_count`, `last_updated`, `cpu_name`, `cpu_arch`, `json_info`) 
-                      VALUES (:client_ip, :license_key, :geo, :device_id, :os_name, :os_version, :download_count, :today, :cpu_name, :cpu_arch, :json_info)";
+            $insertDevice = new DB();
+            $insertDevice->setTable('device');
+            $dataInsert = array(
+                'client_ip' => $clientIP,
+                'geo' => $geo,
+                'device_id' => $device_id,
+                'os_name' => $os_name,
+                'os_version' => $os_version,
+                // 'today' => date('Y-m-d'),
+                'cpu_name' => $cpu_name,
+                'cpu_arch' => $cpu_arch,
+                'json_info' => $json_info,
+                'license_key' => $license_key,
+                'download_count' => 5,
+            );
+            $insertDevice->insertFields($dataInsert);
 
-            $stmt_insert_device = $this->connection->prepare($sql_insert_device);
-            $stmt_insert_device->execute([
-                ':client_ip' => $clientIP,
-                ':geo' => $geo,
-                ':device_id' => $device_id,
-                ':os_name' => $os_name,
-                ':os_version' => $os_version,
-                ':today' => date('Y-m-d'),
-                ':cpu_name' => $cpu_name,
-                ':cpu_arch' => $cpu_arch,
-                ':json_info' => $json_info,
-                ':license_key' => $license_key,
-                ':download_count' => 5,
-            ]);
         }
         else {
             $this->freeDL = intval($device_info['download_count']);
@@ -75,9 +66,10 @@ class checkKey
             if ($license_key_cache) {
                 $key_row = json_decode($license_key_cache, true);
             } else {
-                $stmt = $this->connection->prepare("SELECT `id`,`license_key`, `status`, `current_period_end`, `plan`, `plan_alias` FROM `licensekey` WHERE `license_key` = :license_key");
-                $stmt->execute([':license_key' => $license_key]);
-                $key_row = $stmt->fetch(PDO::FETCH_ASSOC);
+                $dbSelectKey = new DB();
+                $dbSelectKey->setTable('licensekey');
+               
+                $key_row =  $dbSelectKey->selectAll(['*'], ['license_key' => $license_key]);
 
                 $redis_license->setCache(json_encode($key_row), ($key_row?300:60)); // Cache for 5mins
             }
@@ -92,11 +84,13 @@ class checkKey
                     if ($periodEndDateTime <= time())
                     {
                         // Cập nhật trạng thái trong cơ sở dữ liệu thành inactive
-                        $stmt = $this->connection->prepare("UPDATE `licensekey` SET `status` = :status WHERE `license_key` = :license_key");
-                        $stmt->execute([
-                            ':status' => 'inactive',
-                            ':license_key' => $license_key
-                        ]);
+                        $updayeKeyStatus = new DB();
+                        $updayeKeyStatus->setTable('licensekey');
+                       
+                        $updayeKeyStatus->updateFields(['status' => 'inactive'], ['license_key' => $license_key]);
+
+                       
+
                         $redis_license->setCache('', 60); // Cache for 1 min
 
                         $error_key = 'expired';
@@ -108,18 +102,29 @@ class checkKey
                         $status = $key_row['status'];
 
                         if (!isset($device_info['license_key']) || $device_info['license_key'] != $license_key) {
-                            // Check if device_id and license_key combination already exists in licensekey_device
-                            $stmt_check = $this->connection->prepare("SELECT COUNT(*) AS `count_licensekey_device` FROM `licensekey_device` WHERE `device_id` = :device_id AND `license_key` = :license_key");
-                            $stmt_check->execute([
-                                ':device_id' => $device_id,
-                                ':license_key' => $license_key,
-                            ]);
-                            $count_licensekey_device = $stmt_check->fetchColumn();
-
+                           
+                            $countLicensekey = new DB();
+                            $countLicensekey->setTable('licensekey_device');
+                     
+                            $conditions = [
+                                'device_id' => $device_id,
+                                'license_key' => $license_key,
+                            ];
+                            
+                            $count_licensekey_device = $countLicensekey->countRecordsDistict('device_id', $conditions);
+                          
                             if(!$count_licensekey_device){
-                                $stmt_count = $this->connection->prepare("SELECT COUNT(DISTINCT `device_id`) AS `used_device_count` FROM `licensekey_device` WHERE `license_key` = :license_key");
-                                $stmt_count->execute([':license_key' => $license_key]);
-                                $used_device_count = $stmt_count->fetchColumn();
+
+                                $countLicensekey = new DB();
+                                $countLicensekey->setTable('licensekey_device');
+                         
+                                $conditions = [
+                                    'license_key' => $license_key,
+                                ];
+                                
+                                $used_device_count = $countLicensekey->countRecordsDistict('device_id', $conditions);
+                    
+
                             } else {
                                 $used_device_count = 1;
                             }
@@ -136,23 +141,26 @@ class checkKey
                                 $status = 'inactive';
                             }
                             else {
-                                // Update the license_key in the device table
-                                $sql_update_device_key = "UPDATE `device` SET `license_key` = :license_key, `update_key_at` = :cur_time WHERE `device_id` = :device_id";
-                                $stmt_update_device_key = $this->connection->prepare($sql_update_device_key);
-                                $stmt_update_device_key->execute([
-                                    ':device_id' => $device_id,
-                                    ':license_key' => $license_key,
-                                    ':cur_time' => date('Y-m-d H:i:s'), // Ngày giờ hiện tại
-                                ]);
+                                $updayeKeyStatus = new DB();
+                                $updayeKeyStatus->setTable('device');
+                                $dataUpdateDevice = [
+                                    'license_key' => $license_key,
+                                    'update_key_at' => date('Y-m-d H:i:s'),
+                                ];
+                                $updayeKeyStatus->updateFields($dataUpdateDevice, ['device_id' => $device_id]);
+
+                           
 
                                 if (!$count_licensekey_device) {
-                                    // Insert into licensekey_device if not already associated
-                                    $sql = "INSERT INTO `licensekey_device` (`device_id`, `license_key`) VALUES (:device_id, :license_key)";
-                                    $stmt_insert = $this->connection->prepare($sql);
-                                    $stmt_insert->execute([
-                                        ':device_id' => $device_id,
-                                        ':license_key' => $license_key,
-                                    ]);
+                                    $insertDevicekey = new DB();
+                                    $insertDevicekey->setTable('licensekey_device');
+                                    $dataInsert = array(
+                                       'device_id' => $device_id,
+                                        'license_key' => $license_key,
+                                    );
+                                    $insertDevicekey->insertFields($dataInsert);
+                        
+                                  
                                 }
                             }
                         }

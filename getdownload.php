@@ -2,7 +2,7 @@
 // require_once 'redis.php';
 // require_once './common.php';
 use App\Common;
-use App\Models\RedisCache;
+use App\RedisCache;
 use App\Models\DB;
 // Retrieve parameters from request
 $device_id = urldecode(Common::getString('device_id'));;

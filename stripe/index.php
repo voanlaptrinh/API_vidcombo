@@ -10,6 +10,7 @@ use App\Models\DB;
 $body = file_get_contents('php://input');
 parse_str($body,  $data);
 
+
 $appName = isset($data['app_name']) ? Common::cleanQuery($data['app_name']) : 'vidcombo';
 $payGate = isset($data['pay_gate']) ? Common::cleanQuery($data['pay_gate']) : '';
 $license_key = isset($data['license_key']) ? Common::cleanQuery($data['license_key']) : '';
@@ -17,12 +18,11 @@ $plan_alias = isset($data['plan']) ? Common::cleanQuery($data['plan']) : '';
 $bank_name = Common::getString('bank_name', 'Stripe');
 $func = Common::getString('func');
 
-
 //0. Nếu không có licenseKey, tạo URL chuyển trang
 if ($func == 'create-checkout-session' && empty($license_key)) {
     $encodedPlan = base64_encode($plan_alias);
     $encodedappName = base64_encode($appName);
-    $url = "https://vidcombo.com/pay?planName=" . urlencode($encodedPlan) . "&appName=" . urlencode($encodedappName);
+    $url = "https://www.vidcombo.com/pay?planName=" . urlencode($encodedPlan) . "&appName=" . urlencode($encodedappName);
 
     // Trả về URL chuyển trang
     $response = [
