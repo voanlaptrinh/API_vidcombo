@@ -229,8 +229,6 @@ class PaypalWebhook
         $data = json_decode($payload, true);
         $event = @$data['event_type'];
 
-        file_put_contents('/www/api.vidcombo.com/stripe/log/a.txt', json_encode($data)."\n".json_encode($_REQUEST));
-
         try {
             switch ($event) {
                 case 'PAYMENT.SALE.COMPLETED': //Xảy ra bất cứ khi nào nỗ lực thanh toán hóa đơn thành công.
@@ -384,10 +382,6 @@ class PaypalWebhook
 
 
 
-
-
-
-
     //--------- Start funtion webhook --------------/
 
 
@@ -529,6 +523,7 @@ class PaypalWebhook
 
             $db_connector->setTable('subscriptions');
             $updateSubdata = [
+                'status' => 'active',
                 'current_period_end' => $new_period_end,
             ];
             $db_connector->updateFields($updateSubdata, ['subscription_id' => $subscription_id]);
@@ -536,6 +531,7 @@ class PaypalWebhook
 
             $db_connector->setTable('licensekey');
             $updateKeydata = [
+                'status' => 'active',
                 'current_period_end' => $new_period_end,
             ];
             $db_connector->updateFields($updateKeydata, ['subscription_id' => $subscription_id]);
