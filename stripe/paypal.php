@@ -1,9 +1,9 @@
 <?php
 require_once '../vendor/autoload.php';
-require_once '../redisCache.php';
-// require_once '../config.php';
-// require_once '../common.php';
-// require_once '../models/DB.php';
+//require_once '../redisCache.php';
+ require_once '../config.php';
+ require_once '../common.php';
+ require_once '../models/DB.php';
 use App\Common;
 use App\Config;
 use App\Models\DB;
@@ -76,15 +76,11 @@ class PaypalWebhook
         $client_id = $this->apiKey;
         $clientSecret = $this->endpointSecret;
 
-        $url = "https://https://api-m.paypal.com/v1/oauth2/token";
+        $url = "https://api-m.paypal.com/v1/oauth2/token";
         $headers = [
             "Authorization: Basic " . base64_encode("$client_id:$clientSecret"),
             "Content-Type: application/x-www-form-urlencoded"
         ];
-        // $data = array(
-        //     'headers' => $headers,
-        //     'body' => 'grant_type=client_credentials'
-        // );
         $data =  "grant_type=client_credentials";
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
@@ -93,13 +89,7 @@ class PaypalWebhook
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $response = curl_exec($ch);
         curl_close($ch);
-
-        // $response = $this->CallAPI($url,'POST', $data);
-
-
         $result = json_decode($response);
-
-
         $this->access_token = isset($result->access_token) ? $result->access_token : '';
     }
 
@@ -115,9 +105,9 @@ class PaypalWebhook
             'plan_id' => $this->plan_id, // ID của gói đăng ký
             'auto_renewal' => true, // Tự động gia hạn
             'application_context' => [
-                'brand_name' => 'RIVERNET', // Tên thương hiệu hiển thị
+                'brand_name' => 'VIDCOMBO', // Tên thương hiệu hiển thị
                 'locale' => 'en-US', // Ngôn ngữ giao diện
-                'shipping_preference' => 'SET_PROVIDED_ADDRESS', // Hoặc 'NO_SHIPPING' nếu không yêu cầu địa chỉ giao hàng
+                'shipping_preference' => 'NO_SHIPPING', // Hoặc 'NO_SHIPPING' nếu không yêu cầu địa chỉ giao hàng
                 'user_action' => 'SUBSCRIBE_NOW', // Hành động mặc định
                 'return_url' => Config::$web_domain . 'paypal/success', // URL khi thanh toán thành công
                 'cancel_url' => Config::$web_domain, // URL khi thanh toán bị hủy
@@ -125,7 +115,7 @@ class PaypalWebhook
         ];
 
         // Endpoint PayPal cho Sandbox
-        $url = "https://https://api-m.paypal.com/v1/billing/subscriptions";
+        $url = "https://api-m.paypal.com/v1/billing/subscriptions";
 
         // Gửi yêu cầu API đến PayPal
         $headers = [
@@ -149,6 +139,11 @@ class PaypalWebhook
         }
 
         curl_close($ch);
+
+        if(@$_SERVER['REMOTE_ADDR'] == '14.232.244.3'){
+            echo '<pre>'; print_r($response); echo '</pre>';
+            die;
+        }
 
         $subscriptionResponse = json_decode($response, true);
 
@@ -230,51 +225,44 @@ class PaypalWebhook
     // Hàm xử lý webhook từ PayPal
     function handlePaypalWebhook()
     {
-        // Kiểm tra nếu phương thức là POST
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $payload = file_get_contents('php://input');
+        $payload = file_get_contents('php://input');
+        $data = json_decode($payload, true);
+        $event = @$data['event_type'];
 
-            $data = json_decode($payload, true);
+        file_put_contents('/www/api.vidcombo.com/stripe/log/a.txt', json_encode($data)."\n".json_encode($_REQUEST));
 
-            $event = $data['event_type'];
+        try {
+            switch ($event) {
+                case 'PAYMENT.SALE.COMPLETED': //Xảy ra bất cứ khi nào nỗ lực thanh toán hóa đơn thành công.
+                    $this->handlePaymentCompleted($data);
+                    break;
+                case 'PAYMENT.SALE.PENDING': //Xảy ra bất cứ khi nào nỗ lực thanh toán hóa đơn thành công.
+                    $this->handlePaymentPending($data);
+                    break;
 
-
-            try {
-                switch ($event) {
-                    case 'PAYMENT.SALE.COMPLETED': //Xảy ra bất cứ khi nào nỗ lực thanh toán hóa đơn thành công.
-                        $this->handlePaymentCompleted($data);
-                        break;
-                    case 'PAYMENT.SALE.PENDING': //Xảy ra bất cứ khi nào nỗ lực thanh toán hóa đơn thành công.
-                        $this->handlePaymentPending($data);
-                        break;
-
-                    case 'BILLING.SUBSCRIPTION.CREATED': //Xảy ra bất cứ khi nào nỗ lực thanh toán hóa đơn thành công.
-                        $this->handleSubscriptionCreated($data);
-                        break;
-                    case 'BILLING.SUBSCRIPTION.UPDATED': //Xảy ra bất cứ khi nào nỗ lực thanh toán hóa đơn thành công.
-                        $this->handleSubscriptionUpdate($data);
-                        break;
-                    case 'BILLING.SUBSCRIPTION.RE-ACTIVATED': //Xảy ra bất cứ khi nào nỗ lực thanh toán hóa đơn thành công.
-                        $this->handleSubscriptionReActivated($data);
-                        break;
-                    case 'BILLING.SUBSCRIPTION.ACTIVATED': //Xảy ra bất cứ khi nào nỗ lực thanh toán hóa đơn thành công.
-                        $this->handleSubscriptionActivated($data);
-                        break;
-                    case 'BILLING.SUBSCRIPTION.CANCELLED': //Xảy ra bất cứ khi nào nỗ lực thanh toán hóa đơn thành công.
-                        $this->handleSubscriptionCancelled($data);
-                        break;
-                    case 'BILLING.SUBSCRIPTION.RENEWED': //khi gois sub hết hạn và đến ngày tự động ra hạn
-                        $this->handleSubscriptionRenewed($data);
-                        break;
-                    default:
-                        error_log('Unhandled event type ' . $event);
-                }
-            } catch (\Exception $e) {
-                echo $e->getMessage();
+                case 'BILLING.SUBSCRIPTION.CREATED': //Xảy ra bất cứ khi nào nỗ lực thanh toán hóa đơn thành công.
+                    $this->handleSubscriptionCreated($data);
+                    break;
+                case 'BILLING.SUBSCRIPTION.UPDATED': //Xảy ra bất cứ khi nào nỗ lực thanh toán hóa đơn thành công.
+                    $this->handleSubscriptionUpdate($data);
+                    break;
+                case 'BILLING.SUBSCRIPTION.RE-ACTIVATED': //Xảy ra bất cứ khi nào nỗ lực thanh toán hóa đơn thành công.
+                    $this->handleSubscriptionReActivated($data);
+                    break;
+                case 'BILLING.SUBSCRIPTION.ACTIVATED': //Xảy ra bất cứ khi nào nỗ lực thanh toán hóa đơn thành công.
+                    $this->handleSubscriptionActivated($data);
+                    break;
+                case 'BILLING.SUBSCRIPTION.CANCELLED': //Xảy ra bất cứ khi nào nỗ lực thanh toán hóa đơn thành công.
+                    $this->handleSubscriptionCancelled($data);
+                    break;
+                case 'BILLING.SUBSCRIPTION.RENEWED': //khi gois sub hết hạn và đến ngày tự động ra hạn
+                    $this->handleSubscriptionRenewed($data);
+                    break;
+                default:
+                    error_log('Unhandled event type ' . $event);
             }
-        } else {
-            // Nếu không phải là yêu cầu POST
-            file_put_contents('log/webhook_debug.log', "Request method is not POST.\n\n", FILE_APPEND);
+        } catch (\Exception $e) {
+            echo $e->getMessage();
         }
     }
 
@@ -316,7 +304,7 @@ class PaypalWebhook
     // Lấy chi tiết plan từ PayPal API
     private function getPlanDetailsFromPayPal($plan_id, $accessToken)
     {
-        $url = "https://https://api-m.paypal.com/v1/billing/plans/{$plan_id}";
+        $url = "https://api-m.paypal.com/v1/billing/plans/{$plan_id}";
         $response = $this->CallAPI($url, 'GET', array());
         return json_decode($response, true);
     }
@@ -420,16 +408,22 @@ class PaypalWebhook
 
         $db = new DB();
         $db->setTable('subscriptions');
+
         $dataInsert = array(
             'subscription_id' => $subscription_id,
-            'app_name' => $this->app_name,
+            'customer_id' => '',
             'status' => $status,
             'current_period_start' => $current_period_start,
-            'create_time' => $create_time,
-            'plan' => $plan_alias,
+            'current_period_end' => $current_period_start,
+            'customer' => '',
             'subscription_json' => $subcrscription_json,
+            'plan' => $plan_id,
             'bank_name' => 'Paypal',
+            'app_name' => $this->app_name,
         );
+
+        file_put_contents('/www/api.vidcombo.com/stripe/log/b.txt', json_encode($dataInsert)."\n". json_encode($data));
+
         $db->insertFields($dataInsert);
     }
     private $db;
@@ -441,23 +435,18 @@ class PaypalWebhook
     }
     function handlePaymentCompleted($data)
     {
-
-
         $subscription_id = $data['resource']['billing_agreement_id'];
         $create_time = $data['create_time'];
-        $dbSub = $this->getDB();
-        $dbSub->setTable('subscriptions');
-        $subscription = $dbSub->selectRow('*', ['subscription_id' => $subscription_id]);
-
+        $db_connector = $this->getDB();
+        $db_connector->setTable('subscriptions');
+        $subscription = $db_connector->selectRow('*', ['subscription_id' => $subscription_id]);
 
         $customer_email = $subscription['customer_email'];
         $customer_name = $subscription['customer_email'];
         $current_period_end = $subscription['current_period_end'];
         $this->app_name = $subscription['app_name'];
-        $plan_alias = $subscription['plan'];
-
-
-        $this->plan_id = Config::$banks[$this->bank_name]['product_ids'][$this->app_name][$plan_alias];
+        $this->plan_id = $subscription['plan'];
+        $plan_alias = Config::getPlanAliasByPlanID($this->plan_id);
 
         $date = DateTime::createFromFormat('Y-m-d\TH:i:s.u\Z', $create_time);
         $formattedDateCreate_time = $date->format('Y-m-d H:i:s');
@@ -471,12 +460,9 @@ class PaypalWebhook
         $amount_due = $data['resource']['amount']['total'];
         $created = $data['create_time'];
         $amount_paid = $data['resource']['amount']['details']['subtotal'];
-     
 
-
-        $dbkey = $this->getDB();
-        $dbkey->setTable('licensekey');
-        $row = $dbkey->countRecords(['subscription_id' => $subscription_id]);
+        $db_connector->setTable('licensekey');
+        $row = $db_connector->countRecords(['subscription_id' => $subscription_id]);
 
         if ($row == 0) {
             $current_period_end_date = new DateTime($current_period_end);
@@ -504,8 +490,7 @@ class PaypalWebhook
             }
 
             $new_period_end = $current_period_end_date->format('Y-m-d H:i:s');
-            $dbInsetkey = new DB();
-            $dbInsetkey->setTable('licensekey');
+            $db_connector->setTable('licensekey');
             $dataInsertKey = array(
                 'subscription_id' => $subscription_id,
                 'license_key' => $licenseKey,
@@ -518,14 +503,14 @@ class PaypalWebhook
                 'created_at' => $formattedDateCreate_time,
                 'current_period_end' => $new_period_end,
             );
-            $dbInsetkey->insertFields($dataInsertKey);
-            $this->insertInvoices($invoice_id, $customer_email, $payment_intent, $period_end, $period_start, $subscription_id, $currency, $amount_due, $created, $amount_paid, $formattedDateCreate_time);
-        } else {
+            $db_connector->insertFields($dataInsertKey);
+        }
+        else {
             // Gia hạn
             $current_period_end_date = new DateTime($current_period_end); // Ngày kết thúc hiện tại
 
 
-            $url = "https://https://api-m.paypal.com/v1/billing/plans/" . $this->plan_id;
+            $url = "https://api-m.paypal.com/v1/billing/plans/" . $this->plan_id;
             $dataPost = array('header' => array(), 'body' => '');
             $response = $this->CallAPI($url, 'GET', $dataPost);
             $planDetails = json_decode($response, true);
@@ -542,49 +527,31 @@ class PaypalWebhook
             // Cập nhật lại ngày hết hạn
             $new_period_end = $current_period_end_date->format('Y-m-d H:i:s');
 
-            $updateSub = new DB();
-            $updateSub->setTable('subscriptions');
+            $db_connector->setTable('subscriptions');
             $updateSubdata = [
                 'current_period_end' => $new_period_end,
             ];
-            $updateSub->updateFields($updateSubdata, ['subscription_id' => $subscription_id]);
+            $db_connector->updateFields($updateSubdata, ['subscription_id' => $subscription_id]);
 
 
-
-            $updateKey = new DB();
-            $updateKey->setTable('licensekey');
+            $db_connector->setTable('licensekey');
             $updateKeydata = [
                 'current_period_end' => $new_period_end,
             ];
-            $updateKey->updateFields($updateKeydata, ['subscription_id' => $subscription_id]);
-            $this->insertInvoices($invoice_id, $customer_email, $payment_intent, $period_end, $period_start, $subscription_id, $currency, $amount_due, $created, $amount_paid, $formattedDateCreate_time);
+            $db_connector->updateFields($updateKeydata, ['subscription_id' => $subscription_id]);
         }
 
-
-        // $insetInvoice = new DB();
-        // $insetInvoice->setTable('invoice');
-        // $invoiceData = [
-        //     'invoice_id' => $data['id'],
-        //     'status' => 'paid',
-        //     'customer_email' => $customer_email,
-        //     'payment_intent' => $data['resource']['id'],
-        //     'period_end' => strtotime($current_period_end),
-        //     'period_start' => strtotime($data['create_time']),
-        //     'subscription_id' => $subscription_id,
-        //     'currency' => $data['resource']['amount']['currency'],
-        //     'amount_due' => $data['resource']['amount']['total'],
-        //     'created' => strtotime($data['create_time']),
-        //     'amount_paid' => $data['resource']['amount']['details']['subtotal'],
-        //     'invoice_datetime' => $formattedDateCreate_time,
-        // ];
-        // $insetInvoice->insertFields($invoiceData);
+        $db_connector->setTable('invoice');
+        $count = $db_connector->countRecords(['invoice_id' => $invoice_id]);
+        if (!$count){
+            $this->insertInvoices($invoice_id, $customer_email, $payment_intent, $period_end, $period_start, $subscription_id, $currency, $amount_due, $created, $amount_paid, $formattedDateCreate_time);
+        }
 
         $amount_due = $data['resource']['amount']['total'];
         $invoiced_date =  strtotime($data['create_time']);
 
-        $selectLiKey = new DB();
-        $selectLiKey->setTable('licensekey');
-        $result =  $selectLiKey->selectRow('*', ['subscription_id' => $subscription_id]);
+        $db_connector->setTable('licensekey');
+        $result =  $db_connector->selectRow('*', ['subscription_id' => $subscription_id]);
 
         if ($this->app_name == 'vidcombo') {
             Common::sendSuccessEmailVidcombo($customer_email, $customer_name, $amount_due, $invoiced_date);
@@ -606,13 +573,12 @@ class PaypalWebhook
             // $send_status = Common::sendLicenseKeyEmail($customer_email, $customer_name, $licenseKey);
 
             if ($send_status) {
-                $updateLiKey = new DB();
-                $updateLiKey->setTable('licensekey');
+                $db_connector->setTable('licensekey');
                 $dataLiKeyupdate = [
                     'send' => 'ok',
                     'subscription_id' => $subscription_id,
                 ];
-                $updateLiKey->updateFields($dataLiKeyupdate, ['subscription_id' => $subscription_id]);
+                $db_connector->updateFields($dataLiKeyupdate, ['subscription_id' => $subscription_id]);
             }
         } else {
             error_log("No license key found for subscription ID: $subscription_id");
@@ -621,7 +587,6 @@ class PaypalWebhook
     }
     function handleSubscriptionUpdate($data)
     {
-
         $subscription_id = $data['resource']['id'];
         $plan = $data['resource']['plan_id'];
 
@@ -638,21 +603,19 @@ class PaypalWebhook
         if (!$plan_alias || !$this->app_name) {
             error_log("[ERROR] Plan alias or App Product not found for Plan ID: $plan . " . $this->app_name);
         }
-        $updateSub = new DB();
-        $updateSub->setTable('subscriptions');
+        $db_connector = $this->getDB();
+        $db_connector->setTable('subscriptions');
         $dataSubupdate = [
-            'plan' => $plan_alias,
+            'plan' => $plan,
         ];
-        $updateSub->updateFields($dataSubupdate, ['subscription_id' => $subscription_id]);
+        $db_connector->updateFields($dataSubupdate, ['subscription_id' => $subscription_id]);
 
-
-        $updateKey = new DB();
-        $updateKey->setTable('licensekey');
+        $db_connector->setTable('licensekey');
         $dataKeyupdate = [
             'plan' => $plan,
             'plan_alias' => $plan_alias,
         ];
-        $updateKey->updateFields($dataKeyupdate, ['subscription_id' => $subscription_id]);
+        $db_connector->updateFields($dataKeyupdate, ['subscription_id' => $subscription_id]);
     }
     function handlePaymentPending($data)
     {
@@ -660,25 +623,24 @@ class PaypalWebhook
         file_put_contents('log/handlePaymentPending.log', $logContent, FILE_APPEND);
     }
 
-    function handleSubscriptionRenewed($data): void
+    function handleSubscriptionRenewed($data)
     {
         $subscription_id = $data['resource']['id']; // ID của subscription
         $nextBillingTime = $data['resource']['billing_info']['next_billing_time']; // Ngày gia hạn tiếp theo
         $dateTime = new DateTime($nextBillingTime);
         $current_period_end = $dateTime->format('Y-m-d H:i:s');
-        $updateSub = new DB();
-        $updateSub->setTable('subscriptions');
+        $db_connector = new DB();
+        $db_connector->setTable('subscriptions');
         $dataSubupdate = [
             'current_period_end' => $current_period_end,
         ];
-        $updateSub->updateFields($dataSubupdate, ['subscription_id' => $subscription_id]);
+        $db_connector->updateFields($dataSubupdate, ['subscription_id' => $subscription_id]);
 
-        $updateKey = new DB();
-        $updateKey->setTable('licensekey');
+        $db_connector->setTable('licensekey');
         $dataKeyupdate = [
             'current_period_end' => $current_period_end,
         ];
-        $updateKey->updateFields($dataKeyupdate, ['subscription_id' => $subscription_id]);
+        $db_connector->updateFields($dataKeyupdate, ['subscription_id' => $subscription_id]);
     }
 
 
@@ -695,22 +657,21 @@ class PaypalWebhook
         $current_period_end = $dateTime->format('Y-m-d H:i:s');
 
 
-        $updateSub = new DB();
-        $updateSub->setTable('subscriptions');
+        $db_connector = new DB();
+        $db_connector->setTable('subscriptions');
         $dataSubupdate = [
             'status' => $status,
             'current_period_end' => $current_period_end,
         ];
-        $updateSub->updateFields($dataSubupdate, ['subscription_id' => $subscription_id]);
+        $db_connector->updateFields($dataSubupdate, ['subscription_id' => $subscription_id]);
 
 
-        $updateKey = new DB();
-        $updateKey->setTable('licensekey');
+        $db_connector->setTable('licensekey');
         $dataKeyupdate = [
             'status' => $status,
             'current_period_end' => $current_period_end,
         ];
-        $updateKey->updateFields($dataKeyupdate, ['subscription_id' => $subscription_id]);
+        $db_connector->updateFields($dataKeyupdate, ['subscription_id' => $subscription_id]);
     }
     function handleSubscriptionCancelled($data)
     {
@@ -778,7 +739,7 @@ class PaypalWebhook
 
     function listProducts()
     {
-        $url = "https://https://api-m.paypal.com/v1/catalogs/products";
+        $url = "https://api-m.paypal.com/v1/catalogs/products";
 
         $args = [
             'header' => [
@@ -800,7 +761,7 @@ class PaypalWebhook
 
     function createProduct()
     {
-        $url = "https://https://api-m.paypal.com/v1/catalogs/products";
+        $url = "https://api-m.paypal.com/v1/catalogs/products";
 
         $args = [
             'header' => [
@@ -808,8 +769,8 @@ class PaypalWebhook
                 "Content-Type: application/json"
             ],
             'body' => [
-                "name" => "Gói đăng ký Premium ",
-                "description" => "Gói đăng ký dịch vụ hàng tháng",
+                "name" => "Vidobo",
+                "description" => "Vidobo premium",
                 "type" => "SERVICE"
             ]
         ];
@@ -833,27 +794,14 @@ class PaypalWebhook
 
 
 
-    function createPlans()
+    function createPlans($product_id, $plan_name, $number_month, $value_price, $plan_desc)
     {
-        $body = file_get_contents('php://input');
-        parse_str($body, $data);
-
-        if (!isset($data['product_id'], $data['plan_name'], $data['number_month'], $data['value_price'])) {
-            echo json_encode(["error" => "Missing required fields."]);
-            return;
-        }
-
-        $product_id = $data['product_id'];
-        $plan_name = $data['plan_name'];
-        $number_month = $data['number_month'];
-        $value_price = $data['value_price'];
-
-        $url = "https://https://api-m.paypal.com/v1/billing/plans";
+        $url = "https://api-m.paypal.com/v1/billing/plans";
 
         $planData = [
             "product_id" => $product_id,
             "name" => $plan_name,
-            "description" => "A monthly subscription to our service.",
+            "description" => $plan_desc,
             "billing_cycles" => [
                 [
                     "frequency" => [
@@ -876,7 +824,7 @@ class PaypalWebhook
                 "payment_failure_threshold" => 3
             ],
             "taxes" => [
-                "percentage" => "10",
+                "percentage" => "0",
                 "inclusive" => false
             ]
         ];
@@ -909,7 +857,7 @@ class PaypalWebhook
 
     function listPlans()
     {
-        $url = "https://https://api-m.paypal.com/v1/billing/plans";
+        $url = "https://api-m.paypal.com/v1/billing/plans";
 
         $args = [
             'header' => [
@@ -921,6 +869,9 @@ class PaypalWebhook
         try {
             $response = $this->CallAPI($url, "GET", $args);
             $plans = json_decode($response, true);
+
+            echo '<pre>'; print_r($plans); echo '</pre>';
+            die;
 
             if (isset($plans['plans']) && count($plans['plans']) > 0) {
                 echo json_encode($plans['plans'], JSON_PRETTY_PRINT);
@@ -945,7 +896,7 @@ class PaypalWebhook
         }
 
         $planId = $data['planId'];
-        $url = "https://https://api-m.paypal.com/v1/billing/plans/{$planId}";
+        $url = "https://api-m.paypal.com/v1/billing/plans/{$planId}";
 
         $args = [
             'header' => [
@@ -1020,7 +971,7 @@ class PaypalWebhook
         }
 
         $subscriptionId = $data['subscriptionId'];
-        $url = "https://https://api-m.paypal.com/v1/billing/subscriptions/$subscriptionId";
+        $url = "https://api-m.paypal.com/v1/billing/subscriptions/$subscriptionId";
 
         $headers = [
             "Authorization: Bearer " . $this->access_token,
@@ -1059,7 +1010,7 @@ class PaypalWebhook
     }
 
 
-    function cancelSubscription(): void
+    function cancelSubscription()
     {
 
         $body = file_get_contents('php://input');
@@ -1071,7 +1022,7 @@ class PaypalWebhook
             return;
         }
 
-        $url = "https://https://api-m.paypal.com/v1/billing/subscriptions/{$subscriptionId}/cancel";
+        $url = "https://api-m.paypal.com/v1/billing/subscriptions/{$subscriptionId}/cancel";
 
         $headers = [
             "Authorization: Bearer " . $this->access_token,
@@ -1111,7 +1062,7 @@ class PaypalWebhook
         error_log($appNameupdateSup);
 
         // URL for PayPal sandbox environment
-        $url = "https://https://api-m.paypal.com/v1/billing/subscriptions/{$subscriptionId}/revise";
+        $url = "https://api-m.paypal.com/v1/billing/subscriptions/{$subscriptionId}/revise";
 
         // Data for revising the subscription
         $reviseData = [
