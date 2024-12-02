@@ -239,7 +239,6 @@ class PaypalWebhook
                 case 'PAYMENT.SALE.PENDING': //Xảy ra bất cứ khi nào nỗ lực thanh toán hóa đơn thành công.
                     $this->handlePaymentPending($data);
                     break;
-
                 case 'BILLING.SUBSCRIPTION.CREATED': //Xảy ra bất cứ khi nào nỗ lực thanh toán hóa đơn thành công.
                     $this->handleSubscriptionCreated($data);
                     break;
@@ -422,7 +421,6 @@ class PaypalWebhook
             'app_name' => $this->app_name,
         );
 
-        file_put_contents('/www/api.vidcombo.com/stripe/log/b.txt', json_encode($dataInsert)."\n". json_encode($data));
 
         $db->insertFields($dataInsert);
     }
@@ -446,6 +444,7 @@ class PaypalWebhook
         $current_period_end = $subscription['current_period_end'];
         $this->app_name = $subscription['app_name'];
         $this->plan_id = $subscription['plan'];
+
         $plan_alias = Config::getPlanAliasByPlanID($this->plan_id);
 
         $date = DateTime::createFromFormat('Y-m-d\TH:i:s.u\Z', $create_time);
@@ -492,16 +491,17 @@ class PaypalWebhook
             $new_period_end = $current_period_end_date->format('Y-m-d H:i:s');
             $db_connector->setTable('licensekey');
             $dataInsertKey = array(
+                'customer_id' => '',
+                'status' => 'active',
                 'subscription_id' => $subscription_id,
                 'license_key' => $licenseKey,
-                'status' => 'active',
                 'send' => 'not',
+                'current_period_end' => $new_period_end,
                 'plan' => $this->plan_id,
+                'created_at' => $formattedDateCreate_time,
                 'plan_alias' => $plan_alias,
                 'sk_key' => $this->apiKey,
                 'sign_key' => $this->endpointSecret,
-                'created_at' => $formattedDateCreate_time,
-                'current_period_end' => $new_period_end,
             );
             $db_connector->insertFields($dataInsertKey);
         }
@@ -694,48 +694,6 @@ class PaypalWebhook
 
     // ----- End webhooks funtion  ------- //
 
-
-
-    function upSubscription($accessToken)
-    {
-        $body = file_get_contents('php://input');
-        parse_str($body, $data);
-        $subscription_id = $data['subscription_id'];
-        $planId = $data['planId'];
-        $url = "https:///api-m.paypal.com/v1/billing/subscriptions/{$subscription_id}";
-
-        $headers = [
-            "Authorization: Bearer $accessToken",
-            "Content-Type: application/json"
-        ];
-        $data = [
-            "plan_id" => $planId,  // The new plan ID you want to update to
-        ];
-
-        // Step 4: Initialize cURL
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PATCH');
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-
-        // Execute the request
-        $response = curl_exec($ch);
-        curl_close($ch);
-
-        // Handle the response
-        $result = json_decode($response, true);
-
-        var_dump($result);
-        // Check for success or failure
-        // if (isset($result['id'])) {
-        //     // Successfully updated subscription
-        //     return $result;
-        // } else {
-        //     // Handle error
-        //     return "Error: " . $result['message'] ?? 'Unknown error';
-        // }
-    }
 
     function listProducts()
     {
@@ -1186,7 +1144,7 @@ class PaypalWebhook
         // $nameBankApp = Config::$banks[$appNameupdateSup][$convertname];
         // $planKey = Config::$banks[$nameBankApp]['product_ids'][$appNameupdateSup][$plan];
 
-        $url = "https:///api-m.paypal.com/v1/billing/subscriptions/{$subscriptionId}/revise";
+        $url = "https://api-m.sanbox.paypal.com/v1/billing/subscriptions/{$subscriptionId}/revise";
 
         // Dữ liệu để cập nhật gói
         $reviseData = [
@@ -1233,7 +1191,6 @@ class PaypalWebhook
     }
     function findAppNametoSubcritpion($subscriptionId)
     {
-
         // Chuẩn bị và thực hiện truy vấn
         $selectSub = new DB();
         $selectSub->setTable('subscriptions');
@@ -1260,6 +1217,7 @@ class PaypalWebhook
             'currency' => $currency,
             'amount_due' => $amount_due,
             'created' => strtotime($created),
+            'customer_id' => '',
             'amount_paid' => $amount_paid,
             'invoice_datetime' => $invoice_dateme,
         ];
