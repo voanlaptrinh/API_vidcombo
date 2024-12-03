@@ -304,22 +304,22 @@ class StripeWebhook
             $udateinvoice->updateFields($dataInvoice, ['invoice_id' => $invoice_id]);
 
 
-            $appNameEmail = $this->getCustomerAppNameBySubscriptionId($subscription_id);
+            // $appNameEmail = $this->getCustomerAppNameBySubscriptionId($subscription_id);
 
-            // Chỉ cập nhật bảng licensekey nếu trạng thái là 'paid'
-            if ($status == 'paid') {
-                error_log('invoice update' . $appNameEmail . 'status' . $status);
-                $amount_in_dollars = $amount_due / 100;
-                $amount_due = number_format($amount_in_dollars, 2);
-                // Gửi email thông báo
-                // Create an instance of PHPMailer
-                if ($appNameEmail == 'vidcombo') {
+            // // Chỉ cập nhật bảng licensekey nếu trạng thái là 'paid'
+            // if ($status == 'paid') {
+            //     error_log('invoice update' . $appNameEmail . 'status' . $status);
+            //     $amount_in_dollars = $amount_due / 100;
+            //     $amount_due = number_format($amount_in_dollars, 2);
+            //     // Gửi email thông báo
+            //     // Create an instance of PHPMailer
+            //     if ($appNameEmail == 'vidcombo') {
 
-                    Common::sendSuccessEmailVidcombo($customer_email, $customer_name, $amount_due, $invoiced_date);
-                } else {
-                    Common::sendSuccessEmailVidobo($customer_email, $customer_name, $amount_due, $invoiced_date);
-                }
-            }
+            //         Common::sendSuccessEmailVidcombo($customer_email, $customer_name, $amount_due, $invoiced_date);
+            //     } else {
+            //         Common::sendSuccessEmailVidobo($customer_email, $customer_name, $amount_due, $invoiced_date);
+            //     }
+            // }
         } catch (PDOException $e) {
             // Ghi lại lỗi nếu có vấn đề với cơ sở dữ liệu
             error_log("Database error: " . $e->getMessage());
@@ -463,11 +463,7 @@ class StripeWebhook
         $amount_due = number_format($amount_in_dollars, 2);
         error_log('invoicefanalized invoice' . $this->app_name . 'status ' . $status);
 
-        if ($this->app_name == 'vidcombo') {
-            Common::sendSuccessEmailVidcombo($customer_email, $customer_name, $amount_due, $invoiced_date);
-        } else {
-            Common::sendSuccessEmailVidobo($customer_email, $customer_name, $amount_due, $invoiced_date);
-        }
+    
     }
 
     // Hàm để xử lý khi một subscription mới được tạo

@@ -1,9 +1,10 @@
 <?php
 require_once '../vendor/autoload.php';
 //require_once '../redisCache.php';
- require_once '../config.php';
- require_once '../common.php';
- require_once '../models/DB.php';
+require_once '../config.php';
+require_once '../common.php';
+require_once '../models/DB.php';
+
 use App\Common;
 use App\Config;
 use App\Models\DB;
@@ -140,8 +141,10 @@ class PaypalWebhook
 
         curl_close($ch);
 
-        if(@$_SERVER['REMOTE_ADDR'] == '14.232.244.3'){
-            echo '<pre>'; print_r($response); echo '</pre>';
+        if (@$_SERVER['REMOTE_ADDR'] == '14.232.244.3') {
+            echo '<pre>';
+            print_r($response);
+            echo '</pre>';
             die;
         }
 
@@ -243,6 +246,9 @@ class PaypalWebhook
                 case 'BILLING.SUBSCRIPTION.UPDATED': //Xảy ra bất cứ khi nào nỗ lực thanh toán hóa đơn thành công.
                     $this->handleSubscriptionUpdate($data);
                     break;
+                case 'PAYMENT.SALE.REFUNDED': //Xảy ra bất cứ khi nào nỗ lực thanh toán hóa đơn thành công.
+                    $this->handleSubscriptionRefund($data);
+                    break;
                 case 'BILLING.SUBSCRIPTION.RE-ACTIVATED': //Xảy ra bất cứ khi nào nỗ lực thanh toán hóa đơn thành công.
                     $this->handleSubscriptionReActivated($data);
                     break;
@@ -290,6 +296,7 @@ class PaypalWebhook
 
         // Cập nhật subscription trong cơ sở dữ liệu
         $this->updateSubscription($subscription_id, $status, $formatted_period_end, $customer_email);
+
         $this->updateInvoiceEmail($subscription_id, $customer_email);
 
         // Kiểm tra và gửi license key nếu chưa gửi
@@ -298,8 +305,10 @@ class PaypalWebhook
         error_log('Subscription activated successfully');
     }
 
+
+
     // Lấy chi tiết plan từ PayPal API
-    private function getPlanDetailsFromPayPal($plan_id, $accessToken)
+    private function getPlanDetailsFromPayPal($plan_id)
     {
         $url = "https://api-m.paypal.com/v1/billing/plans/{$plan_id}";
         $response = $this->CallAPI($url, 'GET', array());
@@ -384,6 +393,48 @@ class PaypalWebhook
 
     //--------- Start funtion webhook --------------/
 
+
+
+    function handleSubscriptionRefund($data)
+    {
+        $payment_intent = $data['resource']['sale_id'];
+        $amount_refunded = $data['resource']['total_refunded_amount']['value'];
+        $payment_intent = $data['resource']['sale_id'];
+        $payment_method =  $data['resource']['total_refunded_amount']['currency'];
+        $receipt_url =  $data['resource']['links'][0]['href'];
+        // Chuyển đổi định dạng sử dụng DateTime
+        $dateTime = new DateTime($data['create_time']);
+
+        // Định dạng lại thời gian theo định dạng Y-m-d H:i:s
+        $created_at = $dateTime->format('Y-m-d H:i:s');
+
+        $db_connector = new DB();
+        $db_connector->setTable('invoice');
+        $invoiceSelect = $db_connector->selectRow('*', ['payment_intent' => $payment_intent]);
+        $amount_captured = $invoiceSelect['amount_paid'];
+        $subcription_id = $invoiceSelect['subscription_id'];
+
+        $db_connector->setTable('licensekey');
+        $licenseSelect = $db_connector->selectRow('*', ['subscription_id' => $subcription_id]);
+
+
+        $invoice_id = $invoiceSelect['invoice_id'];
+
+        $db_connector->setTable('refund');
+        $refundInsert = [
+            'created_at' => $created_at,
+            'amount_captured' => $amount_captured,
+            'amount_refunded' => $amount_refunded,
+            'customer_id' => '',
+            'invoice_id' => $invoice_id,
+            'payment_intent' => $payment_intent,
+            'payment_method' => $payment_method,
+            'receipt_url' => $receipt_url,
+            'plan_alias' => $licenseSelect['plan_alias'],
+        ];
+        $db_connector->insertFields($refundInsert);
+
+    }
 
     function handleSubscriptionCreated($data)
     {
@@ -498,8 +549,7 @@ class PaypalWebhook
                 'sign_key' => $this->endpointSecret,
             );
             $db_connector->insertFields($dataInsertKey);
-        }
-        else {
+        } else {
             // Gia hạn
             $current_period_end_date = new DateTime($current_period_end); // Ngày kết thúc hiện tại
 
@@ -539,8 +589,28 @@ class PaypalWebhook
 
         $db_connector->setTable('invoice');
         $count = $db_connector->countRecords(['invoice_id' => $invoice_id]);
-        if (!$count){
-            $this->insertInvoices($invoice_id, $customer_email, $payment_intent, $period_end, $period_start, $subscription_id, $currency, $amount_due, $created, $amount_paid, $formattedDateCreate_time);
+        if (!$count) {
+
+            $insetInvoice = new DB();
+            $insetInvoice->setTable('invoice');
+            $invoiceData = [
+                'invoice_id' => $invoice_id,
+                'status' => 'paid',
+                'customer_email' => $customer_email,
+                'payment_intent' => $payment_intent,
+                'period_end' => $period_end,
+                'period_start' => $period_start,
+                'subscription_id' => $subscription_id,
+                'currency' => $currency,
+                'amount_due' => $amount_due,
+                'created' => strtotime($created),
+                'customer_id' => '',
+                'amount_paid' => $amount_paid,
+                'invoice_datetime' => $formattedDateCreate_time,
+            ];
+            $insetInvoice->insertFields($invoiceData);
+
+            // $this->insertInvoices($invoice_id, $customer_email, $payment_intent, $period_end, $period_start, $subscription_id, $currency, $amount_due, $created, $amount_paid, $formattedDateCreate_time);
         }
 
         $amount_due = $data['resource']['amount']['total'];
@@ -549,11 +619,7 @@ class PaypalWebhook
         $db_connector->setTable('licensekey');
         $result =  $db_connector->selectRow('*', ['subscription_id' => $subscription_id]);
 
-        if ($this->app_name == 'vidcombo') {
-            Common::sendSuccessEmailVidcombo($customer_email, $customer_name, $amount_due, $invoiced_date);
-        } else {
-            Common::sendSuccessEmailVidobo($customer_email, $customer_name, $amount_due, $invoiced_date);
-        }
+
 
         // Common::sendSuccessEmail($customer_email, $customer_name, $amount_due, $invoiced_date);
         if ($result && isset($result['license_key']) && $result['send'] === 'not') {
@@ -676,7 +742,6 @@ class PaypalWebhook
         $status = $data['resource']['status'];
         if ($status === 'CANCELLED') {
             $status = 'canceled';
-
             $updateSub = new DB();
             $updateSub->setTable('subscriptions');
             $dataSubupdate = [
@@ -824,7 +889,9 @@ class PaypalWebhook
             $response = $this->CallAPI($url, "GET", $args);
             $plans = json_decode($response, true);
 
-            echo '<pre>'; print_r($plans); echo '</pre>';
+            echo '<pre>';
+            print_r($plans);
+            echo '</pre>';
             die;
 
             if (isset($plans['plans']) && count($plans['plans']) > 0) {
@@ -1218,5 +1285,44 @@ class PaypalWebhook
             'invoice_datetime' => $invoice_dateme,
         ];
         $insetInvoice->insertFields($invoiceData);
+    }
+    function refundPayment()
+    {
+        $body = file_get_contents('php://input');
+        parse_str($body, $data);
+        $captureId = $data['captureId'] ?? null;
+        $amount = $data['amount'] ?? null;
+        $url = "https://api-m.paypal.com/v1/payments/sale/$captureId/refund";
+        $headers = [
+            'Authorization: Bearer ' . $this->access_token,
+            'Content-Type: application/json',
+        ];
+        $refundData = [
+            'amount' => [
+                'total' => $amount,
+                'currency' => 'USD'
+            ],
+            'note_to_payer' => 'Customer Requested Refund'
+        ];
+        // Gửi yêu cầu hoàn tiền qua cURL
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($refundData));
+
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close(handle: $ch);
+
+        $responseData = json_decode($response, true);
+        var_dump($response);
+        if ($httpCode != 200) {
+            echo json_encode(['error' => 'PayPal API error', 'details' => $responseData]);
+            http_response_code($httpCode);
+            return;
+        }
+        echo json_encode(['success' => true, 'message' => 'Refund successful', 'details' => $responseData]);
     }
 }

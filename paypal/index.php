@@ -85,6 +85,9 @@ switch ($func) {
     case 'detail-plans': //Chi tiết plan
         $paypal_funtion->getPlanDetails();
         break;
+    case 'refund-plans': //Chi tiết plan
+        $paypal_funtion->refundPayment();
+        break;
 
         // case 'webhook':
         //     $paypal_funtion->handlePaypalWebhook();
