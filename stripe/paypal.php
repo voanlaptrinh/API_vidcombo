@@ -281,7 +281,7 @@ class PaypalWebhook
 
         // Gọi API PayPal để lấy chi tiết gói đăng ký
         $plan_id = $data['resource']['plan_id'];
-        $planDetails = $this->getPlanDetailsFromPayPal($plan_id, $this->access_token);
+        $planDetails = $this->getPlanDetailsFromPayPal($plan_id);
         if (!$planDetails) {
             error_log("Failed to fetch plan details for plan_id: $plan_id");
             return;
@@ -1202,12 +1202,12 @@ class PaypalWebhook
         $planKey = Config::$banks[$nameBankApp]['product_ids'][$appNameupdateSup][$plan];
 
 
-        var_dump($planKey . $subscriptionId);
+  
 
         // $nameBankApp = Config::$banks[$appNameupdateSup][$convertname];
         // $planKey = Config::$banks[$nameBankApp]['product_ids'][$appNameupdateSup][$plan];
 
-        $url = "https://api-m.sanbox.paypal.com/v1/billing/subscriptions/{$subscriptionId}/revise";
+        $url = "https://api-m.paypal.com/v1/billing/subscriptions/{$subscriptionId}/revise";
 
         // Dữ liệu để cập nhật gói
         $reviseData = [
