@@ -460,7 +460,7 @@ class PaypalWebhook
         if ($row == 0) {
             $current_period_end_date = new DateTime($current_period_end);
 
-            $url = "https://api.sandbox.paypal.com/v1/billing/plans/" . $this->plan_id;
+            $url = "https://api-m.paypal.com/v1/billing/plans/" . $this->plan_id;
             error_log('urrl completed' . $url);
             $headers = [
                 "Authorization: Bearer " . $this->access_token,
