@@ -227,7 +227,7 @@ class StripeWebhook
         $plan_alias = $result['plan_alias'];
 
         $insertRefund = new DB();
-        $insertRefund->setTable('licensekey');
+        $insertRefund->setTable('refund');
         $dataInsetRefund = [
             'amount_captured' => $amount_captured,
             'amount_refunded' => $amount_refunded,
