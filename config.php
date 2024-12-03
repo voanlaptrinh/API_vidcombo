@@ -7,35 +7,37 @@ class Config
     public static $banks = array(
         //Taif khoanr stripe: khanh3092002@gmail.com /// khanh30920023092002
         'Stripe' => array(
-            'api_key' => 'sk_test_51QNPA2KVaCDurUFdekFsGsZ2f0KKSVSBlt1dSRAAV1GbcdQvDzHf31i1X70GUbFF7l5N2xbr5JO13CYWdd9UB53E0082G7hZky',
-            'secret_key' => 'whsec_CU4CDKe2328UzylXU23Hueh8n7geQcB1',
+            'api_key' => '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',
+            'secret_key' => 'whsec_xFaRWzhwBZ800CsllRVX89YHhxqPLja6',
             'product_ids' => array(
                 'vidcombo' => array(
-                    'plan1' => 'price_1QNPEKKVaCDurUFdR6JzKm20',
-                    'plan2' => 'price_1QNPErKVaCDurUFd3gD9wQCN',
-                    'plan3' => 'price_1QNPFLKVaCDurUFdoQc2J8GS',
+                    'plan1' => 'price_1PiultJykwD5LYvpJyb57WJ9',
+                    'plan2' => 'price_1Piun4JykwD5LYvpVkpiWzuR',
+                    'plan3' => 'price_1PiunkJykwD5LYvp0IGdnFUt',
                 ),
                 'vidobo' => array(
-                    'plan1' => 'price_1QNQ7pKVaCDurUFdonWdU3lX',
-                    'plan2' => 'price_1QNQ8MKVaCDurUFdTSkybVXk',
-                    'plan3' => 'price_1QNQ92KVaCDurUFd9xxrlvOh',
+                    'plan1' => 'price_1QQg6hJykwD5LYvpnxUaR5eK',
+                    'plan2' => 'price_1QQg7hJykwD5LYvpzX1B07SX',
+                    'plan3' => 'price_1QQg8SJykwD5LYvpctIzCbqm',
                 )
             ),
         ),
 
         'paypal1' => array(
-            'api_key' => 'AS60eEYQCjGcGoDxA-qlsg3Zn16NC1xeeoCMLh6oITy7mySUJPNAvtcpu-vgxPn9T7ONYq0CBagdVp8u',
-            'secret_key' => 'EKPI6LSey0sNF5baWqtDZHGxEiGY-nrPZhup6f7xGQmtbDl_m2jezwfRGUFpkwT2wbl8mHyByIEwocDA',
+            'api_key' => 'AVaKEVjKl4rgNwHJwx6kjNCX3Vt8IJV64M9HbuKfoHMTXik1a1REykkXiROlhvZARj2gu5ryCWnHeMzw',
+            'secret_key' => 'EI_Kllqcw-9fzAPCAYqXf0S8RGK-Ynd3FIrmltyE9G2GmN_TEYNULu0qWmisWwtDn3QgSxqv6cfdybb8',
             'product_ids' => array(
+                //productID: PROD-04Y16457Y7904364Y
                 'vidcombo' => array(
-                    'plan1' => 'P-2N046189W34174607M4ZR6PA',
-                    'plan2' => 'P-63F91990FB938624MM4ZR6WQ',
-                    'plan3' => 'P-3MV286946S8608236M4ZSAPA',
+                    'plan1' => 'P-3D0320107P883293YM5GWBNQ',
+                    'plan2' => 'P-8958810140640330LM5GWB2Q',
+                    'plan3' => 'P-9WU41427EJ108845WM5GWCEQ',
                 ),
+                //Product ID: PROD-6VY51654PU6823104
                 'vidobo' => array(
-                    'plan1' =>  'P-88V598096T5182056M47NQNY',
-                    'plan2' => 'P-6D86645935592440AM47NQWA',
-                    'plan3' => 'P-98B8660527321020SM5D7Q3A',
+                    'plan1' => 'P-7K236902UN905363SM5HHM7I',
+                    'plan2' => 'P-9Y496764DB504023GM5HHNSI',
+                    'plan3' => 'P-91775789UT122914JM5HHN2I',
                 )
             ),
         ),
