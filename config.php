@@ -51,6 +51,29 @@ class Config
             'paypal' => 'paypal1',
         ),
     );
+    // public static function getPlanAliasByPlanID($plan_id){
+    //     foreach (self::$banks as $bank_info) {
+    //         foreach ($bank_info['product_ids'] as $plan_alias => $bank_info_plan_id) {
+    //             if($plan_id == $bank_info_plan_id)
+    //                 return $plan_alias;
+    //         }
+    //     }
+    //     return '';
+    // }
+    public static function getPlanAliasByPlanID($plan_id)
+    {
+        foreach (self::$banks as $bank_info) { //Duyêt qua aray Bank
+            foreach ($bank_info['product_ids'] as $product_group => $plans) {
+                foreach ($plans as $plan_name => $plan_value) {
+                    if ($plan_id === $plan_value) {
+                        return $plan_name;  //Lấy ta plan name
+                    }
+                }
+            }
+        }
+        return ''; 
+    }
+    
 
     public static function getKeyByProdID($prodID)
     {
