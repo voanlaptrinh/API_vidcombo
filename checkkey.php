@@ -77,11 +77,12 @@ class checkKey
             if (isset($key_row['status']))
             {
                 $periodEndDateTime = strtotime($key_row['current_period_end']);
+                $periodEndPlus15Days = strtotime('+15 days', $periodEndDateTime);
                 $current_period_end = date('Y-m-d', $periodEndDateTime);
                 if($key_row['status'] == 'active')
                 {
                     // Kiểm tra period_end trong licensekey
-                    if ($periodEndDateTime <= time())
+                    if ($periodEndPlus15Days <= time())
                     {
                         // Cập nhật trạng thái trong cơ sở dữ liệu thành inactive
                         $updayeKeyStatus = new DB();

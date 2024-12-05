@@ -43,6 +43,7 @@ class Config
         ),
     );
 
+
     public static $apps = array(
         'vidcombo' => array(
             'stripe' => 'Stripe',
