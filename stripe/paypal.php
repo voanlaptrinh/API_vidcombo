@@ -271,7 +271,6 @@ class PaypalWebhook
         $status = $data['resource']['status'] == 'ACTIVE' ? 'active' : $data['resource']['status'];
         $subscription_id = $data['resource']['id'];
         $customer_email = $data['resource']['subscriber']['email_address'];
-        $customer_name = $data['resource']['subscriber']['email_address'];
 
         // Gọi API PayPal để lấy chi tiết gói đăng ký
         $plan_id = $data['resource']['plan_id'];
@@ -287,13 +286,8 @@ class PaypalWebhook
         // Ghi log thời gian hết hạn
         $formatted_period_end = $current_period_end->format('Y-m-d H:i:s');
 
-
         // Cập nhật subscription trong cơ sở dữ liệu
         $this->updateSubscription($subscription_id, $status, $formatted_period_end, $customer_email);
-        $this->updateInvoiceEmail($subscription_id, $customer_email);
-
-        // Kiểm tra và gửi license key nếu chưa gửi
-        $this->checkAndSendLicenseKey($subscription_id, $customer_email, $customer_name, $formatted_period_end);
 
         error_log('Subscription activated successfully');
     }
@@ -425,13 +419,18 @@ class PaypalWebhook
         $this->db = new DB();
         return $this->db;
     }
-    function handlePaymentCompleted($data)
+    function handlePaymentCompleted($data, $trytime=1)
     {
         $subscription_id = $data['resource']['billing_agreement_id'];
         $create_time = $data['create_time'];
         $db_connector = $this->getDB();
         $db_connector->setTable('subscriptions');
         $subscription = $db_connector->selectRow('*', ['subscription_id' => $subscription_id]);
+
+        if((!isset($subscription['customer_email']) || !$subscription['customer_email']) && $trytime<=5){
+            sleep(5);
+            return $this->handlePaymentCompleted($data, $trytime+1);
+        }
 
         $customer_email = $subscription['customer_email'];
         $customer_name = $subscription['customer_email'];
@@ -548,14 +547,6 @@ class PaypalWebhook
 
         $db_connector->setTable('licensekey');
         $result =  $db_connector->selectRow('*', ['subscription_id' => $subscription_id]);
-
-        if ($this->app_name == 'vidcombo') {
-            Common::sendSuccessEmailVidcombo($customer_email, $customer_name, $amount_due, $invoiced_date);
-        } else {
-            Common::sendSuccessEmailVidobo($customer_email, $customer_name, $amount_due, $invoiced_date);
-        }
-
-        // Common::sendSuccessEmail($customer_email, $customer_name, $amount_due, $invoiced_date);
         if ($result && isset($result['license_key']) && $result['send'] === 'not') {
             $licenseKey = $result['license_key'];
             error_log("Sending license key to: $customer_email");
