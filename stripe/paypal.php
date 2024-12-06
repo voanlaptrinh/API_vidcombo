@@ -277,7 +277,6 @@ class PaypalWebhook
         $status = $data['resource']['status'] == 'ACTIVE' ? 'active' : $data['resource']['status'];
         $subscription_id = $data['resource']['id'];
         $customer_email = $data['resource']['subscriber']['email_address'];
-        $customer_name = $data['resource']['subscriber']['email_address'];
 
         // Gọi API PayPal để lấy chi tiết gói đăng ký
         $plan_id = $data['resource']['plan_id'];
@@ -293,15 +292,8 @@ class PaypalWebhook
         // Ghi log thời gian hết hạn
         $formatted_period_end = $current_period_end->format('Y-m-d H:i:s');
 
-
         // Cập nhật subscription trong cơ sở dữ liệu
         $this->updateSubscription($subscription_id, $status, $formatted_period_end, $customer_email);
-
-        $this->updateInvoiceEmail($subscription_id, $customer_email);
-
-        // Kiểm tra và gửi license key nếu chưa gửi
-        $this->checkAndSendLicenseKey($subscription_id, $customer_email, $customer_name, $formatted_period_end);
-
         error_log('Subscription activated successfully');
     }
 
@@ -476,13 +468,23 @@ class PaypalWebhook
         $this->db = new DB();
         return $this->db;
     }
-    function handlePaymentCompleted($data)
+    function handlePaymentCompleted($data, $trytime=1)
     {
         $subscription_id = $data['resource']['billing_agreement_id'];
         $create_time = $data['create_time'];
         $db_connector = $this->getDB();
         $db_connector->setTable('subscriptions');
         $subscription = $db_connector->selectRow('*', ['subscription_id' => $subscription_id]);
+
+        if(!@$subscription['customer_email']){
+            if($trytime<=5){
+                sleep(5);
+                return $this->handlePaymentCompleted($data, $trytime+1);
+            } else {
+                error_log('Cannot complete handlePaymentCompleted. '. json_encode($data));
+                return false;
+            }
+        }
 
         $customer_email = $subscription['customer_email'];
         $customer_name = $subscription['customer_email'];
@@ -512,7 +514,6 @@ class PaypalWebhook
             $current_period_end_date = new DateTime($current_period_end);
 
             $url = "https://api-m.paypal.com/v1/billing/plans/" . $this->plan_id;
-            error_log('urrl completed' . $url);
             $headers = [
                 "Authorization: Bearer " . $this->access_token,
                 "Content-Type: application/json"
@@ -524,7 +525,6 @@ class PaypalWebhook
             curl_close($ch);
 
             $planDetails = json_decode($response, true);
-
             $frequency = $planDetails['billing_cycles'][0]['frequency'];
 
             if (isset($frequency['interval_unit']) && $frequency['interval_unit'] == 'MONTH') {
@@ -553,7 +553,6 @@ class PaypalWebhook
             // Gia hạn
             $current_period_end_date = new DateTime($current_period_end); // Ngày kết thúc hiện tại
 
-
             $url = "https://api-m.paypal.com/v1/billing/plans/" . $this->plan_id;
             $dataPost = array('header' => array(), 'body' => '');
             $response = $this->CallAPI($url, 'GET', $dataPost);
@@ -567,7 +566,6 @@ class PaypalWebhook
                 $current_period_end_date->modify('+' . $frequency['interval_count'] . ' day');
             }
 
-
             // Cập nhật lại ngày hết hạn
             $new_period_end = $current_period_end_date->format('Y-m-d H:i:s');
 
@@ -577,7 +575,6 @@ class PaypalWebhook
                 'current_period_end' => $new_period_end,
             ];
             $db_connector->updateFields($updateSubdata, ['subscription_id' => $subscription_id]);
-
 
             $db_connector->setTable('licensekey');
             $updateKeydata = [
@@ -591,8 +588,6 @@ class PaypalWebhook
         $count = $db_connector->countRecords(['invoice_id' => $invoice_id]);
         if (!$count) {
 
-            $insetInvoice = new DB();
-            $insetInvoice->setTable('invoice');
             $invoiceData = [
                 'invoice_id' => $invoice_id,
                 'status' => 'paid',
@@ -608,7 +603,8 @@ class PaypalWebhook
                 'amount_paid' => $amount_paid,
                 'invoice_datetime' => $formattedDateCreate_time,
             ];
-            $insetInvoice->insertFields($invoiceData);
+            $db_connector->setTable('invoice');
+            $db_connector->insertFields($invoiceData);
 
             // $this->insertInvoices($invoice_id, $customer_email, $payment_intent, $period_end, $period_start, $subscription_id, $currency, $amount_due, $created, $amount_paid, $formattedDateCreate_time);
         }
@@ -618,8 +614,6 @@ class PaypalWebhook
 
         $db_connector->setTable('licensekey');
         $result =  $db_connector->selectRow('*', ['subscription_id' => $subscription_id]);
-
-
 
         // Common::sendSuccessEmail($customer_email, $customer_name, $amount_due, $invoiced_date);
         if ($result && isset($result['license_key']) && $result['send'] === 'not') {
@@ -635,23 +629,21 @@ class PaypalWebhook
             // $send_status = Common::sendLicenseKeyEmail($customer_email, $customer_name, $licenseKey);
 
             if ($send_status) {
-                $db_connector->setTable('licensekey');
                 $dataLiKeyupdate = [
                     'send' => 'ok',
                     'subscription_id' => $subscription_id,
                 ];
+                $db_connector->setTable('licensekey');
                 $db_connector->updateFields($dataLiKeyupdate, ['subscription_id' => $subscription_id]);
             }
         } else {
             error_log("No license key found for subscription ID: $subscription_id");
         }
-        error_log('paymentCOmple');
     }
     function handleSubscriptionUpdate($data)
     {
         $subscription_id = $data['resource']['id'];
         $plan = $data['resource']['plan_id'];
-
 
         $banks_alis = Config::$banks[$this->bank_name] ?? null;
         if (!$banks_alis) {
@@ -706,7 +698,6 @@ class PaypalWebhook
     }
 
 
-
     function handleSubscriptionReActivated($data)
     {
 
@@ -752,9 +743,7 @@ class PaypalWebhook
     }
 
 
-
     // ----- End webhooks funtion  ------- //
-
 
     function listProducts()
     {
