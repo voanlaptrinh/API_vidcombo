@@ -372,7 +372,7 @@ class PaypalWebhook
 
         // Cập nhật subscription trong cơ sở dữ liệu
         $this->updateSubscription($subscription_id, $status, $formatted_period_end, $customer_email);
-        error_log('Subscription activated successfully');
+       
     }
 
 
@@ -436,7 +436,6 @@ class PaypalWebhook
 
         if ($result && isset($result['license_key']) && $result['send'] === 'not') {
             $licenseKey = $result['license_key'];
-            error_log("Sending license key to: $customer_email");
             $appNameEmail = $this->getCustomerAppNameBySubscriptionId($subscription_id);
             if ($appNameEmail == 'vidcombo') {
                 // Gửi license key qua email
@@ -695,7 +694,7 @@ class PaypalWebhook
         // Common::sendSuccessEmail($customer_email, $customer_name, $amount_due, $invoiced_date);
         if ($result && isset($result['license_key']) && $result['send'] === 'not') {
             $licenseKey = $result['license_key'];
-            error_log("Sending license key to: $customer_email");
+          
 
             // Gửi license key qua email
             if ($this->app_name == 'vidcombo') {
@@ -1144,9 +1143,7 @@ class PaypalWebhook
         $appNameupdateSup = $this->findAppNametoSubcritpion($subscriptionId); // Get app_name
         $nameBankApp = Config::$apps[$appNameupdateSup][$convertname]; // Get name from bankConfig
         $planKey = Config::$banks[$nameBankApp]['product_ids'][$appNameupdateSup][$plan]; // Get planKey
-
-        // Log app name (for debugging purposes)
-        error_log($appNameupdateSup);
+        
 
         // URL for PayPal sandbox environment
         $url = "https://api-m.paypal.com/v1/billing/subscriptions/{$subscriptionId}/revise";
