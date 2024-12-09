@@ -68,7 +68,7 @@ class PaypalWebhook
         $bankConfig = Config::$banks[$this->bank_name];
         $this->apiKey = $bankConfig['api_key'];
         $this->endpointSecret = $bankConfig['secret_key'];
-        error_log('key ' . $this->apiKey . 'endpoint secret ' . $this->endpointSecret);
+
         $this->get_paypal_access_token();
     }
 
