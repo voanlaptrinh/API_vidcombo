@@ -261,6 +261,16 @@ class PaypalWebhook
                 case 'BILLING.SUBSCRIPTION.RENEWED': //khi gois sub hết hạn và đến ngày tự động ra hạn
                     $this->handleSubscriptionRenewed($data);
                     break;
+
+                    //Phần xử lý khiếu nại của khách hàng
+                case 'CUSTOMER.DISPUTE.CREATED':
+                    $this->handleCustomerDisputeCreated($data);
+                    break;
+                    //đã xử lý phần khiếu lại hoàn tiền cho khách hàng
+                case 'CUSTOMER.DISPUTE.RESOLVED':
+                    $this->handleCustomerDisputeResolved($data);
+                    break;
+
                 default:
                     error_log('Unhandled event type ' . $event);
             }
@@ -268,6 +278,74 @@ class PaypalWebhook
             echo $e->getMessage();
         }
     }
+
+    function handleCustomerDisputeCreated($data)
+    {
+        $payment_intent = $data['resource']['disputed_transactions'][0]['seller_transaction_id'];
+        $payment_method = $data['resource']['dispute_amount']['currency_code'];
+        $receipt_url = $data['resource']['links'][0]['href'];
+        $created_at = (new DateTime($data['create_time']))->format('Y-m-d H:i:s');
+
+        $db_connect = new DB();
+        $db_connect->setTable('invoice');
+        $select_invoice = $db_connect->selectAll(['*'], ['payment_intent' => $payment_intent]);
+        $amount_captured = $select_invoice['amount_paid'];
+        $invoice_id = $select_invoice['invoice_id'];
+        $subscription_id =  $select_invoice['subscription_id'];
+
+        $db_connect->setTable('licensekey');
+        $select_licensekey = $db_connect->selectAll(['*'], ['subscription_id' => $subscription_id]);
+        $plan_alias = $select_licensekey['plan_alias'];
+
+
+        $db_connect->setTable('refund');
+        $dbInsertRefund = [
+            'created_at' => $created_at,
+            'amount_captured' => $amount_captured,
+            'amount_refunded' => 0,
+            'customer_id' => '',
+            'invoice_id' => $invoice_id,
+            'payment_intent' => $payment_intent,
+            'payment_method' => $payment_method,
+            'receipt_url' => $receipt_url,
+            'plan_alias' => $plan_alias
+        ];
+        $db_connect->insertFields($dbInsertRefund);
+    }
+
+    function handleCustomerDisputeResolved($data)
+    {
+        $payment_intent = $data['disputed_transactions']['seller_transaction_id'];
+        $last_amount_value = end($data['resource']['money_movements']['amount']['value']) ?? [];
+        $amout_refund = $data['dispute_amount']['value'];
+        $amountCountrefund = $last_amount_value + $amout_refund;
+        $db_connect = new DB();
+        $db_connect->setTable('invoice');
+        $itemUpdateSub = [
+            'amount_refunded' => $amountCountrefund,
+        ];
+        $db_connect->updateFields($itemUpdateSub, ['payment_intent' => $payment_intent]);
+
+        //Lấy ra id subscription_id dựa vào payment_intent
+        $select_invoice = $db_connect->selectAll(['*'], ['payment_intent' => $payment_intent]);
+        $subscription_id = $select_invoice['subscription_id'];
+
+        //update lại trạng thái của gói subscription sang trạng thái cancel
+        $db_connect->setTable('subscriptions');
+        $itemUpdateSub = [
+            'status' => 'canceled',
+        ];
+        $db_connect->updateFields($itemUpdateSub, ['subscription_id' => $subscription_id]);
+
+        //update lại trạng thái của key sang trạng thái inactive
+        $db_connect->setTable('licensekey');
+        $itemUpdateKey = [
+            'status' => 'inactive',
+        ];
+        $db_connect->updateFields($itemUpdateKey, ['subscription_id' => $subscription_id]);
+    }
+
+
 
     function handleSubscriptionActivated($data)
     {
@@ -425,7 +503,6 @@ class PaypalWebhook
             'plan_alias' => $licenseSelect['plan_alias'],
         ];
         $db_connector->insertFields($refundInsert);
-
     }
 
     function handleSubscriptionCreated($data)
@@ -468,7 +545,7 @@ class PaypalWebhook
         $this->db = new DB();
         return $this->db;
     }
-    function handlePaymentCompleted($data, $trytime=1)
+    function handlePaymentCompleted($data, $trytime = 1)
     {
         $subscription_id = $data['resource']['billing_agreement_id'];
         $create_time = $data['create_time'];
@@ -476,12 +553,12 @@ class PaypalWebhook
         $db_connector->setTable('subscriptions');
         $subscription = $db_connector->selectRow('*', ['subscription_id' => $subscription_id]);
 
-        if(!@$subscription['customer_email']){
-            if($trytime<=5){
+        if (!@$subscription['customer_email']) {
+            if ($trytime <= 5) {
                 sleep(5);
-                return $this->handlePaymentCompleted($data, $trytime+1);
+                return $this->handlePaymentCompleted($data, $trytime + 1);
             } else {
-                error_log('Cannot complete handlePaymentCompleted. '. json_encode($data));
+                error_log('Cannot complete handlePaymentCompleted. ' . json_encode($data));
                 return false;
             }
         }
@@ -1191,7 +1268,7 @@ class PaypalWebhook
         $planKey = Config::$banks[$nameBankApp]['product_ids'][$appNameupdateSup][$plan];
 
 
-  
+
 
         // $nameBankApp = Config::$banks[$appNameupdateSup][$convertname];
         // $planKey = Config::$banks[$nameBankApp]['product_ids'][$appNameupdateSup][$plan];
