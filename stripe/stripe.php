@@ -78,7 +78,6 @@ class StripeWebhook
     function createPaySessionStripe($plan_alias)
     {
         $this->plan_id = Config::$banks[$this->bank_name]['product_ids'][$this->app_name][$plan_alias];
-        error_log($this->plan_id . ' ' . $this->bank_name . ' ' . $plan_alias . ' ' . $this->app_name);
         // $planKey = isset($this->plans[$plan]) ? $this->plans[$plan] : '';
         if (!$this->plan_id) {
             header('Content-Type: application/json');
@@ -261,7 +260,6 @@ class StripeWebhook
         // $stmt = $this->getConnection()->prepare($query);
         // $stmt->execute([$customer_id, $email, $name, $created_date]);
 
-        error_log('Subscription inserted');
     }
 
     function handleInvoiceUpdated($invoice)
@@ -299,20 +297,22 @@ class StripeWebhook
             $udateinvoice->updateFields($dataInvoice, ['invoice_id' => $invoice_id]);
 
 
-            $appNameEmail = $this->getCustomerAppNameBySubscriptionId($subscription_id);
+            //Gửi email thông báo thanh toán thành công
+            if(false){
+                $appNameEmail = $this->getCustomerAppNameBySubscriptionId($subscription_id);
 
-            // Chỉ cập nhật bảng licensekey nếu trạng thái là 'paid'
-            if ($status == 'paid') {
-                error_log('invoice update' . $appNameEmail . 'status' . $status);
-                $amount_in_dollars = $amount_due / 100;
-                $amount_due = number_format($amount_in_dollars, 2);
-                // Gửi email thông báo
-                // Create an instance of PHPMailer
-                if ($appNameEmail == 'vidcombo') {
+                // Chỉ cập nhật bảng licensekey nếu trạng thái là 'paid'
+                if ($status == 'paid') {
+                    $amount_in_dollars = $amount_due / 100;
+                    $amount_due = number_format($amount_in_dollars, 2);
+                    // Gửi email thông báo
+                    // Create an instance of PHPMailer
+                    if ($appNameEmail == 'vidcombo') {
 
-                    Common::sendSuccessEmailVidcombo($customer_email, $customer_name, $amount_due, $invoiced_date);
-                } else {
-                    Common::sendSuccessEmailVidobo($customer_email, $customer_name, $amount_due, $invoiced_date);
+                        Common::sendSuccessEmailVidcombo($customer_email, $customer_name, $amount_due, $invoiced_date);
+                    } else {
+                        Common::sendSuccessEmailVidobo($customer_email, $customer_name, $amount_due, $invoiced_date);
+                    }
                 }
             }
         } catch (PDOException $e) {
@@ -336,9 +336,6 @@ class StripeWebhook
             'status' => $status,
         ];
         $updateSub->updateFields($dataSub, ['subscription_id' => $subscription_id]);
-
-
-        error_log("Subscription expired for customer: $customer, subscription ID: $subscription_id");
     }
 
     function handleInvoiceCreated($invoice)
@@ -350,7 +347,6 @@ class StripeWebhook
         $status = $invoice->status;
         $customer_email = $invoice->customer_email;
         $subscription_id = $invoice->subscription;
-        // error_log("Invoice created for customer" . $invoice);
     }
 
     // Hàm để xử lý khi thanh toán invoice thành công
@@ -381,7 +377,6 @@ class StripeWebhook
         }
 
         list($this->app_name, $plan_alias) = Config::getAppNamePlanAliasByPlanID($this->plan_id);
-        error_log("[INFO] Found Plan Alias payment success: $plan_alias, App Product: $this->app_name");
 
         // Chuyển đổi thời gian Unix timestamp sang định dạng ngày giờ
         $current_period_end_date = date('Y-m-d H:i:s', $current_period_end);
@@ -431,7 +426,6 @@ class StripeWebhook
 
             // Gửi email nếu license_key tồn tại và chưa được gửi
             if ($result['send'] == 'not') {
-                error_log('send Email');
                 // Lấy email khách hàng
                 if ($this->app_name == 'vidcombo') {
                     $resu = Common::sendLicenseKey($customer_email, $customer_name, $license_key);
@@ -452,7 +446,6 @@ class StripeWebhook
         /*Gửi email thanh toán thành công*/
         $amount_in_dollars = $amount_paid / 100;
         $amount_due = number_format($amount_in_dollars, 2);
-        error_log('invoicefanalized invoice' . $this->app_name . 'status ' . $status);
 
         if ($this->app_name == 'vidcombo') {
             Common::sendSuccessEmailVidcombo($customer_email, $customer_name, $amount_due, $invoiced_date);
@@ -477,6 +470,7 @@ class StripeWebhook
             list($this->app_name, $plan_alias) = Config::getAppNamePlanAliasByPlanID($this->plan_id);
             if (!$plan_alias || !$this->app_name) {
                 error_log("[ERROR] Plan alias or App Product not found for Plan ID: " . $this->plan_id);
+                return;
             }
             $db_connector = new DB();
             $db_connector->setTable('subscriptions');
@@ -512,8 +506,6 @@ class StripeWebhook
             );
             $db_connector->insertFields($dataInsertKey);
 
-
-            error_log("[INFO] Subscription and license key created successfully for customer: $customer");
         } catch (PDOException $e) {
 
             error_log("[ERROR] Failed to handle subscription creation: " . $e->getMessage());
@@ -637,8 +629,6 @@ class StripeWebhook
             'current_period_end' => $period_end_subscription
         );
         $dbSubcription->updateFields($dataKey, ['subscription_id' => $subscription_id]);
-
-        error_log("Subscription deleted for customer: $customer, subscription ID: $subscription_id");
     }
 
     function getCustomerAppNameBySubscriptionId($subscription_id)
