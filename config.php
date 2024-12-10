@@ -1,4 +1,5 @@
 <?php
+
 namespace App;
 
 class Config
@@ -74,9 +75,9 @@ class Config
                 }
             }
         }
-        return ''; 
+        return '';
     }
-    
+
 
     public static function getKeyByProdID($prodID)
     {
@@ -106,16 +107,19 @@ class Config
         return array();
     }
     public static function getPlanIdByAppNamePlanAlias($app_name, $plan_alias)
-{
-    foreach (self::$banks as $bank_name => $bank_info) {
-        if (isset($bank_info['product_ids'][$app_name])) {
-            $plans = $bank_info['product_ids'][$app_name];
-            if (isset($plans[$plan_alias])) {
-                return $plans[$plan_alias];
+    {
+        foreach (self::$banks as $bank_name => $bank_info) {
+            if (isset($bank_info['product_ids'][$app_name])) {
+                $plans = $bank_info['product_ids'][$app_name];
+                if (isset($plans[$plan_alias])) {
+                    return $plans[$plan_alias];
+                }
             }
         }
+        return null;
     }
-    return null;
-}
-
+    public static function getUrlToAppName($appName)
+    {
+        return $appName === 'vidobo' ? 'https://vidobo.net/' : 'https://www.vidcombo.com/';
+    }
 }
