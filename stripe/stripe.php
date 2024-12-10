@@ -1,5 +1,5 @@
 <?php
- require_once '../redis.php';
+//  require_once '../redis.php';
  require_once '../common.php';
  require_once '../config.php';
  require_once '../models/DB.php';
@@ -94,8 +94,8 @@ class StripeWebhook
                     'quantity' => 1,
                 ]],
                 'mode' => 'subscription',
-                'success_url' => Config::$web_domain . "success?session_id={CHECKOUT_SESSION_ID}",
-                'cancel_url' => Config::$web_domain,
+                'success_url' => Config::getUrlToAppName($this->app_name) . "success?session_id={CHECKOUT_SESSION_ID}",
+                'cancel_url' => Config::getUrlToAppName($this->app_name),
             ]);
            
             header('Content-Type: application/json');

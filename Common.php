@@ -229,4 +229,5 @@ class Common
         $lang_data = json_decode(file_get_contents($lang_file), true);
         return isset($lang_data[$error_key]) ? $lang_data[$error_key] : '';
     }
+   
 }

@@ -110,8 +110,8 @@ class PaypalWebhook
                 'locale' => 'en-US', // Ngôn ngữ giao diện
                 'shipping_preference' => 'NO_SHIPPING', // Hoặc 'NO_SHIPPING' nếu không yêu cầu địa chỉ giao hàng
                 'user_action' => 'SUBSCRIBE_NOW', // Hành động mặc định
-                'return_url' => Config::$web_domain . 'paypal/success', // URL khi thanh toán thành công
-                'cancel_url' => Config::$web_domain, // URL khi thanh toán bị hủy
+                'return_url' => Config::getUrlToAppName($this->app_name) . 'paypal/success', // URL khi thanh toán thành công
+                'cancel_url' => Config::getUrlToAppName($this->app_name), // URL khi thanh toán bị hủy
             ]
         ];
 
