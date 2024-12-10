@@ -22,7 +22,12 @@ $func = Common::getString('func');
 if ($func == 'create-checkout-session' && empty($license_key)) {
     $encodedPlan = base64_encode($plan_alias);
     $encodedappName = base64_encode($appName);
-    $url = "https://www.vidcombo.com/pay?planName=" . urlencode($encodedPlan) . "&appName=" . urlencode($encodedappName);
+    if($appName == 'vidcombo'){
+        $url = "https://www.vidcombo.com/pay?planName=" . urlencode($encodedPlan) . "&appName=" . urlencode($encodedappName);
+    }else{
+        $url = "https://www.vidobo.net/pay?planName=" . urlencode($encodedPlan) . "&appName=" . urlencode($encodedappName);
+    }
+  
 
     // Trả về URL chuyển trang
     $response = [
