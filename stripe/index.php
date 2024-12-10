@@ -66,13 +66,11 @@ if ($bank_name && $func=='webhook') {
     }
     if(strpos(strtolower($bank_name),'stripe')!==false)
     {
-        error_log('stripe webhook' . $bank_name);
         $stripeWebhook = new StripeWebhook();
         $stripeWebhook->initByBankName($bank_name);
         $stripeWebhook->handleWebhook();
     }
     elseif (strpos(strtolower($bank_name), 'paypal')!==false){
-        error_log('paypal webhook' . $bank_name);
         $paypalWebhook = new PaypalWebhook();
         $paypalWebhook->initByBankName($bank_name);
         $paypalWebhook->handlePaypalWebhook();
@@ -97,7 +95,6 @@ if ($license_key) {
     // Initialize sk_key and sign_key
     $client_id = $row_licensekey['sk_key'] ?? '';
     $clientSecret = $row_licensekey['sign_key'] ?? '';
-    error_log($client_id . ': ' . $clientSecret);
 
     // Step 2: Retrieve bank_name from subscriptions table using subscription_id
     if ($subscriptionsId) {
