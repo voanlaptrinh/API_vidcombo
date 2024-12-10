@@ -138,19 +138,8 @@ class PaypalWebhook
             curl_close($ch);
             return;
         }
-
         curl_close($ch);
-
-        if (@$_SERVER['REMOTE_ADDR'] == '14.232.244.3') {
-            echo '<pre>';
-            print_r($response);
-            echo '</pre>';
-            die;
-        }
-
         $subscriptionResponse = json_decode($response, true);
-
-
         if (isset($subscriptionResponse['id'])) {
             echo json_encode([
                 'subscription_id' => $subscriptionResponse['id'], // ID của subscription
@@ -732,6 +721,7 @@ class PaypalWebhook
 
         if (!$plan_alias || !$this->app_name) {
             error_log("[ERROR] Plan alias or App Product not found for Plan ID: $plan . " . $this->app_name);
+            return;
         }
         $db_connector = $this->getDB();
         $db_connector->setTable('subscriptions');
@@ -1377,7 +1367,7 @@ class PaypalWebhook
 
         $response = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close(handle: $ch);
+        curl_close($ch);
 
         $responseData = json_decode($response, true);
         var_dump($response);
