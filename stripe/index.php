@@ -1,6 +1,6 @@
 <?php
-// require_once '../common.php';
-// require_once '../config.php';
+require_once '../common.php';
+require_once '../config.php';
 require_once 'stripe.php';
 require_once 'paypal.php';
 use App\Common;
@@ -9,7 +9,6 @@ use App\Models\DB;
 
 $body = file_get_contents('php://input');
 parse_str($body,  $data);
-
 
 $appName = isset($data['app_name']) ? Common::cleanQuery($data['app_name']) : 'vidcombo';
 $payGate = isset($data['pay_gate']) ? Common::cleanQuery($data['pay_gate']) : '';
@@ -22,12 +21,11 @@ $func = Common::getString('func');
 if ($func == 'create-checkout-session' && empty($license_key)) {
     $encodedPlan = base64_encode($plan_alias);
     $encodedappName = base64_encode($appName);
-    if($appName == 'vidcombo'){
-        $url = "https://www.vidcombo.com/pay?planName=" . urlencode($encodedPlan) . "&appName=" . urlencode($encodedappName);
-    }else{
+    if($appName == 'vidobo'){
         $url = "https://www.vidobo.net/pay?planName=" . urlencode($encodedPlan) . "&appName=" . urlencode($encodedappName);
+    }else{
+        $url = "https://www.vidcombo.com/pay?planName=" . urlencode($encodedPlan) . "&appName=" . urlencode($encodedappName);
     }
-  
 
     // Trả về URL chuyển trang
     $response = [
@@ -73,9 +71,7 @@ if ($bank_name && $func=='webhook') {
         $stripeWebhook->initByBankName($bank_name);
         $stripeWebhook->handleWebhook();
     }
-    
     elseif (strpos(strtolower($bank_name), 'paypal')!==false){
-        
         error_log('paypal webhook' . $bank_name);
         $paypalWebhook = new PaypalWebhook();
         $paypalWebhook->initByBankName($bank_name);
@@ -105,11 +101,9 @@ if ($license_key) {
 
     // Step 2: Retrieve bank_name from subscriptions table using subscription_id
     if ($subscriptionsId) {
-        $dbSubscription = new DB();
-        $dbSubscription->setTable('subscriptions');
-
+        $db->setTable('subscriptions');
         $itemSelectSub = ['bank_name', 'app_name'];
-        $row_subscription = $dbSubscription->selectRow($itemSelectSub, ['subscription_id' => $subscriptionsId]);
+        $row_subscription = $db->selectRow($itemSelectSub, ['subscription_id' => $subscriptionsId]);
 
         $bank_name = $row_subscription['bank_name'] ?? '';
         $app_name = $row_subscription['app_name'] ?? '';
@@ -126,11 +120,7 @@ if ($license_key) {
         $paypalWebhook->initByAppName($appName);
         $paypalWebhook->reviseSubscription($license_key, $convertname, $plan_alias);
     }
-    
-
-    // Use $client_id, $clientSecret, and $bank_name as needed
 }
-
 
 if(!$client_id || !$clientSecret){
     die('Invalid config');
