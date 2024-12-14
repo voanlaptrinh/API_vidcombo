@@ -397,7 +397,7 @@ class StripeWebhook
 
         // Cập nhật invoice trong cơ sở dữ liệu
         $updateData = array(
-            'amount_paid' => $subtotal_invoice,
+            'amount_paid' => $amount_paid,
             'status' => $status_invoice,
         );
         $conditionData = array('invoice_id' => $invoice_id);
