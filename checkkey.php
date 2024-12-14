@@ -1,7 +1,7 @@
 <?php
 require_once 'redisCache.php';
-// require_once 'common.php';
-// use App\Common;
+require_once 'Common.php';
+require_once 'models/DB.php';
 require_once 'vendor/autoload.php';
 
 use App\Common;
@@ -30,16 +30,12 @@ class checkKey
             exit;
         }
 
-
-        $dbSelectKey = new DB();
-        $dbSelectKey->setTable('device');
-
-        $device_info =  $dbSelectKey->selectAll(['*'], ['device_id' => $device_id]);
-
+        $db_connector = new DB();
+        $db_connector->setTable('device');
+        $device_info =  $db_connector->selectAll(['*'], ['device_id' => $device_id]);
 
         if (!@$device_info['id']) {
-            $insertDevice = new DB();
-            $insertDevice->setTable('device');
+            $db_connector->setTable('device');
             $dataInsert = array(
                 'client_ip' => $clientIP,
                 'geo' => $geo,
@@ -53,7 +49,7 @@ class checkKey
                 'license_key' => $license_key,
                 'download_count' => 5,
             );
-            $insertDevice->insertFields($dataInsert);
+            $db_connector->insertFields($dataInsert);
         } else {
             $this->freeDL = intval($device_info['download_count']);
         }
@@ -65,11 +61,8 @@ class checkKey
             if ($license_key_cache) {
                 $key_row = json_decode($license_key_cache, true);
             } else {
-                $dbSelectKey = new DB();
-                $dbSelectKey->setTable('licensekey');
-
-                $key_row =  $dbSelectKey->selectAll(['*'], ['license_key' => $license_key]);
-
+                $db_connector->setTable('licensekey');
+                $key_row =  $db_connector->selectAll(['*'], ['license_key' => $license_key]);
                 $redis_license->setCache(json_encode($key_row), ($key_row ? 300 : 60)); // Cache for 5mins
             }
 
@@ -80,59 +73,53 @@ class checkKey
                 if ($key_row['status'] == 'active') {
                     // Kiểm tra period_end trong licensekey
                     if ($periodEndPlus15Days <= time()) {
-                        // Cập nhật trạng thái trong cơ sở dữ liệu thành inactive
-                        $updayeKeyStatus = new DB();
-                        $updayeKeyStatus->setTable('licensekey');
-
-                        $updayeKeyStatus->updateFields(['status' => 'inactive'], ['license_key' => $license_key]);
-
-
-
+                        //Nếu bị hết hạn quá 15 ngày: Cập nhật trạng thái trong cơ sở dữ liệu thành inactive
+                        $db_connector->setTable('licensekey');
+                        $db_connector->updateFields(['status' => 'inactive'], ['license_key' => $license_key]);
                         $redis_license->setCache('', 60); // Cache for 1 min
 
                         $error_key = 'expired';
                         $status = 'inactive';
                         $this->print_mess($error_key, $lang_code, $license_key, $status, $current_period_end, $this->freeDL, true, $key_row['plan_alias']);
-                    } else {
+                    }
+                    else {
+                        /*Nếu hết hạn chưa quá 15 ngày:
+                        * 1. Kiểm tra trạng thái sub: sub-inactive: insactive; sub-active:active
+                        */
                         $error_key = 'active_key';
                         $status = $key_row['status'];
                         //Kiêm tra nếu trạng thái cuả gói sub nếu là cand thì trạng thái của key cũng đổi
                         $subscription_id = $key_row['subscription_id'];
+                        $db_connector->setTable('subscriptions');
+                        $rowSubscription =  $db_connector->selectAll(['status'], ['subscription_id' => $subscription_id]);
+                        $statusSubscription = @$rowSubscription['status'];
 
-                        $dbSelectKey->setTable('subscriptions');
-                        $rowSubscription =  $dbSelectKey->selectAll(['*'], ['subscription_id' => $subscription_id]);
-
-                        $statusSubscription = $rowSubscription['status'];
-
-                        if ($statusSubscription == 'canceled') {
-                            $updayeKeyStatus = new DB();
-                            $updayeKeyStatus->setTable('licensekey');
-                            $updayeKeyStatus->updateFields(['status' => 'inactive'], ['license_key' => $license_key]);
+                        if ($periodEndDateTime<=time() && $statusSubscription != 'active') {
+                            $db_connector->setTable('licensekey');
+                            $db_connector->updateFields(['status' => 'inactive'], ['license_key' => $license_key]);
+                            $redis_license->setCache('', 60); // Cache for 1 min
+                            $error_key = 'expired';
+                            $status = 'inactive';
+                            $this->print_mess($error_key, $lang_code, $license_key, $status, $current_period_end, $this->freeDL, true, $key_row['plan_alias']);
+                            exit;
                         }
                         //Kết thúc kiểm tra trạng thái sub ddooir key
 
-                        if (!isset($device_info['license_key']) || $device_info['license_key'] != $license_key) {
-
-                            $countLicensekey = new DB();
-                            $countLicensekey->setTable('licensekey_device');
-
+                        if (!isset($device_info['license_key']) || $device_info['license_key'] != $license_key)
+                        {
+                            $db_connector->setTable('licensekey_device');
                             $conditions = [
                                 'device_id' => $device_id,
                                 'license_key' => $license_key,
                             ];
-
-                            $count_licensekey_device = $countLicensekey->countRecordsDistict('device_id', $conditions);
+                            $count_licensekey_device = $db_connector->countRecordsDistict('device_id', $conditions);
 
                             if (!$count_licensekey_device) {
-
-                                $countLicensekey = new DB();
-                                $countLicensekey->setTable('licensekey_device');
-
+                                $db_connector->setTable('licensekey_device');
                                 $conditions = [
                                     'license_key' => $license_key,
                                 ];
-
-                                $used_device_count = $countLicensekey->countRecordsDistict('device_id', $conditions);
+                                $used_device_count = $db_connector->countRecordsDistict('device_id', $conditions);
                             } else {
                                 $used_device_count = 1;
                             }
@@ -146,34 +133,33 @@ class checkKey
                                 $error_key = 'active_limit';
                                 $status = 'inactive';
                             } else {
-                                $updayeKeyStatus = new DB();
-                                $updayeKeyStatus->setTable('device');
+                                $db_connector->setTable('device');
                                 $dataUpdateDevice = [
                                     'license_key' => $license_key,
                                     'update_key_at' => date('Y-m-d H:i:s'),
                                 ];
-                                $updayeKeyStatus->updateFields($dataUpdateDevice, ['device_id' => $device_id]);
-
-
-
+                                $db_connector->updateFields($dataUpdateDevice, ['device_id' => $device_id]);
+                                
                                 if (!$count_licensekey_device) {
-                                    $insertDevicekey = new DB();
-                                    $insertDevicekey->setTable('licensekey_device');
+                                    $db_connector->setTable('licensekey_device');
                                     $dataInsert = array(
                                         'device_id' => $device_id,
                                         'license_key' => $license_key,
                                     );
-                                    $insertDevicekey->insertFields($dataInsert);
+                                    $db_connector->insertFields($dataInsert);
                                 }
                             }
                         }
                         $this->print_mess($error_key, $lang_code, $license_key, $status, $current_period_end, $this->freeDL, true, $key_row['plan_alias']);
                     }
-                } else {
+                } 
+                else 
+                {
                     $error_key = 'key_inactive';
                     $this->print_mess($error_key, $lang_code, $license_key, $key_row['status'], $current_period_end, $this->freeDL, true, $key_row['plan_alias']);
                 }
-            } else {
+            } 
+            else {
                 $error_key = 'key_not_found';
                 $this->print_mess($error_key, $lang_code, null, 'invalid', null, $this->freeDL, true, '');
             }
