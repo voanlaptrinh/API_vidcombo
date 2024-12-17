@@ -558,6 +558,12 @@ class PaypalWebhook
         $this->plan_id = $subscription['plan'];
 
         $plan_alias = Config::getPlanAliasByPlanID($this->plan_id);
+        $plan_months = array(
+            'plan1' => 1,
+            'plan2' => 6,
+            'plan3' => 12,
+        );
+        $plan_month = $plan_months[$plan_alias];
 
         $date = DateTime::createFromFormat('Y-m-d\TH:i:s.u\Z', $create_time);
         $formattedDateCreate_time = $date->format('Y-m-d H:i:s');
@@ -573,30 +579,12 @@ class PaypalWebhook
         $amount_paid = $data['resource']['amount']['details']['subtotal'];
 
         $db_connector->setTable('licensekey');
-        $row = $db_connector->countRecords(['subscription_id' => $subscription_id]);
+        $row = $db_connector->selectRow(array('*'),['subscription_id' => $subscription_id]);
 
         if ($row == 0) {
             $current_period_end_date = new DateTime($current_period_end);
 
-            $url = "https://api-m.paypal.com/v1/billing/plans/" . $this->plan_id;
-            $headers = [
-                "Authorization: Bearer " . $this->access_token,
-                "Content-Type: application/json"
-            ];
-            $ch = curl_init($url);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            $response = curl_exec($ch);
-            curl_close($ch);
-
-            $planDetails = json_decode($response, true);
-            $frequency = $planDetails['billing_cycles'][0]['frequency'];
-
-            if (isset($frequency['interval_unit']) && $frequency['interval_unit'] == 'MONTH') {
-                $current_period_end_date->modify('+' . $frequency['interval_count'] . ' month');
-            } elseif (isset($frequency['interval_unit']) && $frequency['interval_unit'] == 'DAY') {
-                $current_period_end_date->modify('+' . $frequency['interval_count'] . ' day');
-            }
+            $current_period_end_date->modify('+' . $plan_month . ' month');
 
             $new_period_end = $current_period_end_date->format('Y-m-d H:i:s');
             $db_connector->setTable('licensekey');
@@ -612,24 +600,18 @@ class PaypalWebhook
                 'plan_alias' => $plan_alias,
                 'sk_key' => $this->apiKey,
                 'sign_key' => $this->endpointSecret,
+                'last_invoice' => $invoice_id,
             );
             $db_connector->insertFields($dataInsertKey);
         } else {
+
+            if($row['last_invoice'] == $invoice_id)
+            {
+                exit;
+            }
             // Gia hạn
             $current_period_end_date = new DateTime($current_period_end); // Ngày kết thúc hiện tại
-
-            $url = "https://api-m.paypal.com/v1/billing/plans/" . $this->plan_id;
-            $dataPost = array('header' => array(), 'body' => '');
-            $response = $this->CallAPI($url, 'GET', $dataPost);
-            $planDetails = json_decode($response, true);
-
-            $frequency = $planDetails['billing_cycles'][0]['frequency'];
-
-            if (isset($frequency['interval_unit']) && $frequency['interval_unit'] == 'MONTH') {
-                $current_period_end_date->modify('+' . $frequency['interval_count'] . ' month');
-            } elseif (isset($frequency['interval_unit']) && $frequency['interval_unit'] == 'DAY') {
-                $current_period_end_date->modify('+' . $frequency['interval_count'] . ' day');
-            }
+            $current_period_end_date->modify('+' . $plan_month . ' month');
 
             // Cập nhật lại ngày hết hạn
             $new_period_end = $current_period_end_date->format('Y-m-d H:i:s');
@@ -645,6 +627,7 @@ class PaypalWebhook
             $updateKeydata = [
                 'status' => 'active',
                 'current_period_end' => $new_period_end,
+                'last_invoice' => $invoice_id,
             ];
             $db_connector->updateFields($updateKeydata, ['subscription_id' => $subscription_id]);
         }
