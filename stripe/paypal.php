@@ -352,18 +352,23 @@ class PaypalWebhook
             error_log("Failed to fetch plan details for plan_id: $plan_id");
             return;
         }
-
+        $current_period_end = $data['create_time'];
+        $dateTime = new DateTime($current_period_end);
+        
+        // Định dạng lại ngày tháng theo kiểu Y-m-d H:i:s
+        $formatted_period_end = $dateTime->format('Y-m-d H:i:s');
+        error_log($formatted_period_end);
+    
         // Tính toán ngày hết hạn của gói đăng ký
-        $current_period_end = $this->calculatePeriodEnd($planDetails['billing_cycles'][0]);
+        // $current_period_end = $this->calculatePeriodEnd($planDetails['billing_cycles'][0]);
 
         // Ghi log thời gian hết hạn
-        $formatted_period_end = $current_period_end->format('Y-m-d H:i:s');
+        // $formatted_period_end = $current_period_end->format('Y-m-d H:i:s');
 
         // Cập nhật subscription trong cơ sở dữ liệu
         $this->updateSubscription($subscription_id, $status, $formatted_period_end, $customer_email);
        
     }
-
 
 
     // Lấy chi tiết plan từ PayPal API
