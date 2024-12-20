@@ -309,7 +309,7 @@ class PaypalWebhook
         $amout_refund = $data['dispute_amount']['value'];
         $amountCountrefund = $last_amount_value + $amout_refund;
         $db_connect = new DB();
-        $db_connect->setTable('invoice');
+        $db_connect->setTable('refund');
         $itemUpdateSub = [
             'amount_refunded' => $amountCountrefund,
         ];
