@@ -327,6 +327,7 @@ class StripeWebhook
     function handleSubscriptionExpired($invoice)
     {
         $customer = $invoice->customer;
+        $invoice_id = $invoice->id;
         $subscription_id = $invoice->subscription;
         $status = $invoice->status;
 
@@ -335,7 +336,7 @@ class StripeWebhook
         $dataSub = [
             'status' => $status,
         ];
-        $updateSub->updateFields($dataSub, ['subscription_id' => $subscription_id]);
+        $updateSub->updateFields($dataSub, ['invoice_id' => $invoice_id]);
     }
 
     function handleInvoiceCreated($invoice)
